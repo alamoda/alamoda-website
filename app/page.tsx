@@ -1,12 +1,12 @@
 "use client"
 
-import Products from './Products';
+import Header from './Header';
 import Homepage from './Home';
 
 export default function Home() {
   return (
     <div>
-      <Homepage />
+      <Header />
     </div>
 
   )

@@ -1,7 +1,6 @@
 'use client'
 
 import { Inter } from 'next/font/google'
-import Dashboard from '@/app/components/Dashboard'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,8 +23,18 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
+// type Navigation = {
+//     name: string, 
+//     href: string, 
+//     icon: ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
+//         title?: string | undefined;
+//         titleId?: string | undefined;
+//     } & RefAttributes<SVGSVGElement>>;
+//     current: boolean
+// }
+
 const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
+    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
     { name: 'Products', href: '/dashboard/products', icon: SparklesIcon, current: false },
     { name: 'Collections', href: '#', icon: FolderIcon, current: false },
     { name: 'Orders', href: '#', icon: UsersIcon, current: false },
@@ -45,13 +54,13 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [activeTab, setActiveTab] = useState('Dashboard');
 
     return (
         <html lang="en">
@@ -116,6 +125,7 @@ export default function DashboardLayout({
                                                                 {navigation.map((item) => (
                                                                     <li key={item.name}>
                                                                         <a
+
                                                                             href={item.href}
                                                                             className={classNames(
                                                                                 item.current
@@ -190,9 +200,12 @@ export default function DashboardLayout({
                                                 {navigation.map((item) => (
                                                     <li key={item.name}>
                                                         <a
+                                                            onClick={() => {
+                                                                setActiveTab(item.name)
+                                                            }}
                                                             href={item.href}
                                                             className={classNames(
-                                                                item.current
+                                                                activeTab === item.name
                                                                     ? 'bg-gray-800 text-white'
                                                                     : 'text-gray-400 hover:text-white hover:bg-gray-800',
                                                                 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'

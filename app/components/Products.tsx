@@ -32,7 +32,7 @@ const products = [
     imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
   },
   {
-    id: 4,
+    id: 5,
     name: 'Machined Mechanical Pencil',
     href: '#',
     price: '$35',
@@ -40,7 +40,7 @@ const products = [
     imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
   },
   {
-    id: 4,
+    id: 6,
     name: 'Machined Mechanical Pencil',
     href: '#',
     price: '$35',
@@ -48,7 +48,7 @@ const products = [
     imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
   },
   {
-    id: 4,
+    id: 7,
     name: 'Machined Mechanical Pencil',
     href: '#',
     price: '$35',

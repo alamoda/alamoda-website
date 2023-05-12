@@ -20,10 +20,15 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
     await mongooseConnect();
 
-    const id = await req.json();
-    const product = await Product.findOne(id);
+    console.log(req);
 
-    console.log(product);
+    //const { id } = await req.json();
+    
+    //console.log(id);
+    
+    //const product = await Product.findOne(id);
 
-    return new Response(JSON.stringify(product));
+    //console.log(product);
+
+    //return new Response(JSON.stringify(product));
 }

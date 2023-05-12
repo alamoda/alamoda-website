@@ -37,9 +37,9 @@ import Link from 'next/link'
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
     { name: 'Products', href: '/dashboard/products', icon: SparklesIcon, current: false },
-    { name: 'Collections', href: '#', icon: FolderIcon, current: false },
-    { name: 'Orders', href: '#', icon: UsersIcon, current: false },
-    { name: 'Users', href: '#', icon: UsersIcon, current: false },
+    { name: 'Collections', href: '/dashboard/collections', icon: FolderIcon, current: false },
+    { name: 'Orders', href: '/dashboard/orders', icon: UsersIcon, current: false },
+    { name: 'Users', href: '/dashboard/users', icon: UsersIcon, current: false },
 ]
 const teams = [
     { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },

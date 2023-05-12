@@ -1,4 +1,4 @@
-export default function PriceInput() {
+export default function PriceInput(props: any) {
     return (
       <div className="w-32 my-2">
         <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
@@ -9,6 +9,8 @@ export default function PriceInput() {
             <span className="text-gray-500 sm:text-sm">$</span>
           </div>
           <input
+            value={props.value}
+            onChange={props.onChange}
             type="text"
             name="price"
             id="price"

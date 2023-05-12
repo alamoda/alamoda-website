@@ -6,6 +6,8 @@ export default function PrimaryInput(props: any) {
         </label>
         <div className="mt-2">
           <input
+            value={props.value}
+            onChange={props.onChange}
             type="text"
             name="text"
             id="text"

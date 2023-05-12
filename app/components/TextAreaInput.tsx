@@ -6,6 +6,8 @@ export default function TextAreaInput(props: any) {
         </label>
         <div className="mt-2">
           <textarea
+            value={props.value}
+            onChange={props.onChange}
             rows={4}
             name="text"
             id="text"

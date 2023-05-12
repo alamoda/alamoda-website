@@ -22,6 +22,7 @@ import {
 
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import Link from 'next/link'
 
 // type Navigation = {
 //     name: string, 
@@ -124,8 +125,10 @@ export default function DashboardLayout({
                                                             <ul role="list" className="-mx-2 space-y-1">
                                                                 {navigation.map((item) => (
                                                                     <li key={item.name}>
-                                                                        <a
-
+                                                                        <Link
+                                                                            onClick={() => {
+                                                                                setActiveTab(item.name)
+                                                                            }}
                                                                             href={item.href}
                                                                             className={classNames(
                                                                                 item.current
@@ -136,7 +139,7 @@ export default function DashboardLayout({
                                                                         >
                                                                             <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                                                             {item.name}
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                 ))}
                                                             </ul>
@@ -146,7 +149,7 @@ export default function DashboardLayout({
                                                             <ul role="list" className="-mx-2 mt-2 space-y-1">
                                                                 {teams.map((team) => (
                                                                     <li key={team.name}>
-                                                                        <a
+                                                                        <Link
                                                                             href={team.href}
                                                                             className={classNames(
                                                                                 team.current
@@ -159,19 +162,19 @@ export default function DashboardLayout({
                                                                                 {team.initial}
                                                                             </span>
                                                                             <span className="truncate">{team.name}</span>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                 ))}
                                                             </ul>
                                                         </li>
                                                         <li className="mt-auto">
-                                                            <a
+                                                            <Link
                                                                 href="#"
                                                                 className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                                                             >
                                                                 <Cog6ToothIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                                                 Settings
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </nav>
@@ -199,7 +202,7 @@ export default function DashboardLayout({
                                             <ul role="list" className="-mx-2 space-y-1">
                                                 {navigation.map((item) => (
                                                     <li key={item.name}>
-                                                        <a
+                                                        <Link
                                                             onClick={() => {
                                                                 setActiveTab(item.name)
                                                             }}
@@ -213,7 +216,7 @@ export default function DashboardLayout({
                                                         >
                                                             <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                                             {item.name}
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -223,7 +226,7 @@ export default function DashboardLayout({
                                             <ul role="list" className="-mx-2 mt-2 space-y-1">
                                                 {teams.map((team) => (
                                                     <li key={team.name}>
-                                                        <a
+                                                        <Link
                                                             href={team.href}
                                                             className={classNames(
                                                                 team.current
@@ -236,19 +239,19 @@ export default function DashboardLayout({
                                                                 {team.initial}
                                                             </span>
                                                             <span className="truncate">{team.name}</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </li>
                                         <li className="mt-auto">
-                                            <a
+                                            <Link
                                                 href="#"
                                                 className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                                             >
                                                 <Cog6ToothIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                                 Settings
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </nav>
@@ -320,7 +323,7 @@ export default function DashboardLayout({
                                                     {userNavigation.map((item) => (
                                                         <Menu.Item key={item.name}>
                                                             {({ active }) => (
-                                                                <a
+                                                                <Link
                                                                     href={item.href}
                                                                     className={classNames(
                                                                         active ? 'bg-gray-50' : '',
@@ -328,7 +331,7 @@ export default function DashboardLayout({
                                                                     )}
                                                                 >
                                                                     {item.name}
-                                                                </a>
+                                                                </Link>
                                                             )}
                                                         </Menu.Item>
                                                     ))}

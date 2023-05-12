@@ -41,11 +41,11 @@ const navigation = [
     { name: 'Orders', href: '/dashboard/orders', icon: UsersIcon, current: false },
     { name: 'Users', href: '/dashboard/users', icon: UsersIcon, current: false },
 ]
-const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
+// const teams = [
+//     { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
+//     { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
+//     { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+// ]
 const userNavigation = [
     { name: 'Your profile', href: '#' },
     { name: 'Sign out', href: '#' },
@@ -144,7 +144,7 @@ export default function DashboardLayout({
                                                                 ))}
                                                             </ul>
                                                         </li>
-                                                        <li>
+                                                        {/* <li>
                                                             <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                                                             <ul role="list" className="-mx-2 mt-2 space-y-1">
                                                                 {teams.map((team) => (
@@ -166,7 +166,7 @@ export default function DashboardLayout({
                                                                     </li>
                                                                 ))}
                                                             </ul>
-                                                        </li>
+                                                        </li> */}
                                                         <li className="mt-auto">
                                                             <Link
                                                                 href="#"
@@ -221,7 +221,7 @@ export default function DashboardLayout({
                                                 ))}
                                             </ul>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                                             <ul role="list" className="-mx-2 mt-2 space-y-1">
                                                 {teams.map((team) => (
@@ -243,7 +243,7 @@ export default function DashboardLayout({
                                                     </li>
                                                 ))}
                                             </ul>
-                                        </li>
+                                        </li> */}
                                         <li className="mt-auto">
                                             <Link
                                                 href="#"

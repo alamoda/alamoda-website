@@ -2,7 +2,6 @@ import { Product } from '@/app/models/Product'
 import { mongooseConnect } from '@/app/database/mongoose';
 
 export async function POST(req: Request) {
-
     await mongooseConnect();
 
     const { title, description, price, sizes } = await req.json();
@@ -19,5 +18,12 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-    console.log("get works");
+    await mongooseConnect();
+
+    const id = await req.json();
+    const product = await Product.findOne(id);
+
+    console.log(product);
+
+    return new Response(JSON.stringify(product));
 }

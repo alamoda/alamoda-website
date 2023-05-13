@@ -11,7 +11,7 @@ export default function Page(props: any) {
         _id: '',
         title: '',
         description: '',
-        price: null,
+        price: '',
         sizes: '',
     });
 
@@ -32,7 +32,7 @@ export default function Page(props: any) {
                 <div className='text-xl font-bold'>
                     Edit Product
                 </div>
-                <ProductForm product={product} />
+                <ProductForm {...product} />
             </div>
         </div>
     )

@@ -17,12 +17,6 @@ export async function POST(req: Request) {
     return new Response(productDoc);
 }
 
-type myParams = {
-    params: {
-        id: string
-    }
-}
-
 export async function GET(req: Request) {
     await mongooseConnect();
 

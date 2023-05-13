@@ -1,20 +1,27 @@
 "use client"
 
-import { useState } from "react";
-import { Product } from "../types";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import PhotoInput from "@/app/components/PhotoInput";
 import PriceInput from "@/app/components/PriceInput";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import PrimaryInput from "@/app/components/PrimaryInput";
 import TextAreaInput from "@/app/components/TextAreaInput";
+import { Product } from "../types";
 
 
-const ProductForm = (props: {product: Product}) => {
-    const [title, setTitle] = useState(props.product?.title || '');
-    const [description, setDescription] = useState(props.product?.description || '');
-    const [price, setPrice] = useState(props.product?.price || '');
-    const [sizes, setSizes] = useState(props.product?.sizes || '');
+const ProductForm = (props: Product) => {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
+    const [sizes, setSizes] = useState('');
+
+    useEffect(() => {
+        setTitle(props.title);
+        setDescription(props.description);
+        setPrice(props.price);
+        setSizes(props.sizes);
+    }, [props.title, props.description, props.price, props.sizes]);
 
     function createProduct() {
         axios.post("/api/product", {
@@ -34,6 +41,14 @@ const ProductForm = (props: {product: Product}) => {
             <PrimaryButton text="Create" onClick={createProduct} />
         </>
     )
+}
+
+ProductForm.defaultProps = {
+        _id: '',
+        title: '',
+        description: '',
+        price: '',
+        sizes: '',
 }
 
 export default ProductForm;

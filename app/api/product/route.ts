@@ -5,7 +5,6 @@ export async function POST(req: Request) {
     await mongooseConnect();
 
     const { title, description, price, sizes } = await req.json();
-    console.log(title, description, price, sizes);
     
     const productDoc = await Product.create({
         title, 
@@ -26,4 +25,16 @@ export async function GET(req: Request) {
     const product = await Product.findOne({_id: id});
 
     return new Response(JSON.stringify(product));
+}
+
+export async function PUT(req: Request) {
+    await mongooseConnect();
+
+    const {_id, title, description, price, sizes } = await req.json();
+
+    console.log(_id, title, description, price, sizes);
+
+    await Product.updateOne({_id}, {title, description, price, sizes});
+
+    return new Response();
 }

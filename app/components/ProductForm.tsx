@@ -23,13 +23,14 @@ const ProductForm = (props: Product) => {
         setSizes(props.sizes);
     }, [props.title, props.description, props.price, props.sizes]);
 
-    function createProduct() {
-        axios.post("/api/product", {
-            title,
-            description,
-            price,
-            sizes
-        });
+    function createOrUpdateProduct() {
+        const _id = props._id;
+        if(_id) {
+            axios.put('/api/product', { _id, title, description, price, sizes });
+        } else {
+            axios.post('/api/product', { title, description, price, sizes });
+        }
+        
     }
     return (
         <>
@@ -38,7 +39,7 @@ const ProductForm = (props: Product) => {
             <PhotoInput text="Product Photo" />
             <PriceInput value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)} />
             <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes(e.target.value)} />
-            <PrimaryButton text="Create" onClick={createProduct} />
+            <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
         </>
     )
 }

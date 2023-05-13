@@ -32,7 +32,9 @@ export default function Page(props: any) {
                 <div className='text-xl font-bold'>
                     Edit Product
                 </div>
-                <ProductForm {...product} />
+                {product && (
+                    <ProductForm {...product} />
+                )}
             </div>
         </div>
     )

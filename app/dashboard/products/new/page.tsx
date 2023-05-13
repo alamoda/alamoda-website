@@ -7,7 +7,7 @@ export default function Page() {
                 <div className='text-xl font-bold'>
                     New Product
                 </div>
-                <ProductForm />
+                {/* <ProductForm /> */}
             </div>
         </div>
     )

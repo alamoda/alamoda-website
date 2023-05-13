@@ -10,11 +10,11 @@ import PrimaryInput from "@/app/components/PrimaryInput";
 import TextAreaInput from "@/app/components/TextAreaInput";
 
 
-export default function ProductForm(props: Product) {
-    const [title, setTitle] = useState(props.title || '');
-    const [description, setDescription] = useState(props.description || '');
-    const [price, setPrice] = useState(props.price || '');
-    const [sizes, setSizes] = useState(props.sizes || '');
+const ProductForm = (props: {product: Product}) => {
+    const [title, setTitle] = useState(props.product?.title || '');
+    const [description, setDescription] = useState(props.product?.description || '');
+    const [price, setPrice] = useState(props.product?.price || '');
+    const [sizes, setSizes] = useState(props.product?.sizes || '');
 
     function createProduct() {
         axios.post("/api/product", {
@@ -35,3 +35,5 @@ export default function ProductForm(props: Product) {
         </>
     )
 }
+
+export default ProductForm;

@@ -4,18 +4,24 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import ProductForm from "@/app/components/ProductForm";
+import { Product } from "@/app/types/index";
 
 export default function Page(props: any) {
-    const [product, setProduct] = useState({});
+    const [product, setProduct] = useState<Product>({
+        _id: '',
+        title: '',
+        description: '',
+        price: null,
+        sizes: '',
+    });
 
     const { id } = useParams();
-    console.log(id);
     useEffect(() => {
         if(!id) {
             return;
         }
-        axios.get('/api/product/?id='+id).then(res => {
-            console.log(res.data);
+        axios.get('/api/product?id='+id).then(res => {
+            console.log("product", res.data);
             setProduct(res.data);
         });
     }, [id]);
@@ -26,7 +32,7 @@ export default function Page(props: any) {
                 <div className='text-xl font-bold'>
                     Edit Product
                 </div>
-                {/* <ProductForm {...product} /> */}
+                <ProductForm product={product} />
             </div>
         </div>
     )

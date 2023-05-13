@@ -17,18 +17,19 @@ export async function POST(req: Request) {
     return new Response(productDoc);
 }
 
+type myParams = {
+    params: {
+        id: string
+    }
+}
+
 export async function GET(req: Request) {
     await mongooseConnect();
 
-    console.log(req);
-
-    //const { id } = await req.json();
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id");
     
-    //console.log(id);
-    
-    //const product = await Product.findOne(id);
+    const product = await Product.findOne({_id: id});
 
-    //console.log(product);
-
-    //return new Response(JSON.stringify(product));
+    return new Response(JSON.stringify(product));
 }

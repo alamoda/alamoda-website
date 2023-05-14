@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import PhotoInput from "@/app/components/PhotoInput";
 import PriceInput from "@/app/components/PriceInput";
@@ -11,17 +11,10 @@ import { Product } from "../types";
 
 
 const ProductForm = (props: Product) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    const [sizes, setSizes] = useState('');
-
-    useEffect(() => {
-        setTitle(props.title);
-        setDescription(props.description);
-        setPrice(props.price);
-        setSizes(props.sizes);
-    }, [props.title, props.description, props.price, props.sizes]);
+    const [title, setTitle] = useState(props.title);
+    const [description, setDescription] = useState(props.description);
+    const [price, setPrice] = useState(props.price);
+    const [sizes, setSizes] = useState(props.sizes);
 
     function createOrUpdateProduct() {
         const _id = props._id;

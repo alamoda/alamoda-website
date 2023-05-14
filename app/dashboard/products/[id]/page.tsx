@@ -7,13 +7,7 @@ import ProductForm from "@/app/components/ProductForm";
 import { Product } from "@/app/types/index";
 
 export default function Page(props: any) {
-    const [product, setProduct] = useState<Product>({
-        _id: '',
-        title: '',
-        description: '',
-        price: '',
-        sizes: '',
-    });
+    const [product, setProduct] = useState({});
 
     const { id } = useParams();
     useEffect(() => {
@@ -32,9 +26,7 @@ export default function Page(props: any) {
                 <div className='text-xl font-bold'>
                     Edit Product
                 </div>
-                {product && (
-                    <ProductForm {...product} />
-                )}
+                {Object.keys(product).length > 0 ? <ProductForm {...product} /> : null}
             </div>
         </div>
     )

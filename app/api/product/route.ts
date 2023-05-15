@@ -38,3 +38,13 @@ export async function PUT(req: Request) {
 
     return new Response();
 }
+
+export async function DELETE(req: Request) {
+    await mongooseConnect();
+    
+    const { data } = await req.json();
+
+    const id = data._id;
+
+    await Product.deleteOne({_id: id});
+}

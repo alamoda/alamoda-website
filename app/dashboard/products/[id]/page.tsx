@@ -26,7 +26,6 @@ export default function Page(props: any) {
     }, [id]);
 
     function deleteProduct() {
-        console.log("id is ", id);
         axios.delete('/api/product?id=' + id).then(res => {
             console.log("prduct deleted");
             router.push('/dashboard/products');

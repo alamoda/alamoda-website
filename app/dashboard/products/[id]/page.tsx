@@ -39,10 +39,14 @@ export default function Page(props: any) {
                 <div className='text-xl font-bold'>
                     Edit Product
                 </div>
-                {Object.keys(product).length > 0 ? <ProductForm {...product} /> : null}
-                <span className="ml-2">
-                    <DeleteButton text="delete" onClick={deleteProduct}/>
-                </span>
+                {Object.keys(product).length > 0 ?
+                    <>
+                        <ProductForm {...product} />
+                        <span className="ml-2">
+                            <DeleteButton text="delete" onClick={deleteProduct} />
+                        </span>
+                    </>
+                    : null}
             </div>
 
         </div>

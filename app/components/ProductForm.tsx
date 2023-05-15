@@ -1,13 +1,14 @@
 "use client"
 
 import { useState } from "react";
+import { Product } from "../types";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import PhotoInput from "@/app/components/PhotoInput";
 import PriceInput from "@/app/components/PriceInput";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import PrimaryInput from "@/app/components/PrimaryInput";
 import TextAreaInput from "@/app/components/TextAreaInput";
-import { Product } from "../types";
 
 
 const ProductForm = (props: Product) => {
@@ -16,12 +17,15 @@ const ProductForm = (props: Product) => {
     const [price, setPrice] = useState(props.price);
     const [sizes, setSizes] = useState(props.sizes);
 
+    const router = useRouter();
+
     function createOrUpdateProduct() {
         const _id = props._id;
         if(_id) {
             axios.put('/api/product', { _id, title, description, price, sizes });
         } else {
             axios.post('/api/product', { title, description, price, sizes });
+            router.push('/dashboard/products');
         }
         
     }

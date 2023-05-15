@@ -20,13 +20,14 @@ export default function Page(props: any) {
             return;
         }
         axios.get('/api/product?id=' + id).then(res => {
-            console.log("product", res.data);
+            console.log("product is", res.data);
             setProduct(res.data);
         });
     }, [id]);
 
     function deleteProduct() {
-        axios.delete('/api/product', {data: {_id: id}}).then(res => {
+        console.log("id is ", id);
+        axios.delete('/api/product?id=' + id).then(res => {
             console.log("prduct deleted");
             router.push('/dashboard/products');
         });

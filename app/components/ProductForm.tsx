@@ -14,7 +14,7 @@ import TextAreaInput from "@/app/components/TextAreaInput";
 const ProductForm = ({
     _id = '',
     title: existingTitle = '',
-    description: existingDescription ='',
+    description: existingDescription = '',
     price: existingPrice = '',
     sizes: existingSizes = '',
 }) => {
@@ -26,26 +26,39 @@ const ProductForm = ({
     const router = useRouter();
 
     function createOrUpdateProduct() {
-        if(_id) {
+        if (_id) {
             axios.put('/api/product', { _id, title, description, price, sizes });
         } else {
             axios.post('/api/product', { title, description, price, sizes });
             router.push('/dashboard/products');
-        }    
+        }
     }
 
     async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target?.files;
-        if(files && files?.length > 0) {
-            const data = new FormData();
-            for(let i = 0; i < files.length; i++) {
-                data.append('file', files[i]);                
+
+        console.log("files are", files);
+        if (files && files?.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    const fileData = reader.result;
+                    console.log("filesData is", fileData);
+
+                    const formData = new FormData();
+                    if(fileData)
+                        formData.append('file', new Blob([fileData]), files[i].name);
+                    console.log("Data", formData);
+
+                    axios.post('/api/upload', formData).then(res => () => {
+                        console.log(res);
+                    });
+                };
+
+                reader.readAsArrayBuffer(files[i]);
             }
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: data,
-            })
-            console.log(response);
+
         }
     }
 

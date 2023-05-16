@@ -11,16 +11,21 @@ import PrimaryInput from "@/app/components/PrimaryInput";
 import TextAreaInput from "@/app/components/TextAreaInput";
 
 
-const ProductForm = (props: Product) => {
-    const [title, setTitle] = useState(props.title);
-    const [description, setDescription] = useState(props.description);
-    const [price, setPrice] = useState(props.price);
-    const [sizes, setSizes] = useState(props.sizes);
+const ProductForm = ({
+    _id = '',
+    title: existingTitle = '',
+    description: existingDescription ='',
+    price: existingPrice = '',
+    sizes: existingSizes = '',
+}) => {
+    const [title, setTitle] = useState(existingTitle);
+    const [description, setDescription] = useState(existingDescription);
+    const [price, setPrice] = useState(existingPrice);
+    const [sizes, setSizes] = useState(existingSizes);
 
     const router = useRouter();
 
     function createOrUpdateProduct() {
-        const _id = props._id;
         if(_id) {
             axios.put('/api/product', { _id, title, description, price, sizes });
         } else {
@@ -36,8 +41,11 @@ const ProductForm = (props: Product) => {
             for(let i = 0; i < files.length; i++) {
                 data.append('file', files[i]);                
             }
-            const response = await axios.post('/api/upload', data);
-            console.log(response.data);
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: data,
+            })
+            console.log(response);
         }
     }
 
@@ -51,14 +59,6 @@ const ProductForm = (props: Product) => {
             <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
         </>
     )
-}
-
-ProductForm.defaultProps = {
-        _id: '',
-        title: '',
-        description: '',
-        price: '',
-        sizes: '',
 }
 
 export default ProductForm;

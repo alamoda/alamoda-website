@@ -48,7 +48,7 @@ const ProductForm = ({
 
                     const formData = new FormData();
                     if(fileData)
-                        formData.append('file', new Blob([fileData]), files[i].name);
+                        formData.append('image', new Blob([fileData]), files[i].name);
                     console.log("Data", formData);
 
                     axios.post('/api/upload', formData).then(res => () => {

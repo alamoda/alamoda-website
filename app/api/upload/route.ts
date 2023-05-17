@@ -1,21 +1,41 @@
-import { NextRequest } from 'next/server';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import mime from 'mime-types';
 
 export async function POST(req: Request) {
     const data = await req.formData();
-    // const { fields, files } = await new Promise<any>((resolve, reject) => {
-    //     form.parse(req, (err: Error, fields: any, files: any) => {
-    //         if (err) reject(err);
-    //         resolve({fields: fields, files: files});
-    //     });
-    // });
+    const file = data.get('image');
+    console.log(file);
 
+    if (file instanceof File) {
 
-    // console.log("length: ", files.files.length);
-    // console.log("files: ", files);
-    // console.log(fields);
+        const fileBuffer = await file.arrayBuffer();
+        const typedArray = new Uint8Array(fileBuffer);
+        const body = Buffer.from(typedArray);
 
+        const s3Client = new S3Client({
+            region: 'us-east-1',
+            credentials: {
+                accessKeyId: process.env.S3_ACCESS_KEY!,
+                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+            }
+        });
 
-    console.log(data.get('file'));
+        const key = 'images/my-image.jpg';
+
+        try {
+            const response = await s3Client.send(new PutObjectCommand({
+                Bucket: 'alamoda-website',
+                Key: key,
+                Body: body,
+                ContentType: file!.type,
+            }));
+            console.log('File uploaded successfully:', response);
+            return new Response(JSON.stringify(response));
+
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    }
 
     return new Response();
 }

@@ -21,27 +21,22 @@ export async function POST(req: Request) {
         });
 
         const bucketName = 'alamoda-website';
-        const key = 'images/my-image.jpg';
+        const key = '347857834873587.jpg';
 
-        try {
-            const response = await s3Client.send(new PutObjectCommand({
-                Bucket: bucketName,
-                Key: key,
-                Body: body,
-                ContentType: file!.type,
-                ACL: 'public-read',
-            }));
-            console.log('File uploaded successfully:', response);
-            const link = `https://${bucketName}.s3.amazonaws.com/${file.name}`;
-            
-            return new Response(link);
+        const response = await s3Client.send(new PutObjectCommand({
+            Bucket: bucketName,
+            Key: key,
+            Body: body,
+            ContentType: file!.type,
+            ACL: 'public-read',
+        }));
 
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
+        console.log('File uploaded successfully:', response);
+
+        const link = `https://${bucketName}.s3.amazonaws.com/${key}`;
+        return new Response(JSON.stringify(link));
     }
 
-    return new Response();
 }
 
 export const config = {

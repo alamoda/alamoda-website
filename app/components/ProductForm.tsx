@@ -17,11 +17,13 @@ const ProductForm = ({
     description: existingDescription = '',
     price: existingPrice = '',
     sizes: existingSizes = '',
+    images: existingImages = [],
 }) => {
     const [title, setTitle] = useState(existingTitle);
     const [description, setDescription] = useState(existingDescription);
     const [price, setPrice] = useState(existingPrice);
     const [sizes, setSizes] = useState(existingSizes);
+    const [images, setImages] = useState(existingImages)
 
     const router = useRouter();
 
@@ -39,25 +41,31 @@ const ProductForm = ({
 
         console.log("files are", files);
         if (files && files?.length > 0) {
+            const formData = new FormData();
             for (let i = 0; i < files.length; i++) {
                 const reader = new FileReader();
 
-                reader.onload = () => {
+                reader.onload = async () => {
                     const fileData = reader.result;
                     console.log("filesData is", fileData);
 
-                    const formData = new FormData();
-                    if(fileData)
+                    if (fileData)
                         formData.append('image', new Blob([fileData]), files[i].name);
+
                     console.log("Data", formData);
 
-                    axios.post('/api/upload', formData).then(res => {
-                        console.log("response is", res.data);
-                    });
+                    const res = await axios.post('/api/upload', formData);
+                    console.log("images are ", res.data);
                 };
 
                 reader.readAsArrayBuffer(files[i]);
             }
+
+
+            // setImages((oldImages) => ({
+            //     ...oldImages,
+            //     ...res.data.links
+            // }));
 
         }
     }

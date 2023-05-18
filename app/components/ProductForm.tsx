@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Product } from "../types";
 import { useRouter } from "next/navigation";
+import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import PhotoInput from "@/app/components/PhotoInput";
 import PriceInput from "@/app/components/PriceInput";
@@ -77,15 +78,31 @@ const ProductForm = ({
         });
     };
 
+    // Define ItemInterface to use with list and setList methods of ReactSortable
+    interface ItemInterface {
+        id: string;
+        url: string;
+    }
+
+    const itemObjects = images.map((image, index) => ({
+        id: index.toString(),
+        url: image,
+    })) as ItemInterface[];
+
     return (
         <>
             <PrimaryInput label="Name" placeholder="Name" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
-            {!!images?.length && images.map(link => (
-                <div key={link} className="inline-block h-24 mr-2">
-                    <img src={link} alt="" className="h-24"></img>
-                </div>
-            ))}
+
+            <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
+                {!!itemObjects?.length && itemObjects.map(item => (
+                    <div key={item.id} className="inline-block h-24 mr-2">
+                        <img src={item.url} alt="" className="h-24"></img>
+                    </div>
+
+                ))}
+            </ReactSortable>
+
             <PhotoInput text="Product Images" onChange={uploadImages} />
             <PriceInput value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)} />
             <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes(e.target.value)} />

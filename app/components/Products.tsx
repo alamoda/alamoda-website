@@ -84,7 +84,7 @@ export default function Products() {
               <p className="mt-1 text-lg font-medium text-gray-900">{'$' + product.price}</p>
             </Link>
           ))}
-        </div>
+      </div>
       </div>
     </div>
   )

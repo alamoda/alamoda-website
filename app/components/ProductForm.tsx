@@ -82,7 +82,7 @@ const ProductForm = ({
             <PrimaryInput label="Name" placeholder="Name" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
             {!!images?.length && images.map(link => (
-                <div key={link} className="h-24">
+                <div key={link} className="inline-block h-24 mr-2">
                     <img src={link} alt="" className="h-24"></img>
                 </div>
             ))}

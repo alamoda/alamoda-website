@@ -56,17 +56,15 @@ const ProductForm = ({
 
                     const res = await axios.post('/api/upload', formData);
                     console.log("images are ", res.data);
+
+                    setImages((oldImages) => ({
+                        ...oldImages,
+                        ...res.data.links
+                    }));
                 };
 
                 reader.readAsArrayBuffer(files[i]);
             }
-
-
-            // setImages((oldImages) => ({
-            //     ...oldImages,
-            //     ...res.data.links
-            // }));
-
         }
     }
 

@@ -22,7 +22,5 @@ export async function GET(req: Request) {
 
     const products = await Product.find();
 
-    console.log(products);
-    
     return new Response(JSON.stringify(products));
 }

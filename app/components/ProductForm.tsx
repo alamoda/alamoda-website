@@ -84,6 +84,7 @@ const ProductForm = ({
         url: string;
     }
 
+    // Map each image to an item of type ItemInterface
     const itemObjects = images.map((image, index) => ({
         id: index.toString(),
         url: image,
@@ -99,7 +100,6 @@ const ProductForm = ({
                     <div key={item.id} className="inline-block h-24 mr-2">
                         <img src={item.url} alt="" className="h-24"></img>
                     </div>
-
                 ))}
             </ReactSortable>
 

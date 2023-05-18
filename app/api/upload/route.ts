@@ -4,9 +4,9 @@ export async function POST(req: Request) {
     const data = await req.formData();
     const files = data.getAll('image');
     const links = [];
-
+    console.log("files in backend are", files)
     for (const file of files) {
-        console.log(file);
+        console.log("file is ", file);
 
         if (file instanceof File) {
 

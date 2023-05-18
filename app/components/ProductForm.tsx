@@ -19,11 +19,11 @@ const ProductForm = ({
     sizes: existingSizes = '',
     images: existingImages = [],
 }) => {
-    const [title, setTitle] = useState(existingTitle);
-    const [description, setDescription] = useState(existingDescription);
-    const [price, setPrice] = useState(existingPrice);
-    const [sizes, setSizes] = useState(existingSizes);
-    const [images, setImages] = useState(existingImages)
+    const [title, setTitle] = useState<string>(existingTitle);
+    const [description, setDescription] = useState<string>(existingDescription);
+    const [price, setPrice] = useState<string>(existingPrice);
+    const [sizes, setSizes] = useState<string>(existingSizes);
+    const [images, setImages] = useState<string[]>(existingImages)
 
     const router = useRouter();
 
@@ -38,35 +38,44 @@ const ProductForm = ({
 
     async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target?.files;
-
         console.log("files are", files);
+
+        const formData = new FormData();
         if (files && files?.length > 0) {
-            const formData = new FormData();
             for (let i = 0; i < files.length; i++) {
-                const reader = new FileReader();
+                const fileData = await readFile(files[i]);
+                console.log("filesData is", fileData);
 
-                reader.onload = async () => {
-                    const fileData = reader.result;
-                    console.log("filesData is", fileData);
-
-                    if (fileData)
-                        formData.append('image', new Blob([fileData]), files[i].name);
-
-                    console.log("Data", formData);
-
-                    const res = await axios.post('/api/upload', formData);
-                    console.log("images are ", res.data);
-
-                    setImages((oldImages) => ({
-                        ...oldImages,
-                        ...res.data.links
-                    }));
-                };
-
-                reader.readAsArrayBuffer(files[i]);
+                if (fileData) {
+                    formData.append('image', new Blob([fileData]), files[i].name);
+                }
             }
+            
+            console.log("Data", formData);
+
+            const res = await axios.post('/api/upload', formData);
+            console.log("images are ", res.data);
+
+            setImages(oldImages => [...oldImages, ...res.data]);
         }
     }
+
+    const readFile = (file: File) => {
+        return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                const fileData = reader.result;
+                resolve(fileData);
+            };
+
+            reader.onerror = (error) => {
+                reject(error);
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+    };
 
     return (
         <>

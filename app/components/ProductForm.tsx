@@ -29,13 +29,14 @@ const ProductForm = ({
 
     function createOrUpdateProduct() {
         if (_id) {
-            axios.put('/api/product', { _id, title, description, price, sizes });
+            axios.put('/api/product', { _id, title, description, price, sizes, images });
         } else {
-            axios.post('/api/product', { title, description, price, sizes });
+            axios.post('/api/product', { title, description, price, sizes, images });
             router.push('/dashboard/products');
         }
     }
 
+    // Readsa the file and sends it to the backend
     async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target?.files;
         console.log("files are", files);
@@ -51,8 +52,6 @@ const ProductForm = ({
                 }
             }
 
-            console.log("Data", formData);
-
             const res = await axios.post('/api/upload', formData);
             console.log("images are ", res.data);
 
@@ -60,6 +59,7 @@ const ProductForm = ({
         }
     }
 
+    // Reads File and returns an ArrayBuffer
     const readFile = (file: File) => {
         return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
             const reader = new FileReader();

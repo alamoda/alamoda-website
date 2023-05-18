@@ -50,7 +50,7 @@ const ProductForm = ({
                     formData.append('image', new Blob([fileData]), files[i].name);
                 }
             }
-            
+
             console.log("Data", formData);
 
             const res = await axios.post('/api/upload', formData);
@@ -81,6 +81,11 @@ const ProductForm = ({
         <>
             <PrimaryInput label="Name" placeholder="Name" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
+            {!!images?.length && images.map(link => (
+                <div key={link} className="h-24">
+                    <img src={link} alt="" className="h-24"></img>
+                </div>
+            ))}
             <PhotoInput text="Product Images" onChange={uploadImages} />
             <PriceInput value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)} />
             <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes(e.target.value)} />

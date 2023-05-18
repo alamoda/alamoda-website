@@ -32,8 +32,8 @@ const ProductForm = ({
             axios.put('/api/product', { _id, title, description, price, sizes, images });
         } else {
             axios.post('/api/product', { title, description, price, sizes, images });
-            router.push('/dashboard/products');
         }
+        router.push('/dashboard/products');
     }
 
     // Readsa the file and sends it to the backend

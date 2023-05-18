@@ -4,9 +4,9 @@ export async function POST(req: Request) {
     const data = await req.formData();
     const files = data.getAll('image');
     const links = [];
-    console.log("files in backend are", files)
+    //console.log("files in backend are", files)
     for (const file of files) {
-        console.log("file is ", file);
+        //console.log("file is ", file);
 
         if (file instanceof File) {
 
@@ -23,19 +23,20 @@ export async function POST(req: Request) {
             });
 
             const bucketName = 'alamoda-website';
-            const key = '347857834873587.jpg';
+            const ext = file.name.split('.').pop();
+            const newFilename = Date.now() + '.' + ext;
 
             const response = await s3Client.send(new PutObjectCommand({
                 Bucket: bucketName,
-                Key: key,
+                Key: newFilename,
                 Body: body,
                 ContentType: file!.type,
                 ACL: 'public-read',
             }));
 
-            console.log('File uploaded successfully:', response);
+            //console.log('File uploaded successfully:', response);
 
-            const link = `https://${bucketName}.s3.amazonaws.com/${key}`;
+            const link = `https://${bucketName}.s3.amazonaws.com/${newFilename}`;
             links.push(link);
         }
     }

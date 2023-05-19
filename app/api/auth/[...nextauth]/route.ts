@@ -1,4 +1,5 @@
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
+import { mongooseConnect } from "@/app/database/mongoose"
 import { User } from "@/app/models/User"
 import bcrypt from "bcryptjs"
 import NextAuth from "next-auth"
@@ -19,6 +20,8 @@ const options = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
+                mongooseConnect();
+                
                 const email = credentials?.username;
                 const password = credentials?.password;
                 

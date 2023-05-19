@@ -1,6 +1,7 @@
-import NextAuth from "next-auth"
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-import type { NextAuthOptions } from "next-auth"
+import { User } from "@/app/models/User"
+import bcrypt from "bcryptjs"
+import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import ClientPromise from "@/app/database/mongodb"
 
@@ -18,25 +19,26 @@ const options = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-                // You need to provide your own logic here that takes the credentials
-                // submitted and returns either a object representing a user or value
-                // that is false/null if the credentials are invalid.
-                // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-                // You can also use the `req` object to obtain additional parameters
-                // (i.e., the request IP address)
-                const res = await fetch("/your/endpoint", {
-                    method: 'POST',
-                    body: JSON.stringify(credentials),
-                    headers: { "Content-Type": "application/json" }
-                })
-                const user = await res.json()
-
-                // If no error and we have user data, return it
-                if (res.ok && user) {
-                    return user
+                const email = credentials?.username;
+                const password = credentials?.password;
+                
+                if(!email || !password) {
+                    throw new Error("Invalid Email or Password");
                 }
-                // Return null if user data could not be retrieved
-                return null
+
+                const user = await User.findOne({email: email});
+                
+                if(!user) {
+                    throw new Error("Invalid Email or Password");
+                }
+                
+                const isPasswordMatched = await bcrypt.compare(password, user.password);
+
+                if(!isPasswordMatched) {
+                    throw new Error("Invalid Email or Password");
+                }
+
+                return user;
             }
         }),
     ],

@@ -1,11 +1,14 @@
 "use client"
 
 import { signIn, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
-export default function Example() {
+export default function Login() {
     const emailRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
+
+    const router = useRouter();
 
     const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -19,6 +22,7 @@ export default function Example() {
                 password,
             });
             console.log("response from login is", data);
+            router.push('/dashboard');
         } catch (error) {
             console.log("error during login", error);
         }

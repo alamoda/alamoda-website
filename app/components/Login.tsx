@@ -18,9 +18,9 @@ export default function Example() {
                 email,
                 password,
             });
-            console.log(data);
+            console.log("response from login is", data);
         } catch (error) {
-            console.log(error);
+            console.log("error during login", error);
         }
     };
 

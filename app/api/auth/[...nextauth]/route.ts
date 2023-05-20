@@ -16,29 +16,29 @@ const options = {
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
-                username: { label: "Username", type: "text", placeholder: "jsmith" },
+                email: { label: "Email", type: "text", placeholder: "jsmith@email.com" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
                 mongooseConnect();
                 
-                const email = credentials?.username;
+                const email = credentials?.email;
                 const password = credentials?.password;
-                
-                if(!email || !password) {
-                    throw new Error("Invalid Email or Password");
-                }
+
+                console.log("credentials are", credentials);
+                console.log("email is", email);
+                console.log("password is", password);
 
                 const user = await User.findOne({email: email});
                 
                 if(!user) {
-                    throw new Error("Invalid Email or Password");
+                    throw new Error("Invalid Email or Password USER");
                 }
                 
-                const isPasswordMatched = await bcrypt.compare(password, user.password);
+                const isPasswordMatched = await bcrypt.compare(password!, user.password);
 
                 if(!isPasswordMatched) {
-                    throw new Error("Invalid Email or Password");
+                    throw new Error("Invalid Email or Password PASSWORD");
                 }
 
                 return user;

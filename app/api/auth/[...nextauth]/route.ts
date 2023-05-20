@@ -49,11 +49,9 @@ const options = {
         secret: process.env.NEXTAUTH_SECRET,
     },
     adapter: MongoDBAdapter(ClientPromise),
-    pages: {
-        signIn: '/login'
-    },
+    
 }
 
-const handler = NextAuth(options)
+const handler = NextAuth(options);
 
 export { handler as GET, handler as POST }

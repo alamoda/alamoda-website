@@ -23,6 +23,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 // type Navigation = {
 //     name: string, 
@@ -60,8 +61,11 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode
 }) {
+    const tab = usePathname();
+    const currentTab = navigation.find(x => x.href === tab)?.name;
+    console.log(currentTab);
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [activeTab, setActiveTab] = useState('Dashboard');
+    const [activeTab, setActiveTab] = useState(currentTab);
 
     return (
 

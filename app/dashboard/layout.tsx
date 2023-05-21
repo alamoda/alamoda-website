@@ -63,7 +63,6 @@ export default function DashboardLayout({
 }) {
     const tab = usePathname();
     const currentTab = navigation.find(x => x.href === tab)?.name;
-    console.log(currentTab);
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 

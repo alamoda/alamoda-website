@@ -1,7 +1,9 @@
 export default function Page() {
-    return(
+    return (
         <>
-        Collections
+            <span className='text-xl font-semibold pb-2'>
+                Collections
+            </span>
         </>
     )
 }

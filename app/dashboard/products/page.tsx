@@ -1,19 +1,20 @@
-import PrimaryButton from '@/app/components/PrimaryButton';
+import CircularButton from '@/app/components/CircularButton';
 import Products from '@/app/components/Products';
 import Link from 'next/link';
 
 export default function Page() {
     return (
-        <div className='bg-white'>
-            <div className="px-4">
-                <span className='text-xl font-bold px-4 pb-2'>
+        <>
+            <div className='flex items-start'>
+                <span className='text-xl font-semibold pb-2'>
                     Products
                 </span>
-                <Link href="dashboard/products/new">
-                    <PrimaryButton text="Add +" />
+                <Link href="dashboard/products/new" className="ml-2" >
+                    <CircularButton />
                 </Link>
-                <Products />
             </div>
-        </div>
+            <Products />
+
+        </>
     )
 }

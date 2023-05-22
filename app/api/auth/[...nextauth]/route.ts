@@ -6,7 +6,7 @@ import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import ClientPromise from "@/app/database/mongodb"
 
-const options = {
+export const authOptions = {
     providers: [
         CredentialsProvider({
             // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -24,10 +24,6 @@ const options = {
                 
                 const email = credentials?.email;
                 const password = credentials?.password;
-
-                console.log("credentials are", credentials);
-                console.log("email is", email);
-                console.log("password is", password);
 
                 const user = await User.findOne({email: email});
                 
@@ -54,6 +50,6 @@ const options = {
     },
 }
 
-const handler = NextAuth(options)
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

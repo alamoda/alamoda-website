@@ -53,17 +53,10 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
     await mongooseConnect();
 
-    const {_id, title, description, price, sizes, images } = await req.json();
+    const {_id, ...updates} = await req.json();
+    console.log(_id)
 
-    console.log(_id, title, description, price, sizes, images);
-
-    await Product.updateOne({_id}, {
-        title, 
-        description, 
-        price, 
-        sizes,
-        images
-    });
+    await Product.updateOne({_id}, { $set: updates });
 
     return new Response();
 }

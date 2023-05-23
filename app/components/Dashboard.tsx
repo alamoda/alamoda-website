@@ -62,7 +62,7 @@ export default function Dashboard({
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 
-    const {data: session} = useSession();
+    const { data: session } = useSession();
 
     useEffect(() => {
         console.log("session is", session);

@@ -61,11 +61,11 @@ export default function Dashboard({
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
 
-    useEffect(() => {
-        console.log("session is", session);
-    }, [session])
+    // useEffect(() => {
+    //     console.log("session is", session);
+    // }, [session])
 
     return (
         <div>
@@ -311,7 +311,7 @@ export default function Dashboard({
                                     />
                                     <span className="hidden lg:flex lg:items-center">
                                         <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
-                                            {session?.user?.email}
+                                            {/* {session?.user?.email} */}
                                         </span>
                                         <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                                     </span>

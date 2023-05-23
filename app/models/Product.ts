@@ -14,6 +14,8 @@ const ProductSchema = new Schema({
         images: [{type: String}],
         sizes: [{type: Object}],
         status: { type: Number, required: true },
+        updated_at: Number,
+        created_at: Number,
 });
 
 export const Product = models.Product || model('Product', ProductSchema);

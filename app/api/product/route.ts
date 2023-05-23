@@ -17,9 +17,11 @@ export async function POST(req: Request) {
         category,
         images,
         sizes,
-        status
+        status,
+        updated_at,
+        created_at
     } =  await req.json();
-    
+
     const productDoc = await Product.create({
         id,
         sku,
@@ -33,7 +35,9 @@ export async function POST(req: Request) {
         category,
         images,
         sizes,
-        status
+        status,
+        updated_at,
+        created_at
     });
 
     return new Response(productDoc);
@@ -54,7 +58,6 @@ export async function PUT(req: Request) {
     await mongooseConnect();
 
     const {_id, ...updates} = await req.json();
-    console.log(_id)
 
     await Product.updateOne({_id}, { $set: updates });
 

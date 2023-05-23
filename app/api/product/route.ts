@@ -49,7 +49,7 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const id = url.searchParams.get("id");
     
-    const product = await Product.findOne({id: id});
+    const product = await Product.findOne({_id: id});
 
     return new Response(JSON.stringify(product));
 }

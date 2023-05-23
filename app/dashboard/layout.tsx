@@ -1,4 +1,3 @@
-import Provider from "../components/Provider"
 import Dashboard from "../components/Dashboard"
 
 export default async function DashboardLayout({
@@ -6,13 +5,12 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode
 }) {
+
     return (
         <>
-            <Provider>
-                <Dashboard>
-                    {children}
-                </Dashboard>
-            </Provider>
+            <Dashboard>
+                {children}
+            </Dashboard>
         </>
     )
 }

@@ -4,7 +4,7 @@ import Logout from '../components/Logout';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 
 export default async function Page() {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
 
     if (session) {
         return (

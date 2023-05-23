@@ -1,3 +1,5 @@
+"use client"
+
 import { Disclosure } from '@headlessui/react'
 import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 
@@ -7,7 +9,26 @@ const faqs = [
         answer:
             "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
     },
-    // More questions...
+    {
+        question: "What's the best thing about Switzerland?",
+        answer:
+            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+    },
+    {
+        question: "What's the best thing about Switzerland?",
+        answer:
+            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+    },
+    {
+        question: "What's the best thing about Switzerland?",
+        answer:
+            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+    },
+    {
+        question: "What's the best thing about Switzerland?",
+        answer:
+            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+    },
 ]
 
 export default function Example() {

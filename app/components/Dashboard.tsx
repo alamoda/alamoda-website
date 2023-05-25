@@ -21,6 +21,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
+import { getCurrentUser } from '../lib/session'
 
 // type Navigation = {
 //     name: string, 
@@ -51,7 +52,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Dashboard({
+export default async function Dashboard({
     children,
 }: {
     children: React.ReactNode
@@ -61,11 +62,15 @@ export default function Dashboard({
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 
-    // const { data: session } = useSession();
-
+    // const { data: session }= useSession();
     // useEffect(() => {
-    //     console.log("session is", session);
+    //     console.log(session);
     // }, [session])
+
+    // const user = await getCurrentUser();
+    // useEffect(() => {
+    //     console.log(user);
+    // }, [user])
 
     return (
         <div>

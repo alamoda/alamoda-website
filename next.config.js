@@ -6,9 +6,16 @@ const nextConfig = {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     // this will just update topLevelAwait property of config.experiments
     // config.experiments.topLevelAwait = true 
-    config.module.rules.push = ({
-      test: /.txt$/, use: 'raw-loader'
-    });
+    config.module.rules.push = (
+      {
+        test: /zstd\.linux-x64-gnu\.node$/,
+        use: 'node-loader',
+      },
+      {
+        test: /.txt$/,
+        use: 'raw-loader'
+      }
+    );
 
     return config;
   },

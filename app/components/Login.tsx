@@ -22,7 +22,7 @@ export default function Login() {
                 password,
             });
             console.log("response from login is", data);
-            //router.push('/dashboard');
+            // router.push('/dashboard');
         } catch (error) {
             console.log("error during login", error);
         }

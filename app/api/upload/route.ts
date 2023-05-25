@@ -43,7 +43,3 @@ export async function POST(req: Request) {
 
     return new Response(JSON.stringify(links));
 }
-
-export const config = {
-    api: { bodyParser: false },
-}

@@ -1,7 +1,6 @@
 import Login from '@/app/components/Login';
 import { getServerSession } from "next-auth/next";
 import Logout from '../components/Logout';
-import { authOptions } from '../api/auth/[...nextauth]/route';
 
 export default async function Page() {
     const session = await getServerSession();

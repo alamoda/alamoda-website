@@ -1,8 +1,6 @@
-import { Product } from '@/app/models/Product'
-import { mongooseConnect } from '@/app/database/mongoose';
+import { db } from "@/app/lib/db"
 
 export async function POST(req: Request) {
-    await mongooseConnect();
 
     const {
         id,
@@ -10,7 +8,7 @@ export async function POST(req: Request) {
         price,
         wholesale_price,
         available,
-        name, 
+        name,
         description,
         features,
         gender,
@@ -20,58 +18,74 @@ export async function POST(req: Request) {
         status,
         updated_at,
         created_at
-    } =  await req.json();
+    } = await req.json();
 
-    const productDoc = await Product.create({
-        id,
-        sku,
-        price,
-        wholesale_price,
-        available,
-        name, 
-        description,
-        features,
-        gender,
-        category,
-        images,
-        sizes,
-        status,
-        updated_at,
-        created_at
+    await db.product.create({
+        data: {
+            id: id,
+            sku: sku,
+            price: price,
+            wholesale_price: wholesale_price,
+            available: available,
+            name: name,
+            description: description,
+            features: features,
+            gender: gender,
+            category: category,
+            images: images,
+            sizes: sizes,
+            status: status,
+            updated_at: updated_at,
+            created_at: created_at
+        },
     });
 
-    return new Response(productDoc);
+    return new Response();
 }
 
 export async function GET(req: Request) {
-    await mongooseConnect();
 
     const url = new URL(req.url);
-    const id = url.searchParams.get("id");
-    
-    const product = await Product.findOne({_id: id});
+    const idParam = url.searchParams.get("id");
+
+    if (idParam == null) return new Response(JSON.stringify({ message: "Error" }));
+
+    const id = parseInt(idParam, 10);
+    if (isNaN(id)) return new Response(JSON.stringify({ message: "Error" }));
+
+    const product = await db.product.findUniqueOrThrow({
+        where: {
+            id: id
+        }
+    });
 
     return new Response(JSON.stringify(product));
 }
 
 export async function PUT(req: Request) {
-    await mongooseConnect();
 
-    const {_id, ...updates} = await req.json();
+    const { id, ...updates } = await req.json();
 
-    await Product.updateOne({_id}, { $set: updates });
+    await db.product.update({
+        where: { id: id },
+        data: updates,
+    });
 
     return new Response();
 }
 
 export async function DELETE(req: Request) {
-    await mongooseConnect();
-    
-    const url = new URL(req.url);
-    const id = url.searchParams.get("id");
 
-    await Product.deleteOne({
-        _id: id
+    const url = new URL(req.url);
+    const idParam = url.searchParams.get("id");
+
+    if (idParam == null) return new Response(JSON.stringify({ message: "Error" }));
+
+    const id = parseInt(idParam, 10);
+    if (isNaN(id)) return new Response(JSON.stringify({ message: "Error" }));
+
+    await db.product.delete({
+        where: { id: id },
     });
 
     return new Response();

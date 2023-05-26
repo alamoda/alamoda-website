@@ -1,10 +1,8 @@
-import { Product } from '@/app/models/Product'
-import { mongooseConnect } from '@/app/database/mongoose';
+import { db } from "@/app/lib/db"
 
 export async function GET(req: Request) {
-    await mongooseConnect();
 
-    const products = await Product.find();
+    const products = await db.product.findMany();
 
     return new Response(JSON.stringify(products));
 }

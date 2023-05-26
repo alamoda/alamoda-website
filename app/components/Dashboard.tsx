@@ -18,6 +18,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
+import axios from "axios";
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
@@ -62,7 +63,7 @@ export default async function Dashboard({
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 
-    // const { data: session }= useSession();
+    // const { data: session } = useSession();
     // useEffect(() => {
     //     console.log(session);
     // }, [session])

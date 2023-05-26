@@ -1,21 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: { appDir: true, serverComponentsExternalPackages: ["mongoose"] },
+  experimental: { appDir: true },
   webpack: (config) => {
     // this will override the experiments
     config.experiments = { ...config.experiments, topLevelAwait: true };
     // this will just update topLevelAwait property of config.experiments
     // config.experiments.topLevelAwait = true 
-    config.module.rules.push = (
-      {
-        test: /zstd\.linux-x64-gnu\.node$/,
-        use: 'node-loader',
-      },
-      {
-        test: /.txt$/,
-        use: 'raw-loader'
-      }
-    );
 
     return config;
   },

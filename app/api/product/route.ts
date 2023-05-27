@@ -64,10 +64,10 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
 
-    const { id, ...updates } = await req.json();
+    const { mongo_id, ...updates } = await req.json();
 
     await db.product.update({
-        where: { id: id },
+        where: { mongo_id: mongo_id },
         data: updates,
     });
 

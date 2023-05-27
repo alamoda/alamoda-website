@@ -9,11 +9,9 @@ export default async function DashboardLayout({
 
     return (
         <>
-            <Provider>
-                <Dashboard>
-                    {children}
-                </Dashboard>
-            </Provider>
+            <Dashboard>
+                {children}
+            </Dashboard>
         </>
     )
 }

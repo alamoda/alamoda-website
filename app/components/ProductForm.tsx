@@ -20,7 +20,7 @@ const ProductForm = ({
     description: existingDescription = '',
     price: existingPrice = 0,
     wholesaleprice: existingWholesaleprice = 0,
-    availability: existingAvailability = true,
+    available: existingAvailable = true,
     category: existingCategory = '',
     gender: existingGender = '',
     features: existingFeatures = [],
@@ -33,8 +33,8 @@ const ProductForm = ({
     const [name, setName] = useState<string>(existingName);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
-    const [wholesaleprice, setWholesaleprice] = useState<number>(existingWholesaleprice);
-    const [availability, setAvailability] = useState<boolean>(existingAvailability);
+    const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
+    const [available, setAvailable] = useState<boolean>(existingAvailable);
     const [category, setCategory] = useState<string>(existingCategory);
     const [gender, setGender] = useState<string>(existingGender);
     const [features, setFeatures] = useState<any[]>(existingFeatures);
@@ -45,9 +45,9 @@ const ProductForm = ({
 
     function createOrUpdateProduct() {
         if (mongo_id) {
-            axios.put('/api/product', { mongo_id, id, sku, name, description, price, wholesaleprice, availability, category, gender, features, sizes, images, status });
+            axios.put('/api/product', { mongo_id, id, sku, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
         } else {
-            axios.post('/api/product', { id, sku, name, description, price, wholesaleprice, availability, category, gender, features, sizes, images, status });
+            axios.post('/api/product', { id, sku, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
             router.push('/dashboard/products');
         }
     }
@@ -132,9 +132,10 @@ const ProductForm = ({
             <PhotoInput text="Product Images" onChange={uploadImages} />
             <div className="flex items-center gap-4">
                 <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
-                <PriceInput name="Wholesale Price" value={wholesaleprice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
+                <PriceInput name="Wholesale Price" value={wholesale_price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
             </div>
             <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes((prev) => { return [...prev, e.target.value] })} />
+            <PrimaryInput label="Available" placeholder="Available" value={available} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAvailable(Boolean(e.target.value))} />
             <PrimaryInput label="Status" placeholder="Status" value={status} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus(Number(e.target.value))} />
             <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
         </>

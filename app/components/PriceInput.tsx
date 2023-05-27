@@ -2,7 +2,7 @@ export default function PriceInput(props: any) {
     return (
       <div className="w-32 my-2">
         <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
-          Price
+          {props.name}
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

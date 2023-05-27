@@ -50,12 +50,12 @@ export async function GET(req: Request) {
 
     if (idParam == null) return new Response(JSON.stringify({ message: "Error" }));
 
-    const id = parseInt(idParam, 10);
-    if (isNaN(id)) return new Response(JSON.stringify({ message: "Error" }));
+    // const id = parseInt(idParam, 10);
+    // if (isNaN(id)) return new Response(JSON.stringify({ message: "Error" }));
 
     const product = await db.product.findUniqueOrThrow({
         where: {
-            id: id
+            mongo_id: idParam
         }
     });
 

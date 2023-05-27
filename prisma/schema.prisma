@@ -19,11 +19,11 @@ model Product {
   available       Boolean
   name            String
   description     String?
-  features        Json?
+  features        String[]
   gender          String
   category        String
-  images          Json?
-  sizes           Json?
+  images          String[]
+  sizes           String[]
   status          Int
   updated_at      Float?
   created_at      Float?

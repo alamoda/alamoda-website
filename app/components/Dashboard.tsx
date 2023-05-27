@@ -64,15 +64,7 @@ export default function Dashboard({
     const [activeTab, setActiveTab] = useState(currentTab);
 
     const { data: session } = useSession();
-    useEffect(() => {
-        console.log("session is", session);
-    }, [session])
-
-    // const user = await getCurrentUser();
-    // useEffect(() => {
-    //     console.log(user);
-    // }, [user])
-
+    
     return (
         <div>
             <Transition.Root show={sidebarOpen} as={Fragment}>

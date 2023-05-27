@@ -13,36 +13,46 @@ import TextAreaInput from "@/app/components/TextAreaInput";
 
 
 const ProductForm = ({
-    _id = '',
+    mongo_id = '',
+    id: existingId = 0,
+    sku: existingSku = '',
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
+    wholesaleprice: existingWholesaleprice = 0,
+    availability: existingAvailability = true,
     category: existingCategory = '',
     gender: existingGender = '',
     features: existingFeatures = [],
     sizes: existingSizes = [],
     images: existingImages = [],
+    status: existingStatus = 0,
 }) => {
+    const [id, setId] = useState<number>(existingId);
+    const [sku, setSku] = useState<string>(existingSku);
     const [name, setName] = useState<string>(existingName);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
+    const [wholesaleprice, setWholesaleprice] = useState<number>(existingWholesaleprice);
+    const [availability, setAvailability] = useState<boolean>(existingAvailability);
     const [category, setCategory] = useState<string>(existingCategory);
     const [gender, setGender] = useState<string>(existingGender);
     const [features, setFeatures] = useState<any[]>(existingFeatures);
     const [sizes, setSizes] = useState<string[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
+    const [status, setStatus] = useState<number>(existingStatus);
     const router = useRouter();
 
     function createOrUpdateProduct() {
-        if (_id) {
-            axios.put('/api/product', { _id, name, description, price, category, gender, features, sizes, images });
+        if (mongo_id) {
+            axios.put('/api/product', { mongo_id, id, sku, name, description, price, wholesaleprice, availability, category, gender, features, sizes, images, status });
         } else {
-            axios.post('/api/product', { name, description, price, sizes, images });
+            axios.post('/api/product', { id, sku, name, description, price, wholesaleprice, availability, category, gender, features, sizes, images, status });
             router.push('/dashboard/products');
         }
     }
 
-    // Readsa the file and sends it to the backend
+    // Reads the file and sends it to the backend
     async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target?.files;
         console.log("files are", files);
@@ -90,18 +100,24 @@ const ProductForm = ({
     }
 
     // Map each image to an item of type ItemInterface
-    const itemObjects = images.map((image, index) => ({
+    const itemObjects = Array.from(images).map((image, index) => ({
         id: index.toString(),
         url: image,
     })) as ItemInterface[];
 
     return (
         <>
+            <div className="flex items-center gap-4">
+                <PrimaryInput label="Product ID" placeholder="ID" value={id} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
+                <PrimaryInput label="SKU" placeholder="SKU" value={sku} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
+            </div>
             <PrimaryInput label="Name" placeholder="Name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
-            <PrimaryInput label="Category" placeholder="Category" value={category} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
-            <PrimaryInput label="Gender" placeholder="Gender" value={gender} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGender(e.target.value)} />
-            {features.map((feature, index) => (
+            <div className="flex items-center gap-4">
+                <PrimaryInput label="Category" placeholder="Category" value={category} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
+                <PrimaryInput label="Gender" placeholder="Gender" value={gender} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGender(e.target.value)} />
+            </div>
+            {Array.from(features).map((feature, index) => (
                 <PrimaryInput key={index} label={feature.name} placeholder="Feature" value={feature.value} />
 
             ))}
@@ -114,8 +130,12 @@ const ProductForm = ({
             </ReactSortable>
 
             <PhotoInput text="Product Images" onChange={uploadImages} />
-            <PriceInput value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
+            <div className="flex items-center gap-4">
+                <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
+                <PriceInput name="Wholesale Price" value={wholesaleprice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
+            </div>
             <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes((prev) => { return [...prev, e.target.value] })} />
+            <PrimaryInput label="Status" placeholder="Status" value={status} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus(Number(e.target.value))} />
             <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
         </>
     )

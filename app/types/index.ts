@@ -1,5 +1,5 @@
 export type Product = {
-    _id: string
+    mongo_id: string
     id: number
     sku: string
     name: string
@@ -7,8 +7,10 @@ export type Product = {
     features: string[]
     gender: string
     category: string
-    price: string
+    price: number
+    wholesale_price: number
     sizes: string[]
     images: string[]
     status: number
+    available: boolean
 }

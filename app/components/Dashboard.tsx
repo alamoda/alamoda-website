@@ -53,7 +53,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default async function Dashboard({
+export default function Dashboard({
     children,
 }: {
     children: React.ReactNode
@@ -63,10 +63,10 @@ export default async function Dashboard({
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 
-    // const { data: session } = useSession();
-    // useEffect(() => {
-    //     console.log(session);
-    // }, [session])
+    const { data: session } = useSession();
+    useEffect(() => {
+        console.log("session is", session);
+    }, [session])
 
     // const user = await getCurrentUser();
     // useEffect(() => {

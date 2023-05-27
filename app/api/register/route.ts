@@ -1,11 +1,18 @@
+import { db } from "@/app/lib/db";
+import bcrypt from 'bcryptjs';
+
 export async function POST(req: Request) {
 
-    // const { email, password } = await req.json();
+    const { email, password } = await req.json();
     
-    // const productDoc = await User.create({
-    //     email,
-    //     password
-    // });
+    const encryptedPassword = await bcrypt.hash(password, 10);
 
-    // return new Response(productDoc);
+    const user = await db.user.create({
+        data: {
+            email: email,
+            password: encryptedPassword,
+        },
+    });
+
+    return new Response(JSON.stringify(user));
 }

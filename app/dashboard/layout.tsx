@@ -1,4 +1,5 @@
 import Dashboard from "../components/Dashboard"
+import Provider from "../components/Provider"
 
 export default async function DashboardLayout({
     children,
@@ -8,9 +9,11 @@ export default async function DashboardLayout({
 
     return (
         <>
-            <Dashboard>
-                {children}
-            </Dashboard>
+            <Provider>
+                <Dashboard>
+                    {children}
+                </Dashboard>
+            </Provider>
         </>
     )
 }

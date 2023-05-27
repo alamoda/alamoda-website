@@ -45,8 +45,12 @@ export const authOptions: NextAuthOptions = {
             }
         }),
     ],
+    session: {
+        strategy: "jwt",
+    },
     jwt: {
         secret: process.env.NEXTAUTH_SECRET,
+        maxAge: 60 * 60 * 24 * 30,
     },
     // This is a temporary fix for prisma client.
     // @see https://github.com/prisma/prisma/issues/16117

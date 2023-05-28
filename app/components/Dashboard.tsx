@@ -35,7 +35,7 @@ import { useSession } from 'next-auth/react'
 
 const navigation = [
     { name: 'Women', href: '/dashboard/women', current: true },
-    { name: 'Men', href: '/dashboard/men',current: false },
+    { name: 'Men', href: '/dashboard/men', current: false },
     { name: 'Kids', href: '/dashboard/kids', current: false },
     { name: 'Orders', href: '/dashboard/orders', current: false },
 ]
@@ -108,17 +108,12 @@ export default function Dashboard({
                                         </button>
                                     </div>
                                 </Transition.Child>
+                                
                                 {/* Sidebar component, swap this element with another sidebar if you like */}
                                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white
                                  px-6 pb-4 ring-1 ring-white/10">
                                     <div className="flex h-16 shrink-0 items-center">
-                                        <img
-                                            className="h-8 w-auto"
-                                            width={500}
-                                            height={500}
-                                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                            alt="Your Company"
-                                        />
+                                        ALAMODA
                                     </div>
                                     <nav className="flex flex-1 flex-col">
                                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -132,13 +127,12 @@ export default function Dashboard({
                                                                 }}
                                                                 href={item.href}
                                                                 className={classNames(
-                                                                    item.current
-                                                                        ? 'bg-gray-800 text-white'
-                                                                        : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                                                    activeTab === item.name
+                                                                        ? 'font-extrabold'
+                                                                        : 'font-medium hover:font-semibold',
+                                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6'
                                                                 )}
                                                             >
-                                                                {/* <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" /> */}
                                                                 {item.name}
                                                             </Link>
                                                         </li>
@@ -151,31 +145,21 @@ export default function Dashboard({
                                                     {filters.map((team) => (
                                                         <li key={team.name}>
                                                             <Link
-                                                                href={team.href}
+                                                                href={currentTab + team.href}
                                                                 className={classNames(
                                                                     team.current
                                                                         ? 'font-extrabold'
-                                                                        : 'font-medium',
-                                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                                )}
-                                                            >
-                                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                                                                        : 'font-medium hover:font-semibold',
+                                                                    'group flex justify-between gap-x-3 border-b p-2 text-sm leading-6'
+                                                                )}>
+                                                                <span className="truncate">{team.name}</span>
+                                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-[0.625rem] font-medium  group-hover:font-bold">
                                                                     +
                                                                 </span>
-                                                                <span className="truncate">{team.name}</span>
                                                             </Link>
                                                         </li>
                                                     ))}
                                                 </ul>
-                                            </li>
-                                            <li className="mt-auto">
-                                                <Link
-                                                    href="#"
-                                                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                                                >
-                                                    <Cog6ToothIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
-                                                    Settings
-                                                </Link>
                                             </li>
                                         </ul>
                                     </nav>
@@ -191,13 +175,7 @@ export default function Dashboard({
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
-                        <img
-                            className="h-8 w-auto"
-                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                            width={500}
-                            height={500}
-                            alt="Your Company"
-                        />
+                        ALAMODA
                     </div>
                     <nav className="flex flex-1 flex-col">
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -217,7 +195,6 @@ export default function Dashboard({
                                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6'
                                                 )}
                                             >
-                                                {/* <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" /> */}
                                                 {item.name}
                                             </Link>
                                         </li>
@@ -229,10 +206,10 @@ export default function Dashboard({
                                     Filter
                                 </div>
                                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                {filters.map((team) => (
+                                    {filters.map((team) => (
                                         <li key={team.name}>
                                             <Link
-                                                href={currentTab +  team.href}
+                                                href={currentTab + team.href}
                                                 className={classNames(
                                                     team.current
                                                         ? 'font-extrabold'
@@ -247,15 +224,6 @@ export default function Dashboard({
                                         </li>
                                     ))}
                                 </ul>
-                            </li>
-                            <li className="mt-auto">
-                                <Link
-                                    href="#"
-                                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                                >
-                                    <Cog6ToothIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
-                                    Settings
-                                </Link>
                             </li>
                         </ul>
                     </nav>

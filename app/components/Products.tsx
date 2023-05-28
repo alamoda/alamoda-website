@@ -26,7 +26,7 @@ const Products: React.FC<ComponentProps> = ({ products, gender }) => {
                     className="h-full w-full object-cover object-center group-hover:opacity-75"
                   />
                 </div>
-                <div className="mt-1 text-xs font-semibold">Valentino</div>
+                <div className="mt-1 text-xs font-semibold">{product.brand}</div>
                 <div className="mt-1 text-sm">{product.name}</div>
                 <div className="mt-1 text-xs font-medium text-gray-900">{'USD ' + product.price}</div>
               </div>

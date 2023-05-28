@@ -2,6 +2,7 @@ export type Product = {
     mongo_id: string
     id: number
     sku: string
+    brand: string
     name: string
     description: string
     features: string[]

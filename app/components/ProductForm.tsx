@@ -16,6 +16,7 @@ const ProductForm = ({
     mongo_id = '',
     id: existingId = 0,
     sku: existingSku = '',
+    brand: existingBrand = '',
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
@@ -31,6 +32,7 @@ const ProductForm = ({
     const [id, setId] = useState<number>(existingId);
     const [sku, setSku] = useState<string>(existingSku);
     const [name, setName] = useState<string>(existingName);
+    const [brand, setBrand] = useState<string>(existingBrand);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
@@ -45,9 +47,9 @@ const ProductForm = ({
 
     function createOrUpdateProduct() {
         if (mongo_id) {
-            axios.put('/api/product', { mongo_id, id, sku, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
+            axios.put('/api/product', { mongo_id, id, sku, brand, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
         } else {
-            axios.post('/api/product', { id, sku, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
+            axios.post('/api/product', { id, sku, brand, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
             router.push('/dashboard/');
         }
     }
@@ -111,7 +113,10 @@ const ProductForm = ({
                 <PrimaryInput label="Product ID" placeholder="ID" value={id} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
                 <PrimaryInput label="SKU" placeholder="SKU" value={sku} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
             </div>
-            <PrimaryInput label="Name" placeholder="Name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+            <div className="flex items-center gap-4">
+                <PrimaryInput label="Name" placeholder="Name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                <PrimaryInput label="Brand" placeholder="Brand" value={brand} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBrand(e.target.value)} />        
+            </div>
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
             <div className="flex items-center gap-4">
                 <PrimaryInput label="Category" placeholder="Category" value={category} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />

@@ -17,6 +17,7 @@ model Product {
   price           Float
   wholesale_price Float
   available       Boolean
+  brand           String
   name            String
   description     String?
   features        String[]

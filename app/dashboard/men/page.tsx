@@ -21,7 +21,7 @@ export default async function Page() {
                     <CircularButton />
                 </Link>
             </div>
-            <Products products={products} />
+            <Products products={products} gender="men" />
         </>
     )
 }

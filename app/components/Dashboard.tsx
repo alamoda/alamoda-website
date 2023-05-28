@@ -4,34 +4,13 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
     Bars3Icon,
-    BellIcon,
-    CalendarIcon,
-    ChartPieIcon,
-    Cog6ToothIcon,
-    DocumentDuplicateIcon,
-    FolderIcon,
-    HomeIcon,
-    UsersIcon,
     XMarkIcon,
-    SparklesIcon
-
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
-import axios from "axios";
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
-
-// type Navigation = {
-//     name: string, 
-//     href: string, 
-//     icon: ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
-//         title?: string | undefined;
-//         titleId?: string | undefined;
-//     } & RefAttributes<SVGSVGElement>>;
-//     current: boolean
-// }
 
 const navigation = [
     { name: 'Women', href: '/dashboard/women', current: true },
@@ -58,8 +37,8 @@ export default function Dashboard({
 }: {
     children: React.ReactNode
 }) {
-    const tab = usePathname();
-    const currentTab = navigation.find(x => x.href === tab)?.href;
+    const currentTab = usePathname();
+
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const { data: session } = useSession();

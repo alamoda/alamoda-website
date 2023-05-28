@@ -26,7 +26,7 @@ export default function Products() {
             <Link key={product.mongo_id} href={"dashboard/" + gender + "/" + product.mongo_id} className="group">
               <div className="flex flex-col justify-center items-center">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                  <img
+                  <Image
                     src={product.images[0]}
                     alt={product.name}
                     width={300}

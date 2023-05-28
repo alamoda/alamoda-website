@@ -22,7 +22,6 @@ import axios from "axios";
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
-import { getCurrentUser } from '../lib/session'
 
 // type Navigation = {
 //     name: string, 
@@ -35,18 +34,19 @@ import { getCurrentUser } from '../lib/session'
 // }
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
-    { name: 'Products', href: '/dashboard/products', icon: SparklesIcon, current: false },
-    { name: 'Orders', href: '/dashboard/orders', icon: UsersIcon, current: false },
+    { name: 'Women', href: '/dashboard', current: true },
+    { name: 'Men', href: '/dashboard/men',current: false },
+    { name: 'Kids', href: '/dashboard/kids', current: false },
+    { name: 'Orders', href: '/dashboard/orders', current: false },
 ]
-// const teams = [
-//     { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-//     { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-//     { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-// ]
+const filters = [
+    { id: 1, name: 'Categories', href: '/categories', current: false },
+    { id: 2, name: 'Designers', href: '/designers', current: false },
+    { id: 3, name: 'Sizes', href: '/sizes', current: false },
+    { id: 4, name: 'Price', href: '/price', current: false },
+]
 const userNavigation = [
-    { name: 'Your profile', href: '#' },
-    { name: 'Sign out', href: '#' },
+    { name: 'Sign out', href: 'api/signout' },
 ]
 
 function classNames(...classes: any) {
@@ -59,12 +59,12 @@ export default function Dashboard({
     children: React.ReactNode
 }) {
     const tab = usePathname();
-    const currentTab = navigation.find(x => x.href === tab)?.name;
+    const currentTab = navigation.find(x => x.href === tab)?.href;
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeTab, setActiveTab] = useState(currentTab);
 
     const { data: session } = useSession();
-    
+
     return (
         <div>
             <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -109,7 +109,8 @@ export default function Dashboard({
                                     </div>
                                 </Transition.Child>
                                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
+                                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white
+                                 px-6 pb-4 ring-1 ring-white/10">
                                     <div className="flex h-16 shrink-0 items-center">
                                         <img
                                             className="h-8 w-auto"
@@ -137,36 +138,36 @@ export default function Dashboard({
                                                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                                 )}
                                                             >
-                                                                <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                                                                {/* <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" /> */}
                                                                 {item.name}
                                                             </Link>
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </li>
-                                            {/* <li>
-                                                            <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                                                            <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                                                {teams.map((team) => (
-                                                                    <li key={team.name}>
-                                                                        <Link
-                                                                            href={team.href}
-                                                                            className={classNames(
-                                                                                team.current
-                                                                                    ? 'bg-gray-800 text-white'
-                                                                                    : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                                                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                                            )}
-                                                                        >
-                                                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                                                                                {team.initial}
-                                                                            </span>
-                                                                            <span className="truncate">{team.name}</span>
-                                                                        </Link>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        </li> */}
+                                            <li>
+                                                <div className="text-xs font-semibold leading-6 text-gray-400">Your filters</div>
+                                                <ul role="list" className="-mx-2 mt-2 space-y-1">
+                                                    {filters.map((team) => (
+                                                        <li key={team.name}>
+                                                            <Link
+                                                                href={team.href}
+                                                                className={classNames(
+                                                                    team.current
+                                                                        ? 'font-extrabold'
+                                                                        : 'font-medium',
+                                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                                                )}
+                                                            >
+                                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                                                                    +
+                                                                </span>
+                                                                <span className="truncate">{team.name}</span>
+                                                            </Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </li>
                                             <li className="mt-auto">
                                                 <Link
                                                     href="#"
@@ -188,7 +189,7 @@ export default function Dashboard({
             {/* Static sidebar for desktop */}
             <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                         <img
                             className="h-8 w-auto"
@@ -211,41 +212,42 @@ export default function Dashboard({
                                                 href={item.href}
                                                 className={classNames(
                                                     activeTab === item.name
-                                                        ? 'bg-gray-800 text-white'
-                                                        : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                                        ? 'font-extrabold'
+                                                        : 'font-medium hover:font-semibold',
+                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6'
                                                 )}
                                             >
-                                                <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                                                {/* <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" /> */}
                                                 {item.name}
                                             </Link>
                                         </li>
                                     ))}
                                 </ul>
                             </li>
-                            {/* <li>
-                                            <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                                            <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                                {teams.map((team) => (
-                                                    <li key={team.name}>
-                                                        <Link
-                                                            href={team.href}
-                                                            className={classNames(
-                                                                team.current
-                                                                    ? 'bg-gray-800 text-white'
-                                                                    : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                            )}
-                                                        >
-                                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                                                                {team.initial}
-                                                            </span>
-                                                            <span className="truncate">{team.name}</span>
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </li> */}
+                            <li>
+                                <div className="text-xs font-semibold leading-6 text-gray-400">
+                                    Filter
+                                </div>
+                                <ul role="list" className="-mx-2 mt-2 space-y-1">
+                                {filters.map((team) => (
+                                        <li key={team.name}>
+                                            <Link
+                                                href={currentTab +  team.href}
+                                                className={classNames(
+                                                    team.current
+                                                        ? 'font-extrabold'
+                                                        : 'font-medium hover:font-semibold',
+                                                    'group flex justify-between gap-x-3 border-b p-2 text-sm leading-6'
+                                                )}>
+                                                <span className="truncate">{team.name}</span>
+                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-[0.625rem] font-medium  group-hover:font-bold">
+                                                    +
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
                             <li className="mt-auto">
                                 <Link
                                     href="#"
@@ -288,10 +290,10 @@ export default function Dashboard({
                             />
                         </form>
                         <div className="flex items-center gap-x-4 lg:gap-x-6">
-                            <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+                            {/* <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                                 <span className="sr-only">View notifications</span>
                                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-                            </button>
+                            </button> */}
 
                             {/* Separator */}
                             <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
@@ -300,13 +302,13 @@ export default function Dashboard({
                             <Menu as="div" className="relative">
                                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
                                     <span className="sr-only">Open user menu</span>
-                                    <img
+                                    {/* <img
                                         className="h-8 w-8 rounded-full bg-gray-50"
                                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                         alt="user menu"
                                         width={500}
                                         height={500}
-                                    />
+                                    /> */}
                                     <span className="hidden lg:flex lg:items-center">
                                         <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
                                             {session?.user?.email}

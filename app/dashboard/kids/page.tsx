@@ -17,7 +17,7 @@ export default async function Page() {
                 <span className='text-sm font-semibold pb-2'>
                     /dashboard/kids
                 </span>
-                <Link href="dashboard/products/new" className="ml-2" >
+                <Link href="dashboard/new" className="ml-2" >
                     <CircularButton />
                 </Link>
             </div>

@@ -61,7 +61,6 @@ export default function Dashboard({
     const tab = usePathname();
     const currentTab = navigation.find(x => x.href === tab)?.href;
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [activeTab, setActiveTab] = useState(currentTab);
 
     const { data: session } = useSession();
 
@@ -122,12 +121,9 @@ export default function Dashboard({
                                                     {navigation.map((item) => (
                                                         <li key={item.name}>
                                                             <Link
-                                                                onClick={() => {
-                                                                    setActiveTab(item.name)
-                                                                }}
                                                                 href={item.href}
                                                                 className={classNames(
-                                                                    activeTab === item.name
+                                                                    currentTab === item.href
                                                                         ? 'font-extrabold'
                                                                         : 'font-medium hover:font-semibold',
                                                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6'
@@ -184,12 +180,9 @@ export default function Dashboard({
                                     {navigation.map((item) => (
                                         <li key={item.name}>
                                             <Link
-                                                onClick={() => {
-                                                    setActiveTab(item.name)
-                                                }}
                                                 href={item.href}
                                                 className={classNames(
-                                                    activeTab === item.name
+                                                    currentTab === item.href
                                                         ? 'font-extrabold'
                                                         : 'font-medium hover:font-semibold',
                                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6'

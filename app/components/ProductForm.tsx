@@ -48,7 +48,7 @@ const ProductForm = ({
             axios.put('/api/product', { mongo_id, id, sku, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
         } else {
             axios.post('/api/product', { id, sku, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
-            router.push('/dashboard/products');
+            router.push('/dashboard/');
         }
     }
 

@@ -1,7 +1,5 @@
 import CircularButton from '@/app/components/CircularButton';
 import Products from '@/app/components/Products';
-import { Product } from '@/app/types';
-import axios from 'axios';
 import Link from 'next/link';
 
 export default async function Page() {

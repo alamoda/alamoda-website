@@ -1,25 +1,29 @@
-'use client'
-
 import CircularButton from '@/app/components/CircularButton';
 import Products from '@/app/components/Products';
+import { Product } from '@/app/types';
+import axios from 'axios';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
-export default function Page() {
+export default async function Page() {
 
-    const name = usePathname();
+    const response = await fetch('http://localhost:3000/api/products', {
+        method: 'GET',
+
+    });
+
+    const products = await response.json();
 
     return (
         <>
             <div className='flex items-start'>
                 <span className='text-sm font-semibold pb-2'>
-                    {name}
+                    /dashboard/men
                 </span>
                 <Link href="dashboard/products/new" className="ml-2" >
                     <CircularButton />
                 </Link>
             </div>
-            <Products />
+            <Products products={products} />
         </>
     )
 }

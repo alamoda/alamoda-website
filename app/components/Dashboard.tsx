@@ -195,9 +195,6 @@ export default function Dashboard({
                                 </ul>
                             </li>
                             <li>
-                                <div className="text-xs font-semibold leading-6 text-gray-400">
-                                    Filter
-                                </div>
                                 <ul role="list" className="-mx-2 mt-2 space-y-1">
                                     {filters.map((team) => (
                                         <li key={team.name}>
@@ -205,12 +202,12 @@ export default function Dashboard({
                                                 href={currentTab + team.href}
                                                 className={classNames(
                                                     team.current
-                                                        ? 'font-extrabold'
-                                                        : 'font-medium hover:font-semibold',
-                                                    'group flex justify-between gap-x-3 border-b p-2 text-sm leading-6'
+                                                        ? 'font-semibold'
+                                                        : 'hover:font-medium',
+                                                    'group flex justify-between gap-x-3 border-b p-2 text-md leading-6'
                                                 )}>
                                                 <span className="truncate">{team.name}</span>
-                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-[0.625rem] font-medium  group-hover:font-bold">
+                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-md  group-hover:font-bold">
                                                     +
                                                 </span>
                                             </Link>

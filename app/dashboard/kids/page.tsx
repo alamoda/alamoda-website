@@ -14,8 +14,8 @@ export default async function Page() {
 
     return (
         <>
-            <div className='flex items-start'>
-                <span className='text-sm font-semibold pb-2'>
+            <div className='flex items-center'>
+                <span className='text-sm font-semibold'>
                     /dashboard/kids
                 </span>
                 <Link href="dashboard/new" className="ml-2" >

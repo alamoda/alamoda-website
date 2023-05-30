@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default async function Page() {
 
-    const response = await fetch('http://localhost:3000/api/products', {
+    const response = await fetch('http://localhost:3000/api/products/unisex', {
         method: 'GET',
         cache: 'no-store',
 
@@ -16,7 +16,7 @@ export default async function Page() {
         <>
             <div className='flex items-center'>
                 <span className='text-sm font-semibold'>
-                    /dashboard/kids
+                    /dashboard/unisex
                 </span>
                 <Link href="dashboard/new" className="ml-2" >
                     <CircularButton />

@@ -15,7 +15,7 @@ import { useSession } from 'next-auth/react'
 const navigation = [
     { name: 'Women', href: '/dashboard/women', current: true },
     { name: 'Men', href: '/dashboard/men', current: false },
-    { name: 'Kids', href: '/dashboard/kids', current: false },
+    { name: 'Unisex', href: '/dashboard/unisex', current: false },
     { name: 'Orders', href: '/dashboard/orders', current: false },
 ]
 const filters = [

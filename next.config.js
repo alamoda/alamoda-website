@@ -10,6 +10,7 @@ const nextConfig = {
     return config;
   },
   images: {
+    domains: ['tailwindui.com'],
     remotePatterns: [
       {
         protocol: 'https',

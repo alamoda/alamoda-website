@@ -6,7 +6,7 @@ import Features from './components/Features';
 import Faqs from './components/Faqs';
 import Footer from './components/Footer';
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
       <Header />

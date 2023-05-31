@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
+import Filters from './Filters'
 
 const navigation = [
     { name: 'Women', href: '/dashboard/women', current: true },
@@ -18,12 +19,7 @@ const navigation = [
     { name: 'Unisex', href: '/dashboard/unisex', current: false },
     { name: 'Orders', href: '/dashboard/orders', current: false },
 ]
-const filters = [
-    { id: 1, name: 'Categories', href: '/categories', current: false },
-    { id: 2, name: 'Designers', href: '/designers', current: false },
-    { id: 3, name: 'Sizes', href: '/sizes', current: false },
-    { id: 4, name: 'Price', href: '/price', current: false },
-]
+
 const userNavigation = [
     { name: 'Sign out', href: 'api/signout' },
 ]
@@ -114,28 +110,7 @@ export default function Dashboard({
                                                     ))}
                                                 </ul>
                                             </li>
-                                            <li>
-                                                <div className="text-xs font-semibold leading-6 text-gray-400">Your filters</div>
-                                                <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                                    {filters.map((team) => (
-                                                        <li key={team.name}>
-                                                            <Link
-                                                                href={currentTab + team.href}
-                                                                className={classNames(
-                                                                    team.current
-                                                                        ? 'font-extrabold'
-                                                                        : 'font-medium hover:font-semibold',
-                                                                    'group flex justify-between gap-x-3 border-b p-2 text-sm leading-6'
-                                                                )}>
-                                                                <span className="truncate">{team.name}</span>
-                                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-[0.625rem] font-medium  group-hover:font-bold">
-                                                                    +
-                                                                </span>
-                                                            </Link>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </li>
+                                            <Filters />
                                         </ul>
                                     </nav>
                                 </div>
@@ -172,27 +147,7 @@ export default function Dashboard({
                                         </li>
                                     ))}
                                 </ul>
-                            </li>
-                            <li>
-                                <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                    {filters.map((team) => (
-                                        <li key={team.name}>
-                                            <Link
-                                                href={currentTab + team.href}
-                                                className={classNames(
-                                                    team.current
-                                                        ? 'font-semibold'
-                                                        : 'hover:font-medium',
-                                                    'group flex justify-between gap-x-3 border-b p-2 text-md leading-6'
-                                                )}>
-                                                <span className="truncate">{team.name}</span>
-                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-md  group-hover:font-bold">
-                                                    +
-                                                </span>
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <Filters />
                             </li>
                         </ul>
                     </nav>
@@ -227,25 +182,12 @@ export default function Dashboard({
                             />
                         </form>
                         <div className="flex items-center gap-x-4 lg:gap-x-6">
-                            {/* <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-                                <span className="sr-only">View notifications</span>
-                                <BellIcon className="h-6 w-6" aria-hidden="true" />
-                            </button> */}
-
-                            {/* Separator */}
                             <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
                             {/* Profile dropdown */}
                             <Menu as="div" className="relative">
                                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
                                     <span className="sr-only">Open user menu</span>
-                                    {/* <img
-                                        className="h-8 w-8 rounded-full bg-gray-50"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt="user menu"
-                                        width={500}
-                                        height={500}
-                                    /> */}
                                     <span className="hidden lg:flex lg:items-center">
                                         <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
                                             {session?.user?.email}

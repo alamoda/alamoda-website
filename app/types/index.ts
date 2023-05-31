@@ -2,7 +2,7 @@ export type Product = {
     mongo_id: string
     id: number
     sku: string
-    brand: string
+    brand: Brand
     name: string
     description: string
     features: string[]
@@ -14,4 +14,9 @@ export type Product = {
     images: string[]
     status: number
     available: boolean
+}
+
+export type Brand = {
+    id: number
+    name: string
 }

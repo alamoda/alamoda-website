@@ -8,7 +8,7 @@ export async function POST(req: Request) {
         price,
         wholesale_price,
         available,
-        brand,
+        brand_name,
         name,
         description,
         features,
@@ -21,6 +21,20 @@ export async function POST(req: Request) {
         created_at
     } = await req.json();
 
+    let brand = await db.brand.findUnique({
+        where: {
+            name: brand_name,
+        }
+    });
+
+    if (!brand) {
+        brand = await db.brand.create({
+            data: {
+                name: brand_name,
+            }
+        });
+    }
+
     await db.product.create({
         data: {
             id: id,
@@ -29,7 +43,9 @@ export async function POST(req: Request) {
             wholesale_price: wholesale_price,
             available: available,
             name: name,
-            brand: brand,
+            brand: {
+                connect: { id : brand.id}
+            },
             description: description,
             features: features,
             gender: gender,
@@ -58,6 +74,9 @@ export async function GET(req: Request) {
     const product = await db.product.findUniqueOrThrow({
         where: {
             mongo_id: idParam
+        },
+        include: { 
+            brand: true
         }
     });
 

@@ -12,6 +12,8 @@ export default async function Page() {
 
     const products = await response.json();
 
+    console.log(products);
+
     return (
         <>
             <div className='flex items-center'>

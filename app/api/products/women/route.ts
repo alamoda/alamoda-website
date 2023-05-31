@@ -8,6 +8,9 @@ export async function GET(req: Request) {
             gender: {
                 equals: GENDERS.WOMAN
             }
+        }, 
+        include: {
+            brand: true
         }
     });
 

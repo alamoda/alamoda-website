@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Product } from "../types";
+import { Brand, Product } from "../types";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -16,7 +16,7 @@ const ProductForm = ({
     mongo_id = '',
     id: existingId = 0,
     sku: existingSku = '',
-    brand: existingBrand = '',
+    brand: existingBrand = {id: 0, name: ''},
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
@@ -32,7 +32,7 @@ const ProductForm = ({
     const [id, setId] = useState<number>(existingId);
     const [sku, setSku] = useState<string>(existingSku);
     const [name, setName] = useState<string>(existingName);
-    const [brand, setBrand] = useState<string>(existingBrand);
+    const [brand, setBrand] = useState<Brand>(existingBrand);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
@@ -47,9 +47,9 @@ const ProductForm = ({
 
     function createOrUpdateProduct() {
         if (mongo_id) {
-            axios.put('/api/product', { mongo_id, id, sku, brand, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
+            axios.put('/api/product', { mongo_id, id, sku, brand_name: brand.name, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
         } else {
-            axios.post('/api/product', { id, sku, brand, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
+            axios.post('/api/product', { id, sku, brand_name: brand.name, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
             router.push('/dashboard/');
         }
     }
@@ -115,7 +115,7 @@ const ProductForm = ({
             </div>
             <div className="flex items-center gap-4">
                 <PrimaryInput label="Name" placeholder="Name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
-                <PrimaryInput label="Brand" placeholder="Brand" value={brand} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBrand(e.target.value)} />        
+                <PrimaryInput label="Brand" placeholder="Brand" value={brand.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBrand({id: brand.id, name: e.target.value})} />        
             </div>
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
             <div className="flex items-center gap-4">

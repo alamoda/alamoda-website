@@ -51,7 +51,7 @@ model User {
 
 model Brand {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
+  name     String    @unique
   products Product[]
 }
 
@@ -74,5 +74,4 @@ model Product {
   status          Int
   updated_at      Float?
   created_at      Float?
-  brandMongo_id   String?  @db.ObjectId
 }

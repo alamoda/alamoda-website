@@ -10,30 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  mongo_id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  id              Int     @unique
-  sku             String  @unique
-  price           Float
-  wholesale_price Float
-  available       Boolean
-  brand           String
-  name            String
-  description     String?
-  features        String[]
-  gender          String
-  category        String
-  images          String[]
-  sizes           String[]
-  status          Int
-  updated_at      Float?
-  created_at      Float?
-}
-
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @map("user_id")
-  type              String  
+  userId            String  @map("user_id") @db.ObjectId
+  type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
   refresh_token     String? @db.String
@@ -52,7 +32,7 @@ model Account {
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
+  userId       String   @map("user_id") @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -60,11 +40,39 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  email         String?   @unique
-  password         String
-  accounts      Account[]
-  sessions      Session[]
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String?   @unique
+  password String
+  accounts Account[]
+  sessions Session[]
 
   @@map("users")
+}
+
+model Brand {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  products Product[]
+}
+
+model Product {
+  mongo_id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id              Int      @unique
+  sku             String   @unique
+  price           Float
+  wholesale_price Float
+  available       Boolean
+  brand           Brand    @relation(fields: [brandId], references: [id])
+  brandId         String   @db.ObjectId
+  name            String
+  description     String?
+  features        String[]
+  gender          String
+  category        String
+  images          String[]
+  sizes           String[]
+  status          Int
+  updated_at      Float?
+  created_at      Float?
+  brandMongo_id   String?  @db.ObjectId
 }

@@ -5,29 +5,54 @@ import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 
 const faqs = [
     {
-        question: "What's the best thing about Switzerland?",
+        question: "How does Alamoda work?",
         answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Alamoda is an online retailer that brings the world's most luxurious designer brands to its clients at discounts of up to 80% off retail. All our items are new and authentic. We provide our clientele with the latest designer collections at a fraction of the cost.",
     },
     {
-        question: "What's the best thing about Switzerland?",
+        question: "Where do you get your items, and why are the prices so competitive?",
         answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "We exclusively work with the best boutiques and designers, across Europe and the US, that are authorized sellers of the luxury brands we carry. By closely working with these leading industry players, we guarantee our clients the same standards of authenticity as the world’s top boutiques. We do not work with third-party wholesalers or resellers.",
     },
     {
-        question: "What's the best thing about Switzerland?",
+        question: "Do items arrive in the original packaging?",
         answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Absolutely. All items come in their original boxes and packaging, except for handbags that usually ship in their original dust bags.",
     },
     {
-        question: "What's the best thing about Switzerland?",
+        question: "What is the return policy?",
         answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Items are returnable within 14 days of receipt. You will receive a credit for your next Alamoda purchase. All returned items must be wrapped in the original packaging and must be unaltered, undamaged, and in the same new condition they were shipped.",
     },
     {
-        question: "What's the best thing about Switzerland?",
+        question: "How do I return my order?",
         answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Please DM us your order number, which items you'd like to exchange/return, and the reason for your return. We'll send you a pre-paid DHL return label with instructions for the item collection or drop-off.",
+    },
+    {
+        question: "Which countries are you shipping to and what are the shipping costs?",
+        answer:
+            "Currently, we only ship in the US with DHL. US Shipping Costs: $20 Rest of the World, stay tuned :)",
+    },
+    {
+        question: "When will my order ship?",
+        answer:
+            "Orders usually ship within 1-2 business days from Europe, and we will notify you as soon as it has shipped.",
+    },
+    {
+        question: "Has my order been dispatched?",
+        answer:
+            "As soon as your order has been dispatched, you'll receive a shipping confirmation message from us with a tracking link to track your order.",
+    },
+    {
+        question: "Do I have to pay duty and import charges?",
+        answer:
+            "Orders up to the value of 800 USD will not incur any extra charges (such as duties and taxes). For orders exceeding 800 USD, you may be liable for duty charges from your local customs authority. Please double check with them or send us a DM when in doubt.",
+    },
+    {
+        question: "Can I change or cancel an order once it has been placed?",
+        answer:
+            "If you need to make any changes to your order, please DM us as soon as possible, and we'll do our best to accommodate your request. Please note that once our team has processed your order, we cannot make any changes.",
     },
 ]
 

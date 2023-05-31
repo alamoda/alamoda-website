@@ -15,8 +15,8 @@ export default async function Page() {
     return (
         <>
             <div className='flex items-center'>
-                <span className='text-sm font-semibold'>
-                    /dashboard/unisex
+                <span className='text-sm font-medium '>
+                    / dashboard / unisex
                 </span>
                 <Link href="dashboard/new" className="ml-2" >
                     <CircularButton />

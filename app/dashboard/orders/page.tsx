@@ -11,8 +11,8 @@ export default async function Page() {
     return (
         <>
             <div className='flex items-start'>
-                <span className='text-sm font-semibold pb-2'>
-                    /dashboard/orders
+                <span className='text-sm pb-2'>
+                    / dashboard / orders
                 </span>
             </div>
         </>

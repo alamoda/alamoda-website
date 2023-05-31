@@ -7,6 +7,7 @@ import Incentives from './components/Incentives';
 import Faqs from './components/Faqs';
 import Footer from './components/Footer';
 import BrandLogos from './components/BrandLogos';
+import Testimonials from './components/Testimonials';
 
 
 export default async function Home() {
@@ -17,6 +18,7 @@ export default async function Home() {
       <BrandLogos />
       <Categories />
       <CollectionPreview />
+      <Testimonials />
       <Incentives />
       <Faqs />
       <Footer />

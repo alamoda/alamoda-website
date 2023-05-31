@@ -1,4 +1,4 @@
-export default function Example() {
+export default function Hero() {
     return (
         <div className="relative overflow-hidden bg-white">
             <div className="pb-80 pt-16 sm:pb-40 sm:pt-24 lg:pb-48 lg:pt-40">
@@ -11,6 +11,7 @@ export default function Example() {
                             New and authentic luxury brands at up to 80% discount
                             directly from the best boutiques in Italy.
                         </p>
+
                     </div>
                     <div>
                         <div className="mt-10">

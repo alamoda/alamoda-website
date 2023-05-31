@@ -1,56 +1,97 @@
-const callouts = [
-    {
-        name: 'Desk and Office',
-        description: 'Work from home accessories',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg',
-        imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
-        href: '#',
-    },
-    {
-        name: 'Self-Improvement',
-        description: 'Journals and note-taking',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg',
-        imageAlt: 'Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.',
-        href: '#',
-    },
-    {
-        name: 'Travel',
-        description: 'Daily commute essentials',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-        imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-        href: '#',
-    },
-]
-
-export default function Example() {
-    return (
-        <div className="bg-gray-100">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-                    <h2 className="text-2xl font-bold text-gray-900">Collections</h2>
-
-                    <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-                        {callouts.map((callout) => (
-                            <div key={callout.name} className="group relative">
-                                <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-                                    <img
-                                        src={callout.imageSrc}
-                                        alt={callout.imageAlt}
-                                        className="h-full w-full object-cover object-center"
-                                    />
-                                </div>
-                                <h3 className="mt-6 text-sm text-gray-500">
-                                    <a href={callout.href}>
-                                        <span className="absolute inset-0" />
-                                        {callout.name}
-                                    </a>
-                                </h3>
-                                <p className="text-base font-semibold text-gray-900">{callout.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+export default function Categories() {
+  return (
+    <div className="">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="sm:flex sm:items-baseline sm:justify-between">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
+          <a href="#" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+            Browse all categories
+            <span aria-hidden="true"> &rarr;</span>
+          </a>
         </div>
-    )
+
+        <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
+          {/* Women */}
+          <div className="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
+            <img
+              src="/women.jpg"
+              alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
+              className="object-cover object-center group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 cursor-pointer"
+            />
+            <div aria-hidden="true" className="bg-gradient-to-b from-transparent to-black opacity-50" />
+            <div className="flex items-end p-6">
+              <div>
+                <h3 className="font-semibold text-white">
+                  <a href="#">
+                    <span className="absolute inset-0" />
+                    Women
+                  </a>
+                </h3>
+                <p aria-hidden="true" className="mt-1 text-sm text-white">
+                  Shop now
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* Men */}
+          <div className="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
+            <img
+              src="/men.jpg"
+              alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
+              className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full group-hover:scale-110 transition-all duration-500 cursor-pointer"
+            />
+            <div
+              aria-hidden="true"
+              className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
+            />
+            <div className="flex items-end p-6 sm:absolute sm:inset-0">
+              <div>
+                <h3 className="font-semibold text-white">
+                  <a href="#">
+                    <span className="absolute inset-0" />
+                    Men
+                  </a>
+                </h3>
+                <p aria-hidden="true" className="mt-1 text-sm text-white">
+                  Shop now
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* Lifestyle */}
+          <div className="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
+            <img
+              src="/lifestyle.avif"
+              alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
+              className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full group-hover:scale-110 transition-all duration-500 cursor-pointer"
+            />
+            <div
+              aria-hidden="true"
+              className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
+            />
+            <div className="flex items-end p-6 sm:absolute sm:inset-0">
+              <div>
+                <h3 className="font-semibold text-white">
+                  <a href="#">
+                    <span className="absolute inset-0" />
+                    Lifestyle
+                  </a>
+                </h3>
+                <p aria-hidden="true" className="mt-1 text-sm text-white">
+                  Shop now
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 sm:hidden">
+          <a href="#" className="block text-sm font-semibold text-gray-900 hover:text-gray-700">
+            Browse all categories
+            <span aria-hidden="true"> &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  )
 }

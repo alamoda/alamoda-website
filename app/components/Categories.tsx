@@ -4,7 +4,7 @@ export default function Categories() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="sm:flex sm:items-baseline sm:justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
-          <a href="#" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+          <a href="#" className="hidden text-sm font-semibold text-gray-900 hover:text-gray-700 sm:block">
             Browse all categories
             <span aria-hidden="true"> &rarr;</span>
           </a>

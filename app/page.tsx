@@ -6,6 +6,7 @@ import CollectionPreview from './components/CollectionPreview';
 import Incentives from './components/Incentives';
 import Faqs from './components/Faqs';
 import Footer from './components/Footer';
+import BrandLogos from './components/BrandLogos';
 
 
 export default async function Home() {
@@ -13,6 +14,7 @@ export default async function Home() {
     <div>
       <Header />
       <Hero />
+      <BrandLogos />
       <Categories />
       <CollectionPreview />
       <Incentives />

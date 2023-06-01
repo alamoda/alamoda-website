@@ -10,14 +10,7 @@ export default async function Layout({
 
     return (
         <div>
-            <div className='flex items-center'>
-                <div className='text-sm font-medium'>
-                    / dashboard / women
-                </div>
-                <Link href="dashboard/new" className="ml-2" >
-                    <CircularButton />
-                </Link>
-            </div>
+            
             {children}
         </div>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Brand, Product } from "../types";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
@@ -10,13 +10,14 @@ import PriceInput from "@/app/components/PriceInput";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import PrimaryInput from "@/app/components/PrimaryInput";
 import TextAreaInput from "@/app/components/TextAreaInput";
-
+import Image from 'next/image';
+import PrimarySelect from "./PrimarySelect";
 
 const ProductForm = ({
     mongo_id = '',
     id: existingId = 0,
     sku: existingSku = '',
-    brand: existingBrand = {id: 0, name: ''},
+    brand: existingBrand = { id: 0, name: '' },
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
@@ -43,7 +44,19 @@ const ProductForm = ({
     const [sizes, setSizes] = useState<string[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
     const [status, setStatus] = useState<number>(existingStatus);
+    const [brands, setBrands] = useState<Brand[]>([]);
+
     const router = useRouter();
+
+    useEffect(() => {
+        fetchBrands();
+    }, []);
+
+    async function fetchBrands() {
+        const res = await axios.get('/api/brands');
+        console.log("brands are", res.data);
+        setBrands(res.data);
+    }
 
     function createOrUpdateProduct() {
         if (mongo_id) {
@@ -109,39 +122,60 @@ const ProductForm = ({
 
     return (
         <>
+            {/* IMAGES */}
+            <div className="flex items-center">
+                <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
+                    {!!itemObjects?.length && itemObjects.map(item => (
+                        <div key={item.id} className="inline-block mx-4">
+                            <Image src={item.url} alt={item.id} width={200} height={200} />
+                        </div>
+                    ))}
+                </ReactSortable>
+                <PhotoInput text="Product Images" onChange={uploadImages} />
+            </div>
+
+            {/* ID AND SKU */}
             <div className="flex items-center gap-4">
                 <PrimaryInput label="Product ID" placeholder="ID" value={id} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
                 <PrimaryInput label="SKU" placeholder="SKU" value={sku} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
             </div>
+
+            {/* NAME AND BRAND */}
             <div className="flex items-center gap-4">
                 <PrimaryInput label="Name" placeholder="Name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
-                <PrimaryInput label="Brand" placeholder="Brand" value={brand.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBrand({id: brand.id, name: e.target.value})} />        
+                <PrimarySelect value={brand} options={brands} label="Brand" />
+                {/* <PrimaryInput label="Brand" placeholder="Brand" value={brand.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBrand({ id: brand.id, name: e.target.value })} /> */}
             </div>
+
+            {/* DESCRIPTION */}
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
+
+            {/* DEPARTMENT, CATEGORY, AND SUBCATEGORY */}
             <div className="flex items-center gap-4">
                 <PrimaryInput label="Category" placeholder="Category" value={category} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
                 <PrimaryInput label="Gender" placeholder="Gender" value={gender} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGender(e.target.value)} />
             </div>
+
+            {/* FEATURES */}
             {Array.from(features).map((feature, index) => (
                 <PrimaryInput key={index} label={feature.name} placeholder="Feature" value={feature.value} />
-
             ))}
-            <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
-                {!!itemObjects?.length && itemObjects.map(item => (
-                    <div key={item.id} className="inline-block h-24 mr-2">
-                        <img src={item.url} alt="" className="h-24"></img>
-                    </div>
-                ))}
-            </ReactSortable>
 
-            <PhotoInput text="Product Images" onChange={uploadImages} />
+            {/* PRICE AND WHOLESALE PRICE */}
             <div className="flex items-center gap-4">
                 <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
                 <PriceInput name="Wholesale Price" value={wholesale_price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
             </div>
+
+            {/* SIZES */}
             <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes((prev) => { return [...prev, e.target.value] })} />
+            
+            {/* AVAILABILITY */}
             <PrimaryInput label="Available" placeholder="Available" value={available} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAvailable(Boolean(e.target.value))} />
+            
+            {/* STATUS */}
             <PrimaryInput label="Status" placeholder="Status" value={status} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus(Number(e.target.value))} />
+            
             <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
         </>
     )

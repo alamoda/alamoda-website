@@ -1,4 +1,5 @@
-import Products from '@/app/components/Products';
+import ProductCard from '@/app/components/ProductCard';
+import { Product } from '@/app/types';
 
 export default async function Page() {
 
@@ -13,7 +14,11 @@ export default async function Page() {
 
     return (
         <>
-            <Products products={products} gender="women" />
+            {products.map((product: Product) => (
+                <>
+                    <ProductCard product={product} />
+                </>
+            ))}
         </>
     )
 }

@@ -119,11 +119,42 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
 
-    const { mongo_id, ...updates } = await req.json();
+    const { mongo_id, id, sku, brand_name, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status } = await req.json();
+
+    let brand = await db.brand.findFirst({
+        where: {
+            name: brand_name,
+        }
+    });
+
+    if (!brand) {
+        brand = await db.brand.create({
+            data: {
+                name: brand_name,
+            }
+        });
+    }
 
     await db.product.update({
         where: { mongo_id: mongo_id },
-        data: updates,
+        data: {
+            id: id,
+            sku: sku,
+            price: price,
+            wholesale_price: wholesale_price,
+            available: available,
+            name: name,
+            brand: {
+                connect: { id: brand.id }
+            },
+            description: description,
+            features: features,
+            gender: gender,
+            category: category,
+            images: images,
+            sizes: sizes,
+            status: status,
+        },
     });
 
     return new Response();

@@ -1,8 +1,6 @@
 
 import CircularButton from '@/app/components/CircularButton';
-import Products from '@/app/components/Products';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 export default async function Layout({
     children,

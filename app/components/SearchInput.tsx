@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 export default function SearchInput() {
@@ -37,6 +37,7 @@ export default function SearchInput() {
                     placeholder="Search..."
                     type="search"
                     name="search"
+                    value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </form>

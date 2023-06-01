@@ -16,26 +16,34 @@ export default async function Page() {
         cache: 'no-store',
     });
 
-    const { products, brands } = await response.json();
-    console.log(products, brands);
+    const products = await response.json();
+    console.log(products);
 
     const productsArray = Array.isArray(products) ? products : Object.values(products);
-    const brandsArray = Array.isArray(brands) ? brands : Object.values(brands);
 
-    console.log(productsArray, brandsArray);
+    console.log(productsArray);
 
     return (
         <>
-            {brandsArray.map((brand: Brand) => {
-                <Link key={brand.id} href={'/brands/' + brand.name}>
-                    brand.name
-                </Link>
-            })}
+            {productsArray.map((product: Product) => (
+                <>
+                    <div className='mt-8'>
+                        <div className='font-semibold underline mb-2'>
+                            Brands
+                        </div>
+                        <Link key={product.brand.id} href={'/brands/' + product.brand.name} className='mb-2'>
+                            {product.brand.name}
+                        </Link>
+                    </div>
+                </>
+            ))}
             {productsArray.map((product: Product) => (
                 <>
                     <ProductCard key={product.id} product={product} />
                 </>
             ))}
+
+
 
         </>
     )

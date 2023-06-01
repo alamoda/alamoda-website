@@ -1,6 +1,5 @@
-import CircularButton from '@/app/components/CircularButton';
-import Products from '@/app/components/Products';
-import Link from 'next/link';
+import ProductCard from '@/app/components/ProductCard';
+import { Product } from '@/app/types';
 
 export default async function Page() {
 
@@ -13,15 +12,11 @@ export default async function Page() {
 
     return (
         <>
-            <div className='flex items-center'>
-                <span className='text-sm font-medium '>
-                    / dashboard / men
-                </span>
-                <Link href="dashboard/new" className="ml-2" >
-                    <CircularButton />
-                </Link>
-            </div>
-            <Products products={products} gender="men" />
+            {products.map((product: Product) => (
+                <>
+                    <ProductCard product={product} />
+                </>
+            ))}
         </>
     )
 }

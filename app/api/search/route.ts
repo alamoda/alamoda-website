@@ -5,13 +5,13 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const query = url.searchParams.get("q");
 
-    if(typeof query !== "string") {
+    if (typeof query !== "string") {
         throw new Error("Invalid request");
     }
 
     console.log(query);
 
-    const products = db.product.findMany({
+    const products = await db.product.findMany({
         where: {
             OR: [
                 {
@@ -21,9 +21,11 @@ export async function GET(req: Request) {
                     }
                 },
                 {
-                    description: {
-                        contains: query,
-                        mode: "insensitive",
+                    brand: {
+                        name: {
+                            contains: query,
+                            mode: "insensitive",
+                        }
                     }
                 },
             ]
@@ -33,14 +35,7 @@ export async function GET(req: Request) {
         }
     });
 
-    const brands = db.brand.findMany({
-        where: {
-            name: {
-                contains: query,
-                mode: "insensitive",
-            }
-        }
-    })
+    console.log("products are", products);
 
-    return new Response(JSON.stringify({brands, products}));
+    return new Response(JSON.stringify(products));
 }

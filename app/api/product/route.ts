@@ -21,7 +21,7 @@ export async function POST(req: Request) {
         created_at
     } = await req.json();
 
-    let brand = await db.brand.findUnique({
+    let brand = await db.brand.findFirst({
         where: {
             name: brand_name,
         }
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
             available: available,
             name: name,
             brand: {
-                connect: { id : brand.id}
+                connect: { id: brand.id }
             },
             description: description,
             features: features,
@@ -65,22 +65,56 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url);
     const idParam = url.searchParams.get("id");
+    const productIdParam = url.searchParams.get("product_id");
 
-    if (idParam == null) return new Response(JSON.stringify({ message: "Error" }));
+    if (idParam) {
+        const regex = /^[a-fA-F0-9]{24}$/;
+        if (!regex.test(idParam)) return new Response(JSON.stringify({ message: "Error Format" }), {
+            status: 400,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-    // const id = parseInt(idParam, 10);
-    // if (isNaN(id)) return new Response(JSON.stringify({ message: "Error" }));
+        const product = await db.product.findFirst({
+            where: {
+                mongo_id: idParam
+            },
+            include: {
+                brand: true
+            }
+        });
 
-    const product = await db.product.findUniqueOrThrow({
-        where: {
-            mongo_id: idParam
+        return new Response(JSON.stringify(product));
+    }
+    else if (productIdParam) {
+
+        const productId = parseInt(productIdParam, 10);
+        if (isNaN(productId)) return new Response(JSON.stringify({ message: "Error Format" }), {
+            status: 400,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const product = await db.product.findFirst({
+            where: {
+                id: productId
+            },
+            include: {
+                brand: true
+            }
+        });
+
+        return new Response(JSON.stringify(product));
+    }
+
+    return new Response(JSON.stringify({ message: "Error" }), {
+        status: 500,
+        headers: {
+            'Content-Type': 'application/json',
         },
-        include: { 
-            brand: true
-        }
     });
-
-    return new Response(JSON.stringify(product));
 }
 
 export async function PUT(req: Request) {

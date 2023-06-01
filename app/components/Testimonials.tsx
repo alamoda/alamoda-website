@@ -75,7 +75,7 @@ export default function Testimonials() {
                 <div className="mx-auto max-w-xl text-center">
                     <h2 className="text-lg font-semibold leading-8 tracking-tight text-gray-600">Testimonials</h2>
                     <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        The Alamoda Experience: Shared by Our Clients
+                        Shared by Our Clients
                     </p>
 
                     <div className="mt-4">

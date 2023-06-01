@@ -8,6 +8,7 @@ import Faqs from './components/Faqs';
 import Footer from './components/Footer';
 import BrandLogos from './components/BrandLogos';
 import Testimonials from './components/Testimonials';
+import InstagramFeed from './components/InstagramFeed';
 
 
 export default async function Home() {
@@ -21,6 +22,8 @@ export default async function Home() {
       <Testimonials />
       <Incentives />
       <Faqs />
+      {/* @ts-expect-error Server Component */}
+      <InstagramFeed />
       <Footer />
     </div>
   )

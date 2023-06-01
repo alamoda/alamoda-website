@@ -54,10 +54,8 @@ export default function CollectionPreview() {
                             <div className="mt-6 text-center">
                                 <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
                                 <h3 className="mt-1 font-semibold text-gray-900">
-                                    <a href={product.href}>
-                                        <span className="absolute inset-0" />
-                                        {product.name}
-                                    </a>
+                                    <span className="absolute inset-0" />
+                                    {product.name}
                                 </h3>
                                 <p className="mt-1 text-gray-900">{product.price}</p>
                             </div>

@@ -8,7 +8,8 @@ import React, { useEffect, useState } from 'react';
 export default function SearchInput() {
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
-    const pathName = usePathname();
+    const path = usePathname().split('/');
+    const pathName = path[1] + "/" + path[2];
 
     function onSearch(e: React.FormEvent) {
         e.preventDefault();
@@ -16,6 +17,8 @@ export default function SearchInput() {
         if (typeof searchQuery !== "string") {
             return;
         }
+
+        console.log("pathname", pathName)
 
         const encodedSearchQuery = encodeURI(searchQuery);
         router.push(`${pathName}/search?q=${encodedSearchQuery}`);

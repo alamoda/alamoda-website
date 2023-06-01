@@ -4,10 +4,10 @@ export default function Hero() {
             <div className="pb-80 pt-16 sm:pb-40 sm:pt-24 lg:pb-48 lg:pt-40">
                 <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
                     <div className="sm:max-w-lg">
-                        <h1 className="font text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                        <h1 className="font text-4xl font-semibold tracking-tight text-gray-900 sm:text-6xl">
                             Best deals for your favorite luxury brands
                         </h1>
-                        <p className="mt-4 text-xl text-gray-500">
+                        <p className="mt-4 text-xl text-gray-800">
                             New and authentic luxury brands at up to 80% discount
                             directly from the best boutiques in Italy.
                         </p>

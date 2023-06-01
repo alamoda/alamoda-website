@@ -1,13 +1,14 @@
 "use client";
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 
 export default function SearchInput() {
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
+    const pathName = usePathname();
 
     function onSearch(e: React.FormEvent) {
         e.preventDefault();
@@ -17,7 +18,7 @@ export default function SearchInput() {
         }
 
         const encodedSearchQuery = encodeURI(searchQuery);
-        router.push(`/?q=${encodedSearchQuery}`);
+        router.push(`${pathName}/search?q=${encodedSearchQuery}`);
     };
 
     return (

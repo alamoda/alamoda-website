@@ -1,4 +1,5 @@
 import CircularButton from '@/app/components/CircularButton';
+import Pagination from '@/app/components/Pagination';
 import ProductCard from '@/app/components/ProductCard';
 import { Product } from '@/app/types';
 import Link from 'next/link';
@@ -30,6 +31,9 @@ export default async function Page() {
                 {products.map((product: Product) => (
                     <ProductCard key={product.mongo_id} product={product} />
                 ))}
+            </div>
+            <div className='mt-8'>
+                <Pagination pageCount={100} selectedPage={1}/>
             </div>
         </div>
     )

@@ -97,144 +97,557 @@
 
 
 
-// export const DEPARTMENTS = [
+export const HEADER_NAVIGATION = [
 
-//     // Women
-//     {
-//         id: 'WOMEN',
-//         name: 'Women',
-//         href: '',
-//         categories: [
-//             {
-//                 id: 'BAGS',
-//                 name: 'Bags',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: '.',
-//                 subcategories: [
-//                     {
-//                         id: '',
-//                         name: '',
-//                     }
-//                 ]
-//             },
-//             {
-//                 id: 'CLOTHING',
-//                 name: 'Clothing',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'FOOTWEAR',
-//                 name: 'Footwear',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//                 subcategories: [
-//                     {
-//                         id: 'sneakers',
-//                         name: 'Sneakers'
-//                     }
-//                 ]
-//             },
-//             {
-//                 id: 'ACCESSORIES',
-//                 name: 'Accessories',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'JEWELLERY',
-//                 name: 'Jewellery',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//         ]
-//     },
-//     // Men
-//     {
-//         id: 'MEN',
-//         name: 'Men',
-//         href: '',
-//         sections: [
-//             {
-//                 id: 'BAGS',
-//                 name: 'Bags',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'CLOTHING',
-//                 name: 'Clothing',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'FOOTWEAR',
-//                 name: 'Footwear',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'ACCESSORIES',
-//                 name: 'Accessories',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'DESIGN E GADGET',
-//                 name: 'Design & Gadget',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'JEWELLERY',
-//                 name: 'Jewellery',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//         ]
-//     },
-//     // Lifestyle
-//     {
-//         id: 'LIFESTYLE',
-//         name: 'Lifestyle',
-//         href: '',
-//         sections: [
-//             {
-//                 id: 'HOME',
-//                 name: 'Home',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'ACCESSORIES',
-//                 name: 'Accessories',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             },
-//             {
-//                 id: 'TEXTILE',
-//                 name: 'Textile',
-//                 href: '',
-//                 imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-//                 imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-//             }
-//         ]
-//     }
-
-// ];
+    // Women
+    {
+        id: 'WOMAN',
+        name: 'Women',
+        categories: [
+            {
+                id: "726",
+                name: "ACCESSORIES",
+                subcategories: [
+                    {
+                        id: "727",
+                        name: "BEAUTY CASES"
+                    },
+                    {
+                        id: "728",
+                        name: "BELTS e BRACES"
+                    },
+                    {
+                        id: "729",
+                        name: "BROOCHES"
+                    },
+                    {
+                        id: "730",
+                        name: "COVERS e CASES"
+                    },
+                    {
+                        id: "732",
+                        name: "EXTRAS"
+                    },
+                    {
+                        id: "733",
+                        name: "GLOVES"
+                    },
+                    {
+                        id: "734",
+                        name: "HATS e HAIRBANDS"
+                    },
+                    {
+                        id: "735",
+                        name: "KEYRINGS e CHAINS"
+                    },
+                    {
+                        id: "736",
+                        name: "SCARVES"
+                    },
+                    {
+                        id: "737",
+                        name: "SOCKS"
+                    },
+                    {
+                        id: "739",
+                        name: "SUNGLASSES"
+                    },
+                    {
+                        id: "741",
+                        name: "WALLETS"
+                    }
+                ]
+            },
+            {
+                id: "749",
+                name: "BAGS",
+                subcategories: [
+                    {
+                        id: "750",
+                        name: "BACKPACKS"
+                    },
+                    {
+                        id: "760",
+                        name: "BEAUTY CASES"
+                    },
+                    {
+                        id: "752",
+                        name: "BUCKET BAGS"
+                    },
+                    {
+                        id: "753",
+                        name: "CLUTCHES"
+                    },
+                    {
+                        id: "754",
+                        name: "HANDBAGS"
+                    },
+                    {
+                        id: "755",
+                        name: "SHOULDER BAGS"
+                    },
+                    {
+                        id: "756",
+                        name: "TRAVEL BAGS"
+                    }
+                ]
+            },
+            {
+                id: "761",
+                name: "CLOTHING",
+                subcategories: [
+                    {
+                        id: "762",
+                        name: "BERMUDA SHORTS"
+                    },
+                    {
+                        id: "763",
+                        name: "BLAZERS &amp; VESTS"
+                    },
+                    {
+                        id: "764",
+                        name: "COATS"
+                    },
+                    {
+                        id: "765",
+                        name: "DOWN JACKETS"
+                    },
+                    {
+                        id: "766",
+                        name: "DRESSES"
+                    },
+                    {
+                        id: "767",
+                        name: "FURS"
+                    },
+                    {
+                        id: "768",
+                        name: "JACKETS"
+                    },
+                    {
+                        id: "769",
+                        name: "JEANS"
+                    },
+                    {
+                        id: "770",
+                        name: "JUMPSUITS"
+                    },
+                    {
+                        id: "771",
+                        name: "KNITWEAR"
+                    },
+                    {
+                        id: "772",
+                        name: "LEATHER JACKETS"
+                    },
+                    {
+                        id: "773",
+                        name: "LEGGINGS"
+                    },
+                    {
+                        id: "774",
+                        name: "LONG DRESSES"
+                    },
+                    {
+                        id: "775",
+                        name: "PANTS"
+                    },
+                    {
+                        id: "776",
+                        name: "POLO SHIRTS"
+                    },
+                    {
+                        id: "777",
+                        name: "SHIRTS"
+                    },
+                    {
+                        id: "778",
+                        name: "SKIRTS"
+                    },
+                    {
+                        id: "787",
+                        name: "SOCKS"
+                    },
+                    {
+                        id: "779",
+                        name: "SUITS"
+                    },
+                    {
+                        id: "780",
+                        name: "SWEATSHIRTS"
+                    },
+                    {
+                        id: "781",
+                        name: "SWIMWEAR"
+                    },
+                    {
+                        id: "784",
+                        name: "T-SHIRTS"
+                    },
+                    {
+                        id: "782",
+                        name: "TOP"
+                    },
+                    {
+                        id: "783",
+                        name: "TRENCH COATS"
+                    },
+                    {
+                        id: "785",
+                        name: "UNDERWEAR"
+                    }
+                ]
+            },
+            {
+                id: "791",
+                name: "FOOTWEAR",
+                subcategories: [
+                    {
+                        id: "792",
+                        name: "BALLERINAS"
+                    },
+                    {
+                        id: "793",
+                        name: "BOOTS"
+                    },
+                    {
+                        id: "794",
+                        name: "ESPADRILLES"
+                    },
+                    {
+                        id: "795",
+                        name: "LACE UP"
+                    },
+                    {
+                        id: "796",
+                        name: "LOAFERS"
+                    },
+                    {
+                        id: "797",
+                        name: "PUMPS"
+                    },
+                    {
+                        id: "798",
+                        name: "SANDALS"
+                    },
+                    {
+                        id: "799",
+                        name: "SNEAKERS"
+                    },
+                    {
+                        id: "800",
+                        name: "WEDGES"
+                    }
+                ]
+            },
+            {
+                id: "804",
+                name: "JEWELLERY",
+                subcategories: [
+                    {
+                        id: "805",
+                        name: "BRACELETS"
+                    },
+                    {
+                        id: "806",
+                        name: "EARRINGS"
+                    },
+                    {
+                        id: "810",
+                        name: "EXTRAS"
+                    },
+                    {
+                        id: "807",
+                        name: "NECKLACES"
+                    },
+                    {
+                        id: "808",
+                        name: "RINGS"
+                    }
+                ]
+            }
+        ]
+    },
+    // Men
+    {
+        id: 'MEN',
+        name: 'Men',
+        categories: [
+            {
+                id: "638",
+                name: "ACCESSORIES",
+                subcategories: [
+                    {
+                        i:"639",
+                        name: "BEAUTY CASES"
+                    },
+                    {
+                        id: "640",
+                        name: "BELTS e BRACES"
+                    },
+                    {
+                        id: "641",
+                        name: "BOWTIES e TIES"
+                    },
+                    {
+                        id: "654",
+                        name: "CLUTCHES"
+                    },
+                    {
+                        id: "643",
+                        name: "COVERS e CASES"
+                    },
+                    {
+                        id: "644",
+                        name: "CUFFLINKS"
+                    },
+                    {
+                        id: "661",
+                        name: "EXTRA"
+                    },
+                    {
+                        id: "656",
+                        name: "EXTRAS"
+                    },
+                    {
+                        id: "645",
+                        name: "GLOVES"
+                    },
+                    {
+                        id: "646",
+                        name: "HATS e HAIRBANDS"
+                    },
+                    {
+                        id: "647",
+                        name: "KEY RINGS"
+                    },
+                    {
+                        id: "648",
+                        name: "SCARVES"
+                    },
+                    {
+                        id: "655",
+                        name: "SHOULDER BAGS"
+                    },
+                    {
+                        id: "649",
+                        "name": "SOCKS"
+                    },
+                    {
+                        id: "650",
+                        "name": "SUNGLASSES"
+                    },
+                    {
+                        id: "652",
+                        name: "WALLETS"
+                    },
+                    {
+                        id: "653",
+                        name: "WALLETS"
+                    }
+                ]
+            },
+            {
+                id: "663",
+                name: "BAGS",
+                subcategories: [
+                    {
+                        id: "664",
+                        name: "BACKPACKS"
+                    },
+                    {
+                        id: "665",
+                        name: "BRIEFCASES"
+                    },
+                    {
+                        id: "666",
+                        name: "BUCKET BAGS"
+                    },
+                    {
+                        id: "667",
+                        name: "CLUTCHES"
+                    },
+                    {
+                        id: "668",
+                        name: "HANDBAGS"
+                    },
+                    {
+                        id: "669",
+                        name: "SHOULDER BAGS"
+                    },
+                    {
+                        id: "670",
+                        name: "TRAVEL BAGS"
+                    }
+                ]
+            },
+            {
+                id: "672",
+                name: "CLOTHING",
+                subcategories: [
+                    {
+                        id: "673",
+                        name: "BERMUDA SHORTS"
+                    },
+                    {
+                        id: "674",
+                        name: "BLAZERS e VESTS"
+                    },
+                    {
+                        id: "675",
+                        name: "COATS"
+                    },
+                    {
+                        id: "676",
+                        name: "DOWN JACKETS"
+                    },
+                    {
+                        id: "677",
+                        name: "FURS"
+                    },
+                    {
+                        id: "678",
+                        name: "JACKETS"
+                    },
+                    {
+                        id: "679",
+                        name: "JEANS"
+                    },
+                    {
+                        id: "680",
+                        name: "KNITWEAR"
+                    },
+                    {
+                        id: "681",
+                        name: "LEATHER JACKETS"
+                    },
+                    {
+                        id: "682",
+                        name: "LEGGINGS"
+                    },
+                    {
+                        id: "683",
+                        name: "PANTS"
+                    },
+                    {
+                        id: "684",
+                        name: "POLO SHIRTS"
+                    },
+                    {
+                        id: "685",
+                        name: "SHIRTS"
+                    },
+                    {
+                        id: "696",
+                        name: "SOCKS"
+                    },
+                    {
+                        id: "686",
+                        name: "SUITS"
+                    },
+                    {
+                        id: "687",
+                        name: "SWEATSHIRTS"
+                    },
+                    {
+                        id: "688",
+                        name: "SWIMWEAR"
+                    },
+                    {
+                        id: "691",
+                        name: "T-SHIRTS"
+                    },
+                    {
+                        id: "689",
+                        name: "TOP"
+                    },
+                    {
+                        id: "690",
+                        name: "TRENCH COATS"
+                    },
+                    {
+                        id: "692",
+                        name: "UNDERWEAR"
+                    }
+                ]
+            },
+            {
+                id: "707",
+                name: "FOOTWEAR",
+                subcategories: [
+                    {
+                        id: "708",
+                        name: "BOOTS"
+                    },
+                    {
+                        id: "709",
+                        name: "ESPADRILLES"
+                    },
+                    {
+                        id: "710",
+                        name: "LACE UP"
+                    },
+                    {
+                        id: "711",
+                        name: "LOAFERS"
+                    },
+                    {
+                        id: "712",
+                        name: "SANDALS"
+                    },
+                    {
+                        id: "713",
+                        name: "SNEAKERS"
+                    }
+                ]
+            },
+            {
+                id: "715",
+                name: "JEWELLERY",
+                subcategories: [
+                    {
+                        id: "716",
+                        name: "BRACELETS"
+                    },
+                    {
+                        id: "717",
+                        name: "EXTRAS"
+                    },
+                    {
+                        id: "718",
+                        name: "NECKLACES"
+                    },
+                    {
+                        id: "719",
+                        name: "RINGS"
+                    }
+                ]
+            }
+        ]
+    },
+    // Lifestyle
+    {
+        id: 'LIFESTYLE',
+        name: 'Lifestyle',
+        categories: [
+            {
+                id: "1065",
+                name: "ACCESSORIES",
+                subcategories: []
+            },
+            {
+                id: "1064",
+                name: "HOME",
+                subcategories: []
+            },
+            {
+                id: "1066",
+                name: "TEXTILE",
+                subcategories: []
+            }
+        ]
+    }
+];
 
 export const DEPARTMENTS = [
 { id: 0, name: 'WOMAN' },

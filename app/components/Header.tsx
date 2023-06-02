@@ -2,22 +2,13 @@
 
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  QuestionMarkCircleIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-// import { CATEGORIES } from '../utils/constants'
-import Image from 'next/image';
+import { HEADER_NAVIGATION } from '../utils/constants'
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
-  categories: [
-    { name: 'About Alamoda', sections: [] },
-  ],
+  departments: HEADER_NAVIGATION,
   pages: [
     { name: 'About Alamoda', href: '#' },
   ],
@@ -27,11 +18,11 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="bg-white z-40">
+    <div className="bg-white">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -70,12 +61,12 @@ export default function Example() {
                 </div>
 
                 {/* Links */}
-                {/* <Tab.Group as="div" className="mt-2">
+                <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
-                      {navigation.categories.map((category) => (
+                      {navigation.departments.map((department) => (
                         <Tab
-                          key={category.name}
+                          key={department.name}
                           className={({ selected }) =>
                             classNames(
                               selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
@@ -83,40 +74,85 @@ export default function Example() {
                             )
                           }
                         >
-                          {category.name}
+                          {department.name}
                         </Tab>
                       ))}
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {navigation.categories.map((category) => (
-                      <Tab.Panel key={category.name} className="space-y-12 px-4 py-6">
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-10">
-                          {category.sections.map((item) => (
-                            <div key={item.name} className="group relative">
-                              <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-                                <Image
-                                  src={item.imageSrc}
-                                  alt={item.imageAlt}
-                                  width={300}
-                                  height={300}
-                                  className="object-cover object-center"
-                                />
-                              </div>
-                              <a href={item.href} className="mt-6 block text-sm font-medium text-gray-900">
-                                <span className="absolute inset-0 z-10" aria-hidden="true" />
-                                {item.name}
-                              </a>
-                              <p aria-hidden="true" className="mt-1 text-sm text-gray-500">
-                                Shop now
+                    {/* {navigation..map((category, categoryIdx) => (
+                      <Tab.Panel key={category.name} className="space-y-12 px-4 pb-6 pt-10">
+                        <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
+                          <div className="grid grid-cols-1 gap-x-6 gap-y-10">
+                            <div>
+                              <p id={`mobile-featured-heading-${categoryIdx}`} className="font-medium text-gray-900">
+                                Featured
                               </p>
+                              <ul
+                                role="list"
+                                aria-labelledby={`mobile-featured-heading-${categoryIdx}`}
+                                className="mt-6 space-y-6"
+                              >
+                                {category.subcategories.map((item) => (
+                                  <li key={item.name} className="flex">
+                                    <a href={item.href} className="text-gray-500">
+                                      {item.name}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                          ))}
+                            <div>
+                              <p id="mobile-categories-heading" className="font-medium text-gray-900">
+                                Categories
+                              </p>
+                              <ul role="list" aria-labelledby="mobile-categories-heading" className="mt-6 space-y-6">
+                                {category.categories.map((item) => (
+                                  <li key={item.name} className="flex">
+                                    <a href={item.href} className="text-gray-500">
+                                      {item.name}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-1 gap-x-6 gap-y-10">
+                            <div>
+                              <p id="mobile-collection-heading" className="font-medium text-gray-900">
+                                Collection
+                              </p>
+                              <ul role="list" aria-labelledby="mobile-collection-heading" className="mt-6 space-y-6">
+                                {category.collection.map((item) => (
+                                  <li key={item.name} className="flex">
+                                    <a href={item.href} className="text-gray-500">
+                                      {item.name}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            <div>
+                              <p id="mobile-brand-heading" className="font-medium text-gray-900">
+                                Brands
+                              </p>
+                              <ul role="list" aria-labelledby="mobile-brand-heading" className="mt-6 space-y-6">
+                                {category.brands.map((item) => (
+                                  <li key={item.name} className="flex">
+                                    <a href={item.href} className="text-gray-500">
+                                      {item.name}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
                         </div>
                       </Tab.Panel>
-                    ))}
+                    ))} */}
                   </Tab.Panels>
-                </Tab.Group> */}
+                </Tab.Group>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
@@ -177,10 +213,27 @@ export default function Example() {
           <div className="bg-gray-900">
             <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               {/* Currency selector */}
-              <div className="hidden lg:block lg:flex-1">
+              <form className="hidden lg:block lg:flex-1">
                 <div className="flex">
+                  <label htmlFor="desktop-currency" className="sr-only">
+                    Currency
+                  </label>
+                  <div className="group relative -ml-2 rounded-md border-transparent bg-gray-900 focus-within:ring-2 focus-within:ring-white">
+                    <select
+                      id="desktop-currency"
+                      name="currency"
+                      className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
+                    >
+                      {currencies.map((currency) => (
+                        <option key={currency}>{currency}</option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
+                      <ChevronDownIcon className="h-5 w-5 text-gray-300" aria-hidden="true" />
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </form>
 
               <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none">
                 Get free delivery on orders over $100
@@ -204,25 +257,23 @@ export default function Example() {
               <div className="border-b border-gray-200">
                 <div className="flex h-16 items-center justify-between">
                   {/* Logo (lg+) */}
-                  <div className="hidden lg:flex lg:flex-1 lg:items-center">
+                  <div className="hidden lg:flex lg:items-center">
                     <a href="#">
                       <span className="sr-only">Your Company</span>
-                      <Image
-                        src="/logo.png"
-                        alt="Alamoda Logo"
-                        width={300}
-                        height={300}
-                        className="h-4 w-auto"
+                      <img
+                        className="h-8 w-auto"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        alt=""
                       />
                     </a>
                   </div>
 
                   <div className="hidden h-full lg:flex">
-                    {/* Flyout menus */}
-                    <Popover.Group className="inset-x-0 bottom-0 px-4">
+                    {/* Mega menus */}
+                    <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
-                        {navigation.categories.map((category) => (
-                          <Popover key={category.name} className="flex">
+                        {navigation.departments.map((department, departmentIdx) => (
+                          <Popover key={department.name} className="flex">
                             {({ open }) => (
                               <>
                                 <div className="relative flex">
@@ -234,7 +285,7 @@ export default function Example() {
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
-                                    {category.name}
+                                    {department.name}
                                   </Popover.Button>
                                 </div>
 
@@ -247,34 +298,48 @@ export default function Example() {
                                   leaveFrom="opacity-100"
                                   leaveTo="opacity-0"
                                 >
-                                  <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500">
+                                  <Popover.Panel className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
                                     {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                     <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
 
                                     <div className="relative bg-white">
                                       <div className="mx-auto max-w-7xl px-8">
-                                        <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
-                                          {category.sections.map((item : any) => (
-                                            <div key={item.name} className="group relative">
-                                              <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-
-                                                <Image
-                                                  src={item.imageSrc}
-                                                  alt={item.imageAlt}
-                                                  width={300}
-                                                  height={300}
-                                                  className="object-cover object-center"
-                                                />
+                                        <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
+                                          <div className="grid grid-cols-5 gap-x-8 gap-y-10">
+                                            {department.categories.map((category, categoryIdx) => (
+                                              <div>
+                                                <p
+                                                  id={`desktop-featured-heading-${categoryIdx}`}
+                                                  className="font-medium text-gray-900"
+                                                >
+                                                  {category.name}
+                                                </p>
+                                                <ul
+                                                  role="list"
+                                                  aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
+                                                  className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                                >
+                                                  {category.subcategories.slice(0, 5).map((subcategory) => (
+                                                    <li key={subcategory.name} className="flex">
+                                                      <a href="#" className="hover:text-gray-800">
+                                                        {subcategory.name}
+                                                      </a>
+                                                    </li>
+                                                  ))}
+                                                  {category.subcategories.length > 5 && (
+                                                    <li className="flex">
+                                                      <a href="#" className="hover:text-gray-800 underline">
+                                                        View More...
+                                                      </a>
+                                                    </li>
+                                                  )}
+                                                </ul>
                                               </div>
-                                              <a href={item.href} className="mt-4 block font-medium text-gray-900">
-                                                <span className="absolute inset-0 z-10" aria-hidden="true" />
-                                                {item.name}
-                                              </a>
-                                              <p aria-hidden="true" className="mt-1">
-                                                Shop now
-                                              </p>
-                                            </div>
-                                          ))}
+                                            ))}
+                                          </div>
+                                          {/* <div className="grid grid-cols-2 gap-x-8 gap-y-10">
+
+                                          </div> */}
                                         </div>
                                       </div>
                                     </div>
@@ -319,34 +384,36 @@ export default function Example() {
                   {/* Logo (lg-) */}
                   <a href="#" className="lg:hidden">
                     <span className="sr-only">Your Company</span>
-                    <Image
-                      src="/logo.png"
-                      alt="Alamoda Logo"
-                      width={300}
-                      height={300}
-                      className="h-4 w-auto"
+                    <img
+                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                      alt=""
+                      className="h-8 w-auto"
                     />
                   </a>
 
                   <div className="flex flex-1 items-center justify-end">
-                    <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                      Search
-                    </a>
-
                     <div className="flex items-center lg:ml-8">
-                      {/* Help */}
-                      <a href="#" className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
-                        <span className="sr-only">Help</span>
-                        <QuestionMarkCircleIcon className="h-6 w-6" aria-hidden="true" />
-                      </a>
-                      <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                        Help
-                      </a>
+                      <div className="flex space-x-8">
+                        <div className="hidden lg:flex">
+                          <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                            <span className="sr-only">Search</span>
+                            <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                          </a>
+                        </div>
 
-                      {/* Cart */}
-                      <div className="ml-4 flow-root lg:ml-8">
+                        <div className="flex">
+                          <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                            <span className="sr-only">Account</span>
+                            <UserIcon className="h-6 w-6" aria-hidden="true" />
+                          </a>
+                        </div>
+                      </div>
+
+                      <span className="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true" />
+
+                      <div className="flow-root">
                         <a href="#" className="group -m-2 flex items-center p-2">
-                          <ShoppingBagIcon
+                          <ShoppingCartIcon
                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                             aria-hidden="true"
                           />
@@ -360,8 +427,8 @@ export default function Example() {
               </div>
             </div>
           </div>
-        </nav>
-      </header>
-    </div>
+        </nav >
+      </header >
+    </div >
   )
 }

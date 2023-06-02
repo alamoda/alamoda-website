@@ -54,3 +54,9 @@ export type Feature = {
     position: string
     value: string
 }
+
+export type Size = {
+    variant_id: string
+    name: string
+    quantity: string
+}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Product, Option, Feature } from "../types";
+import { Product, Option, Feature, Size } from "../types";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -45,7 +45,7 @@ const ProductForm = ({
     const [subcategory, setSubcategory] = useState<string>(existingSubcategory);
     const [department, setDepartment] = useState<string>(existingDepartment);
     const [features, setFeatures] = useState<Feature[]>(existingFeatures);
-    const [sizes, setSizes] = useState<string[]>(existingSizes);
+    const [sizes, setSizes] = useState<Size[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
     const [status, setStatus] = useState<Number>(existingStatus);
     const [brands, setBrands] = useState<Option[]>([]);
@@ -95,7 +95,7 @@ const ProductForm = ({
                 department,
                 category,
                 subcategory,
-                features, 
+                features,
                 sizes,
                 images,
                 status
@@ -192,30 +192,38 @@ const ProductForm = ({
                 {/* DEPARTMENT */}
                 <PrimarySelect
                     label="Department"
-                    value={DEPARTMENTS.find(x => x.name === department) || {id: 0, name: 'not selected'}}
+                    value={DEPARTMENTS.find(x => x.name === department) || { id: 0, name: 'not selected' }}
                     options={DEPARTMENTS}
                     onValueChange={(value: Option) => setDepartment(value.name)}
                 />
                 {/* CATEGORY  */}
                 <PrimarySelect
                     label="Category"
-                    value={CATEGORIES.find(x => x.name === category) || {id: 0, name: 'not selected'}}
+                    value={CATEGORIES.find(x => x.name === category) || { id: 0, name: 'not selected' }}
                     options={CATEGORIES}
                     onValueChange={(value: Option) => setCategory(value.name)}
                 />
                 {/* SUBCATEGORY  */}
                 <PrimarySelect
                     label="Subcategory"
-                    value={SUBCATEGORIES.find(x => x.name === subcategory) || {id: 0, name: 'not selected'}}
+                    value={SUBCATEGORIES.find(x => x.name === subcategory) || { id: 0, name: 'not selected' }}
                     options={SUBCATEGORIES}
                     onValueChange={(value: Option) => setSubcategory(value.name)}
                 />
             </div>
-            <div className="flex flex-wrap gap-4">
-                {/* FEATURES */}
-                {Array.from(features).map((feature, index) => (
-                    <PrimaryInput size='w-32' key={index} label={feature.name} placeholder="Feature" value={feature.value} />
-                ))}
+
+            {/* FEATURES */}
+                <div className="flex flex-wrap gap-4 my-4 text-sm" >
+                    {Array.from(features).map((feature, index) => (
+                        <div key={index}>
+                            <div className="font-medium mb-3">
+                                {feature.name}
+                            </div>
+                            <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
+                                {feature.value}
+                            </div>
+                        </div>
+                    ))}
             </div>
 
             {/* PRICE AND WHOLESALE PRICE */}
@@ -225,12 +233,16 @@ const ProductForm = ({
             </div>
 
             {/* SIZES */}
-            {sizes.map((size, index) => (
-                // <PrimaryInput key={index} label="Sizes" placeholder="Sizes" value={size} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSizes((prev) => { return [...prev, e.target.value] })} />
-                <div key={index}>
-                    size
-                </div>
-            ))}
+            <div className="my-4">
+                <span className="font-medium text-sm">
+                    Sizes:
+                </span>
+                {sizes.map((size, index) => (
+                    <span key={index} className="text-sm">
+                        {" " + size.name}
+                    </span>
+                ))}
+            </div>
 
             <div className="flex items-center gap-4 mb-4">
                 {/* AVAILABILITY */}

@@ -20,3 +20,29 @@ export type Brand = {
     id: number
     name: string
 }
+
+export type Option = {
+    id: number
+    name: string
+}
+
+export type Department = {
+    id: string
+    name: string
+    href: string
+    categories: Category[]
+}
+
+export type Category = {
+    id: string
+    name: string
+    href: string
+    imageSrc: string
+    imageAlt: string
+    subcategories: Subcategory[]
+}
+
+export type Subcategory = {
+    id: string 
+    name: string
+}

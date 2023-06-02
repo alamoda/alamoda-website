@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Brand, Product } from "../types";
+import { Product, Option } from "../types";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -12,19 +12,22 @@ import PrimaryInput from "@/app/components/PrimaryInput";
 import TextAreaInput from "@/app/components/TextAreaInput";
 import Image from 'next/image';
 import PrimarySelect from "./PrimarySelect";
+import { CATEGORIES, DEPARTMENTS, SUBCATEGORIES } from "../utils/constants";
+
 
 const ProductForm = ({
     mongo_id = '',
     id: existingId = 0,
     sku: existingSku = '',
-    brand: existingBrand = { id: 0, name: '' },
+    brand: existingBrand = { id: 0, name: 'not selected' },
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
     wholesaleprice: existingWholesaleprice = 0,
     available: existingAvailable = true,
-    category: existingCategory = '',
-    gender: existingGender = '',
+    category: existingCategory = { id: 0, name: 'not selected' },
+    category: existingSubcategory = { id: 0, name: 'not selected' },
+    department: existingDepartment = { id: 0, name: 'not selected' },
     features: existingFeatures = [],
     sizes: existingSizes = [],
     images: existingImages = [],
@@ -33,18 +36,19 @@ const ProductForm = ({
     const [id, setId] = useState<number>(existingId);
     const [sku, setSku] = useState<string>(existingSku);
     const [name, setName] = useState<string>(existingName);
-    const [brand, setBrand] = useState<Brand>(existingBrand);
+    const [brand, setBrand] = useState<Option>(existingBrand);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
-    const [available, setAvailable] = useState<boolean>(existingAvailable);
-    const [category, setCategory] = useState<string>(existingCategory);
-    const [gender, setGender] = useState<string>(existingGender);
+    const [available, setAvailable] = useState<Boolean>(existingAvailable);
+    const [category, setCategory] = useState<Option>(existingCategory);
+    const [subcategory, setSubcategory] = useState<Option>(existingSubcategory);
+    const [department, setDepartment] = useState<Option>(existingDepartment);
     const [features, setFeatures] = useState<any[]>(existingFeatures);
     const [sizes, setSizes] = useState<string[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
-    const [status, setStatus] = useState<number>(existingStatus);
-    const [brands, setBrands] = useState<Brand[]>([]);
+    const [status, setStatus] = useState<Number>(existingStatus);
+    const [brands, setBrands] = useState<Option[]>([]);
 
     const router = useRouter();
 
@@ -60,9 +64,41 @@ const ProductForm = ({
 
     function createOrUpdateProduct() {
         if (mongo_id) {
-            axios.put('/api/product', { mongo_id, id, sku, brand_name: brand.name, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
+            axios.put('/api/product', {
+                mongo_id,
+                id,
+                sku,
+                brand_name: brand.name,
+                name,
+                description,
+                price,
+                wholesale_price,
+                available,
+                department: department.name,
+                category: category.name,
+                subcategory: subcategory.name,
+                features,
+                sizes,
+                images,
+                status
+            });
         } else {
-            axios.post('/api/product', { id, sku, brand_name: brand.name, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status });
+            axios.post('/api/product', {
+                id,
+                sku,
+                brand_name: brand.name,
+                name,
+                description,
+                price,
+                wholesale_price,
+                available,
+                department: department.name,
+                category: category.name,
+                subcategory: subcategory.name,
+                features, sizes,
+                images,
+                status
+            });
             router.push('/dashboard/');
         }
     }
@@ -134,31 +170,50 @@ const ProductForm = ({
                 <PhotoInput text="Product Images" onChange={uploadImages} />
             </div>
 
-            {/* ID AND SKU */}
             <div className="flex items-center gap-4">
-                <PrimaryInput label="Product ID" placeholder="ID" value={id} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
-                <PrimaryInput label="SKU" placeholder="SKU" value={sku} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
+                {/* SKU */}
+                <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
+                {/* ID */}
+                <PrimaryInput size='w-32' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
             </div>
 
-            {/* NAME AND BRAND */}
             <div className="flex items-center gap-4">
-                <PrimaryInput label="Name" placeholder="Name" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
-                <PrimarySelect value={brand} options={brands} label="Brand" />
-                {/* <PrimaryInput label="Brand" placeholder="Brand" value={brand.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBrand({ id: brand.id, name: e.target.value })} /> */}
+                {/* NAME */}
+                <PrimaryInput size='w-56' label="Name" placeholder="Name" value={name} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                {/* BRAND */}
+                <PrimarySelect value={brand} options={brands} label="Brand" onValueChange={(value: Option) => setBrand(value)} />
             </div>
 
             {/* DESCRIPTION */}
             <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
 
-            {/* DEPARTMENT, CATEGORY, AND SUBCATEGORY */}
             <div className="flex items-center gap-4">
-                <PrimaryInput label="Category" placeholder="Category" value={category} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
-                <PrimaryInput label="Gender" placeholder="Gender" value={gender} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGender(e.target.value)} />
+                {/* DEPARTMENT */}
+                <PrimarySelect 
+                label="Department" 
+                value={department} 
+                options={DEPARTMENTS} 
+                onValueChange={(value: Option) => setDepartment(value)} 
+                />
+                {/* CATEGORY  */}
+                <PrimarySelect 
+                label="Category" 
+                value={category} 
+                options={CATEGORIES} 
+                onValueChange={(value: Option) => setCategory(value)} 
+                />
+                {/* SUBCATEGORY  */}
+                <PrimarySelect 
+                label="Subcategory" 
+                value={subcategory}
+                options={SUBCATEGORIES} 
+                onValueChange={(value: Option) => setSubcategory(value)} 
+                />
             </div>
 
             {/* FEATURES */}
             {Array.from(features).map((feature, index) => (
-                <PrimaryInput key={index} label={feature.name} placeholder="Feature" value={feature.value} />
+                <PrimaryInput size='w-32' key={index} label={feature.name} placeholder="Feature" value={feature.value} />
             ))}
 
             {/* PRICE AND WHOLESALE PRICE */}
@@ -168,14 +223,30 @@ const ProductForm = ({
             </div>
 
             {/* SIZES */}
-            <PrimaryInput label="Sizes" placeholder="Sizes" value={sizes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSizes((prev) => { return [...prev, e.target.value] })} />
-            
-            {/* AVAILABILITY */}
-            <PrimaryInput label="Available" placeholder="Available" value={available} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAvailable(Boolean(e.target.value))} />
-            
-            {/* STATUS */}
-            <PrimaryInput label="Status" placeholder="Status" value={status} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus(Number(e.target.value))} />
-            
+            {sizes.map((size, index) => (
+                // <PrimaryInput key={index} label="Sizes" placeholder="Sizes" value={size} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSizes((prev) => { return [...prev, e.target.value] })} />
+                <div key={index}>
+                    size
+                </div>
+            ))}
+
+            <div className="flex items-center gap-4 mb-4">
+                {/* AVAILABILITY */}
+                <PrimarySelect 
+                label="Available" 
+                value={{id: 0, name: available.toString()}} 
+                options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]} 
+                onValueChange={(value: Option) => setAvailable(Boolean(value))} 
+                />
+                {/* STATUS */}
+                <PrimarySelect 
+                label="Status" 
+                value={{id: 0, name: status.toString()}} 
+                options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]} 
+                onValueChange={(value: Option) => setStatus(Number(value))} 
+                />
+            </div>
+
             <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
         </>
     )

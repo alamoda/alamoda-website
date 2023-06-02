@@ -62,6 +62,9 @@ export async function GET(req: Request) {
         },
         take: limit,
         skip: skip || 0,
+        include: {
+            brand: true
+        }
     });
 
     const count = await db.product.count({

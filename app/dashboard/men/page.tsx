@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default async function Page() {
 
-    const response = await fetch('http://localhost:3000/api/products/men', {
+    const response = await fetch('http://localhost:3000/api/products?department=man&limit=10&skip=0', {
         method: 'GET',
         cache: 'no-store',
     });
@@ -15,7 +15,7 @@ export default async function Page() {
         throw new Error("failed to fetch");
     }
 
-    const products = await response.json();
+    const {products, count} = await response.json();
 
     return (
         <div className="px-4 py-4">

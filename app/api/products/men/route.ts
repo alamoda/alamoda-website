@@ -6,7 +6,7 @@ export async function GET(req: Request) {
         where: {
             AND: [
                 {
-                    department: 'MAN',
+                    department: 'MAN'
                 },
                 {
                     status: 2

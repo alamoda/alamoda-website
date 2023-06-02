@@ -76,7 +76,6 @@ export async function GET(req: Request) {
         return new Response(JSON.stringify(product));
     }
     else if (productIdParam) {
-
         const productId = parseInt(productIdParam, 10);
         if (isNaN(productId)) return new Response(JSON.stringify({ message: "Error Format" }), {
             status: 400,

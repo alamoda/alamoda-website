@@ -18,6 +18,7 @@ export default async function Home() {
       <Hero />
       <BrandLogos />
       <Categories />
+      {/* @ts-expect-error Server Component */}
       <CollectionPreview />
       <Testimonials />
       <Incentives />

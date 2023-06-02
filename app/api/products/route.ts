@@ -8,7 +8,7 @@ export async function GET(req: Request) {
 
     // We force to specify a limit and to be < 50
     const limit = getIntParam(url, 'limit');
-    if (!limit || (limit && limit > 50)) {
+    if (!limit || (limit && limit > 60)) {
         return new Response(JSON.stringify({ message: "Error Format" }), {
             status: 400,
             headers: {

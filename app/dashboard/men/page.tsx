@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default async function Page() {
 
-    const response = await fetch('http://localhost:3000/api/products?department=man&limit=10&skip=0', {
+    const response = await fetch('http://localhost:3000/api/products?department=man&limit=60&skip=0', {
         method: 'GET',
         cache: 'no-store',
     });

@@ -16,8 +16,6 @@ export default async function Page() {
 
     const products = await response.json();
 
-    console.log(products);
-
     return (
         <div className="px-4 py-4">
             <div className='flex items-center mb-8'>
@@ -33,7 +31,6 @@ export default async function Page() {
                     <ProductCard key={product.mongo_id} product={product} />
                 ))}
             </div>
-
         </div>
     )
 }

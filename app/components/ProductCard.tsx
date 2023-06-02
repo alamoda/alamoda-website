@@ -7,7 +7,7 @@ interface ComponentProps {
   product: Product;
 }
 
-const Products: React.FC<ComponentProps> = ({ product }) => {
+const ProductCard: React.FC<ComponentProps> = ({ product }) => {
   return (
     <Link key={product.mongo_id} href={"dashboard/men/" + product.mongo_id} className="group">
       <div className="flex flex-col justify-center items-center">
@@ -29,4 +29,4 @@ const Products: React.FC<ComponentProps> = ({ product }) => {
   )
 }
 
-export default Products;
+export default ProductCard;

@@ -19,6 +19,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.assetsmanagment.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'baseblu.chalco.net'
       }
     ],
   },

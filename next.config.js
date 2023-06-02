@@ -16,6 +16,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'alamoda-website.s3.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.assetsmanagment.com'
+      }
     ],
   },
 }

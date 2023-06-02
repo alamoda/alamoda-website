@@ -10,11 +10,17 @@ export default async function Page() {
         cache: 'no-store',
     });
 
+    if (!response.ok) {
+        throw new Error("failed to fetch");
+    }
+
     const products = await response.json();
 
+    console.log(products);
+
     return (
-        <>
-            <div className='flex items-center mb-4'>
+        <div className="px-4 py-4">
+            <div className='flex items-center mb-8'>
                 <div className='text-sm font-medium'>
                     / dashboard / men
                 </div>
@@ -22,11 +28,12 @@ export default async function Page() {
                     <CircularButton />
                 </Link>
             </div>
-            {products.map((product: Product) => (
-                <>
-                    <ProductCard product={product} />
-                </>
-            ))}
-        </>
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                {products.map((product: Product) => (
+                    <ProductCard key={product.mongo_id} product={product} />
+                ))}
+            </div>
+
+        </div>
     )
 }

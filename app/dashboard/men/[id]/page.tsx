@@ -8,7 +8,7 @@ import axios from "axios";
 import ProductForm from "@/app/components/ProductForm";
 import DeleteButton from "@/app/components/DeleteButtons";
 
-export default function Page(props: any) {
+export default function Page() {
     const [product, setProduct] = useState({});
 
     const { id } = useParams();

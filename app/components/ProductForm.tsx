@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Product, Option } from "../types";
+import { Product, Option, Feature } from "../types";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -44,7 +44,7 @@ const ProductForm = ({
     const [category, setCategory] = useState<string>(existingCategory);
     const [subcategory, setSubcategory] = useState<string>(existingSubcategory);
     const [department, setDepartment] = useState<string>(existingDepartment);
-    const [features, setFeatures] = useState<any[]>(existingFeatures);
+    const [features, setFeatures] = useState<Feature[]>(existingFeatures);
     const [sizes, setSizes] = useState<string[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
     const [status, setStatus] = useState<Number>(existingStatus);
@@ -74,9 +74,9 @@ const ProductForm = ({
                 price,
                 wholesale_price,
                 available,
-                department: department,
-                category: category,
-                subcategory: subcategory,
+                department,
+                category,
+                subcategory,
                 features,
                 sizes,
                 images,
@@ -92,10 +92,11 @@ const ProductForm = ({
                 price,
                 wholesale_price,
                 available,
-                department: department,
-                category: category,
-                subcategory: subcategory,
-                features, sizes,
+                department,
+                category,
+                subcategory,
+                features, 
+                sizes,
                 images,
                 status
             });

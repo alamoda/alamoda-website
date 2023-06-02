@@ -5,13 +5,13 @@ export type Product = {
     brand: Brand
     name: string
     description: string
-    features: string[]
+    features: Feature[]
     department: string
     category: string
     subcategory: string
     price: number
     wholesale_price: number
-    sizes: string[]
+    sizes: object
     images: string[]
     status: number
     available: boolean
@@ -46,4 +46,11 @@ export type Category = {
 export type Subcategory = {
     id: string 
     name: string
+}
+
+export type Feature = {
+    id_feature: string 
+    name: string
+    position: string
+    value: string
 }

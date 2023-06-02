@@ -50,7 +50,8 @@ model User {
 }
 
 model Brand {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  mongo_id String    @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int       @unique
   name     String    @unique
   products Product[]
 }
@@ -62,7 +63,7 @@ model Product {
   price           Float
   wholesale_price Float
   available       Boolean
-  brand           Brand    @relation(fields: [brandId], references: [id])
+  brand           Brand    @relation(fields: [brandId], references: [mongo_id])
   brandId         String   @db.ObjectId
   name            String
   description     String?

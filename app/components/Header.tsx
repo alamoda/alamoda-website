@@ -10,12 +10,14 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { CATEGORIES } from '../utils/constants'
+// import { CATEGORIES } from '../utils/constants'
 import Image from 'next/image';
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
-  categories: CATEGORIES,
+  categories: [
+    { name: 'About Alamoda', sections: [] },
+  ],
   pages: [
     { name: 'About Alamoda', href: '#' },
   ],
@@ -68,7 +70,7 @@ export default function Example() {
                 </div>
 
                 {/* Links */}
-                <Tab.Group as="div" className="mt-2">
+                {/* <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
                       {navigation.categories.map((category) => (
@@ -114,7 +116,7 @@ export default function Example() {
                       </Tab.Panel>
                     ))}
                   </Tab.Panels>
-                </Tab.Group>
+                </Tab.Group> */}
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
@@ -252,7 +254,7 @@ export default function Example() {
                                     <div className="relative bg-white">
                                       <div className="mx-auto max-w-7xl px-8">
                                         <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
-                                          {category.sections.map((item) => (
+                                          {category.sections.map((item : any) => (
                                             <div key={item.name} className="group relative">
                                               <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
 

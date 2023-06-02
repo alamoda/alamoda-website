@@ -8,7 +8,7 @@ export async function POST(req: Request) {
         price,
         wholesale_price,
         available,
-        brand_name,
+        brand_id,
         name,
         description,
         features,
@@ -21,20 +21,6 @@ export async function POST(req: Request) {
         created_at
     } = await req.json();
 
-    let brand = await db.brand.findFirst({
-        where: {
-            name: brand_name,
-        }
-    });
-
-    if (!brand) {
-        brand = await db.brand.create({
-            data: {
-                name: brand_name,
-            }
-        });
-    }
-
     await db.product.create({
         data: {
             id: id,
@@ -44,7 +30,7 @@ export async function POST(req: Request) {
             available: available,
             name: name,
             brand: {
-                connect: { id: brand.id }
+                connect: { id: brand_id }
             },
             description: description,
             features: features,
@@ -119,21 +105,7 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
 
-    const { mongo_id, id, sku, brand_name, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status } = await req.json();
-
-    let brand = await db.brand.findFirst({
-        where: {
-            name: brand_name,
-        }
-    });
-
-    if (!brand) {
-        brand = await db.brand.create({
-            data: {
-                name: brand_name,
-            }
-        });
-    }
+    const { mongo_id, id, sku, brand_id, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status } = await req.json();
 
     await db.product.update({
         where: { mongo_id: mongo_id },
@@ -145,7 +117,7 @@ export async function PUT(req: Request) {
             available: available,
             name: name,
             brand: {
-                connect: { id: brand.id }
+                connect: { id: brand_id }
             },
             description: description,
             features: features,

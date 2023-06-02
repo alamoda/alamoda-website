@@ -65,6 +65,7 @@
 
 
 // Footwear (376 items)
+
 // Boots (32 items)
 // Espadrilles (1 item)
 // Lace Up (22 items)
@@ -74,10 +75,18 @@
 
 
 // Jewellery (42 items)
+
 // Bracelets (24 items)
 // Extras (1 item)
 // Necklaces (3 items)
 // Rings (14 items)
+
+
+// Lifestyle (1060)
+
+// ACCESSORIES (1061) => 1065
+// HOME (1062) => 1064
+// TEXTILE (1063) => 1066
 
 
 

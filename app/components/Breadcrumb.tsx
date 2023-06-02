@@ -11,12 +11,12 @@ type Page = {
 
 export default function Breadcrumb({ pages }: ComponentProps) {
     return (
-        <nav className="flex" aria-label="Breadcrumb">
+        <nav className="flex items-center justify-center" aria-label="Breadcrumb">
             <ol role="list" className="flex items-center space-x-4">
                 <li>
-                    <div>
+                    <div className="flex items-center">
                         <a
-                            href='/'
+                            href='#'
                             className="ml-4 text-xs font-medium text-gray-500 hover:text-gray-700"
                         >
                             Home
@@ -36,9 +36,9 @@ export default function Breadcrumb({ pages }: ComponentProps) {
                             </svg>
                             <a
                                 href={page.href}
-                                className="ml-4 text-xs font-medium text-gray-500 hover:text-gray-700"
+                                className="ml-4 text-xs font-medium text-gray-500 hover:text-gray-700 capitalize"
                             >
-                                {page.name}
+                                {page.name.replace('-', ' ')}
                             </a>
                         </div>
                     </li>

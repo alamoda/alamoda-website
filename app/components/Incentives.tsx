@@ -35,8 +35,8 @@ export default function Incentives() {
               </div>
               <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg bg-gray-100">
                 <img
-                  src="https://tailwindui.com/img/ecommerce-images/incentives-07-hero.jpg"
-                  alt=""
+                  src="/brand-alamoda.jpg"
+                  alt="Women clothes on a hanger"
                   className="object-cover object-center"
                 />
               </div>

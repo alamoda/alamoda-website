@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
     return (
         <div className="relative overflow-hidden bg-white">
@@ -81,12 +83,12 @@ export default function Hero() {
                                 </div>
                             </div>
 
-                            <a
-                                href="#"
+                            <Link
+                                href="/shop"
                                 className="inline-block rounded-md border border-transparent bg-gray-900 px-8 py-3 text-center font-medium text-white hover:bg-gray-800"
                             >
                                 Shop Now
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

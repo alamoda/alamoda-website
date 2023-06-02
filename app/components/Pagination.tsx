@@ -15,7 +15,6 @@ function classNames(...classes: any) {
 }
 
 const productLimit = 60;
-const skip = 0;
 
 export default function Pagination({ productCount, selectedPage, department, category, subcategory, route }: ComponentProps) {
 
@@ -38,7 +37,7 @@ export default function Pagination({ productCount, selectedPage, department, cat
       </div>
       <div className="hidden md:-mt-px md:flex">
         {Array.from({ length: pageCount }).map((_, index) => {
-          if (index < 6 || index >= pageCount - 2) {
+          if (index + 1 == 1 || index + 1 === pageCount || (index + 1 < selectedPage + 5 && selectedPage < 5) || (index + 1 >= selectedPage && index + 1 < selectedPage + 5 && selectedPage >= 5)) {
             return <Link
               key={index + 1}
               href={`/${route}/${department}?${category}${subcategory}skip=${(index) * productLimit}`}
@@ -50,7 +49,7 @@ export default function Pagination({ productCount, selectedPage, department, cat
             >
               {index + 1}
             </Link>;
-          } else if (index === 6) {
+          } else if ((index + 1 === selectedPage - 1 && selectedPage >= 5) || index + 1 === selectedPage + 5) {
             return <p key={index + 1} className="inline-flex items-center px-4 pt-4 text-sm font-medium text-gray-500">...</p>; // Placeholder for skipped elements
           }
           return null; // Ignore elements in the middle

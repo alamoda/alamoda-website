@@ -1,33 +1,37 @@
-import CircularButton from '@/app/components/CircularButton';
+"use client";
+
 import ProductCard from '@/app/components/ProductCard';
-import { Product } from '@/app/types';
-import Link from 'next/link';
+import { Brand, Product } from '@/app/types';
+import { useSearchParams } from 'next/navigation';
+import Link from "next/link"
 
 export default async function Page() {
+    const search = useSearchParams();
+    const searchQuery = search ? search.get('q') : null;
 
-    const response = await fetch('http://localhost:3000/api/products/men', {
+    const encodedSearchQuery = encodeURI(searchQuery || "");
+
+    const response = await fetch(`/api/search?q=${encodedSearchQuery}`, {
         method: 'GET',
         cache: 'no-store',
     });
 
-    if (!response.ok) {
-        throw new Error("failed to fetch");
-    }
-
     const products = await response.json();
+    console.log(products);
+
+    const productsArray = Array.isArray(products) ? products : Object.values(products);
+
+    console.log(productsArray);
 
     return (
         <div className="px-4 py-4">
             <div className='flex items-center mb-8'>
                 <div className='text-sm font-medium'>
-                    / dashboard / men
+                    / dashboard / men / {searchQuery}
                 </div>
-                <Link href="dashboard/new" className="ml-2" >
-                    <CircularButton />
-                </Link>
             </div>
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                {products.map((product: Product) => (
+                {productsArray.map((product: Product) => (
                     <ProductCard key={product.mongo_id} product={product} />
                 ))}
             </div>

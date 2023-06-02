@@ -23,11 +23,11 @@ const ProductForm = ({
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
-    wholesaleprice: existingWholesaleprice = 0,
+    wholesale_price: existingWholesaleprice = 0,
     available: existingAvailable = true,
-    category: existingCategory = { id: 0, name: 'not selected' },
-    category: existingSubcategory = { id: 0, name: 'not selected' },
-    department: existingDepartment = { id: 0, name: 'not selected' },
+    category: existingCategory = '',
+    subcategory: existingSubcategory = '',
+    department: existingDepartment = '',
     features: existingFeatures = [],
     sizes: existingSizes = [],
     images: existingImages = [],
@@ -41,9 +41,9 @@ const ProductForm = ({
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
     const [available, setAvailable] = useState<Boolean>(existingAvailable);
-    const [category, setCategory] = useState<Option>(existingCategory);
-    const [subcategory, setSubcategory] = useState<Option>(existingSubcategory);
-    const [department, setDepartment] = useState<Option>(existingDepartment);
+    const [category, setCategory] = useState<string>(existingCategory);
+    const [subcategory, setSubcategory] = useState<string>(existingSubcategory);
+    const [department, setDepartment] = useState<string>(existingDepartment);
     const [features, setFeatures] = useState<any[]>(existingFeatures);
     const [sizes, setSizes] = useState<string[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
@@ -74,9 +74,9 @@ const ProductForm = ({
                 price,
                 wholesale_price,
                 available,
-                department: department.name,
-                category: category.name,
-                subcategory: subcategory.name,
+                department: department,
+                category: category,
+                subcategory: subcategory,
                 features,
                 sizes,
                 images,
@@ -92,9 +92,9 @@ const ProductForm = ({
                 price,
                 wholesale_price,
                 available,
-                department: department.name,
-                category: category.name,
-                subcategory: subcategory.name,
+                department: department,
+                category: category,
+                subcategory: subcategory,
                 features, sizes,
                 images,
                 status
@@ -189,32 +189,33 @@ const ProductForm = ({
 
             <div className="flex items-center gap-4">
                 {/* DEPARTMENT */}
-                <PrimarySelect 
-                label="Department" 
-                value={department} 
-                options={DEPARTMENTS} 
-                onValueChange={(value: Option) => setDepartment(value)} 
+                <PrimarySelect
+                    label="Department"
+                    value={DEPARTMENTS.find(x => x.name === department) || {id: 0, name: 'not selected'}}
+                    options={DEPARTMENTS}
+                    onValueChange={(value: Option) => setDepartment(value.name)}
                 />
                 {/* CATEGORY  */}
-                <PrimarySelect 
-                label="Category" 
-                value={category} 
-                options={CATEGORIES} 
-                onValueChange={(value: Option) => setCategory(value)} 
+                <PrimarySelect
+                    label="Category"
+                    value={CATEGORIES.find(x => x.name === category) || {id: 0, name: 'not selected'}}
+                    options={CATEGORIES}
+                    onValueChange={(value: Option) => setCategory(value.name)}
                 />
                 {/* SUBCATEGORY  */}
-                <PrimarySelect 
-                label="Subcategory" 
-                value={subcategory}
-                options={SUBCATEGORIES} 
-                onValueChange={(value: Option) => setSubcategory(value)} 
+                <PrimarySelect
+                    label="Subcategory"
+                    value={SUBCATEGORIES.find(x => x.name === subcategory) || {id: 0, name: 'not selected'}}
+                    options={SUBCATEGORIES}
+                    onValueChange={(value: Option) => setSubcategory(value.name)}
                 />
             </div>
-
-            {/* FEATURES */}
-            {Array.from(features).map((feature, index) => (
-                <PrimaryInput size='w-32' key={index} label={feature.name} placeholder="Feature" value={feature.value} />
-            ))}
+            <div className="flex flex-wrap gap-4">
+                {/* FEATURES */}
+                {Array.from(features).map((feature, index) => (
+                    <PrimaryInput size='w-32' key={index} label={feature.name} placeholder="Feature" value={feature.value} />
+                ))}
+            </div>
 
             {/* PRICE AND WHOLESALE PRICE */}
             <div className="flex items-center gap-4">
@@ -232,18 +233,18 @@ const ProductForm = ({
 
             <div className="flex items-center gap-4 mb-4">
                 {/* AVAILABILITY */}
-                <PrimarySelect 
-                label="Available" 
-                value={{id: 0, name: available.toString()}} 
-                options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]} 
-                onValueChange={(value: Option) => setAvailable(Boolean(value))} 
+                <PrimarySelect
+                    label="Available"
+                    value={{ id: 0, name: available.toString() }}
+                    options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
+                    onValueChange={(value: Option) => setAvailable(Boolean(value))}
                 />
                 {/* STATUS */}
-                <PrimarySelect 
-                label="Status" 
-                value={{id: 0, name: status.toString()}} 
-                options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]} 
-                onValueChange={(value: Option) => setStatus(Number(value))} 
+                <PrimarySelect
+                    label="Status"
+                    value={{ id: 0, name: status.toString() }}
+                    options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
+                    onValueChange={(value: Option) => setStatus(Number(value))}
                 />
             </div>
 

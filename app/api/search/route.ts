@@ -13,26 +13,35 @@ export async function GET(req: Request) {
 
     const products = await db.product.findMany({
         where: {
-            OR: [
+            AND: [
                 {
-                    name: {
-                        contains: query,
-                        mode: "insensitive",
-                    }
+                    OR: [
+                        {
+                            name: {
+                                contains: query,
+                                mode: "insensitive",
+                            }
+                        },
+                        {
+                            brand: {
+                                name: {
+                                    contains: query,
+                                    mode: "insensitive",
+                                }
+                            }
+                        },
+                    ]
                 },
                 {
-                    brand: {
-                        name: {
-                            contains: query,
-                            mode: "insensitive",
-                        }
-                    }
-                },
+                    status: 2
+                }
             ]
+
         },
         include: {
             brand: true,
-        }
+        },
+        take: 20
     });
 
     console.log("products are", products);

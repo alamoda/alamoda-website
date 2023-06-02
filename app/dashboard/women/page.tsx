@@ -10,6 +10,10 @@ export default async function Page() {
         cache: 'no-store',
     });
 
+    if(!response.ok) {
+        throw new Error("failed to fetch");
+    }
+
     const products = await response.json();
 
     console.log(products);

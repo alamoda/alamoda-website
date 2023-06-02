@@ -649,8 +649,9 @@ export const HEADER_NAVIGATION = [
     }
 ];
 
-export const DEPARTMENTS = [{ id: 0, name: 'WOMEN' },
-{ id: 1, name: 'MEN' },
+export const DEPARTMENTS = [
+{ id: 0, name: 'WOMAN' },
+{ id: 1, name: 'MAN' },
 { id: 2, name: 'UNISEX' },
 { id: 3, name: 'LIFESTYLE' }
 ];
@@ -724,5 +725,6 @@ export const SUBCATEGORIES = [
     { id: 54, name: 'RINGS' },
     { id: 55, name: 'ACCESSORIES' },
     { id: 56, name: 'HOME' },
-    { id: 57, name: 'TEXTILE' }
+    { id: 57, name: 'TEXTILE' },
+    { id: 57, name: 'POLO SHIRTS' }
 ];

@@ -6,8 +6,9 @@ export type Product = {
     name: string
     description: string
     features: string[]
-    gender: string
+    department: string
     category: string
+    subcategory: string
     price: number
     wholesale_price: number
     sizes: string[]

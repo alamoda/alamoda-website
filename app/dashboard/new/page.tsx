@@ -2,13 +2,13 @@ import ProductForm from "@/app/components/ProductForm";
 
 export default function Page() {
     return (
-        <div className='bg-white'>
-            <div className="px-4">
-                <div className='text-xl font-bold'>
-                    New Product
+        <div>
+           <div className='flex items-center mb-4'>
+                <div className='text-sm font-medium'>
+                    / dashboard / new 
                 </div>
-                <ProductForm />
             </div>
+            <ProductForm/>
         </div>
     )
 }

@@ -9,12 +9,12 @@ export default async function Page() {
     // const products = await response.json();
 
     return (
-        <>
-            <div className='flex items-start'>
-                <span className='text-sm pb-2'>
+        <div>
+            <div className='flex items-center mb-4'>
+                <div className='text-sm font-medium'>
                     / dashboard / orders
-                </span>
+                </div>
             </div>
-        </>
+        </div>
     )
 }

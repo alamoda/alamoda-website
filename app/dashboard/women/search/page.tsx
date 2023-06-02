@@ -26,7 +26,7 @@ export default async function Page() {
     return (
         <>
             {productsArray.map((product: Product) => (
-                <>
+            <>
                     <div className='mt-8'>
                         <div className='font-semibold underline mb-2'>
                             Brands

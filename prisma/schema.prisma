@@ -67,11 +67,12 @@ model Product {
   brandId         String   @db.ObjectId
   name            String
   description     String?
-  features        String[]
-  gender          String
+  features        Json
+  department      String
   category        String
-  images          String[]
-  sizes           String[]
+  subcategory     String?
+  images          Json
+  sizes           Json
   status          Int
   updated_at      Float?
   created_at      Float?

@@ -12,8 +12,9 @@ export async function POST(req: Request) {
         name,
         description,
         features,
-        gender,
+        department,
         category,
+        subcategory,
         images,
         sizes,
         status,
@@ -34,8 +35,9 @@ export async function POST(req: Request) {
             },
             description: description,
             features: features,
-            gender: gender,
+            department: department,
             category: category,
+            subcategory: subcategory,
             images: images,
             sizes: sizes,
             status: status,
@@ -105,27 +107,30 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
 
-    const { mongo_id, id, sku, brand_id, name, description, price, wholesale_price, available, category, gender, features, sizes, images, status } = await req.json();
+    const {
+        mongo_id, id, sku, price, wholesale_price, available, name, description, features, 
+        department, category, subcategory, images, sizes, status, updated_at
+      } = await req.json()
 
+      
     await db.product.update({
         where: { mongo_id: mongo_id },
         data: {
             id: id,
-            sku: sku,
-            price: price,
-            wholesale_price: wholesale_price,
-            available: available,
-            name: name,
-            brand: {
-                connect: { id: brand_id }
-            },
-            description: description,
-            features: features,
-            gender: gender,
-            category: category,
-            images: images,
-            sizes: sizes,
-            status: status,
+            sku: sku, 
+            price: price, 
+            wholesale_price: wholesale_price, 
+            available: available, 
+            name: name, 
+            description: description, 
+            features: features, 
+            department: department, 
+            category: category, 
+            subcategory: subcategory, 
+            images: images, 
+            sizes: sizes, 
+            status: status, 
+            updated_at: updated_at
         },
     });
 

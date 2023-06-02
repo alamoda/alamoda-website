@@ -60,7 +60,7 @@ export default async function CollectionPreview() {
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                     {products.map((product: any) => (
-                        <Link key={product.id} href={('/' + product.department + '/' + product.category + '/' + (product.subcategory ? product.subcategory + "/" : "") + product.mongo_id).toLowerCase()} className="group">
+                        <a key={product.id} className="group relative" href={('/' + product.department + '/' + product.category + '/' + (product.subcategory ? product.subcategory + "/" : "") + product.mongo_id).toLowerCase()} >
                             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg sm:aspect-h-3 sm:aspect-w-2">
                                 <img
                                     src={product.images[0]}
@@ -76,7 +76,7 @@ export default async function CollectionPreview() {
                                 </h3>
                                 <p className="mt-1 text-red-700"><span className="text-gray-600 line-through mr-2">USD {product.price * 1.6}</span>USD {product.price}</p>
                             </div>
-                        </Link>
+                        </a>
                     ))}
                 </div>
             </div>

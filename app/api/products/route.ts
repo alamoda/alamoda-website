@@ -17,7 +17,8 @@ export async function GET(req: Request) {
         })
     }
 
-    let skip = getIntParam(url, 'skip');
+    const skip = getIntParam(url, 'skip');
+    const query = getStrParam(url, 'q');
 
     const department = getStrParam(url, 'department');
     const category = getStrParam(url, 'category');
@@ -54,6 +55,28 @@ export async function GET(req: Request) {
                 subcategory: subcategory
             }
         );
+    }
+    if (query) {
+        filters.push(
+            {
+                OR: [
+                    {
+                        name: {
+                            contains: query,
+                            mode: "insensitive",
+                        }
+                    },
+                    {
+                        brand: {
+                            name: {
+                                contains: query,
+                                mode: "insensitive",
+                            }
+                        }
+                    },
+                ]
+            }
+        )
     }
 
     const products = await db.product.findMany({

@@ -47,7 +47,7 @@ const ProductForm = ({
     const [features, setFeatures] = useState<Feature[]>(existingFeatures);
     const [sizes, setSizes] = useState<Size[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
-    const [status, setStatus] = useState<Number>(existingStatus);
+    const [status, setStatus] = useState<number>(existingStatus);
     const [brands, setBrands] = useState<Option[]>([]);
 
     const router = useRouter();
@@ -217,14 +217,14 @@ const ProductForm = ({
                                 label="Available"
                                 value={{ id: 0, name: available.toString() }}
                                 options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
-                                onValueChange={(value: Option) => setAvailable(Boolean(value))}
+                                onValueChange={(value: Option) => setAvailable(Boolean(value.name))}
                             />
                             {/* STATUS */}
                             <PrimarySelect
                                 label="Status"
                                 value={{ id: 0, name: status.toString() }}
                                 options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
-                                onValueChange={(value: Option) => setStatus(Number(value))}
+                                onValueChange={(value: Option) => setStatus(Number(value.name))}
                             />
                             {/* SIZES */}
                             {sizes.length > 0 &&

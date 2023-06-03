@@ -37,7 +37,6 @@ export default async function Page({
 
     const { products, count } = data;
 
-    const currentPageNumber = Math.ceil((skip + 60) / 60);
 
     return (
         <div className="px-4 py-4">
@@ -64,7 +63,7 @@ export default async function Page({
             <div className='mt-8'>
                 <Pagination
                     productCount={count}
-                    selectedPage={currentPageNumber}
+                    skip={skip}
                     route="dashboard" department={department}
                     category={category}
                     subcategory={subcategory} />

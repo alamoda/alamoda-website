@@ -147,7 +147,7 @@ export default function Dashboard({
                                         </li>
                                     ))}
                                 </ul>
-                                <Filters />
+                                {/* <Filters /> */}
                             </li>
                         </ul>
                     </nav>

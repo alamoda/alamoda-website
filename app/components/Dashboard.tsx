@@ -17,6 +17,7 @@ import SearchInput from './SearchInput'
 const navigation = [
     { name: 'Women', href: '/dashboard/woman', current: true },
     { name: 'Men', href: '/dashboard/man', current: false },
+    { name: 'Add Product', href: '/dashboard/new', current: false },
     { name: 'Orders', href: '/dashboard/orders', current: false },
 ]
 
@@ -110,7 +111,7 @@ export default function Dashboard({
                                                     ))}
                                                 </ul>
                                             </li>
-                                            <Filters />
+                                            {/* <Filters /> */}
                                         </ul>
                                     </nav>
                                 </div>

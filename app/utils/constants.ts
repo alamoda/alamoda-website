@@ -370,7 +370,7 @@ export const HEADER_NAVIGATION = [
     },
     // Men
     {
-        id: 'MEN',
+        id: 'MAN',
         name: 'Men',
         categories: [
             {
@@ -378,7 +378,7 @@ export const HEADER_NAVIGATION = [
                 name: "ACCESSORIES",
                 subcategories: [
                     {
-                        i:"639",
+                        id:"639",
                         name: "BEAUTY CASES"
                     },
                     {

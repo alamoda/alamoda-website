@@ -68,6 +68,7 @@ export type FilterValue = {
 }
 
 export type Filter = {
-    label: string,
+    id: string,
+    name: string,
     value: FilterValue
 }

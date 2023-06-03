@@ -92,7 +92,7 @@ export default async function Shop(
         searchParams: { [key: string]: string | string[] | undefined },
         params: { slug: Array<string> }
     }) {
-        
+
     const pages = []
     if (params.slug && params.slug[0]) pages.push({ name: params.slug[0], href: "" })
     if (params.slug && params.slug[1]) pages.push({ name: params.slug[1], href: "" })
@@ -135,19 +135,20 @@ export default async function Shop(
                             <ProductCard key={product.mongo_id} product={product} />
                         ))}
                     </div>
+                    {/* PAGINATION */}
+                    <div className='mt-8'>
+                        <Pagination
+                            productCount={count}
+                            skip={skip}
+                            route="shop"
+                            department={department}
+                            category={category}
+                            subcategory={subcategory} />
+                    </div>
                 </div>
             </div>
 
-            {/* PAGINATION */}
-            <div className='mt-8'>
-                <Pagination
-                    productCount={count}
-                    skip={skip}
-                    route="shop" 
-                    department={department}
-                    category={category}
-                    subcategory={subcategory} />
-            </div>
+
 
             {/* PAGINATION */}
             <Footer />

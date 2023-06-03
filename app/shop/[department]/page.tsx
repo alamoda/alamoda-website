@@ -1,5 +1,4 @@
-'use client'
-import { useState, useEffect } from 'react'
+
 import Breadcrumb from '@/app/components/Breadcrumb';
 import Header from '@/app/components/Header';
 import Pagination from '@/app/components/Pagination';
@@ -37,17 +36,20 @@ export default async function Shop(
     const category = searchParams.category ? String(searchParams.category) : "";
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
 
+    const breadcrumb = [
+        {
+            name: 'Shop',
+            href: 'shop'
+        },
+        {
+            name: department,
+            href: department
+        },
+    ];
 
-    // const pages = []
-    // if (params.slug && params.slug[0]) pages.push({ name: params.slug[0], href: "" })
-    // if (params.slug && params.slug[1]) pages.push({ name: params.slug[1], href: "" })
-    // if (params.slug && params.slug[2]) pages.push({ name: params.slug[2], href: "" })
-
-    // const skip = searchParams.skip ? Number(searchParams.skip) : 0;
-
-    // const department = params.slug && params.slug[0] ? params.slug[0] : '';
-    // const category = params.slug && params.slug[1] ? params.slug[1] : '';
-    // const subcategory = params.slug && params.slug[2] ? params.slug[2] : '';
+    if (category) {
+        breadcrumb.push({name: category, href: category})
+    }
 
     const data = await getData(department, category, subcategories, skip);
     const { products, count } = data;
@@ -57,9 +59,12 @@ export default async function Shop(
             {/* HEADER */}
             <Header />
 
-            {/* BREADCRUMBS */}
-            {/* <Breadcrumb pages={pages} route="Shop" /> */}
+            {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+
+                {/* BREADCRUMBS */}
+                <Breadcrumb routes={breadcrumb} />
+
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
                     {category ? category.toLocaleLowerCase().replace('-', ' ') : department.toLowerCase().replace('-', ' ')}
                 </h1>
@@ -68,7 +73,9 @@ export default async function Shop(
                     organization with these sale items before we run out.
                 </p>
             </div>
-            {/* <Filters params={params} /> */}
+
+            {/* FILTERS */}
+            <Filters route='shop' department={department} category={category} subcategories={subcategories} />
 
             {/* PRODUCTS */}
             < div className="bg-white" >

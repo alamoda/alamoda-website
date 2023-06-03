@@ -9,6 +9,13 @@ import { Filter } from '../types'
 import { HEADER_NAVIGATION } from '../utils/constants'
 import { test } from 'node:test'
 
+interface ComponentProps {
+    route: string,
+    department: string,
+    category: string,
+    subcategories: string[],
+}
+
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
     { name: 'Best Rating', href: '#', current: false },
@@ -19,109 +26,109 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Filters({ params }: { params: { slug: Array<string> } }) {
+export default function Filters({ route, department, category, subcategories }: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
-    const [activeFilters, setActiveFilters] = useState<Filter[]>([])
-    const [currentDepartment, setCurrentDepartment] = useState<any>()
-    const [currentCategory, setCurrentCategory] = useState<any>()
-    const [currentSubcategories, setCurrentSubcategories] = useState<any>([])
+    // const [currentDepartment, setCurrentDepartment] = useState<any>()
+    // const [currentCategory, setCurrentCategory] = useState<any>()
+    // const [currentSubcategories, setCurrentSubcategories] = useState<any>([])
 
-    // Hooks
-    useEffect(() => {
-        setCurrentDepartment(HEADER_NAVIGATION.find(element => element.id === params.slug[0].toUpperCase()))
-    }, []);
+    const activeFilters: string[] = [];
 
-    const test = () => {
-        console.log("called");
-    };
-
-    // Functions
-    const handleCategoryUpdate = (category: any) => {
-
-        if (currentCategory == null) {
-            addCategory(category)
-        }
-        else {
-            if (currentCategory.id == category.id) return
-            handleFilterRemoved(currentCategory.id)
-            addCategory(category)
-        }
-
-        // window.location.href = `/shop/${currentDepartment.id.toLowerCase().replace(' ', '-')}/${category.name.toLowerCase()}`;
-        // router.push('/about');
+    if (category) {
+        activeFilters.push(category);
+    }
+    
+    if (subcategories) {
+        activeFilters.push(...subcategories);
     }
 
-    const addCategory = (category: any) => {
+    const availableFilters = HEADER_NAVIGATION.find(element => element.name === department.toUpperCase())
 
-        setCurrentCategory(category);
 
-        const filter: Filter = {
-            id: category.id,
-            name: category.name,
-            value: {
-                category: category.name
-            }
-        }
-        setActiveFilters((prev: any) => { return [...prev, filter] })
-    };
+    // // Functions
+    // const handleCategoryUpdate = (category: any) => {
 
-    const removeCategory = (categoryId: any) => {
-        setCurrentCategory(null);
-        setActiveFilters(activeFilters.filter((element: any) => element.id !== categoryId))
-    };
+    //     if (currentCategory == null) {
+    //         addCategory(category)
+    //     }
+    //     else {
+    //         if (currentCategory.id == category.id) return
+    //         handleFilterRemoved(currentCategory.id)
+    //         addCategory(category)
+    //     }
+    // }
 
-    const handleSubcategoryUpdate = (subcategory: any, event: any) => {
-        if (event.target.checked) addSubcategory(subcategory)
-        else removeSubcategory(subcategory.id)
-    };
+    // const addCategory = (category: any) => {
 
-    const addSubcategory = (subcategory: any) => {
+    //     setCurrentCategory(category);
 
-        setCurrentSubcategories((prev: any) => { return [...prev, { id: subcategory.id, name: subcategory.name }] })
+    //     const filter: Filter = {
+    //         id: category.id,
+    //         name: category.name,
+    //         value: {
+    //             category: category.name
+    //         }
+    //     }
+    //     setActiveFilters((prev: any) => { return [...prev, filter] })
+    // };
 
-        const filter: Filter = {
-            id: subcategory.id,
-            name: subcategory.name,
-            value: {
-                subcategory: subcategory.name
-            }
-        }
+    // const removeCategory = (categoryId: any) => {
+    //     setCurrentCategory(null);
+    //     setActiveFilters(activeFilters.filter((element: any) => element.id !== categoryId))
+    // };
 
-        setActiveFilters((prev: any) => { return [...prev, filter] });
-    };
+    // const handleSubcategoryUpdate = (subcategory: any, event: any) => {
+    //     if (event.target.checked) addSubcategory(subcategory)
+    //     else removeSubcategory(subcategory.id)
+    // };
 
-    const removeSubcategory = (subcategoryId: any) => {
-        setCurrentSubcategories(currentSubcategories.filter((element: any) => element.id !== subcategoryId));
-        setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategoryId));
-    };
+    // const addSubcategory = (subcategory: any) => {
 
-    const handleFilterRemoved = (id: Number) => {
+    //     setCurrentSubcategories((prev: any) => { return [...prev, { id: subcategory.id, name: subcategory.name }] })
 
-        // If it's a category
-        // we also remove the category
-        if (currentCategory.id === id) {
-            setCurrentCategory(null);
+    //     const filter: Filter = {
+    //         id: subcategory.id,
+    //         name: subcategory.name,
+    //         value: {
+    //             subcategory: subcategory.name
+    //         }
+    //     }
 
-            let newActiveFilters = [...activeFilters];
+    //     setActiveFilters((prev: any) => { return [...prev, filter] });
+    // };
 
-            currentSubcategories.forEach((subcategory: any) => {
-                newActiveFilters = newActiveFilters.filter((element: any) => element.id !== subcategory.id);
-            });
-            newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
-            setActiveFilters(newActiveFilters);
-            setCurrentSubcategories([])
+    // const removeSubcategory = (subcategoryId: any) => {
+    //     setCurrentSubcategories(currentSubcategories.filter((element: any) => element.id !== subcategoryId));
+    //     setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategoryId));
+    // };
 
-            return;
-        }
+    // const handleFilterRemoved = (id: Number) => {
 
-        // If it's a subcategory
-        if (currentSubcategories.some((item: any) => item.id === id)) {
-            removeSubcategory(id);
-            return;
-        }
-    };
+    //     // If it's a category
+    //     // we also remove the category
+    //     if (currentCategory.id === id) {
+    //         setCurrentCategory(null);
+
+    //         let newActiveFilters = [...activeFilters];
+
+    //         currentSubcategories.forEach((subcategory: any) => {
+    //             newActiveFilters = newActiveFilters.filter((element: any) => element.id !== subcategory.id);
+    //         });
+    //         newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
+    //         setActiveFilters(newActiveFilters);
+    //         setCurrentSubcategories([])
+
+    //         return;
+    //     }
+
+    //     // If it's a subcategory
+    //     if (currentSubcategories.some((item: any) => item.id === id)) {
+    //         removeSubcategory(id);
+    //         return;
+    //     }
+    // };
 
     return (
         <div className="bg-white">
@@ -302,18 +309,18 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {currentDepartment?.categories.map((category: any) => (
-                                                        <Menu.Item key={category.id}>
+                                                    {availableFilters?.categories.map((cat: any) => (
+                                                        <Menu.Item key={cat.id}>
                                                             {({ active }) => (
                                                                 <div
-                                                                    onClick={() => handleCategoryUpdate(category)}
+                                                                    // onClick={() => handleCategoryUpdate(category)}
                                                                     className={classNames(
-                                                                        currentCategory && currentCategory.id == category.id ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                        category && category == cat ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm cursor-pointer capitalize'
                                                                     )}
                                                                 >
-                                                                    {category.name.replace('-', ' ').toLowerCase()}
+                                                                    {category.replace('-', ' ').toLowerCase()}
                                                                 </div>
                                                             )}
                                                         </Menu.Item>
@@ -324,15 +331,15 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                     </Menu>
 
                                     {/* Subcategory */}
-                                    {currentCategory &&
+                                    {/* {currentCategory &&
                                         <Popover className="relative inline-block px-4 text-left">
                                             <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                                 <span className="capitalize">{currentCategory.name.replace('-', ' ').toLowerCase()}</span>
-                                                {/* {sectionIdx === 0 ? (
+                                                {sectionIdx === 0 ? (
                                                                                     <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                                                                         1
                                                                                     </span>
-                                                                                ) : null} */}
+                                                                                ) : null}
                                                 <ChevronDownIcon
                                                     className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                     aria-hidden="true"
@@ -373,7 +380,7 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                                 </Popover.Panel>
                                             </Transition>
                                         </Popover>
-                                    }
+                                    } */}
                                 </Popover.Group>
                             </div>
                         </div>
@@ -395,16 +402,16 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                 <div className="-m-1 flex flex-wrap items-center">
                                     {activeFilters.map((activeFilter: any) => (
                                         <span
-                                            key={activeFilter.id}
+                                            key={activeFilter}
                                             className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
                                         >
-                                            <span className="capitalize">{activeFilter.name.replace('-', ' ').toLowerCase()}</span>
+                                            <span className="capitalize">{activeFilter.replace('-', ' ').toLowerCase()}</span>
                                             <button
                                                 type="button"
-                                                onClick={() => handleFilterRemoved(activeFilter.id)}
+                                                //onClick={() => handleFilterRemoved(activeFilter.id)}
                                                 className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
                                             >
-                                                <span className="sr-only">Remove filter for {activeFilter.name}</span>
+                                                <span className="sr-only">Remove filter for {activeFilter}</span>
                                                 <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                     <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
                                                 </svg>

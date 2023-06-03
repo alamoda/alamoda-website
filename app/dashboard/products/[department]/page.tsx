@@ -72,7 +72,7 @@ export default async function Page({
                 <Pagination
                     productCount={count}
                     skip={skip}
-                    route="dashboard"
+                    route="dashboard/products"
                     department={department}
                     category={category}
                     subcategory={subcategory}

@@ -1,11 +1,13 @@
 'use client'
 
-import { Fragment, useState, useRef } from 'react'
+import { useRouter } from 'next/router'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Filter } from '../types'
 import { HEADER_NAVIGATION } from '../utils/constants'
+import { test } from 'node:test'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
@@ -19,15 +21,23 @@ function classNames(...classes: any) {
 
 export default function Filters({ params }: { params: { slug: Array<string> } }) {
 
+    // State
     const [open, setOpen] = useState(false)
-
     const [activeFilters, setActiveFilters] = useState<Filter[]>([])
-
+    const [currentDepartment, setCurrentDepartment] = useState<any>()
     const [currentCategory, setCurrentCategory] = useState<any>()
     const [currentSubcategories, setCurrentSubcategories] = useState<any>([])
 
-    const currentDepartment = HEADER_NAVIGATION.find(element => element.id === params.slug[0].toUpperCase())
+    // Hooks
+    useEffect(() => {
+        setCurrentDepartment(HEADER_NAVIGATION.find(element => element.id === params.slug[0].toUpperCase()))
+    }, []);
 
+    const test = () => {
+        console.log("called");
+    };
+
+    // Functions
     const handleCategoryUpdate = (category: any) => {
 
         if (currentCategory == null) {
@@ -38,6 +48,9 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
             handleFilterRemoved(currentCategory.id)
             addCategory(category)
         }
+
+        // window.location.href = `/shop/${currentDepartment.id.toLowerCase().replace(' ', '-')}/${category.name.toLowerCase()}`;
+        // router.push('/about');
     }
 
     const addCategory = (category: any) => {
@@ -289,7 +302,7 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {currentDepartment?.categories.map((category) => (
+                                                    {currentDepartment?.categories.map((category: any) => (
                                                         <Menu.Item key={category.id}>
                                                             {({ active }) => (
                                                                 <div

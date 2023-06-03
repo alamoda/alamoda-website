@@ -84,7 +84,7 @@ export default function Hero() {
                             </div>
 
                             <Link
-                                href="/shop"
+                                href="/shop/woman"
                                 className="inline-block rounded-md border border-transparent bg-gray-900 px-8 py-3 text-center font-medium text-white hover:bg-gray-800"
                             >
                                 Shop Now

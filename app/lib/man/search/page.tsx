@@ -10,8 +10,9 @@ export default async function Page() {
     const searchQuery = search ? search.get('q') : null;
 
     const encodedSearchQuery = encodeURI(searchQuery || "");
+    const skip = search ? search.get('skip') : 0;
 
-    const response = await fetch(`/api/search?q=${encodedSearchQuery}`, {
+    const response = await fetch(`/api/search?q=${encodedSearchQuery}&skip=${skip}`, {
         method: 'GET',
         cache: 'no-store',
     });

@@ -84,18 +84,36 @@ async function getData(department: string | null, category: string | null, subca
     return await res.json();
 }
 
-export default async function Shop({ params }: { params: { slug: Array<string> } }) {
-
-    const data = await getData(params.slug ? params.slug[0] : null, params.slug ? params.slug[1] : null, params.slug ? params.slug[2] : null);
-
+export default async function Shop(
+    {
+        searchParams,
+        params
+    }: {
+        searchParams: { [key: string]: string | string[] | undefined },
+        params: { slug: Array<string> }
+    }) {
+        
     const pages = []
     if (params.slug && params.slug[0]) pages.push({ name: params.slug[0], href: "" })
     if (params.slug && params.slug[1]) pages.push({ name: params.slug[1], href: "" })
     if (params.slug && params.slug[2]) pages.push({ name: params.slug[2], href: "" })
 
+    const skip = searchParams.skip ? Number(searchParams.skip) : 0;
+
+    const department = params.slug && params.slug[0] ? params.slug[0] : '';
+    const category = params.slug && params.slug[1] ? params.slug[1] : '';
+    const subcategory = params.slug && params.slug[2] ? params.slug[2] : '';
+
+    const data = await getData(department, category, subcategory, skip);
+
+    const { products, count } = data;
+
     return (
         <>
+            {/* HEADER */}
             <Header />
+
+            {/* BREADCRUMBS */}
             <Breadcrumb pages={pages} />
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
@@ -107,17 +125,30 @@ export default async function Shop({ params }: { params: { slug: Array<string> }
                 </p>
             </div>
             <Filters params={params} />
+
+            {/* PRODUCTS */}
             <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                     <h2 className="sr-only">Products</h2>
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                        {data.products.map((product: any) => (
+                        {products.map((product: any) => (
                             <ProductCard key={product.mongo_id} product={product} />
                         ))}
                     </div>
                 </div>
             </div>
 
+            {/* PAGINATION */}
+            <div className='mt-8'>
+                <Pagination
+                    productCount={count}
+                    skip={skip}
+                    route="dashboard" department={department}
+                    category={category}
+                    subcategory={subcategory} />
+            </div>
+
+            {/* PAGINATION */}
             <Footer />
         </>
     )

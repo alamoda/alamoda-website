@@ -9,7 +9,7 @@ export async function GET(req: Request) {
         throw new Error("Invalid request");
     }
 
-    console.log(query);
+    const skip = getIntParam(url, 'skip');
 
     const products = await db.product.findMany({
         where: {
@@ -38,13 +38,56 @@ export async function GET(req: Request) {
             ]
 
         },
+        take: 60,
         include: {
-            brand: true,
-        },
-        take: 20
+            brand: true
+        }
     });
 
-    console.log("products are", products);
+    const count = await db.product.count({
+        where: {
+            AND: [
+                {
+                    OR: [
+                        {
+                            name: {
+                                contains: query,
+                                mode: "insensitive",
+                            }
+                        },
+                        {
+                            brand: {
+                                name: {
+                                    contains: query,
+                                    mode: "insensitive",
+                                }
+                            }
+                        },
+                    ]
+                },
+                {
+                    status: 2
+                }
+            ]
+        },
+        skip: skip || 0,
+    })
 
-    return new Response(JSON.stringify(products));
+    const res = {
+        products: products,
+        count: count,
+    }
+
+    return new Response(JSON.stringify(res));
+}
+
+function getIntParam(url: URL, name: string) {
+    const limitParam = url.searchParams.get(name);
+
+    if (!limitParam) return null
+
+    const limit = parseInt(limitParam, 10);
+    if (isNaN(limit)) return null
+
+    return limit
 }

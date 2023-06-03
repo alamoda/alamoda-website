@@ -59,7 +59,7 @@ export default function Page({
         <div className="px-4 py-4">
 
             {/* BREADCRUMBS */}
-            <Breadcrumb pages={breadcrumbs} />
+            <Breadcrumb routes={breadcrumbs} />
 
             {/* EDIT PRODUCT */}
             {Object.keys(product).length > 0 ?

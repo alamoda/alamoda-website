@@ -1,6 +1,6 @@
-import Login from '@/app/components/Login';
+import Login from '@/app/(components)/Login';
 import { getServerSession } from "next-auth/next";
-import Logout from '../components/Logout';
+import Logout from '../(components)/Logout';
 
 export default async function Page() {
     const session = await getServerSession();

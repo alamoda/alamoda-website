@@ -1,5 +1,4 @@
-import Dashboard from "../components/Dashboard"
-import Provider from "../components/Provider"
+import Dashboard from "../(components)/Dashboard";
 
 export default async function DashboardLayout({
     children,

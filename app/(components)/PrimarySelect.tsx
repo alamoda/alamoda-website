@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { Category, Department, Option, Subcategory } from '../types'
+import { Category, Department, Option, Subcategory } from '../(types)'
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')

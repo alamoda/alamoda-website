@@ -1,15 +1,16 @@
 import React from 'react';
 import Link from "next/link"
-import { Product } from '@/app/types/index';
+import { Product } from '@/app/(types)/index';
 import Image from 'next/image';
 
 interface ComponentProps {
   product: Product;
+  route: string
 }
 
-const ProductCard: React.FC<ComponentProps> = ({ product }) => {
+const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
   return (
-    <Link key={product.mongo_id} href={"dashboard/man/product/" + product.mongo_id} className="group flex flex-col justify-end">
+    <Link key={product.mongo_id} href={route + '/' + product.mongo_id} className="group flex flex-col justify-end">
       <div className="flex flex-col justify-center items-center">
         <div>
           <Image

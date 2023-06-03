@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from "next/link"
-import { Product } from '@/app/types/index';
+import { Product } from '@/app/(types)/index';
 import Image from 'next/image';
 
 interface ComponentProps {

@@ -1,19 +1,42 @@
-"use client"
+'use client'
 
+import Breadcrumb from "@/app/(components)/Breadcrumb";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Product } from "@/app/types/index";
+import { Product } from "@/app/(types)/index";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import ProductForm from "@/app/components/ProductForm";
-import DeleteButton from "@/app/components/DeleteButtons";
+import ProductForm from "@/app/(components)/ProductForm";
+import DeleteButton from "@/app/(components)/DeleteButtons";
 
-export default function Page() {
+export default function Page({
+    params,
+}: {
+    params: { product: string, department: string };
+}) {
     const [product, setProduct] = useState({});
 
-    const {slug} = useParams();
-    const id = slug.split('/').pop();
     const router = useRouter();
+
+    const department = params.department;
+    const id = params.product;
+
+    console.log(id);
+
+    const breadcrumbs = [
+        {
+            name: 'Dashboard',
+            href: 'dashboard'
+        },
+        {
+            name: 'Products',
+            href: 'products'
+        },
+        {
+            name: id,
+            href: id
+        }
+    ];
 
     useEffect(() => {
         if (!id) {
@@ -33,7 +56,12 @@ export default function Page() {
     }
 
     return (
-        <>
+        <div className="px-4 py-4">
+
+            {/* BREADCRUMBS */}
+            <Breadcrumb pages={breadcrumbs} />
+
+            {/* EDIT PRODUCT */}
             {Object.keys(product).length > 0 ?
                 <>
                     <ProductForm {...product} />
@@ -42,6 +70,6 @@ export default function Page() {
                     </span>
                 </>
                 : null}
-        </>
+        </div>
     )
 }

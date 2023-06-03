@@ -4,8 +4,8 @@ import { Fragment, useState, useRef } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Filter } from '../types'
-import { HEADER_NAVIGATION } from '../utils/constants'
+import { Filter } from '../(types)'
+import { HEADER_NAVIGATION } from '../(utils)/constants'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },

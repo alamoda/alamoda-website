@@ -1,4 +1,4 @@
-import { db } from "@/app/lib/db";
+import { db } from "@/app/(lib)/db";
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {

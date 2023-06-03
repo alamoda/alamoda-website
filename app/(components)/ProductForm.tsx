@@ -1,18 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Product, Option, Feature, Size } from "../types";
+import { Product, Option, Feature, Size } from "../(types)";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
-import PhotoInput from "@/app/components/PhotoInput";
-import PriceInput from "@/app/components/PriceInput";
-import PrimaryButton from "@/app/components/PrimaryButton";
-import PrimaryInput from "@/app/components/PrimaryInput";
-import TextAreaInput from "@/app/components/TextAreaInput";
+import PhotoInput from "@/app/(components)/PhotoInput";
+import PriceInput from "@/app/(components)/PriceInput";
+import PrimaryButton from "@/app/(components)/PrimaryButton";
+import PrimaryInput from "@/app/(components)/PrimaryInput";
+import TextAreaInput from "@/app/(components)/TextAreaInput";
 import Image from 'next/image';
 import PrimarySelect from "./PrimarySelect";
-import { CATEGORIES, DEPARTMENTS, SUBCATEGORIES } from "../utils/constants";
+import { CATEGORIES, DEPARTMENTS, SUBCATEGORIES } from "../(utils)/constants";
 
 
 const ProductForm = ({
@@ -58,7 +58,6 @@ const ProductForm = ({
 
     async function fetchBrands() {
         const res = await axios.get('/api/brands');
-        console.log("brands are", res.data);
         setBrands(res.data);
     }
 

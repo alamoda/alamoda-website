@@ -15,8 +15,8 @@ import Filters from './Filters'
 import SearchInput from './SearchInput'
 
 const navigation = [
-    { name: 'Women', href: '/dashboard/woman', current: true },
-    { name: 'Men', href: '/dashboard/man', current: false },
+    { name: 'Women', href: '/dashboard/products/woman', current: true },
+    { name: 'Men', href: '/dashboard/products/man', current: false },
     { name: 'Add Product', href: '/dashboard/new', current: false },
     { name: 'Orders', href: '/dashboard/orders', current: false },
 ]

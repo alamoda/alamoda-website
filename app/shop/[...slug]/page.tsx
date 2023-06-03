@@ -1,11 +1,11 @@
 'use client'
 
-import Breadcrumb from '@/app/components/Breadcrumb';
-import Header from '@/app/components/Header';
-import Pagination from '@/app/components/Pagination';
-import ProductCard from '@/app/components/ProductCard';
-import Filters from '@/app/components/Filters';
-import Footer from '@/app/components/Footer';
+import Breadcrumb from '@/app/(components)/Breadcrumb';
+import Header from '@/app/(components)/Header';
+import Pagination from '@/app/(components)/Pagination';
+import ProductCard from '@/app/(components)/ProductCard';
+import Filters from '@/app/(components)/Filters';
+import Footer from '@/app/(components)/Footer';
 
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'

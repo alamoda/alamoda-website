@@ -37,7 +37,6 @@ export default async function Page({
 
     const { products, count } = data;
 
-
     return (
         <div className="px-4 py-4">
             <div className='flex items-center mb-8'>

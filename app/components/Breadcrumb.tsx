@@ -2,6 +2,7 @@ import { HomeIcon } from '@heroicons/react/20/solid'
 
 interface ComponentProps {
     pages: Page[]
+    route: string
 }
 
 type Page = {
@@ -9,7 +10,7 @@ type Page = {
     href: string,
 }
 
-export default function Breadcrumb({ pages }: ComponentProps) {
+export default function Breadcrumb({ route, pages }: ComponentProps) {
     return (
         <nav className="flex items-center justify-center" aria-label="Breadcrumb">
             <ol role="list" className="flex items-center space-x-4">
@@ -19,7 +20,7 @@ export default function Breadcrumb({ pages }: ComponentProps) {
                             href='#'
                             className="ml-4 text-xs font-medium text-gray-500 hover:text-gray-700"
                         >
-                            Home
+                            {route}
                         </a>
                     </div>
                 </li>

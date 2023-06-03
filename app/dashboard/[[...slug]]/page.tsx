@@ -1,3 +1,4 @@
+import Breadcrumb from '@/app/components/Breadcrumb';
 import CircularButton from '@/app/components/CircularButton';
 import Pagination from '@/app/components/Pagination';
 import ProductCard from '@/app/components/ProductCard';
@@ -27,9 +28,14 @@ export default async function Page({
     searchParams: { [key: string]: string | string[] | undefined };
 }) {
 
+    const pages = []
+    if (params.slug && params.slug[0]) pages.push({ name: params.slug[0], href: "" })
+    if (params.slug && params.slug[1]) pages.push({ name: params.slug[1], href: "" })
+    if (params.slug && params.slug[2]) pages.push({ name: params.slug[2], href: "" })
+
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
 
-    const department = params.slug && params.slug[0] ? params.slug[0] : '';
+const department = params.slug && params.slug[0] ? params.slug[0] : '';
     const category = params.slug && params.slug[1] ? params.slug[1] : '';
     const subcategory = params.slug && params.slug[2] ? params.slug[2] : '';
 
@@ -41,14 +47,7 @@ export default async function Page({
         <div className="px-4 py-4">
             <div className='flex items-center mb-8'>
                 {/* BREADCRUMBS */}
-                <div className='text-sm font-medium'>
-                    / dashboard / men
-                </div>
-
-                {/* ADD PRODUCT BUTTON */}
-                <Link href="dashboard/new" className="ml-2" >
-                    <CircularButton />
-                </Link>
+                <Breadcrumb pages={pages} route="Dashboard" />
             </div>
 
             {/* PRODUCTS */}
@@ -63,7 +62,7 @@ export default async function Page({
                 <Pagination
                     productCount={count}
                     skip={skip}
-                    route="dashboard" 
+                    route="dashboard"
                     department={department}
                     category={category}
                     subcategory={subcategory} />

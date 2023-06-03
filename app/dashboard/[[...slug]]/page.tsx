@@ -2,6 +2,7 @@ import Breadcrumb from '@/app/components/Breadcrumb';
 import CircularButton from '@/app/components/CircularButton';
 import Pagination from '@/app/components/Pagination';
 import ProductCard from '@/app/components/ProductCard';
+import ProductForm from '@/app/components/ProductForm';
 import { Product } from '@/app/types';
 import Link from 'next/link';
 
@@ -35,20 +36,29 @@ export default async function Page({
 
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
 
-const department = params.slug && params.slug[0] ? params.slug[0] : '';
+    const navigation = params.slug && params.slug[0] ? params.slug[0] : '';
     const category = params.slug && params.slug[1] ? params.slug[1] : '';
     const subcategory = params.slug && params.slug[2] ? params.slug[2] : '';
 
-    const data = await getData(department, category, subcategory, skip);
+    const data = await getData(navigation, category, subcategory, skip);
 
     const { products, count } = data;
 
+    {/* DASHBOARD/NEW */ }
+    if (navigation === 'new') {
+        return (
+            <div className="px-4 py-4">
+                <ProductForm />
+            </div>
+        )
+    }
+
+    {/* DASHBOARD/WOMANMAN, DASHBOARD/MAN */ }
     return (
         <div className="px-4 py-4">
-            <div className='flex items-center mb-8'>
-                {/* BREADCRUMBS */}
-                <Breadcrumb pages={pages} route="Dashboard" />
-            </div>
+
+            {/* BREADCRUMBS */}
+            <Breadcrumb pages={pages} route="Dashboard" />
 
             {/* PRODUCTS */}
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
@@ -63,10 +73,12 @@ const department = params.slug && params.slug[0] ? params.slug[0] : '';
                     productCount={count}
                     skip={skip}
                     route="dashboard"
-                    department={department}
+                    department={navigation}
                     category={category}
                     subcategory={subcategory} />
             </div>
+
+
         </div>
     )
 }

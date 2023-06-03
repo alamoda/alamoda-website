@@ -726,5 +726,5 @@ export const SUBCATEGORIES = [
     { id: 55, name: 'ACCESSORIES' },
     { id: 56, name: 'HOME' },
     { id: 57, name: 'TEXTILE' },
-    { id: 57, name: 'POLO SHIRTS' }
+    { id: 58, name: 'POLO SHIRTS' }
 ];

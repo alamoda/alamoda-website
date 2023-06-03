@@ -12,7 +12,7 @@ type Page = {
 
 export default function Breadcrumb({ route, pages }: ComponentProps) {
     return (
-        <nav className="flex items-center justify-center" aria-label="Breadcrumb">
+        <nav className="mb-8 flex items-center justify-center" aria-label="Breadcrumb">
             <ol role="list" className="flex items-center space-x-4">
                 <li>
                     <div className="flex items-center">

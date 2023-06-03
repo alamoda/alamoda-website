@@ -3,7 +3,7 @@ import { PhotoIcon } from '@heroicons/react/24/solid'
 export default function PhotoInput(props: any) {
   return (
     <div>
-      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-6">
+      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-8 py-8">
         <div className="text-center">
           <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
           <div className="mt-4 flex text-sm leading-6 text-gray-600">

@@ -158,111 +158,127 @@ const ProductForm = ({
     })) as ItemInterface[];
 
     return (
-        <>
+        <div className="px-16">
             {/* IMAGES */}
-            <div className="flex items-center">
-                <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
-                    {!!itemObjects?.length && itemObjects.map(item => (
-                        <div key={item.id} className="inline-block mx-4">
-                            <Image src={item.url} alt={item.id} width={200} height={200} />
+            <div className="flex items-center gap-4">
+                <div className="flex items-center">
+                    <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
+                        {!!itemObjects?.length && itemObjects.map(item => (
+                            <div key={item.id} className="inline-block mx-4">
+                                <Image src={item.url} alt={item.id} width={200} height={200} />
+                            </div>
+                        ))}
+                    </ReactSortable>
+                    <PhotoInput text="Product Images" onChange={uploadImages} />
+                </div>
+
+            </div>
+
+            <div className="gap-8 mt-8">
+                <div className="flex items-center gap-4">
+                    {/* NAME */}
+                    <PrimaryInput size='w-56' label="Name" placeholder="Name" value={name} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                    {/* SKU */}
+                    <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
+                    {/* ID */}
+                    <PrimaryInput size='w-32' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
+                </div>
+                <div className="flex items-center mt-4">
+                    <div>
+                        <div className="flex items-center justify-center gap-4">
+                            {/* DEPARTMENT */}
+                            <PrimarySelect
+                                label="Department"
+                                value={DEPARTMENTS.find(x => x.name === department) || { id: 0, name: 'not selected' }}
+                                options={DEPARTMENTS}
+                                onValueChange={(value: Option) => setDepartment(value.name)}
+                            />
+                            {/* CATEGORY  */}
+                            <PrimarySelect
+                                label="Category"
+                                value={CATEGORIES.find(x => x.name === category) || { id: 0, name: 'not selected' }}
+                                options={CATEGORIES}
+                                onValueChange={(value: Option) => setCategory(value.name)}
+                            />
+                            {/* SUBCATEGORY  */}
+                            <PrimarySelect
+                                label="Subcategory"
+                                value={SUBCATEGORIES.find(x => x.name === subcategory) || { id: 0, name: 'not selected' }}
+                                options={SUBCATEGORIES}
+                                onValueChange={(value: Option) => setSubcategory(value.name)}
+                            />
+
                         </div>
-                    ))}
-                </ReactSortable>
-                <PhotoInput text="Product Images" onChange={uploadImages} />
-            </div>
-
-            <div className="flex items-center gap-4">
-                {/* SKU */}
-                <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
-                {/* ID */}
-                <PrimaryInput size='w-32' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
-            </div>
-
-            <div className="flex items-center gap-4">
-                {/* NAME */}
-                <PrimaryInput size='w-56' label="Name" placeholder="Name" value={name} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
-                {/* BRAND */}
-                <PrimarySelect value={brand} options={brands} label="Brand" onValueChange={(value: Option) => setBrand(value)} />
+                        <div className="flex items-center gap-4 mt-4">
+                            {/* BRAND */}
+                            <PrimarySelect value={brand} options={brands} label="Brand" onValueChange={(value: Option) => setBrand(value)} />
+                            {/* AVAILABILITY */}
+                            <PrimarySelect
+                                label="Available"
+                                value={{ id: 0, name: available.toString() }}
+                                options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
+                                onValueChange={(value: Option) => setAvailable(Boolean(value))}
+                            />
+                            {/* STATUS */}
+                            <PrimarySelect
+                                label="Status"
+                                value={{ id: 0, name: status.toString() }}
+                                options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
+                                onValueChange={(value: Option) => setStatus(Number(value))}
+                            />
+                            {/* SIZES */}
+                            {sizes.length > 0 &&
+                                <div>
+                                    <span className="font-medium text-sm">
+                                        Sizes:
+                                    </span>
+                                    {sizes.map((size, index) => (
+                                        <span key={index} className="text-sm">
+                                            {" " + size.name}
+                                        </span>
+                                    ))
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* DESCRIPTION */}
-            <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
-
-            <div className="flex items-center gap-4">
-                {/* DEPARTMENT */}
-                <PrimarySelect
-                    label="Department"
-                    value={DEPARTMENTS.find(x => x.name === department) || { id: 0, name: 'not selected' }}
-                    options={DEPARTMENTS}
-                    onValueChange={(value: Option) => setDepartment(value.name)}
-                />
-                {/* CATEGORY  */}
-                <PrimarySelect
-                    label="Category"
-                    value={CATEGORIES.find(x => x.name === category) || { id: 0, name: 'not selected' }}
-                    options={CATEGORIES}
-                    onValueChange={(value: Option) => setCategory(value.name)}
-                />
-                {/* SUBCATEGORY  */}
-                <PrimarySelect
-                    label="Subcategory"
-                    value={SUBCATEGORIES.find(x => x.name === subcategory) || { id: 0, name: 'not selected' }}
-                    options={SUBCATEGORIES}
-                    onValueChange={(value: Option) => setSubcategory(value.name)}
-                />
-            </div>
-
-            {/* FEATURES */}
-                <div className="flex flex-wrap gap-4 my-4 text-sm" >
-                    {Array.from(features).map((feature, index) => (
-                        <div key={index}>
-                            <div className="font-medium mb-3">
-                                {feature.name}
+            < div className="flex items-center justify-between mt-4" >
+                <div>
+                    <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
+                </div>
+                <div>
+                    {/* FEATURES */}
+                    <div className="flex flex-wrap justify-center gap-4 text-sm" >
+                        {Array.from(features).map((feature, index) => (
+                            <div key={index}>
+                                <div className="font-medium mb-3">
+                                    {feature.name}
+                                </div>
+                                <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
+                                    {feature.value}
+                                </div>
                             </div>
-                            <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
-                                {feature.value}
-                            </div>
-                        </div>
-                    ))}
-            </div>
+                        ))}
+                    </div>
+                </div>
+            </div >
 
-            {/* PRICE AND WHOLESALE PRICE */}
-            <div className="flex items-center gap-4">
+            < div className="flex items-center gap-4" >
+                {/* PRICE */}
                 <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
+                {/* WHOLESALE PRICE */}
                 <PriceInput name="Wholesale Price" value={wholesale_price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
             </div>
 
-            {/* SIZES */}
-            <div className="my-4">
-                <span className="font-medium text-sm">
-                    Sizes:
-                </span>
-                {sizes.map((size, index) => (
-                    <span key={index} className="text-sm">
-                        {" " + size.name}
-                    </span>
-                ))}
+            <div className="mt-2">
+                {/* SAVE BUTTON */}
+                <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
             </div>
-
-            <div className="flex items-center gap-4 mb-4">
-                {/* AVAILABILITY */}
-                <PrimarySelect
-                    label="Available"
-                    value={{ id: 0, name: available.toString() }}
-                    options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
-                    onValueChange={(value: Option) => setAvailable(Boolean(value))}
-                />
-                {/* STATUS */}
-                <PrimarySelect
-                    label="Status"
-                    value={{ id: 0, name: status.toString() }}
-                    options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
-                    onValueChange={(value: Option) => setStatus(Number(value))}
-                />
-            </div>
-
-            <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
-        </>
+        </div>
     )
 }
 

@@ -23,6 +23,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'baseblu.chalco.net'
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.baseblu.com'
       }
     ],
   },

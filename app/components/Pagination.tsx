@@ -23,7 +23,7 @@ export default function Pagination({ productCount, selectedPage, department, cat
   const categoryParam = category ? "category=" + category + "&" : '';
   const subcategoryParam = subcategory ? "subcategory=" + subcategory + "&" : '';
 
-
+  if(pageCount > 0) {
   return (
     <nav className="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
       <div className="-mt-px flex w-0 flex-1">
@@ -37,7 +37,7 @@ export default function Pagination({ productCount, selectedPage, department, cat
       </div>
       <div className="hidden md:-mt-px md:flex">
         {Array.from({ length: pageCount }).map((_, index) => {
-          if (index + 1 == 1 || index + 1 === pageCount || (index + 1 < selectedPage + 5 && selectedPage < 5) || (index + 1 >= selectedPage && index + 1 < selectedPage + 5 && selectedPage >= 5)) {
+          if (index + 1 == 1 || index + 1 === pageCount || (selectedPage > pageCount - 5 && index + 1 > pageCount - 5) || (index + 1 < selectedPage + 5 && selectedPage < 5) || (index + 1 >= selectedPage && index + 1 < selectedPage + 5 && selectedPage >= 5)) {
             return <Link
               key={index + 1}
               href={`/${route}/${department}?${category}${subcategory}skip=${(index) * productLimit}`}
@@ -49,7 +49,7 @@ export default function Pagination({ productCount, selectedPage, department, cat
             >
               {index + 1}
             </Link>;
-          } else if ((index + 1 === selectedPage - 1 && selectedPage >= 5) || index + 1 === selectedPage + 5) {
+          } else if ((selectedPage > pageCount - 5 && index + 1 === pageCount - 5) || (index + 1 === selectedPage - 1 && selectedPage >= 5) || index + 1 === selectedPage + 5) {
             return <p key={index + 1} className="inline-flex items-center px-4 pt-4 text-sm font-medium text-gray-500">...</p>; // Placeholder for skipped elements
           }
           return null; // Ignore elements in the middle
@@ -65,5 +65,6 @@ export default function Pagination({ productCount, selectedPage, department, cat
         </Link>
       </div>
     </nav>
-  )
+  )}
+  return <></>
 }

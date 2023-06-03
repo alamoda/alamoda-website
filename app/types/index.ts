@@ -44,12 +44,12 @@ export type Category = {
 }
 
 export type Subcategory = {
-    id: string 
+    id: string
     name: string
 }
 
 export type Feature = {
-    id_feature: string 
+    id_feature: string
     name: string
     position: string
     value: string
@@ -59,4 +59,15 @@ export type Size = {
     variant_id: string
     name: string
     quantity: string
+}
+
+export type FilterValue = {
+    department?: string,
+    category?: string,
+    subcategory?: string,
+}
+
+export type Filter = {
+    label: string,
+    value: FilterValue
 }

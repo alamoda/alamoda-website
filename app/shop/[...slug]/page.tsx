@@ -93,16 +93,23 @@ export default async function Shop({ params }: { params: { slug: Array<string> }
     if (params.slug && params.slug[1]) pages.push({ name: params.slug[1], href: "" })
     if (params.slug && params.slug[2]) pages.push({ name: params.slug[2], href: "" })
 
-
     return (
         <>
             <Header />
             <Breadcrumb pages={pages} />
-            <Filters />
+            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
+                    {pages.length > 0 ? pages[pages.length - 1].name.replace('-', ' ') : "All Products"}
+                </h1>
+                <p className="mt-4 max-w-xl text-sm text-gray-700">
+                    Our thoughtfully designed workspace objects are crafted in limited runs. Improve your productivity and
+                    organization with these sale items before we run out.
+                </p>
+            </div>
+            <Filters params={params} />
             <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                     <h2 className="sr-only">Products</h2>
-
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {data.products.map((product: any) => (
                             <ProductCard key={product.mongo_id} product={product} />

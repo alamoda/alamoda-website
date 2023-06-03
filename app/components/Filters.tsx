@@ -5,13 +5,13 @@ import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Filter } from '../types'
+import { HEADER_NAVIGATION } from '../utils/constants'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
     { name: 'Best Rating', href: '#', current: false },
     { name: 'Newest', href: '#', current: false },
 ]
-
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -20,46 +20,124 @@ function classNames(...classes: any) {
 export default function Filters({ params }: { params: { slug: Array<string> } }) {
 
     const [open, setOpen] = useState(false)
-    const [activeFilters, setActiveFilters] = useState<Filter[]>([{
-        label: "test",
-        value: {
-            category: "test"
-        }
-    }])
 
-    const availableFilters = [
-        {
-            id: 'category',
-            name: 'Category',
-            options: [
-                { value: 'new-arrivals', label: 'All New Arrivals', checked: false },
-                { value: 'tees', label: 'Tees', checked: false },
-                { value: 'objects', label: 'Objects', checked: true },
-            ],
-        },
-        {
-            id: 'color',
-            name: 'Color',
-            options: [
-                { value: 'white', label: 'White', checked: false },
-                { value: 'beige', label: 'Beige', checked: false },
-                { value: 'blue', label: 'Blue', checked: false },
-            ],
-        },
-        {
-            id: 'sizes',
-            name: 'Sizes',
-            options: [
-                { value: 's', label: 'S', checked: false },
-                { value: 'm', label: 'M', checked: false },
-                { value: 'l', label: 'L', checked: false },
-            ],
-        },
-    ]
+    const [activeFilters, setActiveFilters] = useState<Filter[]>([])
+
+    const [currentCategory, setCurrentCategory] = useState<any>()
+    const [currentSubcategories, setCurrentSubcategories] = useState<any>([])
+
+    const currentDepartment = HEADER_NAVIGATION.find(element => element.id === 'MAN')
+
+    const handleCategoryUpdate = (category: any) => {
+        setCurrentCategory(category);
+
+        const filter: Filter = {
+            id: category.id,
+            name: category.name,
+            value: {
+                category: category.name
+            }
+        }
+        setActiveFilters((prev: any) => { return [...prev, filter] })
+    };
+
+    const handleSubcategoryUpdate = (subcategory: any, event: any) => {
+
+        if (event.target.checked) addSubcategory(subcategory)
+        else removeSubcategory(subcategory)
+    };
+
+    const addSubcategory = (subcategory: any) => {
+        
+        setCurrentSubcategories((prev: any) => { return [...prev, { id: subcategory.id, name: subcategory.name }] })
+
+        const filter: Filter = {
+            id: subcategory.id,
+            name: subcategory.name,
+            value: {
+                subcategory: subcategory.name
+            }
+        }
+
+        setActiveFilters((prev: any) => { return [...prev, filter] });
+    };
+
+    const removeSubcategory = (subcategory: any) => {
+        setCurrentSubcategories(currentSubcategories.filter((element: any) => element.id !== subcategory.id));
+        setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategory.id));
+    };
+
+    const handleFilterRemoved = (id: Number) => {
+
+        // If it's a category
+        // we also remove the category
+        if (currentCategory.id === id) {
+            console.log("removing category");
+            setCurrentCategory(null);
+            
+            let newActiveFilters = [...activeFilters];
+
+            currentSubcategories.forEach((subcategory: any) => {
+                newActiveFilters = newActiveFilters.filter((element: any) => element.id !== subcategory.id);
+            });
+            newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
+            setActiveFilters(newActiveFilters);
+            setCurrentSubcategories([])
+            
+            return;
+        }
+
+        // If it's a subcategory
+        if (currentSubcategories.some((item: any) => item.id === id)) {
+            console.log("removing subcategory");
+            // setCurrentCategory(null);
+            // setActiveFilters(activeFilters.filter((element: any) => element.id !== id));
+            return;
+        }
+
+
+    };
+
+    // const availableFilters = {
+    //     categories: currentDepartment?.categories,
+    // }
+    // console.log(availableFilters)
+
+
+    // const availableFilters = [
+    //     {
+    //         id: 'category',
+    //         name: 'Category',
+    //         options: [
+    //             { value: 'new-arrivals', label: 'All New Arrivals', checked: false },
+    //             { value: 'tees', label: 'Tees', checked: false },
+    //             { value: 'objects', label: 'Objects', checked: true },
+    //         ],
+    //     },
+    //     {
+    //         id: 'color',
+    //         name: 'Color',
+    //         options: [
+    //             { value: 'white', label: 'White', checked: false },
+    //             { value: 'beige', label: 'Beige', checked: false },
+    //             { value: 'blue', label: 'Blue', checked: false },
+    //         ],
+    //     },
+    //     {
+    //         id: 'sizes',
+    //         name: 'Sizes',
+    //         options: [
+    //             { value: 's', label: 'S', checked: false },
+    //             { value: 'm', label: 'M', checked: false },
+    //             { value: 'l', label: 'L', checked: false },
+    //         ],
+    //     },
+    // ]
 
 
     return (
         <div className="bg-white">
+
             {/* Mobile filter dialog */}
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-40 sm:hidden" onClose={setOpen}>
@@ -100,29 +178,31 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
 
                                 {/* Filters */}
                                 <form className="mt-4">
-                                    {availableFilters.length > 0 && availableFilters.map((section) => (
-                                        <Disclosure as="div" key={section.name} className="border-t border-gray-200 px-4 py-6">
-                                            {({ open }) => (
-                                                <>
-                                                    <h3 className="-mx-2 -my-3 flow-root">
-                                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
-                                                            <span className="font-medium text-gray-900">{section.name}</span>
-                                                            <span className="ml-6 flex items-center">
-                                                                <ChevronDownIcon
-                                                                    className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
-                                                                    aria-hidden="true"
-                                                                />
-                                                            </span>
-                                                        </Disclosure.Button>
-                                                    </h3>
-                                                    <Disclosure.Panel className="pt-6">
-                                                        <div className="space-y-6">
-                                                            {section.options.map((option, optionIdx) => (
-                                                                <div key={option.value} className="flex items-center">
+                                    {/* Category */}
+                                    <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                                        {({ open }) => (
+                                            <>
+                                                <h3 className="-mx-2 -my-3 flow-root">
+                                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
+                                                        <span className="font-medium text-gray-900">Categories</span>
+                                                        <span className="ml-6 flex items-center">
+                                                            <ChevronDownIcon
+                                                                className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                                                                aria-hidden="true"
+                                                            />
+                                                        </span>
+                                                    </Disclosure.Button>
+                                                </h3>
+
+
+                                                {/* <Disclosure.Panel className="pt-6">
+                                                    <div className="space-y-6">
+                                                        {currentDepartment?.categories.map((category, categoryIdx) => (
+                                                                <div key={category.id} className="flex items-center">
                                                                     <input
-                                                                        id={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                        name={`${section.id}[]`}
-                                                                        defaultValue={option.value}
+                                                                        id={`filter-mobile-${category.id}-${categoryIdx}`}
+                                                                        name={`${category.id}[]`}
+                                                                        defaultValue={category.name}
                                                                         type="checkbox"
                                                                         defaultChecked={option.checked}
                                                                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
@@ -135,12 +215,11 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                                                     </label>
                                                                 </div>
                                                             ))}
-                                                        </div>
-                                                    </Disclosure.Panel>
-                                                </>
-                                            )}
-                                        </Disclosure>
-                                    ))}
+                                                    </div>
+                                                </Disclosure.Panel> */}
+                                            </>
+                                        )}
+                                    </Disclosure>
                                 </form>
                             </Dialog.Panel>
                         </Transition.Child>
@@ -209,16 +288,63 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
 
                         <div className="hidden sm:block">
                             <div className="flow-root">
+
                                 <Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
-                                    {availableFilters.length > 0 && availableFilters.map((section, sectionIdx) => (
-                                        <Popover key={section.name} className="relative inline-block px-4 text-left">
+
+                                    {/* Category */}
+                                    <Menu as="div" className="relative inline-block text-left px-4">
+                                        <div>
+                                            <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                                Category
+                                                <ChevronDownIcon
+                                                    className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                    aria-hidden="true"
+                                                />
+                                            </Menu.Button>
+                                        </div>
+
+                                        <Transition
+                                            as={Fragment}
+                                            enter="transition ease-out duration-100"
+                                            enterFrom="transform opacity-0 scale-95"
+                                            enterTo="transform opacity-100 scale-100"
+                                            leave="transition ease-in duration-75"
+                                            leaveFrom="transform opacity-100 scale-100"
+                                            leaveTo="transform opacity-0 scale-95"
+                                        >
+                                            <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div className="py-1">
+                                                    {currentDepartment?.categories.map((category) => (
+                                                        <Menu.Item key={category.id}>
+                                                            {({ active }) => (
+                                                                <div
+                                                                    onClick={() => handleCategoryUpdate(category)}
+                                                                    className={classNames(
+                                                                        currentCategory && currentCategory.id == category.id ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                        active ? 'bg-gray-100' : '',
+                                                                        'block px-4 py-2 text-sm cursor-pointer capitalize'
+                                                                    )}
+                                                                >
+                                                                    {category.name.replace('-', ' ').toLowerCase()}
+                                                                </div>
+                                                            )}
+                                                        </Menu.Item>
+                                                    ))}
+                                                </div>
+                                            </Menu.Items>
+                                        </Transition>
+                                    </Menu>
+
+                                    {/* Subcategory */}
+                                    {currentCategory &&
+                                        <Popover className="relative inline-block px-4 text-left">
                                             <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                                <span>{section.name}</span>
-                                                {sectionIdx === 0 ? (
-                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                                                        1
-                                                    </span>
-                                                ) : null}
+                                                <span className="capitalize">{currentCategory.name.replace('-', ' ').toLowerCase()}</span>
+                                                {/* {sectionIdx === 0 ? (
+                                                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                                                        1
+                                                                                    </span>
+                                                                                ) : null} */}
                                                 <ChevronDownIcon
                                                     className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                     aria-hidden="true"
@@ -234,23 +360,24 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                                 leaveFrom="transform opacity-100 scale-100"
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
+
                                                 <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <form className="space-y-4">
-                                                        {section.options.map((option, optionIdx) => (
-                                                            <div key={option.value} className="flex items-center">
+                                                        {currentCategory.subcategories.map((subcategory: any) => (
+                                                            <div key={subcategory.id} className="flex items-center">
                                                                 <input
-                                                                    id={`filter-${section.id}-${optionIdx}`}
-                                                                    name={`${section.id}[]`}
-                                                                    defaultValue={option.value}
+                                                                    name={`${subcategory.id}[]`}
+                                                                    defaultValue={subcategory.name}
                                                                     type="checkbox"
-                                                                    defaultChecked={option.checked}
+                                                                    defaultChecked={currentSubcategories.some((sub: any) => sub.id === subcategory.id)}
                                                                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                    onChange={(event) => handleSubcategoryUpdate(subcategory, event)}
                                                                 />
                                                                 <label
-                                                                    htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                                    className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
+                                                                    htmlFor={`filter-${subcategory.name}`}
+                                                                    className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900 capitalize"
                                                                 >
-                                                                    {option.label}
+                                                                    {subcategory.name.replace('-', ' ').toLowerCase()}
                                                                 </label>
                                                             </div>
                                                         ))}
@@ -258,7 +385,7 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                                                 </Popover.Panel>
                                             </Transition>
                                         </Popover>
-                                    ))}
+                                    }
                                 </Popover.Group>
                             </div>
                         </div>
@@ -266,38 +393,41 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
                 </div>
 
                 {/* Active filters */}
-                <div className="bg-gray-100">
-                    <div className="mx-auto max-w-7xl px-4 py-3 sm:flex sm:items-center sm:px-6 lg:px-8">
-                        <h3 className="text-sm font-medium text-gray-500">
-                            Filters
-                            <span className="sr-only">, active</span>
-                        </h3>
+                {activeFilters.length > 0 &&
+                    <div className="bg-gray-100">
+                        <div className="mx-auto max-w-7xl px-4 py-3 sm:flex sm:items-center sm:px-6 lg:px-8">
+                            <h3 className="text-sm font-medium text-gray-500">
+                                Filters
+                                <span className="sr-only">, active</span>
+                            </h3>
 
-                        <div aria-hidden="true" className="hidden h-5 w-px bg-gray-300 sm:ml-4 sm:block" />
+                            <div aria-hidden="true" className="hidden h-5 w-px bg-gray-300 sm:ml-4 sm:block" />
 
-                        <div className="mt-2 sm:ml-4 sm:mt-0">
-                            <div className="-m-1 flex flex-wrap items-center">
-                                {activeFilters.map((activeFilter) => (
-                                    <span
-                                        key={activeFilter.label}
-                                        className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
-                                    >
-                                        <span className="capitalize">{activeFilter.label.replace('-', ' ')}</span>
-                                        <button
-                                            type="button"
-                                            className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
+                            <div className="mt-2 sm:ml-4 sm:mt-0">
+                                <div className="-m-1 flex flex-wrap items-center">
+                                    {activeFilters.map((activeFilter: any) => (
+                                        <span
+                                            key={activeFilter.id}
+                                            className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
                                         >
-                                            <span className="sr-only">Remove filter for {activeFilter.label}</span>
-                                            <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-                                                <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                ))}
+                                            <span className="capitalize">{activeFilter.name.replace('-', ' ').toLowerCase()}</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleFilterRemoved(activeFilter.id)}
+                                                className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
+                                            >
+                                                <span className="sr-only">Remove filter for {activeFilter.name}</span>
+                                                <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                                                    <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </section>
         </div>
     )

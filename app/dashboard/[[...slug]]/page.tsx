@@ -48,6 +48,9 @@ export default async function Page({
     if (navigation === 'new') {
         return (
             <div className="px-4 py-4">
+                {/* BREADCRUMBS */}
+                <Breadcrumb pages={pages} route="Dashboard" />
+                {/* PRODUCT FORM */}
                 <ProductForm />
             </div>
         )

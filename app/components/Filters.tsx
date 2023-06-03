@@ -26,9 +26,22 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
     const [currentCategory, setCurrentCategory] = useState<any>()
     const [currentSubcategories, setCurrentSubcategories] = useState<any>([])
 
-    const currentDepartment = HEADER_NAVIGATION.find(element => element.id === 'MAN')
+    const currentDepartment = HEADER_NAVIGATION.find(element => element.id === params.slug[0].toUpperCase())
 
     const handleCategoryUpdate = (category: any) => {
+
+        if (currentCategory == null) {
+            addCategory(category)
+        }
+        else {
+            if (currentCategory.id == category.id) return
+            handleFilterRemoved(currentCategory.id)
+            addCategory(category)
+        }
+    }
+
+    const addCategory = (category: any) => {
+
         setCurrentCategory(category);
 
         const filter: Filter = {
@@ -41,14 +54,18 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
         setActiveFilters((prev: any) => { return [...prev, filter] })
     };
 
-    const handleSubcategoryUpdate = (subcategory: any, event: any) => {
+    const removeCategory = (categoryId: any) => {
+        setCurrentCategory(null);
+        setActiveFilters(activeFilters.filter((element: any) => element.id !== categoryId))
+    };
 
+    const handleSubcategoryUpdate = (subcategory: any, event: any) => {
         if (event.target.checked) addSubcategory(subcategory)
-        else removeSubcategory(subcategory)
+        else removeSubcategory(subcategory.id)
     };
 
     const addSubcategory = (subcategory: any) => {
-        
+
         setCurrentSubcategories((prev: any) => { return [...prev, { id: subcategory.id, name: subcategory.name }] })
 
         const filter: Filter = {
@@ -62,9 +79,9 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
         setActiveFilters((prev: any) => { return [...prev, filter] });
     };
 
-    const removeSubcategory = (subcategory: any) => {
-        setCurrentSubcategories(currentSubcategories.filter((element: any) => element.id !== subcategory.id));
-        setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategory.id));
+    const removeSubcategory = (subcategoryId: any) => {
+        setCurrentSubcategories(currentSubcategories.filter((element: any) => element.id !== subcategoryId));
+        setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategoryId));
     };
 
     const handleFilterRemoved = (id: Number) => {
@@ -72,9 +89,8 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
         // If it's a category
         // we also remove the category
         if (currentCategory.id === id) {
-            console.log("removing category");
             setCurrentCategory(null);
-            
+
             let newActiveFilters = [...activeFilters];
 
             currentSubcategories.forEach((subcategory: any) => {
@@ -83,57 +99,16 @@ export default function Filters({ params }: { params: { slug: Array<string> } })
             newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
             setActiveFilters(newActiveFilters);
             setCurrentSubcategories([])
-            
+
             return;
         }
 
         // If it's a subcategory
         if (currentSubcategories.some((item: any) => item.id === id)) {
-            console.log("removing subcategory");
-            // setCurrentCategory(null);
-            // setActiveFilters(activeFilters.filter((element: any) => element.id !== id));
+            removeSubcategory(id);
             return;
         }
-
-
     };
-
-    // const availableFilters = {
-    //     categories: currentDepartment?.categories,
-    // }
-    // console.log(availableFilters)
-
-
-    // const availableFilters = [
-    //     {
-    //         id: 'category',
-    //         name: 'Category',
-    //         options: [
-    //             { value: 'new-arrivals', label: 'All New Arrivals', checked: false },
-    //             { value: 'tees', label: 'Tees', checked: false },
-    //             { value: 'objects', label: 'Objects', checked: true },
-    //         ],
-    //     },
-    //     {
-    //         id: 'color',
-    //         name: 'Color',
-    //         options: [
-    //             { value: 'white', label: 'White', checked: false },
-    //             { value: 'beige', label: 'Beige', checked: false },
-    //             { value: 'blue', label: 'Blue', checked: false },
-    //         ],
-    //     },
-    //     {
-    //         id: 'sizes',
-    //         name: 'Sizes',
-    //         options: [
-    //             { value: 's', label: 'S', checked: false },
-    //             { value: 'm', label: 'M', checked: false },
-    //             { value: 'l', label: 'L', checked: false },
-    //         ],
-    //     },
-    // ]
-
 
     return (
         <div className="bg-white">

@@ -1,4 +1,5 @@
 import Breadcrumb from '@/app/components/Breadcrumb';
+import EditProduct from '@/app/components/EditProduct';
 import Pagination from '@/app/components/Pagination';
 import ProductCard from '@/app/components/ProductCard';
 import ProductForm from '@/app/components/ProductForm';
@@ -39,7 +40,7 @@ export default async function Page({
     const navigation = params.slug && params.slug[0] ? params.slug[0] : '';
     const category = params.slug && params.slug[1] ? params.slug[1] : '';
     const subcategory = params.slug && params.slug[2] ? params.slug[2] : '';
-
+    console.log(category);
     const data = await getData(navigation, category, subcategory, skip, searchQuery);
 
     const { products, count } = data;
@@ -56,7 +57,7 @@ export default async function Page({
         )
     }
     // DASHBOARD/WOMANMAN, DASHBOARD/MAN
-    else if (navigation === 'man' || navigation === 'woman') {
+    else if ((navigation === 'man' || navigation === 'woman') && category !== 'product') {
         return (
             <div className="px-4 py-4">
 
@@ -84,21 +85,17 @@ export default async function Page({
                 </div>
             </div>
         )
-    }
-    else if (searchQuery) {
-        // SEARCH
+        // DASHBOARD/NAVIGATION/PRODUCT/ID
+    } else {
         return (
             <div className="px-4 py-4">
+
                 {/* BREADCRUMBS */}
                 <Breadcrumb pages={pages} route="Dashboard" />
-                {/* PRODUCTS */}
-                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                    {products.map((product: Product) => (
-                        <ProductCard key={product.mongo_id} product={product} />
-                    ))}
-                </div>
+
+                <EditProduct />
+
             </div>
         )
     }
-
 }

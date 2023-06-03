@@ -9,7 +9,7 @@ interface ComponentProps {
 
 const ProductCard: React.FC<ComponentProps> = ({ product }) => {
   return (
-    <Link key={product.mongo_id} href={"dashboard/man/" + product.mongo_id} className="group flex flex-col justify-end">
+    <Link key={product.mongo_id} href={"dashboard/man/product/" + product.mongo_id} className="group flex flex-col justify-end">
       <div className="flex flex-col justify-center items-center">
         <div>
           <Image

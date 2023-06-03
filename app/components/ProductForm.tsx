@@ -161,15 +161,15 @@ const ProductForm = ({
         <div className="px-16">
             {/* IMAGES */}
             <div className="flex items-center gap-4">
-                <div className="flex items-center">
+                <div className="flex flex-wrap items-center gap-4">
+                    <PhotoInput text="Product Images" onChange={uploadImages} />
                     <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
                         {!!itemObjects?.length && itemObjects.map(item => (
                             <div key={item.id} className="inline-block mx-4">
-                                <Image src={item.url} alt={item.id} width={200} height={200} />
+                                <Image src={item.url} alt={item.id} width={217} height={290} />
                             </div>
                         ))}
                     </ReactSortable>
-                    <PhotoInput text="Product Images" onChange={uploadImages} />
                 </div>
 
             </div>
@@ -185,7 +185,7 @@ const ProductForm = ({
                 </div>
                 <div className="flex items-center mt-4">
                     <div>
-                        <div className="flex items-center justify-center gap-4">
+                        <div className="flex items-center gap-4">
                             {/* DEPARTMENT */}
                             <PrimarySelect
                                 value={DEPARTMENTS.find(x => x.name === department) || { id: 0, name: 'Department' }}
@@ -206,7 +206,7 @@ const ProductForm = ({
                             />
 
                         </div>
-                        <div className="flex items-center gap-4 mt-4">
+                        <div className="flex flex-wrap items-center gap-4 mt-4">
                             {/* BRAND */}
                             <PrimarySelect value={brand} options={brands} onValueChange={(value: Option) => setBrand(value)} />
                             {/* AVAILABILITY */}
@@ -241,28 +241,24 @@ const ProductForm = ({
             </div>
 
             {/* DESCRIPTION */}
-            < div className="flex items-center justify-between mt-4" >
-                <div>
-                    <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
-                </div>
-                <div>
-                    {/* FEATURES */}
-                    <div className="flex flex-wrap justify-center gap-4 text-sm" >
-                        {Array.from(features).map((feature, index) => (
-                            <div key={index}>
-                                <div className="font-medium mb-3">
-                                    {feature.name}
-                                </div>
-                                <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
-                                    {feature.value}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            < div className="flex items-center justify-between mt-2" >
+                <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
             </div >
 
-            < div className="flex items-center gap-4" >
+            {/* FEATURES */}
+            <div className="flex flex-wrap gap-4 text-sm mt-2" >
+                {Array.from(features).map((feature, index) => (
+                    <div key={index}>
+                        <div className="font-medium mb-1">
+                            {feature.name}
+                        </div>
+                        <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
+                            {feature.value}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            < div className="flex items-center gap-4 mt-2" >
                 {/* PRICE */}
                 <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
                 {/* WHOLESALE PRICE */}

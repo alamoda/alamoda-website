@@ -48,7 +48,7 @@ export default async function Shop(
     ];
 
     if (category) {
-        breadcrumb.push({name: category, href: category})
+        breadcrumb.push({ name: category, href: category })
     }
 
     const data = await getData(department, category, subcategories, skip);
@@ -72,6 +72,7 @@ export default async function Shop(
                     Our thoughtfully designed workspace objects are crafted in limited runs. Improve your productivity and
                     organization with these sale items before we run out.
                 </p>
+
             </div>
 
             {/* FILTERS */}

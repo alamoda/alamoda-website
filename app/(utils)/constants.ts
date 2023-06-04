@@ -102,7 +102,7 @@ export const HEADER_NAVIGATION = [
     // Women
     {
         id: 'WOMAN',
-        name: 'Women',
+        name: 'Woman',
         categories: [
             {
                 id: "726",
@@ -371,7 +371,7 @@ export const HEADER_NAVIGATION = [
     // Men
     {
         id: 'MAN',
-        name: 'Men',
+        name: 'Man',
         categories: [
             {
                 id: "638",

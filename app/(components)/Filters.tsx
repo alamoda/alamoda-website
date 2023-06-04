@@ -8,6 +8,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Filter } from '../(types)'
 import { HEADER_NAVIGATION } from '../(utils)/constants'
 import { test } from 'node:test'
+import Link from 'next/link'
 
 interface ComponentProps {
     route: string,
@@ -39,12 +40,18 @@ export default function Filters({ route, department, category, subcategories }: 
     if (category) {
         activeFilters.push(category);
     }
-    
+
     if (subcategories) {
         activeFilters.push(...subcategories);
     }
 
-    const availableFilters = HEADER_NAVIGATION.find(element => element.name === department.toUpperCase())
+
+
+    const availableCategories = HEADER_NAVIGATION.find(element => element.name.toLowerCase() === department.toLowerCase())?.categories;
+    // console.log(department.toLowerCase())
+
+    const availableSubcategories = category && availableCategories ? availableCategories.find((cat: any) => cat.name.toLowerCase() === category.toLowerCase()) : [];
+
 
 
     // // Functions
@@ -309,19 +316,18 @@ export default function Filters({ route, department, category, subcategories }: 
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {availableFilters?.categories.map((cat: any) => (
+                                                    {availableCategories?.map((cat: any) => (
                                                         <Menu.Item key={cat.id}>
                                                             {({ active }) => (
-                                                                <div
-                                                                    // onClick={() => handleCategoryUpdate(category)}
+                                                                <Link href={`${route}/${department}?category=${cat.name.replace(' ', '-').toLowerCase()}` }
                                                                     className={classNames(
-                                                                        category && category == cat ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                        category && category.toLowerCase() == cat.name.toLowerCase() ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm cursor-pointer capitalize'
                                                                     )}
                                                                 >
-                                                                    {category.replace('-', ' ').toLowerCase()}
-                                                                </div>
+                                                                    {cat.name.replace('-', ' ').toLowerCase()}
+                                                                </Link>
                                                             )}
                                                         </Menu.Item>
                                                     ))}

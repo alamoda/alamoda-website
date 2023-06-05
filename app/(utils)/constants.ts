@@ -101,11 +101,11 @@ export const HEADER_NAVIGATION = [
 
     // Women
     {
-        id: 'WOMAN',
+        id: 'woman',
         name: 'Woman',
         categories: [
             {
-                id: "726",
+                id: "accessoriesACCESSORIES726",
                 name: "ACCESSORIES",
                 subcategories: [
                     {

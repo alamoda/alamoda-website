@@ -79,7 +79,7 @@ export default function Header() {
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {/* {navigation..map((category, categoryIdx) => (
+                    {navigation.departments.map((category, categoryIdx) => (
                       <Tab.Panel key={category.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
@@ -149,7 +149,7 @@ export default function Header() {
                           </div>
                         </div>
                       </Tab.Panel>
-                    ))} */}
+                    ))}
                   </Tab.Panels>
                 </Tab.Group>
 

@@ -1,6 +1,22 @@
 import { db } from "@/app/(lib)/db"
 import { DEPARTMENTS } from "@/app/(utils)/constants";
 
+export async function GET(req: Request) {
+
+  const departments = await db.department.findMany({
+    include: {
+      categories: {
+        include: {
+          subcategories: true,
+        },
+      },
+    }
+  });
+
+  return new Response(JSON.stringify(departments));
+}
+
+
 export async function POST(req: Request) {
 
   // for (const department of DEPARTMENTS) {

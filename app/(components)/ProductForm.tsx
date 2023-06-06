@@ -64,7 +64,8 @@ const ProductForm = ({
     }
 
     async function fetchDepartments() {
-        const res = await axios.get('/api/department');
+        const res = await axios.get('/api/departments');
+        console.log(res.data);
         setDepartments(res.data);
     }
 
@@ -197,26 +198,29 @@ const ProductForm = ({
                                 label="Department"
                                 value={department || { id: 0, name: 'None' }}
                                 options={departments}
-                                onValueChange={(value: Department) => setDepartment(value)}
+                                onValueChange={(value: Department) => {
+                                    setDepartment(value);
+                                    setCategory({ id: 0, name: 'None', subcategories: [] });
+                                    setSubcategory({ id: 0, name: 'None' });
+                                }}
                             />
                             {/* CATEGORY  */}
-                            {department &&
-                                <PrimarySelect
-                                    label="Category"
-                                    value={category || { id: 0, name: 'None' }}
-                                    options={department.categories}
-                                    onValueChange={(value: Category) => setCategory(value)}
-                                />
-                            }
+                            <PrimarySelect
+                                label="Category"
+                                value={category || { id: 0, name: 'None' }}
+                                options={department.categories}
+                                onValueChange={(value: Category) => {
+                                    setCategory(value);
+                                    setSubcategory({ id: 0, name: 'None' });
+                                }}
+                            />
                             {/* SUBCATEGORY  */}
-                            {category &&
-                                <PrimarySelect
-                                    label="Subcategory"
-                                    value={subcategory || { id: 0, name: 'None' }}
-                                    options={category.subcategories}
-                                    onValueChange={(value: Option) => setSubcategory(value)}
-                                />
-                            }
+                            <PrimarySelect
+                                label="Subcategory"
+                                value={subcategory || { id: 0, name: 'None' }}
+                                options={category.subcategories}
+                                onValueChange={(value: Option) => setSubcategory(value)}
+                            />
                         </div>
                         <div className="flex flex-wrap items-center gap-4 mt-4">
                             {/* BRAND */}

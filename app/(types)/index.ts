@@ -6,9 +6,9 @@ export type Product = {
     name: string
     description: string
     features: Feature[]
-    department: string
-    category: string
-    subcategory: string
+    department: Department
+    category: Category
+    subcategory: Subcategory
     price: number
     wholesale_price: number
     sizes: object
@@ -24,27 +24,6 @@ export type Brand = {
 
 export type Option = {
     id: number
-    name: string
-}
-
-export type Department = {
-    id: string
-    name: string
-    href: string
-    categories: Category[]
-}
-
-export type Category = {
-    id: string
-    name: string
-    href: string
-    imageSrc: string
-    imageAlt: string
-    subcategories: Subcategory[]
-}
-
-export type Subcategory = {
-    id: string
     name: string
 }
 
@@ -71,4 +50,21 @@ export type Filter = {
     id: string,
     name: string,
     value: FilterValue
+}
+
+export type Department = {
+    id: Number,
+    name: String,
+    categories: Category[]
+}
+
+export type Category = {
+    id: Number,
+    name: String,
+    subcategories: Subcategory[]
+}
+
+export type Subcategory = {
+    id: Number,
+    name: String,
 }

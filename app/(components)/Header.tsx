@@ -4,11 +4,10 @@ import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { HEADER_NAVIGATION } from '../(utils)/constants'
+import { DEPARTMENTS } from '../(utils)/constants'
 
-const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
-  departments: HEADER_NAVIGATION,
+  departments: DEPARTMENTS,
   pages: [
     { name: 'About Alamoda', href: '#' },
   ],
@@ -177,30 +176,6 @@ export default function Header() {
                   </div>
                 </div>
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  {/* Currency selector */}
-                  <form>
-                    <div className="inline-block">
-                      <label htmlFor="mobile-currency" className="sr-only">
-                        Currency
-                      </label>
-                      <div className="group relative -ml-2 rounded-md border-transparent focus-within:ring-2 focus-within:ring-white">
-                        <select
-                          id="mobile-currency"
-                          name="currency"
-                          className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800"
-                        >
-                          {currencies.map((currency) => (
-                            <option key={currency}>{currency}</option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                          <ChevronDownIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -4,8 +4,6 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url);
 
-
-
     // We force to specify a limit and to be < 50
     const limit = getIntParam(url, 'limit');
     if (!limit || (limit && limit > 60)) {

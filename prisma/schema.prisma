@@ -57,23 +57,53 @@ model Brand {
 }
 
 model Product {
-  mongo_id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  id              Int      @unique
-  sku             String   @unique
+  mongo_id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  id              Int          @unique
+  sku             String       @unique
   price           Float
   wholesale_price Float
   available       Boolean
-  brand           Brand    @relation(fields: [brandId], references: [mongo_id])
-  brandId         String   @db.ObjectId
+  brand           Brand        @relation(fields: [brandId], references: [mongo_id])
+  brandId         String       @db.ObjectId
   name            String
   description     String?
   features        Json
-  department      String
-  category        String
-  subcategory     String?
+  department      Department   @relation(fields: [departmentId], references: [mongo_id])
+  departmentId    String       @db.ObjectId
+  category        Category     @relation(fields: [categoryId], references: [mongo_id])
+  categoryId      String       @db.ObjectId
+  subcategory     Subcategory? @relation(fields: [subcategoryId], references: [mongo_id])
+  subcategoryId   String?      @db.ObjectId
   images          Json
   sizes           Json
   status          Int
   updated_at      Float?
   created_at      Float?
+}
+
+model Department {
+  mongo_id   String     @id @default(auto()) @map("_id") @db.ObjectId
+  id         Int        @unique
+  name       String
+  categories Category[]
+  Product    Product[]
+}
+
+model Category {
+  mongo_id      String        @id @default(auto()) @map("_id") @db.ObjectId
+  id            Int           @unique
+  name          String
+  department    Department    @relation(fields: [departmentId], references: [mongo_id])
+  departmentId  String        @db.ObjectId
+  subcategories Subcategory[]
+  Product       Product[]
+}
+
+model Subcategory {
+  mongo_id   String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         Int       @unique
+  name       String
+  category   Category  @relation(fields: [categoryId], references: [mongo_id])
+  categoryId String    @db.ObjectId
+  Product    Product[]
 }

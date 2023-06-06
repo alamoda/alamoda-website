@@ -1,13 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/router'
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Filter } from '../(types)'
-import { HEADER_NAVIGATION } from '../(utils)/constants'
-import { test } from 'node:test'
 import Link from 'next/link'
 
 interface ComponentProps {
@@ -45,9 +41,11 @@ export default function Filters({ route, department, category, subcategories }: 
         activeFilters.push(...subcategories);
     }
 
-
-    const availableCategories = HEADER_NAVIGATION.find(element => element.name.toLowerCase() === department.toLowerCase())?.categories;
-    const availableSubcategories = category && availableCategories ? availableCategories.find((cat: any) => cat.name.toLowerCase() === category.toLowerCase())?.subcategories : [];
+    const availableCategories: any = []
+    const availableSubcategories: any = []
+    
+    // const availableCategories = HEADER_NAVIGATION.find(element => element.name.toLowerCase() === department.toLowerCase())?.categories;
+    // const availableSubcategories = category && availableCategories ? availableCategories.find((cat: any) => cat.name.toLowerCase() === category.toLowerCase())?.subcategories : [];
 
 
     const getSubcategoryUrl = (sub: any) => {

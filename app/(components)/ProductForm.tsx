@@ -194,6 +194,7 @@ const ProductForm = ({
                         <div className="flex items-center gap-4">
                             {/* DEPARTMENT */}
                             <PrimarySelect
+                                label="Department"
                                 value={department || { id: 0, name: 'None' }}
                                 options={departments}
                                 onValueChange={(value: Department) => setDepartment(value)}
@@ -201,6 +202,7 @@ const ProductForm = ({
                             {/* CATEGORY  */}
                             {department &&
                                 <PrimarySelect
+                                    label="Category"
                                     value={category || { id: 0, name: 'None' }}
                                     options={department.categories}
                                     onValueChange={(value: Category) => setCategory(value)}
@@ -209,6 +211,7 @@ const ProductForm = ({
                             {/* SUBCATEGORY  */}
                             {category &&
                                 <PrimarySelect
+                                    label="Subcategory"
                                     value={subcategory || { id: 0, name: 'None' }}
                                     options={category.subcategories}
                                     onValueChange={(value: Option) => setSubcategory(value)}
@@ -217,16 +220,23 @@ const ProductForm = ({
                         </div>
                         <div className="flex flex-wrap items-center gap-4 mt-4">
                             {/* BRAND */}
-                            <PrimarySelect value={brand} options={brands} onValueChange={(value: Option) => setBrand(value)} />
+                            <PrimarySelect
+                                label="Brand"
+                                value={brand}
+                                options={brands}
+                                onValueChange={(value: Option) => setBrand(value)}
+                            />
                             {/* AVAILABILITY */}
                             <PrimarySelect
-                                value={available ? {id: 1, name: available.toString()} : { id: 0, name: 'None:'}}
+                                label="Available"
+                                value={available ? { id: 1, name: available.toString() } : { id: 0, name: 'None:' }}
                                 options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
                                 onValueChange={(value: Option) => setAvailable(Boolean(value.name))}
                             />
                             {/* STATUS */}
                             <PrimarySelect
-                                value={{ id: 0, name: 'Status: ' + status.toString() }}
+                                label="Status"
+                                value={{ id: 0, name: status.toString() }}
                                 options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
                                 onValueChange={(value: Option) => setStatus(Number(value.name))}
                             />

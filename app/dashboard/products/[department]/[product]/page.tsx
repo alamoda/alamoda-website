@@ -14,7 +14,26 @@ export default function Page({
 }: {
     params: { product: string, department: string };
 }) {
-    const [product, setProduct] = useState({});
+    const [product, setProduct] = useState<Product>({
+        mongo_id: '',
+        id: 0,
+        sku: '',
+        price: 0,
+        wholesale_price: 0,
+        available: false,
+        brand: { id: 0, name: 'None' },
+        name: '',
+        description: '',
+        features: undefined,
+        department: { id: 0, name: 'None', categories: [] },
+        category: { id: 0, name: 'None', subcategories: [] },
+        subcategory: { id: 0, name: 'None' },
+        images: [],
+        sizes: [],
+        status: 0,
+        updated_at: undefined,
+        created_at: undefined,
+    });
 
     const router = useRouter();
 
@@ -64,7 +83,7 @@ export default function Page({
             {/* EDIT PRODUCT */}
             {Object.keys(product).length > 0 ?
                 <>
-                    <ProductForm {...product} />
+                    <ProductForm product={product} />
                     <span className="px-16">
                         <DeleteButton text="delete" onClick={deleteProduct} />
                     </span>

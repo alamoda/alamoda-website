@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Option, Feature, Size } from "../(types)";
+import { Option, Feature, Size, Brand } from "../(types)";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -17,8 +17,7 @@ import { Category } from "../(types)";
 import { Subcategory } from "../(types)";
 import { Product } from "../(types)";
 
-
-const ProductForm = (product?: Product) => {
+const ProductForm: React.FC<{ product?: Product; }> = ({ product }) => {
     const [formProduct, setFormProduct] = useState<Product>({
         mongo_id: '',
         id: 0,
@@ -40,6 +39,7 @@ const ProductForm = (product?: Product) => {
         created_at: undefined,
     })
 
+    const [images, setImages] = useState<string[]>([]);
     const [brands, setBrands] = useState<Option[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
     const [department, setDepartment] = useState<Department>();
@@ -55,6 +55,7 @@ const ProductForm = (product?: Product) => {
     useEffect(() => {
         if (product) {
             setFormProduct(product);
+            setImages(product.images);
         }
     }, [product]);
 
@@ -76,11 +77,52 @@ const ProductForm = (product?: Product) => {
         }));
     };
 
-    const handleSelectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    const handleDepartmentChange = (value: Department) => {
         setFormProduct((prevProduct) => ({
             ...prevProduct,
-            [name]: value,
+            ['department']: value,
+        }));
+    };
+
+    const handleCategoryChange = (value: Category) => {
+        setFormProduct((prevProduct) => ({
+            ...prevProduct,
+            ['category']: value,
+        }));
+    };
+
+    const handleSubcategoryChange = (value: Subcategory) => {
+        setFormProduct((prevProduct) => ({
+            ...prevProduct,
+            ['subcategory']: value,
+        }));
+    };
+
+    const handleBrandChange = (value: Brand) => {
+        setFormProduct((prevProduct) => ({
+            ...prevProduct,
+            ['brand']: value,
+        }));
+    };
+
+    const handleAvailabilityChange = (value: any) => {
+        setFormProduct((prevProduct) => ({
+            ...prevProduct,
+            ['available']: value,
+        }));
+    };
+
+    const handleStatusChange = (value: any) => {
+        setFormProduct((prevProduct) => ({
+            ...prevProduct,
+            ['status']: value,
+        }));
+    };
+
+    const handleSelectChange = (value: Option | Department | Category | Subcategory, propertyName: string) => {
+        setFormProduct((prevProduct) => ({
+            ...prevProduct,
+            [propertyName]: value,
         }));
     };
 
@@ -125,59 +167,58 @@ const ProductForm = (product?: Product) => {
         //     router.push('/dashboard/');
     }
 
-    // // Reads the file and sends it to the backend
-    // async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
-    //     const files = e.target?.files;
-    //     console.log("files are", files);
+    // Reads the file and sends it to the backend
+    async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
+        const files = e.target?.files;
+        console.log("files are", files);
 
-    //     const formData = new FormData();
-    //     if (files && files?.length > 0) {
-    //         for (let i = 0; i < files.length; i++) {
-    //             const fileData = await readFile(files[i]);
-    //             console.log("filesData is", fileData);
+        const formData = new FormData();
+        if (files && files?.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const fileData = await readFile(files[i]);
+                console.log("filesData is", fileData);
 
-    //             if (fileData) {
-    //                 formData.append('image', new Blob([fileData]), files[i].name);
-    //             }
-    //         }
+                if (fileData) {
+                    formData.append('image', new Blob([fileData]), files[i].name);
+                }
+            }
 
-    //         const res = await axios.post('/api/upload', formData);
-    //         console.log("images are ", res.data);
+            const res = await axios.post('/api/upload', formData);
+            console.log("images are ", res.data);
 
-    //         setImages(oldImages => [...oldImages, ...res.data]);
-    //     }
-    // }
+            setImages(oldImages => [...oldImages, ...res.data]);
+        }
+    }
 
-    // // Reads File and returns an ArrayBuffer
-    // const readFile = (file: File) => {
-    //     return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
-    //         const reader = new FileReader();
+    // Reads File and returns an ArrayBuffer
+    const readFile = (file: File) => {
+        return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
+            const reader = new FileReader();
 
-    //         reader.onload = () => {
-    //             const fileData = reader.result;
-    //             resolve(fileData);
-    //         };
+            reader.onload = () => {
+                const fileData = reader.result;
+                resolve(fileData);
+            };
 
-    //         reader.onerror = (error) => {
-    //             reject(error);
-    //         };
+            reader.onerror = (error) => {
+                reject(error);
+            };
 
-    //         reader.readAsArrayBuffer(file);
-    //     });
-    // };
+            reader.readAsArrayBuffer(file);
+        });
+    };
 
-    // // Define ItemInterface to use with list and setList methods of ReactSortable
-    // interface ItemInterface {
-    //     id: string;
-    //     url: string;
-    // }
+    // Define ItemInterface to use with list and setList methods of ReactSortable
+    interface ItemInterface {
+        id: string;
+        url: string;
+    }
 
-    // // Map each image to an item of type ItemInterface
-    // const itemObjects = Array.from(images).map((image, index) => ({
-    //     id: index.toString(),
-    //     url: image,
-    // })) as ItemInterface[];
-
+    // Map each image to an item of type ItemInterface
+    const itemObjects = Array.from(images).map((image, index) => ({
+        id: index.toString(),
+        url: image,
+    })) as ItemInterface[];
 
     return (
         <div className="px-16">
@@ -211,35 +252,35 @@ const ProductForm = (product?: Product) => {
                             <PrimarySelect
                                 value={departments.find(x => x.name === formProduct.department?.name) || { id: 0, name: 'None' }}
                                 options={departments}
-                                onValueChange={handleSelectChange}
+                                onValueChange={handleDepartmentChange}
                             />
                             {/* CATEGORY  */}
                             {department && <PrimarySelect
                                 value={department?.categories.find(x => x.name === formProduct.category?.name) || { id: 0, name: 'None' }}
                                 options={department.categories}
-                                onValueChange={handleSelectChange}
+                                onValueChange={handleCategoryChange}
                             />}
                             {/* SUBCATEGORY  */}
                             {category && <PrimarySelect
                                 value={category?.subcategories.find(x => x.name === formProduct.subcategory?.name) || { id: 0, name: 'None' }}
                                 options={category.subcategories}
-                                onValueChange={handleSelectChange}
+                                onValueChange={handleSubcategoryChange}
                             />}
                         </div>
                         <div className="flex flex-wrap items-center gap-4 mt-4">
                             {/* BRAND */}
-                            <PrimarySelect value={formProduct.brand} options={brands} onValueChange={handleSelectChange} />
+                            <PrimarySelect value={formProduct.brand} options={brands} onValueChange={handleBrandChange} />
                             {/* AVAILABILITY */}
                             <PrimarySelect
                                 value={{ id: 0, name: 'true' }}
                                 options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
-                                onValueChange={handleSelectChange}
+                                onValueChange={handleAvailabilityChange}
                             />
                             {/* STATUS */}
                             <PrimarySelect
                                 value={{ id: 0, name: 'Status: ' + status.toString() }}
                                 options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
-                                onValueChange={handleSelectChange}
+                                onValueChange={handleStatusChange}
                             />
                             {/* SIZES */}
                             {formProduct.sizes.length > 0 &&
@@ -280,7 +321,7 @@ const ProductForm = (product?: Product) => {
                     ))}
                 </div>
             }
-            < div className="flex items-center gap-4 mt-2" >
+            <div className="flex items-center gap-4 mt-2" >
                 {/* PRICE */}
                 <PriceInput name="Price" value={formProduct.price} onChange={handleInputChange} />
                 {/* WHOLESALE PRICE */}

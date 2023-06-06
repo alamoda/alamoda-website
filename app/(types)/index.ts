@@ -55,18 +55,18 @@ export type Filter = {
 }
 
 export type Department = {
-    id: Number,
-    name: String,
+    id: number,
+    name: string,
     categories: Category[]
 }
 
 export type Category = {
-    id: Number,
-    name: String,
+    id: number,
+    name: string,
     subcategories: Subcategory[]
 }
 
 export type Subcategory = {
-    id: Number,
-    name: String,
+    id: number,
+    name: string,
 }

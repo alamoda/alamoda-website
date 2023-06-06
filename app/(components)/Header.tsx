@@ -1,16 +1,21 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { DEPARTMENTS } from '../(utils)/constants'
+import { Disclosure } from '@headlessui/react'
+import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
+import { Category, Department, Subcategory } from '../(types)'
+import axios from 'axios'
 
-const navigation = {
-  departments: DEPARTMENTS,
-  pages: [
-    { name: 'About Alamoda', href: '#' },
-  ],
+interface Navigation {
+  departments: Department[],
+  pages: Page[]
+}
+
+interface Page {
+  name: string,
+  href: string,
 }
 
 function classNames(...classes: any) {
@@ -19,9 +24,24 @@ function classNames(...classes: any) {
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [navigation, setNavigation] = useState<Navigation>({ departments: [], pages: [] });
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
+
+  async function fetchDepartments() {
+    const res = await axios.get('http://localhost:3000/api/departments');
+    setNavigation({
+      departments: res.data,
+      pages: [
+        { name: 'About Alamoda', href: '#' },
+      ]
+    })
+  }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white z-40">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -62,10 +82,10 @@ export default function Header() {
                 {/* Links */}
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
-                    <Tab.List className="-mb-px flex space-x-8 px-4">
-                      {navigation.departments.map((department) => (
+                    <Tab.List className="-mb-px flex space-x-8 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-x-auto">
+                      {navigation.departments.map((department: Department) => (
                         <Tab
-                          key={department.name}
+                          key={department.id}
                           className={({ selected }) =>
                             classNames(
                               selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
@@ -79,77 +99,70 @@ export default function Header() {
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {/* {navigation..map((category, categoryIdx) => (
-                      <Tab.Panel key={category.name} className="space-y-12 px-4 pb-6 pt-10">
+                    {navigation.departments.map((department: Department, departmentIdx: number) => (
+                      <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
-                            <div>
-                              <p id={`mobile-featured-heading-${categoryIdx}`} className="font-medium text-gray-900">
-                                Featured
-                              </p>
-                              <ul
-                                role="list"
-                                aria-labelledby={`mobile-featured-heading-${categoryIdx}`}
-                                className="mt-6 space-y-6"
-                              >
-                                {category.subcategories.map((item) => (
-                                  <li key={item.name} className="flex">
-                                    <a href={item.href} className="text-gray-500">
-                                      {item.name}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                            <div>
-                              <p id="mobile-categories-heading" className="font-medium text-gray-900">
-                                Categories
-                              </p>
-                              <ul role="list" aria-labelledby="mobile-categories-heading" className="mt-6 space-y-6">
-                                {category.categories.map((item) => (
-                                  <li key={item.name} className="flex">
-                                    <a href={item.href} className="text-gray-500">
-                                      {item.name}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-1 gap-x-6 gap-y-10">
-                            <div>
-                              <p id="mobile-collection-heading" className="font-medium text-gray-900">
-                                Collection
-                              </p>
-                              <ul role="list" aria-labelledby="mobile-collection-heading" className="mt-6 space-y-6">
-                                {category.collection.map((item) => (
-                                  <li key={item.name} className="flex">
-                                    <a href={item.href} className="text-gray-500">
-                                      {item.name}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                            {department.categories.map((category: Category) =>
 
-                            <div>
-                              <p id="mobile-brand-heading" className="font-medium text-gray-900">
-                                Brands
-                              </p>
-                              <ul role="list" aria-labelledby="mobile-brand-heading" className="mt-6 space-y-6">
-                                {category.brands.map((item) => (
-                                  <li key={item.name} className="flex">
-                                    <a href={item.href} className="text-gray-500">
-                                      {item.name}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                              <Disclosure as="div" key={category.id}>
+                                {({ open }) => (
+                                  <>
+                                    <dt>
+                                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                                        <span className="text-base font-medium leading-7">{category.name}</span>
+                                        <span className="ml-6 flex h-7 items-center">
+                                          {open ? (
+                                            <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                          ) : (
+                                            <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                          )}
+                                        </span>
+                                      </Disclosure.Button>
+                                    </dt>
+                                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
+                                      <ul
+                                        role="list"
+                                        aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
+                                        className="mt-6 space-y-6"
+                                      >
+                                        {category.subcategories.map((subcategory: Subcategory) => (
+                                          <li key={subcategory.id} className="flex">
+                                            <a href="#" className="text-gray-500">
+                                              {subcategory.name}
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </Disclosure.Panel>
+                                  </>
+                                )}
+                              </Disclosure>
+
+
+                              // <div key={category.id}>
+                              //   <p id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
+                              //     {category.name}
+                              //   </p>
+                              //   <ul
+                              //     role="list"
+                              //     aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
+                              //     className="mt-6 space-y-6"
+                              //   >
+                              //     {category.subcategories.map((subcategory: Subcategory) => (
+                              //       <li key={subcategory.id} className="flex">
+                              //         <a href="#" className="text-gray-500">
+                              //           {subcategory.name}
+                              //         </a>
+                              //       </li>
+                              //     ))}
+                              //   </ul>
+                              // </div>
+                            )}
                           </div>
                         </div>
                       </Tab.Panel>
-                    ))} */}
+                    ))}
                   </Tab.Panels>
                 </Tab.Group>
 
@@ -175,7 +188,6 @@ export default function Header() {
                     </a>
                   </div>
                 </div>
-
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -205,8 +217,8 @@ export default function Header() {
                     {/* Mega menus */}
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
-                        {navigation.departments.map((department, departmentIdx) => (
-                          <Popover key={department.name} className="flex">
+                        {navigation.departments.map((department: Department) => (
+                          <Popover key={department.id} className="flex">
                             {({ open }) => (
                               <>
                                 <div className="relative flex">
@@ -239,8 +251,8 @@ export default function Header() {
                                       <div className="mx-auto max-w-7xl px-8">
                                         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
-                                            {department.categories.map((category, categoryIdx) => (
-                                              <div key={category.name}>
+                                            {department.categories.map((category: Category, categoryIdx: number) => (
+                                              <div key={category.id}>
                                                 <p
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900"
@@ -252,8 +264,8 @@ export default function Header() {
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
                                                   className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                                 >
-                                                  {category.subcategories.slice(0, 5).map((subcategory) => (
-                                                    <li key={subcategory.name} className="flex">
+                                                  {category.subcategories.slice(0, 5).map((subcategory: Subcategory) => (
+                                                    <li key={subcategory.id} className="flex">
                                                       <a href="#" className="hover:text-gray-800">
                                                         {subcategory.name}
                                                       </a>

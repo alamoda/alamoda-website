@@ -20,7 +20,7 @@ export async function GET(req: Request) {
 
     const department = getIntParam(url, 'department');
     const category = getIntParam(url, 'category');
-    const subcategory = getIntParam(url, 'subcategory');
+    const subcategory = getStrParam(url, 'subcategory');
 
     const filters: any = [
         {
@@ -55,7 +55,9 @@ export async function GET(req: Request) {
         filters.push(
             {
                 subcategory: {
-                    id: subcategory 
+                    id: {
+                        in: subcategory.split(',')
+                    }
                 }
             }
         );
@@ -98,17 +100,6 @@ export async function GET(req: Request) {
         }
     });
 
-    // const products = await db.product.findMany({
-    //     where: {
-    //         AND: filters
-    //     },
-    //     take: limit,
-    //     skip: skip || 0,
-    //     include: {
-    //         brand: true
-    //     }
-    // });
-
     const count = await db.product.count({
         where: {
             AND: filters
@@ -136,7 +127,7 @@ function getIntParam(url: URL, name: string) {
 
 function getStrParam(url: URL, name: string) {
     const strParam = url.searchParams.get(name);
-    
+
     if (!strParam) return null
 
     return strParam;

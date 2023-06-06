@@ -1,91 +1,3 @@
-// export const CATEGORIES_OTHER = {
-//     BAGS: 'BAGS',
-//     CLOTHING: 'CLOTHING',
-//     FOOTWEAR: 'FOOTWEAR',
-//     ACCESSORIES: 'ACCESSORIES',
-//     JEWELLERY: 'JEWELLERY',
-// } as const;
-
-// ACCESSORIES (326)
-// BEAUTY CASES (23)
-// BELTS e BRACES (39)
-// BOWTIES e TIES (2)
-// CLUTCHES (0)
-// COVERS e CASES (12)
-// CUFFLINKS (0)
-// EXTRA (2)
-// EXTRAS (15)
-// GLOVES (1)
-// HATS e HAIRBANDS (59)
-// KEY RINGS (12)
-// SCARVES (17)
-// SHOULDER BAGS (0)
-// SOCKS (3)
-// SUNGLASSES (3)
-// WALLETS (138)
-// WALLETS (0)
-
-
-// BAGS (135)
-// BACKPACKS (20)
-// BRIEFCASES (0)
-// BUCKET BAGS (1)
-// CLUTCHES (15)
-// HANDBAGS (25)
-// SHOULDER BAGS (71)
-// TRAVEL BAGS (3)
-
-
-// CLOTHING (1983)
-// BERMUDA SHORTS (100)
-// BLAZERS e VESTS (16)
-// COATS (34)
-// DOWN JACKETS (31)
-// FURS (0)
-// JACKETS (179)
-// JEANS (105)
-// KNITWEAR (175)
-// LEATHER JACKETS (6)
-// LEGGINGS (3)
-// PANTS (284)
-// POLO SHIRTS (66)
-// SHIRTS (204)
-// SOCKS (0)
-// SUITS (25)
-// SWEATSHIRTS (278)
-// SWIMWEAR (56)
-// T-SHIRTS (408)
-// TOP (7)
-// TRENCH COATS (3)
-// UNDERWEAR (3)
-
-
-
-// Footwear (376 items)
-
-// Boots (32 items)
-// Espadrilles (1 item)
-// Lace Up (22 items)
-// Loafers (47 items)
-// Sandals (48 items)
-// Sneakers (226 items)
-
-
-// Jewellery (42 items)
-
-// Bracelets (24 items)
-// Extras (1 item)
-// Necklaces (3 items)
-// Rings (14 items)
-
-
-// Lifestyle (1060)
-
-// ACCESSORIES (1061) => 1065
-// HOME (1062) => 1064
-// TEXTILE (1063) => 1066
-
-
 export const DEPARTMENTS = [
 
     // Men
@@ -738,17 +650,17 @@ export const DEPARTMENTS = [
         name: 'Lifestyle',
         categories: [
             {
-                id: 1065,
+                id: 1061,
                 name: 'Accessories',
                 subcategories: [],
             },
             {
-                id: 1064,
+                id: 1062,
                 name: 'Home',
                 subcategories: []
             },
             {
-                id: 1066,
+                id: 1063,
                 name: 'Textile',
                 subcategories: []
             },

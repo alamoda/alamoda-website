@@ -1,43 +1,49 @@
 import { db } from "@/app/(lib)/db"
+import { DEPARTMENTS } from "@/app/(utils)/constants";
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
 
-    const departments = [
-        {
-          id: 123,
-          name: 'Department 1',
-          categories: {
-            create: [
-              {
-                id: 124,
-                name: 'Category 1-1',
-                subcategories: {
-                  create: [
-                    { id: 125, name: 'Subcategory 1-1-1' },
-                    { id: 126, name: 'Subcategory 1-1-2' },
-                  ],
-                },
-              },
-              {
-                id: 127,
-                name: 'Category 1-2',
-                subcategories: {
-                  create: [
-                    { id: 128, name: 'Subcategory 1-2-1' },
-                    { id: 129, name: 'Subcategory 1-2-2' },
-                  ],
-                },
-              },
-            ],
-          },
-        },
-      ];
-    
-      // for (const dept of departments) {
-      //   await db.department.create({
-      //     data: dept,
-      //   });
-      // }
+  // for (const department of DEPARTMENTS) {
 
-    return new Response(JSON.stringify({"Message": "success"}));
+  //   const dept = {
+  //     id: department.id,
+  //     name: department.name
+  //   };
+
+  //   await db.department.create({
+  //     data: dept,
+  //   });
+
+  //   for (const category of department.categories) {
+
+  //     const cat = {
+  //       id: category.id,
+  //       name: category.name,
+  //       department: {
+  //         connect: { id: dept.id }
+  //       },
+  //     };
+
+  //     await db.category.create({
+  //       data: cat,
+  //     });
+
+  //     for (const subcategory of category.subcategories) {
+
+  //       const sub = {
+  //         id: subcategory.id,
+  //         name: subcategory.name,
+  //         category: {
+  //           connect: { id: cat.id }
+  //         },
+  //       };
+
+  //       await db.subcategory.create({
+  //         data: sub,
+  //       });
+  //     }
+  //   }
+  // }
+
+  return new Response(JSON.stringify({ "Message": "success" }));
 }

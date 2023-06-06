@@ -12,9 +12,9 @@ export async function POST(req: Request) {
         name,
         description,
         features,
-        department,
-        category,
-        subcategory,
+        department_id,
+        category_id,
+        subcategory_id,
         images,
         sizes,
         status,
@@ -35,9 +35,15 @@ export async function POST(req: Request) {
             },
             description: description,
             features: features,
-            department: department,
-            category: category,
-            subcategory: subcategory,
+            department: {
+                connect: { id: department_id }
+            },
+            category: {
+                connect: { id: category_id }
+            },
+            subcategory: {
+                connect: { id: subcategory_id }
+            },
             images: images,
             sizes: sizes,
             status: status,

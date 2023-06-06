@@ -99,7 +99,6 @@ export async function GET(req: Request) {
         count: count,
     }
 
-
     return new Response(JSON.stringify(res));
 }
 

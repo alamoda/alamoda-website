@@ -1,12 +1,11 @@
 'use client'
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Disclosure } from '@headlessui/react'
-import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 import { Category, Department, Subcategory } from '../(types)'
 import axios from 'axios'
+import Link from 'next/link'
 
 interface Navigation {
   departments: Department[],
@@ -23,7 +22,11 @@ function classNames(...classes: any) {
 }
 
 export default function Header() {
+
   const [open, setOpen] = useState(false)
+  const [isShowing, setIsShowing] = useState<boolean[]>([])
+  const [currentShowing, setCurrentShowing] = useState<number | null>(null)
+
   const [navigation, setNavigation] = useState<Navigation>({ departments: [], pages: [] });
 
   useEffect(() => {
@@ -37,8 +40,30 @@ export default function Header() {
       pages: [
         { name: 'About Alamoda', href: '#' },
       ]
-    })
+    });
+
+    // Setup the hover effect
+    setIsShowing(Array(res.data.length).fill(false));
   }
+
+  const onHoverEnterMenu = (val: boolean, index: number) => {
+
+    let newVals = Array(isShowing.length).fill(false);
+    newVals[index] = true;
+    setIsShowing(newVals)
+    setCurrentShowing(index);
+
+    console.log(`Enter: ${index}`);
+  };
+
+  const onHoverExitMenu = (val: boolean, index: number) => {
+    if (currentShowing !== index) return;
+
+    setIsShowing(Array(isShowing.length).fill(false))
+    setCurrentShowing(null);
+
+    console.log(`Exit: ${index}`);
+  };
 
   return (
     <div className="bg-white z-40">
@@ -102,62 +127,31 @@ export default function Header() {
                     {navigation.departments.map((department: Department, departmentIdx: number) => (
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
+                          <div className="font-semibold">
+                            <Link href={`/shop/${department.id}`}>
+                              View all {department.name}
+                            </Link>
+                          </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: Category) =>
-
-                              <Disclosure as="div" key={category.id}>
-                                {({ open }) => (
-                                  <>
-                                    <dt>
-                                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                                        <span className="text-base font-medium leading-7">{category.name}</span>
-                                        <span className="ml-6 flex h-7 items-center">
-                                          {open ? (
-                                            <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
-                                          ) : (
-                                            <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
-                                          )}
-                                        </span>
-                                      </Disclosure.Button>
-                                    </dt>
-                                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                                      <ul
-                                        role="list"
-                                        aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
-                                        className="mt-6 space-y-6"
-                                      >
-                                        {category.subcategories.map((subcategory: Subcategory) => (
-                                          <li key={subcategory.id} className="flex">
-                                            <a href="#" className="text-gray-500">
-                                              {subcategory.name}
-                                            </a>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </Disclosure.Panel>
-                                  </>
-                                )}
-                              </Disclosure>
-
-
-                              // <div key={category.id}>
-                              //   <p id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
-                              //     {category.name}
-                              //   </p>
-                              //   <ul
-                              //     role="list"
-                              //     aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
-                              //     className="mt-6 space-y-6"
-                              //   >
-                              //     {category.subcategories.map((subcategory: Subcategory) => (
-                              //       <li key={subcategory.id} className="flex">
-                              //         <a href="#" className="text-gray-500">
-                              //           {subcategory.name}
-                              //         </a>
-                              //       </li>
-                              //     ))}
-                              //   </ul>
-                              // </div>
+                              <div key={category.id}>
+                                <p id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
+                                  {category.name}
+                                </p>
+                                <ul
+                                  role="list"
+                                  aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
+                                  className="mt-6 space-y-4"
+                                >
+                                  {category.subcategories.map((subcategory: Subcategory) => (
+                                    <li key={subcategory.id} className="flex">
+                                      <a href="#" className="text-gray-500">
+                                        {subcategory.name}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             )}
                           </div>
                         </div>
@@ -217,14 +211,17 @@ export default function Header() {
                     {/* Mega menus */}
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
-                        {navigation.departments.map((department: Department) => (
+                        {navigation.departments.map((department: Department, departmentIdx: number) => (
                           <Popover key={department.id} className="flex">
                             {({ open }) => (
                               <>
-                                <div className="relative flex">
+                                <div
+                                  onMouseEnter={() => onHoverEnterMenu(true, departmentIdx)}
+                                  onMouseLeave={() => onHoverExitMenu(false, departmentIdx)}
+                                  className="relative flex">
                                   <Popover.Button
                                     className={classNames(
-                                      open
+                                      isShowing[departmentIdx]
                                         ? 'border-indigo-600 text-indigo-600'
                                         : 'border-transparent text-gray-700 hover:text-gray-800',
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
@@ -235,6 +232,7 @@ export default function Header() {
                                 </div>
 
                                 <Transition
+                                  show={isShowing[departmentIdx]}
                                   as={Fragment}
                                   enter="transition ease-out duration-200"
                                   enterFrom="opacity-0"
@@ -243,7 +241,10 @@ export default function Header() {
                                   leaveFrom="opacity-100"
                                   leaveTo="opacity-0"
                                 >
-                                  <Popover.Panel className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
+                                  <Popover.Panel
+                                    onMouseEnter={() => onHoverEnterMenu(true, departmentIdx)}
+                                    onMouseLeave={() => onHoverExitMenu(false, departmentIdx)}
+                                    className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
                                     {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                     <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
 
@@ -262,7 +263,7 @@ export default function Header() {
                                                 <ul
                                                   role="list"
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
-                                                  className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                                  className="mt-6 space-y-4 sm:mt-4 sm:space-y-2"
                                                 >
                                                   {category.subcategories.slice(0, 5).map((subcategory: Subcategory) => (
                                                     <li key={subcategory.id} className="flex">
@@ -282,9 +283,6 @@ export default function Header() {
                                               </div>
                                             ))}
                                           </div>
-                                          {/* <div className="grid grid-cols-2 gap-x-8 gap-y-10">
-
-                                          </div> */}
                                         </div>
                                       </div>
                                     </div>

@@ -75,7 +75,10 @@ export async function GET(req: Request) {
                 mongo_id: idParam
             },
             include: {
-                brand: true
+                brand: true,
+                department: true, 
+                category: true,
+                subcategory: true
             }
         });
 

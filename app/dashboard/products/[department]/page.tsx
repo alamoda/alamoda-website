@@ -9,7 +9,10 @@ async function getData(department: string, category: string, subcategory: string
     const categoryParam = category ? `category=${category}&` : '';
     const subcategoryParam = subcategory ? `subcategory=${subcategory}&` : '';
 
-    const res = await fetch(`http://localhost:3000/api/products?${departmentParam}${categoryParam}${subcategoryParam}limit=60&skip=${skip}&q=${searchQuery}`)
+    const res = await fetch(`http://localhost:3000/api/products?${departmentParam}${categoryParam}${subcategoryParam}limit=60&skip=${skip}&q=${searchQuery}`, {
+        method: 'GET',
+        cache: 'no-store',
+    });
 
     if (!res.ok) {
         throw new Error('Failed to fetch data');

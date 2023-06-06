@@ -1,249 +1,311 @@
-export const DEPARTMENTS = [
+import { Department } from "../(types)";
+
+export const DEPARTMENTS: Department[] = [
 
     // Men
     {
-        id: 637,
-        name: 'Men',
+        name: "Men",
+        slug: "men",
+        mapped_ids: [637],
         categories: [
             {
-                id: 638,
-                name: 'Accessories',
+                name: "Accessories",
+                slug: "accessories",
+                mapped_ids: [638],
                 subcategories: [
                     {
-                        id: 639,
-                        name: "Beauty Cases"
+                        name: "Beauty Cases",
+                        slug: "beauty-cases",
+                        mapped_ids: [639],
                     },
                     {
-                        id: 640,
-                        name: "Belts & Braces"
+                        name: "Belts & Braces",
+                        slug: "belts-braces",
+                        mapped_ids: [640],
                     },
                     {
-                        id: 641,
-                        name: "Bowties & Ties"
+                        name: "Bowties & Ties",
+                        slug: "bowties-ties",
+                        mapped_ids: [641],
                     },
                     {
-                        id: 654,
-                        name: "Clutches"
+                        name: "Clutches",
+                        slug: "clutches",
+                        mapped_ids: [654],
                     },
                     {
-                        id: 643,
-                        name: "Cover & Cases"
+                        name: "Cover & Cases",
+                        slug: "cover-cases",
+                        mapped_ids: [643],
                     },
                     {
-                        id: 644,
-                        name: "Cufflinks"
+                        name: "Cufflinks",
+                        slug: "cufflinks",
+                        mapped_ids: [644],
                     },
                     {
-                        id: 656,
-                        name: "Extras"
+                        name: "Extras",
+                        slug: "extras",
+                        mapped_ids: [656, 661],
                     },
                     {
-                        id: 645,
-                        name: "Gloves"
+                        name: "Gloves",
+                        slug: "gloves",
+                        mapped_ids: [645],
                     },
                     {
-                        id: 646,
-                        name: "Hats & Hairbands"
+                        name: "Hats & Hairbands",
+                        slug: "hat-hairbands",
+                        mapped_ids: [646],
                     },
                     {
-                        id: 647,
-                        name: "Key Rings"
+                        name: "Key Rings",
+                        slug: "key-rings",
+                        mapped_ids: [647],
                     },
                     {
-                        id: 648,
-                        name: "Scarves"
+                        name: "Scarves",
+                        slug: "scarves",
+                        mapped_ids: [648],
                     },
                     {
-                        id: 655,
-                        name: "Shoulder Bags"
+                        name: "Shoulder Bags",
+                        slug: "shoulder-bags",
+                        mapped_ids: [655],
                     },
                     {
-                        id: 649,
-                        name: "Socks"
+                        name: "Socks",
+                        slug: "socks",
+                        mapped_ids: [649],
                     },
                     {
-                        id: 650,
-                        name: "Sunglasses"
+                        name: "Sunglasses",
+                        slug: "sunglasses",
+                        mapped_ids: [650],
                     },
                     {
-                        id: 652,
-                        name: "Wallets"
+                        name: "Wallets",
+                        slug: "wallets",
+                        mapped_ids: [652, 653],
                     },
                 ],
             },
             {
-                id: 663,
-                name: 'Bags',
+                name: "Bags",
+                slug: "bags",
+                mapped_ids: [663],
                 subcategories: [
                     {
-                        id: 664,
-                        name: "Backpacks"
+                        name: "Backpacks",
+                        slug: "backpacks",
+                        mapped_ids: [664],
                     },
                     {
-                        id: 665,
-                        name: "Briefcases"
+                        name: "Briefcases",
+                        slug: "briefcases",
+                        mapped_ids: [665],
                     },
                     {
-                        id: 666,
-                        name: "Bucket Bags"
+                        name: "Bucket Bags",
+                        slug: "bucket-bags",
+                        mapped_ids: [666],
                     },
                     {
-                        id: 667,
-                        name: "Clutches"
+                        name: "Clutches",
+                        slug: "clutches",
+                        mapped_ids: [667],
                     },
                     {
-                        id: 668,
-                        name: "Handbags"
+                        name: "Handbags",
+                        slug: "handbags",
+                        mapped_ids: [668],
                     },
                     {
-                        id: 669,
-                        name: "Shoulder Bags"
+                        name: "Shoulder Bags",
+                        slug: "shoulder-bags",
+                        mapped_ids: [669],
                     },
                     {
-                        id: 670,
-                        name: "Travel Bags"
+                        name: "Travel Bags",
+                        slug: "travel-bags",
+                        mapped_ids: [670],
                     }
                 ],
             },
             {
-                id: 672,
-                name: 'Clothing',
+
+                name: "Clothing",
+                slug: "clothing",
+                mapped_ids: [672],
                 subcategories: [
                     {
-                        id: 673,
-                        name: "Bermuda Shorts"
+                        name: "Bermuda Shorts",
+                        slug: "bermuda-shorts",
+                        mapped_ids: [673],
                     },
                     {
-                        id: 674,
-                        name: "Blazers & Vests"
+                        name: "Blazers & Vests",
+                        slug: "blazers-vests",
+                        mapped_ids: [674],
                     },
                     {
-                        id: 675,
-                        name: "Coats"
+                        name: "Coats",
+                        slug: "coats",
+                        mapped_ids: [675],
                     },
                     {
-                        id: 676,
-                        name: "Down Jackets"
+                        name: "Down Jackets",
+                        slug: "down-jackets",
+                        mapped_ids: [676],
                     },
                     {
-                        id: 677,
-                        name: "Furs"
+                        name: "Furs",
+                        slug: "furs",
+                        mapped_ids: [677],
                     },
                     {
-                        id: 678,
-                        name: "Jackets"
+                        name: "Jackets",
+                        slug: "jackets",
+                        mapped_ids: [678],
                     },
                     {
-                        id: 679,
-                        name: "Jeans"
+                        name: "Jeans",
+                        slug: "jeans",
+                        mapped_ids: [679],
                     },
                     {
-                        id: 680,
-                        name: "Knitwear"
+                        name: "Knitwear",
+                        slug: "knitwear",
+                        mapped_ids: [680],
                     },
                     {
-                        id: 681,
-                        name: "Leather Jackets"
+                        name: "Leather Jackets",
+                        slug: "leather-jackets",
+                        mapped_ids: [681],
                     },
                     {
-                        id: 682,
-                        name: "Leggings"
+                        name: "Leggings",
+                        slug: "leggings",
+                        mapped_ids: [682],
                     },
                     {
-                        id: 683,
-                        name: "Pants"
+                        name: "Pants",
+                        slug: "pants",
+                        mapped_ids: [683],
                     },
                     {
-                        id: 684,
-                        name: "Polo Shirts"
+                        name: "Polo Shirts",
+                        slug: "polo-shirts",
+                        mapped_ids: [684],
                     },
                     {
-                        id: 685,
-                        name: "Shirts"
+                        name: "Shirts",
+                        slug: "shirts",
+                        mapped_ids: [685],
                     },
                     {
-                        id: 696,
-                        name: "Socks"
+                        name: "Socks",
+                        slug: "socks",
+                        mapped_ids: [696],
                     },
                     {
-                        id: 686,
-                        name: "Suits"
+                        name: "Suits",
+                        slug: "suits",
+                        mapped_ids: [686],
                     },
                     {
-                        id: 687,
-                        name: "Sweatshirts"
+                        name: "Sweatshirts",
+                        slug: "sweatshirts",
+                        mapped_ids: [687],
                     },
                     {
-                        id: 688,
-                        name: "Swimwear"
+                        name: "Swimwear",
+                        slug: "swimwear",
+                        mapped_ids: [688],
                     },
                     {
-                        id: 691,
-                        name: "T-Shirts"
+                        name: "T-Shirts",
+                        slug: "t-shirts",
+                        mapped_ids: [691],
                     },
                     {
-                        id: 689,
-                        name: "Top"
+                        name: "Top",
+                        slug: "top",
+                        mapped_ids: [689],
                     },
                     {
-                        id: 690,
-                        name: "Trench Coats"
+                        name: "Trench Coats",
+                        slug: "trench-coats",
+                        mapped_ids: [690],
                     },
                     {
-                        id: 692,
-                        name: "Underwear"
+                        name: "Underwear",
+                        slug: "underwear",
+                        mapped_ids: [692],
                     }
                 ],
             },
             {
-                id: 707,
-                name: 'Footwear',
+                name: "Footwear",
+                slug: "footwear",
+                mapped_ids: [707],
                 subcategories: [
                     {
-                        id: 708,
-                        name: "Boots"
+                        name: "Boots",
+                        slug: "boots",
+                        mapped_ids: [708]
                     },
                     {
-                        id: 709,
-                        name: "Espadrilles"
+                        name: "Espadrilles",
+                        slug: "espadrilles",
+                        mapped_ids: [709]
                     },
                     {
-                        id: 710,
-                        name: "Lace Up"
+                        name: "Lace Up",
+                        slug: "lace-up",
+                        mapped_ids: [710]
                     },
                     {
-                        id: 711,
-                        name: "Loafers"
+                        name: "Loafers",
+                        slug: "loafers",
+                        mapped_ids: [711]
                     },
                     {
-                        id: 712,
-                        name: "Sandals"
+                        name: "Sandals",
+                        slug: "sandals",
+                        mapped_ids: [712]
                     },
                     {
-                        id: 713,
-                        name: "Sneakers"
+                        name: "Sneakers",
+                        slug: "sneakers",
+                        mapped_ids: [713]
                     }
                 ],
             },
             {
-                id: 715,
-                name: 'Jewellery',
+                name: "Jewellery",
+                slug: "jewellery",
+                mapped_ids: [715],
                 subcategories: [
                     {
-                        id: 716,
-                        name: "Bracelets"
+                        name: "Bracelets",
+                        slug: "bracelets",
+                        mapped_ids: [716]
                     },
                     {
-                        id: 717,
-                        name: "Extras"
+                        name: "Extras",
+                        slug: "extras",
+                        mapped_ids: [717]
                     },
                     {
-                        id: 718,
-                        name: "Necklaces"
+                        name: "Necklaces",
+                        slug: "necklaces",
+                        mapped_ids: [718]
                     },
                     {
-                        id: 719,
-                        name: "Rings"
+                        name: "Rings",
+                        slug: "rings",
+                        mapped_ids: [719]
                     }
                 ],
             },
@@ -252,268 +314,332 @@ export const DEPARTMENTS = [
 
     // Women
     {
-        id: 725,
         name: 'Women',
+        slug: 'women',
+        mapped_ids: [725],
         categories: [
             {
-                id: 726,
                 name: 'Accessories',
+                slug: 'accessories',
+                mapped_ids: [726],
                 subcategories: [
                     {
-                        id: 727,
-                        name: "Beauty Cases"
+                        name: "Beauty Cases",
+                        slug: "beauty-cases",
+                        mapped_ids: [727]
                     },
                     {
-                        id: 728,
-                        name: "Belts & Braces"
+                        name: "Belts & Braces",
+                        slug: "belts-braces",
+                        mapped_ids: [728]
                     },
                     {
-                        id: 729,
-                        name: "Brooches"
+                        name: "Brooches",
+                        slug: "brooches",
+                        mapped_ids: [729]
                     },
                     {
-                        id: 730,
-                        name: "Covers & Cases"
+                        name: "Covers & Cases",
+                        slug: "covers-cases",
+                        mapped_ids: [730]
                     },
                     {
-                        id: 732,
-                        name: "Extras"
+                        name: "Extras",
+                        slug: "extras",
+                        mapped_ids: [732]
                     },
                     {
-                        id: 733,
-                        name: "Gloves"
+                        name: "Gloves",
+                        slug: "gloves",
+                        mapped_ids: [733]
                     },
                     {
-                        id: 734,
-                        name: "Hats & Hairbands"
+                        name: "Hats & Hairbands",
+                        slug: "hats-hairbands",
+                        mapped_ids: [734]
                     },
                     {
-                        id: 735,
-                        name: "Keyrings & Chains"
+                        name: "Keyrings & Chains",
+                        slug: "keyrings-chains",
+                        mapped_ids: [735]
                     },
                     {
-                        id: 736,
-                        name: "Scarves"
+                        name: "Scarves",
+                        slug: "scarves",
+                        mapped_ids: [736]
                     },
                     {
-                        id: 737,
-                        name: "Socks"
+                        name: "Socks",
+                        slug: "socks",
+                        mapped_ids: [737]
                     },
                     {
-                        id: 739,
-                        name: "Sunglasses"
+                        name: "Sunglasses",
+                        slug: "sunglasses",
+                        mapped_ids: [739]
                     },
                     {
-                        id: 741,
-                        name: "Wallets"
+                        name: "Wallets",
+                        slug: "wallets",
+                        mapped_ids: [741]
                     }
                 ],
             },
             {
-                id: 749,
-                name: 'Bags',
+                name: "Bags",
+                slug: "bags",
+                mapped_ids: [749],
                 subcategories: [
                     {
-                        id: 750,
-                        name: "Backpacks"
+                        name: "Backpacks",
+                        slug: "backpacks",
+                        mapped_ids: [750]
                     },
                     {
-                        id: 760,
-                        name: "Beauty Cases"
+                        name: "Beauty Cases",
+                        slug: "beauty-cases",
+                        mapped_ids: [760]
                     },
                     {
-                        id: 752,
-                        name: "Bucket Bags"
+                        name: "Bucket Bags",
+                        slug: "bucket-bags",
+                        mapped_ids: [752]
                     },
                     {
-                        id: 753,
-                        name: "Clutches"
+                        name: "Clutches",
+                        slug: "clutches",
+                        mapped_ids: [753]
                     },
                     {
-                        id: 754,
-                        name: "Handbags"
+                        name: "Handbags",
+                        slug: "handbags",
+                        mapped_ids: [754]
                     },
                     {
-                        id: 755,
-                        name: "Shoulder Bags"
+                        name: "Shoulder Bags",
+                        slug: "shoulder-bags",
+                        mapped_ids: [755]
                     },
                     {
-                        id: 756,
-                        name: "Travel Bags"
+                        name: "Travel Bags",
+                        slug: "travel-bags",
+                        mapped_ids: [756]
                     }
                 ],
             },
             {
-                id: 761,
                 name: 'Clothing',
+                slug: 'clothing',
+                mapped_ids: [761],
                 subcategories: [
                     {
-                        id: 762,
-                        name: "Bermuda Shorts"
+                        name: "Bermuda Shorts",
+                        slug: "bermuda-shorts",
+                        mapped_ids: [762]
                     },
                     {
-                        id: 763,
-                        name: "Blazers & Vests"
+                        name: "Blazers & Vests",
+                        slug: "blazers-vests",
+                        mapped_ids: [763]
                     },
                     {
-                        id: 764,
-                        name: "Coats"
+                        name: "Coats",
+                        slug: "coats",
+                        mapped_ids: [764]
                     },
                     {
-                        id: 765,
-                        name: "Down Jackets"
+                        name: "Down Jackets",
+                        slug: "down-jackets",
+                        mapped_ids: [765]
                     },
                     {
-                        id: 766,
-                        name: "Dresses"
+                        name: "Dresses",
+                        slug: "dresses",
+                        mapped_ids: [766]
                     },
                     {
-                        id: 767,
-                        name: "Furs"
+                        name: "Furs",
+                        slug: "furs",
+                        mapped_ids: [767]
                     },
                     {
-                        id: 768,
-                        name: "Jackets"
+                        name: "Jackets",
+                        slug: "jackets",
+                        mapped_ids: [768]
                     },
                     {
-                        id: 769,
-                        name: "Jeans"
+                        name: "Jeans",
+                        slug: "jeans",
+                        mapped_ids: [769]
                     },
                     {
-                        id: 770,
-                        name: "Jumpsuits"
+                        name: "Jumpsuits",
+                        slug: "jumpsuits",
+                        mapped_ids: [770]
                     },
                     {
-                        id: 771,
-                        name: "Knitwear"
+                        name: "Knitwear",
+                        slug: "knitwear",
+                        mapped_ids: [771]
                     },
                     {
-                        id: 772,
-                        name: "Leather Jackets"
+                        name: "Leather Jackets",
+                        slug: "leather-jackets",
+                        mapped_ids: [772]
                     },
                     {
-                        id: 773,
-                        name: "Leggings"
+                        name: "Leggings",
+                        slug: "leggings",
+                        mapped_ids: [773]
                     },
                     {
-                        id: 774,
-                        name: "Long Dresses"
+                        name: "Long Dresses",
+                        slug: "long-dresses",
+                        mapped_ids: [774]
                     },
                     {
-                        id: 775,
-                        name: "Pants"
+                        name: "Pants",
+                        slug: "pants",
+                        mapped_ids: [775]
                     },
                     {
-                        id: 776,
-                        name: "Polo Shirts"
+                        name: "Polo Shirts",
+                        slug: "polo-shirts",
+                        mapped_ids: [776]
                     },
                     {
-                        id: 777,
-                        name: "Shirts"
+                        name: "Shirts",
+                        slug: "shirts",
+                        mapped_ids: [777]
                     },
                     {
-                        id: 778,
-                        name: "Skirts"
+                        name: "Skirts",
+                        slug: "skirts",
+                        mapped_ids: [778]
                     },
                     {
-                        id: 787,
-                        name: "Socks"
+                        name: "Socks",
+                        slug: "socks",
+                        mapped_ids: [787]
                     },
                     {
-                        id: 779,
-                        name: "Suits"
+                        name: "Suits",
+                        slug: "suits",
+                        mapped_ids: [779]
                     },
                     {
-                        id: 780,
-                        name: "Sweatshirts"
+                        name: "Sweatshirts",
+                        slug: "sweatshirts",
+                        mapped_ids: [780]
                     },
                     {
-                        id: 781,
-                        name: "Swimwear"
+                        name: "Swimwear",
+                        slug: "swimwear",
+                        mapped_ids: [781]
                     },
                     {
-                        id: 784,
-                        name: "T-Shirts"
+                        name: "T-Shirts",
+                        slug: "t-shirts",
+                        mapped_ids: [784]
                     },
                     {
-                        id: 782,
-                        name: "Top"
+                        name: "Top",
+                        slug: "top",
+                        mapped_ids: [782]
                     },
                     {
-                        id: 783,
-                        name: "Trench Coats"
+                        name: "Trench Coats",
+                        slug: "trench-coats",
+                        mapped_ids: [783]
                     },
                     {
-                        id: 785,
-                        name: "Underwear"
+                        name: "Underwear",
+                        slug: "underwear",
+                        mapped_ids: [785]
                     }
                 ],
             },
             {
-                id: 791,
-                name: 'Footwear',
+                name: "Footwear",
+                slug: "footwear",
+                mapped_ids: [791],
                 subcategories: [
                     {
-                        id: 792,
-                        name: "Ballerinas"
+                        name: "Ballerinas",
+                        slug: "ballerinas",
+                        mapped_ids: [792]
                     },
                     {
-                        id: 793,
-                        name: "Boots"
+                        name: "Boots",
+                        slug: "boots",
+                        mapped_ids: [793]
                     },
                     {
-                        id: 794,
-                        name: "Espadrilles"
+                        name: "Espadrilles",
+                        slug: "espadrilles",
+                        mapped_ids: [794]
                     },
                     {
-                        id: 795,
-                        name: "Lace Up"
+                        name: "Lace Up",
+                        slug: "lace-up",
+                        mapped_ids: [795]
                     },
                     {
-                        id: 796,
-                        name: "Loafers"
+                        name: "Loafers",
+                        slug: "loafers",
+                        mapped_ids: [796]
                     },
                     {
-                        id: 797,
-                        name: "Pumps"
+                        name: "Pumps",
+                        slug: "pumps",
+                        mapped_ids: [797]
                     },
                     {
-                        id: 798,
-                        name: "Sandals"
+                        name: "Sandals",
+                        slug: "sandals",
+                        mapped_ids: [798]
                     },
                     {
-                        id: 799,
-                        name: "Sneakers"
+                        name: "Sneakers",
+                        slug: "sneakers",
+                        mapped_ids: [799]
                     },
                     {
-                        id: 800,
-                        name: "Wedges"
+                        name: "Wedges",
+                        slug: "wedges",
+                        mapped_ids: [800]
                     }
                 ],
             },
             {
-                id: 804,
-                name: 'Jewellery',
+                name: "Jewellery",
+                slug: "jewellery",
+                mapped_ids: [804],
                 subcategories: [
                     {
-                        id: 805,
-                        name: "Bracelets"
+                        name: "Bracelets",
+                        slug: "bracelets",
+                        mapped_ids: [805]
                     },
                     {
-                        id: 806,
-                        name: "Earrings"
+                        name: "Earrings",
+                        slug: "earrings",
+                        mapped_ids: [806]
                     },
                     {
-                        id: 810,
-                        name: "Extras"
+                        name: "Extras",
+                        slug: "extras",
+                        mapped_ids: [810]
                     },
                     {
-                        id: 807,
-                        name: "Necklaces"
+                        name: "Necklaces",
+                        slug: "necklaces",
+                        mapped_ids: [807]
                     },
                     {
-                        id: 808,
-                        name: "Rings"
+                        name: "Rings",
+                        slug: "rings",
+                        mapped_ids: [808]
                     }
                 ],
             },
@@ -522,122 +648,150 @@ export const DEPARTMENTS = [
 
     // Unisex
     {
-        id: 881,
         name: 'Unisex',
+        slug: 'unisex',
+        mapped_ids: [881],
         categories: [
             {
-                id: 882,
                 name: 'Accessories',
+                slug: 'accessories',
+                mapped_ids: [882],
                 subcategories: [
                     {
-                        id: 884,
-                        name: "Beauty Cases"
+                        name: "Beauty Cases",
+                        slug: "beauty-cases",
+                        mapped_ids: [884]
                     },
                     {
-                        id: 885,
-                        name: "Belts & Braces"
+                        name: "Belts & Braces",
+                        slug: "belts-braces",
+                        mapped_ids: [885]
                     },
                     {
-                        id: 897,
-                        name: "Extras"
+                        name: "Extras",
+                        slug: "extras",
+                        mapped_ids: [897]
                     },
                     {
-                        id: 891,
-                        name: "Hats & Hairbands"
+                        name: "Hats & Hairbands",
+                        slug: "hats-hairbands",
+                        mapped_ids: [891]
                     },
                     {
-                        id: 894,
-                        name: "Socks"
+                        name: "Socks",
+                        slug: "socks",
+                        mapped_ids: [894]
                     },
                     {
-                        id: 883,
-                        name: "Wallets"
+                        name: "Wallets",
+                        slug: "wallets",
+                        mapped_ids: [883]
                     }
                 ],
             },
             {
-                id: 923,
-                name: 'Bags',
+                name: "Bags",
+                slug: "bags",
+                mapped_ids: [923],
                 subcategories: [
                     {
-                        id: 924,
-                        name: "Backpacks"
+                        name: "Backpacks",
+                        slug: "backpacks",
+                        mapped_ids: [924]
                     },
                     {
-                        id: 927,
-                        name: "Clutches"
+                        name: "Clutches",
+                        slug: "clutches",
+                        mapped_ids: [927]
                     },
                     {
-                        id: 928,
-                        name: "Handbags"
+                        name: "Handbags",
+                        slug: "handbags",
+                        mapped_ids: [928]
                     },
                     {
-                        id: 929,
-                        name: "Shoulder Bags"
+                        name: "Shoulder Bags",
+                        slug: "shoulder-bags",
+                        mapped_ids: [929]
                     }
                 ],
             },
             {
-                id: 902,
-                name: 'Clothing',
+                name: "Clothing",
+                slug: "clothing",
+                mapped_ids: [902],
                 subcategories: [
                     {
-                        id: 903,
-                        name: "Bermuda Short"
+                        name: "Bermuda Short",
+                        slug: "bermuda-short",
+                        mapped_ids: [903]
                     },
                     {
-                        id: 904,
-                        name: "Blazers & Vests"
+                        name: "Blazers & Vests",
+                        slug: "blazers-vests",
+                        mapped_ids: [904]
                     },
                     {
-                        id: 905,
-                        name: "Coats"
+                        name: "Coats",
+                        slug: "coats",
+                        mapped_ids: [905]
                     },
                     {
-                        id: 906,
-                        name: "Down Jackets"
+                        name: "Down Jackets",
+                        slug: "down-jackets",
+                        mapped_ids: [906]
                     },
                     {
-                        id: 908,
-                        name: "Jackets"
+                        name: "Jackets",
+                        slug: "jackets",
+                        mapped_ids: [908]
                     },
                     {
-                        id: 910,
-                        name: "Knitwear"
+                        name: "Knitwear",
+                        slug: "knitwear",
+                        mapped_ids: [910]
                     },
                     {
-                        id: 913,
-                        name: "Pants"
+                        name: "Pants",
+                        slug: "pants",
+                        mapped_ids: [913]
                     },
                     {
-                        id: 915,
-                        name: "Shirts"
+                        name: "Shirts",
+                        slug: "shirts",
+                        mapped_ids: [915]
                     },
                     {
-                        id: 917,
-                        name: "Sweatshirts"
+                        name: "Sweatshirts",
+                        slug: "sweatshirts",
+                        mapped_ids: [917]
                     },
                     {
-                        id: 919,
-                        name: "T-Shirts"
+                        name: "T-Shirts",
+                        slug: "t-shirts",
+                        mapped_ids: [919]
                     }
                 ],
             },
             {
-                id: 931,
-                name: 'Footwear',
+                name: "Footwear",
+                slug: "footwear",
+                mapped_ids: [931],
                 subcategories: [
                     {
-                        id: 932,
-                        name: "Boots"
+                        name: "Boots",
+                        slug: "boots",
+                        mapped_ids: [932]
                     },
                     {
-                        id: 936,
-                        name: "Sandals"
+                        name: "Sandals",
+                        slug: "sandals",
+                        mapped_ids: [936]
                     },
                     {
-                        id: 937,
-                        name: "Sneakers"
+                        name: "Sneakers",
+                        slug: "sneakers",
+                        mapped_ids: [937]
                     }
                 ],
             },
@@ -646,106 +800,28 @@ export const DEPARTMENTS = [
 
     // Lifestyle
     {
-        id: 1065,
         name: 'Lifestyle',
+        slug: 'lifestyle',
+        mapped_ids: [1065],
         categories: [
             {
-                id: 1061,
-                name: 'Accessories',
+                name: "Accessories",
+                slug: "accessories",
+                mapped_ids: [1061, 1065],
                 subcategories: [],
             },
             {
-                id: 1062,
-                name: 'Home',
+                name: "Home",
+                slug: "home",
+                mapped_ids: [1062, 1064],
                 subcategories: []
             },
             {
-                id: 1063,
-                name: 'Textile',
+                name: "Textile",
+                slug: "textile",
+                mapped_ids: [1063, 1066],
                 subcategories: []
             },
         ],
-    }
-
+    },
 ];
-
-
-// export const DEPARTMENTS = [
-// { id: 0, name: 'WOMAN' },
-// { id: 1, name: 'MAN' },
-// { id: 2, name: 'UNISEX' },
-// { id: 3, name: 'LIFESTYLE' }
-// ];
-
-// export const CATEGORIES = [
-//     { id: 0, name: 'BAGS' },
-//     { id: 1, name: 'CLOTHING' },
-//     { id: 2, name: 'FOOTWEAR' },
-//     { id: 3, name: 'ACCESSORIES' },
-//     { id: 4, name: 'JEWELLERY' },
-//     { id: 5, name: 'DESIGN E GADGET' },
-//     { id: 6, name: 'HOME' },
-//     { id: 7, name: 'TEXTILE' },
-// ];
-
-// export const SUBCATEGORIES = [
-//     { id: 0, name: 'BEAUTYCASES' },
-//     { id: 1, name: 'BELTSEBRACES' },
-//     { id: 2, name: 'BOWTIESETIES' },
-//     { id: 3, name: 'CLUTCHES' },
-//     { id: 4, name: 'COVERSECASES' },
-//     { id: 5, name: 'CUFFLINKS' },
-//     { id: 6, name: 'EXTRA' },
-//     { id: 7, name: 'EXTRAS' },
-//     { id: 8, name: 'GLOVES' },
-//     { id: 9, name: 'HATSEHAIRBANDS' },
-//     { id: 10, name: 'KEYRINGS' },
-//     { id: 11, name: 'SCARVES' },
-//     { id: 12, name: 'SHOULDERBAGS' },
-//     { id: 13, name: 'SOCKS' },
-//     { id: 14, name: 'SUNGLASSES' },
-//     { id: 15, name: 'WALLETS' },
-//     { id: 16, name: 'WALLETS' },
-//     { id: 17, name: 'BACKPACKS' },
-//     { id: 18, name: 'BRIEFCASES' },
-//     { id: 19, name: 'BUCKETBAGS' },
-//     { id: 20, name: 'CLUTCHES' },
-//     { id: 21, name: 'HANDBAGS' },
-//     { id: 22, name: 'SHOULDERBAGS' },
-//     { id: 23, name: 'TRAVELBAGS' },
-//     { id: 24, name: 'BERMUDASHORTS' },
-//     { id: 25, name: 'BLAZERSVESTS' },
-//     { id: 26, name: 'COATS' },
-//     { id: 27, name: 'DOWNJACKETS' },
-//     { id: 28, name: 'FURS' },
-//     { id: 29, name: 'JACKETS' },
-//     { id: 30, name: 'JEANS' },
-//     { id: 31, name: 'KNITWEAR' },
-//     { id: 32, name: 'LEATHERJACKETS' },
-//     { id: 33, name: 'LEGGINGS' },
-//     { id: 34, name: 'PANTS' },
-//     { id: 35, name: 'POLOSHIRTS' },
-//     { id: 36, name: 'SHIRTS' },
-//     { id: 37, name: 'SOCKS' },
-//     { id: 38, name: 'SUITS' },
-//     { id: 39, name: 'SWEATSHIRTS' },
-//     { id: 40, name: 'SWIMWEAR' },
-//     { id: 41, name: 'TSHIRTS' },
-//     { id: 42, name: 'TOP' },
-//     { id: 43, name: 'TRENCHCOATS' },
-//     { id: 44, name: 'UNDERWEAR' },
-//     { id: 45, name: 'BOOTS' },
-//     { id: 46, name: 'ESPADRILLES' },
-//     { id: 47, name: 'LACEUP' },
-//     { id: 48, name: 'LOAFERS' },
-//     { id: 49, name: 'SANDALS' },
-//     { id: 50, name: 'SNEAKERS' },
-//     { id: 51, name: 'BRACELETS' },
-//     { id: 52, name: 'EXTRAS' },
-//     { id: 53, name: 'NECKLACES' },
-//     { id: 54, name: 'RINGS' },
-//     { id: 55, name: 'ACCESSORIES' },
-//     { id: 56, name: 'HOME' },
-//     { id: 57, name: 'TEXTILE' },
-//     { id: 58, name: 'POLO SHIRTS' }
-// ];

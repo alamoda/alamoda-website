@@ -142,7 +142,7 @@ export default function Header() {
                                 >
                                   {category.subcategories.map((subcategory: Subcategory) => (
                                     <li key={subcategory.id} className="flex">
-                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategory=${subcategory.id}`} className="text-gray-500">
+                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategories=${subcategory.id}`} className="text-gray-500">
                                         {subcategory.name}
                                       </Link>
                                     </li>
@@ -267,7 +267,7 @@ export default function Header() {
                                                 >
                                                   {category.subcategories.slice(0, 5).map((subcategory: Subcategory) => (
                                                     <li key={subcategory.id} className="flex">
-                                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategory=${subcategory.id}`} className="hover:text-gray-800 hover:underline">
+                                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategories=${subcategory.id}`} className="hover:text-gray-800 hover:underline">
                                                         {subcategory.name}
                                                       </Link>
                                                     </li>

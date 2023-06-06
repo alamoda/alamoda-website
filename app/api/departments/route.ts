@@ -1,5 +1,6 @@
 import { db } from "@/app/(lib)/db"
 
+
 export async function GET(req: Request) {
 
   const departments = await db.department.findMany({
@@ -16,49 +17,53 @@ export async function GET(req: Request) {
 }
 
 
-export async function POST(req: Request) {
+// import { DEPARTMENTS } from "@/app/(utils)/constants";
+// export async function POST(req: Request) {
 
-  // for (const department of DEPARTMENTS) {
+//   for (const department of DEPARTMENTS) {
 
-  //   const dept = {
-  //     id: department.id,
-  //     name: department.name
-  //   };
+//     const dept = {
+//       name: department.name,
+//       slug: department.slug,
+//       mapped_ids: department.mapped_ids,
+//     };
 
-  //   await db.department.create({
-  //     data: dept,
-  //   });
+//     const newDepartment =await db.department.create({
+//       data: dept,
+//     });
 
-  //   for (const category of department.categories) {
+//     for (const category of department.categories) {
 
-  //     const cat = {
-  //       id: category.id,
-  //       name: category.name,
-  //       department: {
-  //         connect: { id: dept.id }
-  //       },
-  //     };
+//       const cat = {
+//         name: category.name,
+//         slug: category.slug,
+//         mapped_ids: category.mapped_ids,
+//         department: {
+//           connect: { mongo_id: newDepartment.mongo_id }
+//         },
+//       };
 
-  //     await db.category.create({
-  //       data: cat,
-  //     });
+//       const newCategory = await db.category.create({
+//         data: cat,
+//       });
 
-  //     for (const subcategory of category.subcategories) {
+//       for (const subcategory of category.subcategories) {
 
-  //       const sub = {
-  //         id: subcategory.id,
-  //         name: subcategory.name,
-  //         category: {
-  //           connect: { id: cat.id }
-  //         },
-  //       };
+//         const sub = {
+//           name: subcategory.name,
+//           slug: subcategory.slug,
+//           mapped_ids: subcategory.mapped_ids,
+//           category: {
+//             connect: { mongo_id: newCategory.mongo_id }
+//           },
+//         };
 
-  //       await db.subcategory.create({
-  //         data: sub,
-  //       });
-  //     }
-  //   }
-  // }
+//         await db.subcategory.create({
+//           data: sub,
+//         });
+//       }
+//     }
+//   }
 
-  return new Response(JSON.stringify({ "Message": "success" }));
-}
+//   return new Response(JSON.stringify({ "Message": "success" }));
+// }

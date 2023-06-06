@@ -8,18 +8,46 @@ import Footer from '@/app/(components)/Footer';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
 
+    const productsJson = await getProducts(department, category, subcategories, skip, query);
+    const navigationJson = await getNavigation();
+
+    return  
+};
+
+async function getProducts(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
+
     const departementParam = department ? `department=${department}&` : ''
     const categoryParam = category ? `category=${category}&` : ''
-    const subcategoriesParam = subcategories ? `subcategory=${subcategories.join(',')}&` : ''
+    const subcategoriesParam = subcategories ? `subcategories=${subcategories.join(',')}&` : ''
 
-    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}`)
+    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}`, {
+        cache: 'no-store',
+        method: 'GET'
+    });
 
     if (!res.ok) {
-        throw new Error('Failed to fetch data');
+        throw new Error('Failed to fetch products');
+    }
+
+    return await res.json();
+};
+
+async function getNavigation() {
+
+    const res = await fetch(`http://localhost:3000/api/departments`, {
+        cache: 'no-store',
+        method: 'GET'
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch departments');
     }
 
     return await res.json();
 }
+
+
+
 
 export default async function Shop(
     {
@@ -32,7 +60,7 @@ export default async function Shop(
 
 
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
-    const query = searchParams.q ?  String(searchParams.q) : ""
+    const query = searchParams.q ? String(searchParams.q) : ""
     const department = params.department;
     const category = searchParams.category ? String(searchParams.category) : "";
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
@@ -89,15 +117,15 @@ export default async function Shop(
                         ))}
                     </div>
                     {/* PAGINATION */}
-                    {/* <div className='mt-8'>
-                        <Pagination
+                    <div className='mt-8'>
+                        {/* <Pagination
                             productCount={count}
                             skip={skip}
                             route="shop"
                             department={department}
                             category={category}
-                            subcategory={subcategory} />
-                    </div> */}
+                            subcategory={s} /> */}
+                    </div>
                 </div>
             </div >
 

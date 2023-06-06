@@ -20,7 +20,7 @@ export async function GET(req: Request) {
 
     const department = getIntParam(url, 'department');
     const category = getIntParam(url, 'category');
-    const subcategory = getStrParam(url, 'subcategory');
+    const subcategories = getStrParam(url, 'subcategories');
 
     const filters: any = [
         {
@@ -51,12 +51,12 @@ export async function GET(req: Request) {
             }
         );
     }
-    if (subcategory) {
+    if (subcategories) {
         filters.push(
             {
                 subcategory: {
                     id: {
-                        in: subcategory.split(',')
+                        in: subcategories.split(',').map(Number)
                     }
                 }
             }

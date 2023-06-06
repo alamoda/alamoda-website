@@ -35,21 +35,15 @@ export async function POST(req: Request) {
             },
             description: description,
             features: features,
-            department: {
-                connect: { id: department_id }
-            },
-            category: {
-                connect: { id: category_id }
-            },
-            subcategory: {
-                connect: { id: subcategory_id }
-            },
+            department: department_id ? { connect: { mongo_id: department_id } } : undefined,
+            category: category_id ? { connect: { mongo_id: category_id } } : undefined,
+            subcategory: subcategory_id ? { connect: { mongo_id: subcategory_id } } : undefined,
             images: images,
             sizes: sizes,
             status: status,
             updated_at: updated_at,
             created_at: created_at
-        },
+        }
     });
 
     return new Response();
@@ -76,7 +70,7 @@ export async function GET(req: Request) {
             },
             include: {
                 brand: true,
-                department: true, 
+                department: true,
                 category: true,
                 subcategory: true
             }
@@ -116,28 +110,28 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
 
     const {
-        mongo_id, id, sku, price, wholesale_price, available, name, description, features, 
+        mongo_id, id, sku, price, wholesale_price, available, name, description, features,
         department, category, subcategory, images, sizes, status, updated_at
-      } = await req.json()
+    } = await req.json()
 
-      
+
     await db.product.update({
         where: { mongo_id: mongo_id },
         data: {
             id: id,
-            sku: sku, 
-            price: price, 
-            wholesale_price: wholesale_price, 
-            available: available, 
-            name: name, 
-            description: description, 
-            features: features, 
-            department: department, 
-            category: category, 
-            subcategory: subcategory, 
-            images: images, 
-            sizes: sizes, 
-            status: status, 
+            sku: sku,
+            price: price,
+            wholesale_price: wholesale_price,
+            available: available,
+            name: name,
+            description: description,
+            features: features,
+            department: department,
+            category: category,
+            subcategory: subcategory,
+            images: images,
+            sizes: sizes,
+            status: status,
             updated_at: updated_at
         },
     });

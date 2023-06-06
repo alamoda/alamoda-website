@@ -5,9 +5,9 @@ export type Product = {
     brand: Brand
     name: string
     description?: string
-    features?: Feature[] 
-    department: Department 
-    category: Category 
+    features?: Feature[]
+    department: Department
+    category: Category
     subcategory?: Subcategory
     price: number
     wholesale_price: number
@@ -55,18 +55,24 @@ export type Filter = {
 }
 
 export type Department = {
-    id: number,
+    mongo_id?: string,
     name: string,
+    slug: string,
+    mapped_ids: number[],
     categories: Category[]
 }
 
 export type Category = {
-    id: number,
+    mongo_id?: string,
     name: string,
+    slug: string,
+    mapped_ids: number[]
     subcategories: Subcategory[]
 }
 
 export type Subcategory = {
-    id: number,
+    mongo_id?: string,
+    slug: string,
     name: string,
+    mapped_ids: number[],
 }

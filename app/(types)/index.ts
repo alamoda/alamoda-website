@@ -2,12 +2,12 @@ export type Product = {
     mongo_id: string
     id: number
     sku: string
-    brand: Brand | undefined
+    brand: Brand
     name: string
     description?: string
-    features: Feature[] | undefined
-    department: Department | undefined
-    category: Category | undefined
+    features?: Feature[] 
+    department: Department 
+    category: Category 
     subcategory?: Subcategory
     price: number
     wholesale_price: number

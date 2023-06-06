@@ -18,40 +18,7 @@ import { Subcategory } from "../(types)";
 import { Product } from "../(types)";
 
 
-const ProductForm = (
-    product?
-        // mongo_id = '',
-        // id: existingId = 0,
-        // sku: existingSku = '',
-        // brand: existingBrand = { id: 0, name: 'Brand' },
-        // name: existingName = '',
-        // description: existingDescription = '',
-        // price: existingPrice = 0,
-        // wholesale_price: existingWholesaleprice = 0,
-        // available: existingAvailable = true,
-        // department: existingDepartment = {},
-        // category: existingCategory = {},
-        // subcategory: existingSubcategory = {},
-        // features: existingFeatures = [],
-        // sizes: existingSizes = [],
-        // images: existingImages = [],
-        // status: existingStatus = 0,
-        : Product) => {
-    // const [id, setId] = useState<number>(existingId);
-    // const [sku, setSku] = useState<string>(existingSku);
-    // const [name, setName] = useState<string>(existingName);
-    // const [brand, setBrand] = useState<Option>(existingBrand);
-    // const [description, setDescription] = useState<string>(existingDescription);
-    // const [price, setPrice] = useState<number>(existingPrice);
-    // const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
-    // const [available, setAvailable] = useState<boolean>(existingAvailable);
-    // const [department, setDepartment] = useState<Department>(existingDepartment);
-    // const [category, setCategory] = useState<Category>(existingCategory);
-    // const [subcategory, setSubcategory] = useState<Subcategory>(existingSubcategory);
-    // const [features, setFeatures] = useState<Feature[]>(existingFeatures);
-    // const [sizes, setSizes] = useState<Size[]>(existingSizes);
-    // const [images, setImages] = useState<string[]>(existingImages);
-    // const [status, setStatus] = useState<number>(existingStatus);
+const ProductForm = (product?: Product) => {
     const [formProduct, setFormProduct] = useState<Product>({
         mongo_id: '',
         id: 0,
@@ -59,13 +26,13 @@ const ProductForm = (
         price: 0,
         wholesale_price: 0,
         available: false,
-        brand: undefined,
+        brand: { id: 0, name: 'None' },
         name: '',
         description: '',
         features: undefined,
-        department: undefined,
-        category: undefined,
-        subcategory: undefined,
+        department: { id: 0, name: 'None', categories: [] },
+        category: { id: 0, name: 'None', subcategories: [] },
+        subcategory: { id: 0, name: 'None' },
         images: [],
         sizes: [],
         status: 0,
@@ -247,18 +214,17 @@ const ProductForm = (
                                 onValueChange={handleSelectChange}
                             />
                             {/* CATEGORY  */}
-                            <PrimarySelect
+                            {department && <PrimarySelect
                                 value={department?.categories.find(x => x.name === formProduct.category?.name) || { id: 0, name: 'None' }}
-                                options={department?.categories}
+                                options={department.categories}
                                 onValueChange={handleSelectChange}
-                            />
+                            />}
                             {/* SUBCATEGORY  */}
-                            <PrimarySelect
+                            {category && <PrimarySelect
                                 value={category?.subcategories.find(x => x.name === formProduct.subcategory?.name) || { id: 0, name: 'None' }}
-                                options={category?.subcategories}
+                                options={category.subcategories}
                                 onValueChange={handleSelectChange}
-                            />
-
+                            />}
                         </div>
                         <div className="flex flex-wrap items-center gap-4 mt-4">
                             {/* BRAND */}
@@ -300,18 +266,20 @@ const ProductForm = (
             </div >
 
             {/* FEATURES */}
-            <div className="flex flex-wrap gap-4 text-sm mt-2" >
-                {Array.from(formProduct.features).map((feature, index) => (
-                    <div key={index}>
-                        <div className="font-medium mb-1">
-                            {feature.name}
+            {formProduct.features &&
+                <div className="flex flex-wrap gap-4 text-sm mt-2" >
+                    {Array.from(formProduct.features).map((feature, index) => (
+                        <div key={index}>
+                            <div className="font-medium mb-1">
+                                {feature.name}
+                            </div>
+                            <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
+                                {feature.value}
+                            </div>
                         </div>
-                        <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
-                            {feature.value}
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            }
             < div className="flex items-center gap-4 mt-2" >
                 {/* PRICE */}
                 <PriceInput name="Price" value={formProduct.price} onChange={handleInputChange} />

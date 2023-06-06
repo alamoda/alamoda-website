@@ -18,9 +18,9 @@ export async function GET(req: Request) {
     const skip = getIntParam(url, 'skip');
     const query = getStrParam(url, 'q');
 
-    const department = getStrParam(url, 'department');
-    const category = getStrParam(url, 'category');
-    const subcategory = getStrParam(url, 'subcategory');
+    const department = getIntParam(url, 'department');
+    const category = getIntParam(url, 'category');
+    const subcategory = getIntParam(url, 'subcategory');
 
     const filters: any = [
         {
@@ -36,24 +36,31 @@ export async function GET(req: Request) {
     if (department) {
         filters.push(
             {
-                department: department
+                department: {
+                    id: department,
+                },
             }
         );
     }
     if (category) {
         filters.push(
             {
-                category: category
+                category: {
+                    id: category,
+                },
             }
         );
     }
     if (subcategory) {
         filters.push(
             {
-                subcategory: subcategory
+                subcategory: {
+                    id: subcategory 
+                }
             }
         );
     }
+
     if (query) {
         filters.push(
             {
@@ -84,9 +91,23 @@ export async function GET(req: Request) {
         take: limit,
         skip: skip || 0,
         include: {
-            brand: true
+            brand: true,
+            department: true,
+            category: true,
+            subcategory: true,
         }
     });
+
+    // const products = await db.product.findMany({
+    //     where: {
+    //         AND: filters
+    //     },
+    //     take: limit,
+    //     skip: skip || 0,
+    //     include: {
+    //         brand: true
+    //     }
+    // });
 
     const count = await db.product.count({
         where: {
@@ -115,8 +136,8 @@ function getIntParam(url: URL, name: string) {
 
 function getStrParam(url: URL, name: string) {
     const strParam = url.searchParams.get(name);
-
+    
     if (!strParam) return null
 
-    return strParam.toUpperCase().replace('-', ' ');
+    return strParam;
 }

@@ -44,7 +44,7 @@ export default async function CollectionPreview() {
                                     <span className="absolute inset-0" />
                                     {product.name}
                                 </h3>
-                                <p className="mt-1 text-red-700"><span className="text-gray-600 line-through mr-2">USD {product.price * 1.6}</span>USD {product.price}</p>
+                                <p className="mt-1 text-red-700"><span className="text-gray-600 line-through mr-2">USD {Math.round(product.price * 1.6)}</span>USD {Math.round(product.price)}</p>
                             </div>
                         </a>
                     ))}

@@ -1,5 +1,4 @@
 import { db } from "@/app/(lib)/db"
-import { DEPARTMENTS } from "@/app/(utils)/constants";
 
 export async function GET(req: Request) {
 

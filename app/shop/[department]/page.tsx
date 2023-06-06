@@ -6,13 +6,13 @@ import ProductCard from '@/app/(components)/ProductCard';
 import Filters from '@/app/(components)/Filters';
 import Footer from '@/app/(components)/Footer';
 
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: Number = 0) {
+async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
 
     const departementParam = department ? `department=${department}&` : ''
     const categoryParam = category ? `category=${category}&` : ''
     const subcategoriesParam = subcategories ? `subcategory=${subcategories.join(',')}&` : ''
 
-    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}`)
+    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}`)
 
     if (!res.ok) {
         throw new Error('Failed to fetch data');
@@ -32,6 +32,7 @@ export default async function Shop(
 
 
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
+    const query = searchParams.q ?  String(searchParams.q) : ""
     const department = params.department;
     const category = searchParams.category ? String(searchParams.category) : "";
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
@@ -51,7 +52,7 @@ export default async function Shop(
         breadcrumb.push({ name: category, href: category })
     }
 
-    const data = await getData(department, category, subcategories, skip);
+    const data = await getData(department, category, subcategories, skip, query);
     const { products, count } = data;
 
     return (

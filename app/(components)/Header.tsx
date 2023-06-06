@@ -52,8 +52,6 @@ export default function Header() {
     newVals[index] = true;
     setIsShowing(newVals)
     setCurrentShowing(index);
-
-    console.log(`Enter: ${index}`);
   };
 
   const onHoverExitMenu = (val: boolean, index: number) => {
@@ -61,8 +59,6 @@ export default function Header() {
 
     setIsShowing(Array(isShowing.length).fill(false))
     setCurrentShowing(null);
-
-    console.log(`Exit: ${index}`);
   };
 
   return (
@@ -135,9 +131,10 @@ export default function Header() {
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: Category) =>
                               <div key={category.id}>
-                                <p id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
+                                <Link href={`/shop/${department.id}?category=${category.id}`}
+                                  id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
                                   {category.name}
-                                </p>
+                                </Link>
                                 <ul
                                   role="list"
                                   aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
@@ -145,9 +142,9 @@ export default function Header() {
                                 >
                                   {category.subcategories.map((subcategory: Subcategory) => (
                                     <li key={subcategory.id} className="flex">
-                                      <a href="#" className="text-gray-500">
+                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategory=${subcategory.id}`} className="text-gray-500">
                                         {subcategory.name}
-                                      </a>
+                                      </Link>
                                     </li>
                                   ))}
                                 </ul>
@@ -163,14 +160,14 @@ export default function Header() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                      <Link href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
                         {page.name}
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
                     <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
                       Create an account
@@ -181,7 +178,7 @@ export default function Header() {
                       Sign in
                     </a>
                   </div>
-                </div>
+                </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -197,14 +194,14 @@ export default function Header() {
                 <div className="flex h-16 items-center justify-between">
                   {/* Logo (lg+) */}
                   <div className="hidden lg:flex lg:items-center">
-                    <a href="/">
-                      <span className="sr-only">Your Company</span>
+                    <Link href="/">
+                      <span className="sr-only">Alamoda Inc</span>
                       <img
                         className="h-8 w-auto"
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                         alt=""
                       />
-                    </a>
+                    </Link>
                   </div>
 
                   <div className="hidden h-full lg:flex">
@@ -222,12 +219,14 @@ export default function Header() {
                                   <Popover.Button
                                     className={classNames(
                                       isShowing[departmentIdx]
-                                        ? 'border-indigo-600 text-indigo-600'
+                                        ? 'border-indigo-600 hover:text-indigo-600'
                                         : 'border-transparent text-gray-700 hover:text-gray-800',
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
-                                    {department.name}
+                                    <Link href={`/shop/${department.id}`}>
+                                      {department.name}
+                                    </Link>
                                   </Popover.Button>
                                 </div>
 
@@ -254,12 +253,13 @@ export default function Header() {
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
                                             {department.categories.map((category: Category, categoryIdx: number) => (
                                               <div key={category.id}>
-                                                <p
+                                                <Link
+                                                  href={`/shop/${department.id}?category=${category.id}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
-                                                  className="font-medium text-gray-900"
+                                                  className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
                                                 >
                                                   {category.name}
-                                                </p>
+                                                </Link>
                                                 <ul
                                                   role="list"
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
@@ -267,16 +267,16 @@ export default function Header() {
                                                 >
                                                   {category.subcategories.slice(0, 5).map((subcategory: Subcategory) => (
                                                     <li key={subcategory.id} className="flex">
-                                                      <a href="#" className="hover:text-gray-800">
+                                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategory=${subcategory.id}`} className="hover:text-gray-800 hover:underline">
                                                         {subcategory.name}
-                                                      </a>
+                                                      </Link>
                                                     </li>
                                                   ))}
                                                   {category.subcategories.length > 5 && (
-                                                    <li className="flex">
-                                                      <a href="#" className="hover:text-gray-800 underline">
+                                                    <li className="flex pt-3">
+                                                      <Link href={`/shop/${department.id}?category=${category.id}`} className="hover:text-gray-800 hover:underline">
                                                         View More...
-                                                      </a>
+                                                      </Link>
                                                     </li>
                                                   )}
                                                 </ul>
@@ -294,13 +294,13 @@ export default function Header() {
                         ))}
 
                         {navigation.pages.map((page) => (
-                          <a
+                          <Link
                             key={page.name}
                             href={page.href}
                             className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                           >
                             {page.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </Popover.Group>
@@ -325,14 +325,14 @@ export default function Header() {
                   </div>
 
                   {/* Logo (lg-) */}
-                  <a href="/" className="lg:hidden">
-                    <span className="sr-only">Your Company</span>
+                  <Link href="/" className="lg:hidden">
+                    <span className="sr-only">Alamoda Inc</span>
                     <img
                       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                       alt=""
                       className="h-8 w-auto"
                     />
-                  </a>
+                  </Link>
 
                   <div className="flex flex-1 items-center justify-end">
                     <div className="flex items-center lg:ml-8">
@@ -344,12 +344,12 @@ export default function Header() {
                           </a>
                         </div>
 
-                        <div className="flex">
+                        {/* <div className="flex">
                           <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
                             <span className="sr-only">Account</span>
                             <UserIcon className="h-6 w-6" aria-hidden="true" />
                           </a>
-                        </div>
+                        </div> */}
                       </div>
 
                       <span className="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true" />

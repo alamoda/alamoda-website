@@ -1,13 +1,15 @@
+import Link from "next/link";
+
 export default function Categories() {
   return (
     <div className="">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="sm:flex sm:items-baseline sm:justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
-          <a href="#" className="hidden text-sm font-semibold text-gray-900 hover:text-gray-700 sm:block">
+          {/* <a href="#" className="hidden text-sm font-semibold text-gray-900 hover:text-gray-700 sm:block">
             Browse all categories
             <span aria-hidden="true"> &rarr;</span>
-          </a>
+          </a> */}
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
@@ -22,10 +24,10 @@ export default function Categories() {
             <div className="flex items-end p-6">
               <div>
                 <h3 className="font-semibold text-white">
-                  <a href="#">
+                  <Link href="/shop/725">
                     <span className="absolute inset-0" />
                     Women
-                  </a>
+                  </Link>
                 </h3>
                 <p aria-hidden="true" className="mt-1 text-sm text-white">
                   Shop now
@@ -47,10 +49,10 @@ export default function Categories() {
             <div className="flex items-end p-6 sm:absolute sm:inset-0">
               <div>
                 <h3 className="font-semibold text-white">
-                  <a href="#">
+                  <Link href="/shop/637">
                     <span className="absolute inset-0" />
                     Men
-                  </a>
+                  </Link>
                 </h3>
                 <p aria-hidden="true" className="mt-1 text-sm text-white">
                   Shop now
@@ -72,10 +74,10 @@ export default function Categories() {
             <div className="flex items-end p-6 sm:absolute sm:inset-0">
               <div>
                 <h3 className="font-semibold text-white">
-                  <a href="#">
+                  <Link href="/shop/1060">
                     <span className="absolute inset-0" />
                     Lifestyle
-                  </a>
+                  </Link>
                 </h3>
                 <p aria-hidden="true" className="mt-1 text-sm text-white">
                   Shop now
@@ -85,12 +87,12 @@ export default function Categories() {
           </div>
         </div>
 
-        <div className="mt-6 sm:hidden">
+        {/* <div className="mt-6 sm:hidden">
           <a href="#" className="block text-sm font-semibold text-gray-900 hover:text-gray-700">
             Browse all categories
             <span aria-hidden="true"> &rarr;</span>
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   )

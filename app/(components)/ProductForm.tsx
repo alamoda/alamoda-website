@@ -17,7 +17,7 @@ const ProductForm = ({
     mongo_id = '',
     id: existingId = 0,
     sku: existingSku = '',
-    brand: existingBrand = { id: 0, name: 'Brand' },
+    brand: existingBrand = { mongo_id: '', name: 'Brand' },
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
@@ -34,7 +34,7 @@ const ProductForm = ({
     const [id, setId] = useState<number>(existingId);
     const [sku, setSku] = useState<string>(existingSku);
     const [name, setName] = useState<string>(existingName);
-    const [brand, setBrand] = useState<Option>(existingBrand);
+    const [brand, setBrand] = useState<Brand>(existingBrand);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
@@ -188,7 +188,7 @@ const ProductForm = ({
                     {/* SKU */}
                     <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
                     {/* ID */}
-                    <PrimaryInput size='w-32' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
+                    <PrimaryInput size='w-56' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
                 </div>
                 <div className="flex items-center mt-4">
                     <div>
@@ -196,7 +196,7 @@ const ProductForm = ({
                             {/* DEPARTMENT */}
                             <PrimarySelect
                                 label="Department"
-                                value={department || { id: 0, name: 'None' }}
+                                value={department || { mongo_id: 0, name: 'None' }}
                                 options={departments}
                                 onValueChange={(value: Department) => {
                                     setDepartment(value);
@@ -207,7 +207,7 @@ const ProductForm = ({
                             {/* CATEGORY  */}
                             <PrimarySelect
                                 label="Category"
-                                value={category || { id: 0, name: 'None' }}
+                                value={category || { mongo_id: 0, name: 'None' }}
                                 options={department.categories}
                                 onValueChange={(value: Category) => {
                                     setCategory(value);
@@ -233,15 +233,15 @@ const ProductForm = ({
                             {/* AVAILABILITY */}
                             <PrimarySelect
                                 label="Available"
-                                value={available ? { id: 1, name: available.toString() } : { id: 0, name: 'None:' }}
-                                options={[{ id: 1, name: 'true' }, { id: 2, name: 'false' }]}
+                                value={available ? { mongo_id: '0', name: available.toString() } : { mongo_id: '-1', name: 'None:' }}
+                                options={[{ mongo_id: '0', name: 'true' }, { mongo_id: '1', name: 'false' }]}
                                 onValueChange={(value: Option) => setAvailable(Boolean(value.name))}
                             />
                             {/* STATUS */}
                             <PrimarySelect
                                 label="Status"
-                                value={{ id: 0, name: status.toString() }}
-                                options={[{ id: 1, name: '-1' }, { id: 2, name: '0' }, { id: 3, name: '1' }, { id: 4, name: '2' }]}
+                                value={{ mongo_id: '-1', name: status.toString() }}
+                                options={[{ mongo_id: '-1', name: '-1' }, { mongo_id: '0', name: '0' }, { mongo_id: '1', name: '1' }, { mongo_id: '2', name: '2' }]}
                                 onValueChange={(value: Option) => setStatus(Number(value.name))}
                             />
                             {/* SIZES */}

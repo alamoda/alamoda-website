@@ -1,6 +1,6 @@
 export default function TextAreaInput(props: any) {
     return (
-      <div className=" w-96 my-2">
+      <div className="w-96 my-2">
         <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
           {props.label}
         </label>

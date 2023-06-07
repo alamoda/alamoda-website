@@ -20,12 +20,12 @@ export type Product = {
 }
 
 export type Brand = {
-    id: number
+    mongo_id: string
     name: string
 }
 
 export type Option = {
-    id: number
+    mongo_id: string
     name: string
 }
 

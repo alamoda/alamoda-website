@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Product, Option, Feature, Size, Subcategory, Department, Category } from "../(types)";
+import { Option, Feature, Size, Subcategory, Department, Category, Brand } from "../(types)";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -23,9 +23,9 @@ const ProductForm = ({
     price: existingPrice = 0,
     wholesale_price: existingWholesaleprice = 0,
     available: existingAvailable = true,
-    department: existingDepartment = { id: 0, name: 'None', categories: [] },
-    category: existingCategory = { id: 0, name: 'None', subcategories: [] },
-    subcategory: existingSubcategory = { id: 0, name: 'None' },
+    department: existingDepartment = { mongo_id: '', name: 'None', slug: '', mapped_ids: [], categories: [] },
+    category: existingCategory = { mongo_id: '', name: 'None', slug: '', mapped_ids: [], subcategories: [] },
+    subcategory: existingSubcategory = { mongo_id: '', name: 'None', slug: '', mapped_ids: [] },
     features: existingFeatures = [],
     sizes: existingSizes = [],
     images: existingImages = [],
@@ -200,8 +200,8 @@ const ProductForm = ({
                                 options={departments}
                                 onValueChange={(value: Department) => {
                                     setDepartment(value);
-                                    setCategory({ id: 0, name: 'None', subcategories: [] });
-                                    setSubcategory({ id: 0, name: 'None' });
+                                    setCategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], subcategories: [] });
+                                    setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
                                 }}
                             />
                             {/* CATEGORY  */}
@@ -211,15 +211,15 @@ const ProductForm = ({
                                 options={department.categories}
                                 onValueChange={(value: Category) => {
                                     setCategory(value);
-                                    setSubcategory({ id: 0, name: 'None' });
+                                    setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
                                 }}
                             />
                             {/* SUBCATEGORY  */}
                             <PrimarySelect
                                 label="Subcategory"
-                                value={subcategory || { id: 0, name: 'None' }}
+                                value={subcategory || { mongo_id: '', name: 'None', slug: '', mapped_ids: [], }}
                                 options={category.subcategories}
-                                onValueChange={(value: Option) => setSubcategory(value)}
+                                onValueChange={(value: Subcategory) => setSubcategory(value)}
                             />
                         </div>
                         <div className="flex flex-wrap items-center gap-4 mt-4">
@@ -228,7 +228,7 @@ const ProductForm = ({
                                 label="Brand"
                                 value={brand}
                                 options={brands}
-                                onValueChange={(value: Option) => setBrand(value)}
+                                onValueChange={(value: Brand) => setBrand(value)}
                             />
                             {/* AVAILABILITY */}
                             <PrimarySelect

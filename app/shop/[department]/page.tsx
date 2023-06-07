@@ -10,7 +10,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const departementParam = department ? `department=${department}&` : ''
     const categoryParam = category ? `category=${category}&` : ''
-    const subcategoriesParam = subcategories ? `subcategories=${subcategories.join(',')}&` : ''
+    const subcategoriesParam = subcategories && subcategories.length > 0 ? `subcategories=${subcategories.join(',')}&` : ''
 
     const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}`, {
         cache: 'no-store',
@@ -95,18 +95,16 @@ export default async function Shop(
                     </div>
                     {/* PAGINATION */}
                     <div className='mt-8'>
-                        {/* <Pagination
+                        <Pagination
                             productCount={count}
                             skip={skip}
                             route="shop"
                             department={department}
                             category={category}
-                            subcategory={s} /> */}
+                            subcategories={subcategories} />
                     </div>
                 </div>
             </div >
-
-
 
             {/* FOOTER */}
             < Footer />

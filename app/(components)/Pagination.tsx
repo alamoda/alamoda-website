@@ -6,7 +6,7 @@ interface ComponentProps {
   skip: number,
   department: string,
   category: string,
-  subcategory: string
+  subcategories: string[]
   route: string
 }
 
@@ -16,13 +16,13 @@ function classNames(...classes: any) {
 
 const productLimit = 60;
 
-export default function Pagination({ productCount, skip, department, category, subcategory, route }: ComponentProps) {
+export default function Pagination({ productCount, skip, department, category, subcategories, route }: ComponentProps) {
 
   const selectedPage = Math.ceil((skip + 60) / 60);
   const pageCount = Math.ceil(productCount / productLimit);
 
   const categoryParam = category ? "category=" + category + "&" : '';
-  const subcategoryParam = subcategory ? "subcategory=" + subcategory + "&" : '';
+  const subcategoriesParam = subcategories.length > 0 ? `subcategories=${subcategories.join(',')}&` : ''
 
   if (pageCount > 1) {
     return (
@@ -30,7 +30,7 @@ export default function Pagination({ productCount, skip, department, category, s
         {selectedPage > 1 ?
           <div className="-mt-px flex w-0 flex-1">
             <Link
-              href={`/${route}/${department}?${categoryParam}${subcategoryParam}skip=${skip - productLimit}`}
+              href={`/${route}/${department}?${categoryParam}${subcategoriesParam}skip=${skip - productLimit}`}
               className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
             >
               <ArrowLongLeftIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -46,7 +46,7 @@ export default function Pagination({ productCount, skip, department, category, s
             if (index + 1 == 1 || index + 1 === pageCount || (selectedPage > pageCount - 5 && index + 1 > pageCount - 5) || (index + 1 < selectedPage + 5 && selectedPage < 5) || (index + 1 >= selectedPage && index + 1 < selectedPage + 5 && selectedPage >= 5)) {
               return <Link
                 key={index + 1}
-                href={`/${route}/${department}?${category}${subcategory}skip=${(index) * productLimit}`}
+                href={`/${route}/${department}?${category}${subcategoriesParam}skip=${(index) * productLimit}`}
                 className={classNames(
                   index + 1 === selectedPage
                     ? 'inline-flex items-center border-t-2 border-gray-500 px-4 pt-4 text-sm font-medium text-gray-600'
@@ -64,7 +64,7 @@ export default function Pagination({ productCount, skip, department, category, s
         {selectedPage !== pageCount ?
           <div className="-mt-px flex w-0 flex-1 justify-end">
             <Link
-              href={`/${route}/${department}?${categoryParam}${subcategoryParam}skip=${skip + productLimit}`}
+              href={`/${route}/${department}?${categoryParam}${subcategoriesParam}skip=${skip + productLimit}`}
               className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
             >
               Next

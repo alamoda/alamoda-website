@@ -78,7 +78,7 @@ export default async function Page({
                     route="dashboard/products"
                     department={department}
                     category={category}
-                    subcategory={subcategory}
+                    subcategories={[subcategory]}
                 />
             </div>
 

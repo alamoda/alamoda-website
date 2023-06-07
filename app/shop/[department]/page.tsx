@@ -5,16 +5,49 @@ import Pagination from '@/app/(components)/Pagination';
 import ProductCard from '@/app/(components)/ProductCard';
 import Filters from '@/app/(components)/Filters';
 import Footer from '@/app/(components)/Footer';
+import { Category, Department, Subcategory } from '@/app/(types)';
+
+// async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
+
+//     const navigationJson = await getNavigation();
+//     const dept: Department = navigationJson.find((d: Department) => { d.slug === department?.toLowerCase() });
+//     let cat: Category | undefined = undefined;
+//     let sub: Subcategory[] | undefined = undefined;
+
+//     if (category) {
+//         cat = dept.categories.find((c: Category) => c.slug === category);
+//     }
+
+//     if (cat && subcategories) {
+
+//         sub = [];
+
+//         for (const subcategory of subcategories) {
+//             const s = cat.subcategories.find((s: Subcategory) => s.slug === subcategory);
+//             if (s) sub.push(s);
+//         }
+//     }
+
+//     const productsJson = await getProducts(dept, cat, sub, skip, query);
+
+//     return { products: [], count: 0 };
+// };
+
+// async function getNavigation() {
+
+//     const res = await fetch(`http://localhost:3000/api/departments`, {
+//         cache: 'no-store',
+//         method: 'GET'
+//     });
+
+//     if (!res.ok) {
+//         throw new Error('Failed to fetch departments');
+//     }
+
+//     return await res.json();
+// }
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
-
-    const productsJson = await getProducts(department, category, subcategories, skip, query);
-    const navigationJson = await getNavigation();
-
-    return  
-};
-
-async function getProducts(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
 
     const departementParam = department ? `department=${department}&` : ''
     const categoryParam = category ? `category=${category}&` : ''
@@ -32,23 +65,6 @@ async function getProducts(department: string | null, category: string | null, s
     return await res.json();
 };
 
-async function getNavigation() {
-
-    const res = await fetch(`http://localhost:3000/api/departments`, {
-        cache: 'no-store',
-        method: 'GET'
-    });
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch departments');
-    }
-
-    return await res.json();
-}
-
-
-
-
 export default async function Shop(
     {
         searchParams,
@@ -57,7 +73,6 @@ export default async function Shop(
         searchParams: { [key: string]: string | string[] | undefined },
         params: { department: string }
     }) {
-
 
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
     const query = searchParams.q ? String(searchParams.q) : ""
@@ -72,12 +87,12 @@ export default async function Shop(
         },
         {
             name: department,
-            href: department
+            href: `shop/${department}`
         },
     ];
 
     if (category) {
-        breadcrumb.push({ name: category, href: category })
+        breadcrumb.push({ name: category, href: `shop/${department}?category=${category}` })
     }
 
     const data = await getData(department, category, subcategories, skip, query);
@@ -110,6 +125,9 @@ export default async function Shop(
             {/* PRODUCTS */}
             < div className="bg-white" >
                 <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                    {products.length === 0 &&
+                        <div className="mx-auto text-center text-gray-500">No products available yet!</div>
+                    }
                     <h2 className="sr-only">Products</h2>
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {products.map((product: any) => (

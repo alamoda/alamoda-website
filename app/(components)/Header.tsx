@@ -46,17 +46,15 @@ export default function Header() {
     setIsShowing(Array(res.data.length).fill(false));
   }
 
-  const onHoverEnterMenu = (val: boolean, index: number) => {
-
+  const onHoverEnterMenu = (index: number) => {
     let newVals = Array(isShowing.length).fill(false);
     newVals[index] = true;
     setIsShowing(newVals)
     setCurrentShowing(index);
   };
 
-  const onHoverExitMenu = (val: boolean, index: number) => {
+  const onHoverExitMenu = (index: number) => {
     if (currentShowing !== index) return;
-
     setIsShowing(Array(isShowing.length).fill(false))
     setCurrentShowing(null);
   };
@@ -106,7 +104,7 @@ export default function Header() {
                     <Tab.List className="-mb-px flex space-x-8 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-x-auto">
                       {navigation.departments.map((department: Department) => (
                         <Tab
-                          key={department.id}
+                          key={department.mongo_id}
                           className={({ selected }) =>
                             classNames(
                               selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
@@ -124,14 +122,14 @@ export default function Header() {
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <Link href={`/shop/${department.id}`}>
+                            <Link href={`/shop/${department.slug}`}>
                               View all {department.name}
                             </Link>
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: Category) =>
-                              <div key={category.id}>
-                                <Link href={`/shop/${department.id}?category=${category.id}`}
+                              <div key={category.mongo_id}>
+                                <Link href={`/shop/${department.slug}?category=${category.slug}`}
                                   id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
                                   {category.name}
                                 </Link>
@@ -141,8 +139,8 @@ export default function Header() {
                                   className="mt-6 space-y-4"
                                 >
                                   {category.subcategories.map((subcategory: Subcategory) => (
-                                    <li key={subcategory.id} className="flex">
-                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategories=${subcategory.id}`} className="text-gray-500">
+                                    <li key={subcategory.mongo_id} className="flex">
+                                      <Link href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="text-gray-500">
                                         {subcategory.name}
                                       </Link>
                                     </li>
@@ -209,12 +207,12 @@ export default function Header() {
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
                         {navigation.departments.map((department: Department, departmentIdx: number) => (
-                          <Popover key={department.id} className="flex">
+                          <Popover key={department.mongo_id} className="flex">
                             {({ open }) => (
                               <>
                                 <div
-                                  onMouseEnter={() => onHoverEnterMenu(true, departmentIdx)}
-                                  onMouseLeave={() => onHoverExitMenu(false, departmentIdx)}
+                                  onMouseEnter={() => onHoverEnterMenu(departmentIdx)}
+                                  onMouseLeave={() => onHoverExitMenu(departmentIdx)}
                                   className="relative flex">
                                   <Popover.Button
                                     className={classNames(
@@ -224,7 +222,7 @@ export default function Header() {
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
-                                    <Link href={`/shop/${department.id}`}>
+                                    <Link href={`/shop/${department.slug}`}>
                                       {department.name}
                                     </Link>
                                   </Popover.Button>
@@ -241,8 +239,8 @@ export default function Header() {
                                   leaveTo="opacity-0"
                                 >
                                   <Popover.Panel
-                                    onMouseEnter={() => onHoverEnterMenu(true, departmentIdx)}
-                                    onMouseLeave={() => onHoverExitMenu(false, departmentIdx)}
+                                    onMouseEnter={() => onHoverEnterMenu(departmentIdx)}
+                                    onMouseLeave={() => onHoverExitMenu(departmentIdx)}
                                     className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
                                     {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                     <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
@@ -252,9 +250,9 @@ export default function Header() {
                                         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
                                             {department.categories.map((category: Category, categoryIdx: number) => (
-                                              <div key={category.id}>
+                                              <div key={category.mongo_id}>
                                                 <Link
-                                                  href={`/shop/${department.id}?category=${category.id}`}
+                                                  href={`/shop/${department.slug}?category=${category.slug}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
                                                 >
@@ -266,15 +264,15 @@ export default function Header() {
                                                   className="mt-6 space-y-4 sm:mt-4 sm:space-y-2"
                                                 >
                                                   {category.subcategories.slice(0, 5).map((subcategory: Subcategory) => (
-                                                    <li key={subcategory.id} className="flex">
-                                                      <Link href={`/shop/${department.id}?category=${category.id}&subcategories=${subcategory.id}`} className="hover:text-gray-800 hover:underline">
+                                                    <li key={subcategory.mongo_id} className="flex">
+                                                      <Link href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="hover:text-gray-800 hover:underline">
                                                         {subcategory.name}
                                                       </Link>
                                                     </li>
                                                   ))}
                                                   {category.subcategories.length > 5 && (
                                                     <li className="flex pt-3">
-                                                      <Link href={`/shop/${department.id}?category=${category.id}`} className="hover:text-gray-800 hover:underline">
+                                                      <Link href={`/shop/${department.slug}?category=${category.slug}`} className="hover:text-gray-800 hover:underline">
                                                         View More...
                                                       </Link>
                                                     </li>

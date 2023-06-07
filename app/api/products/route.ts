@@ -18,8 +18,8 @@ export async function GET(req: Request) {
     const skip = getIntParam(url, 'skip');
     const query = getStrParam(url, 'q');
 
-    const department = getIntParam(url, 'department');
-    const category = getIntParam(url, 'category');
+    const department = getStrParam(url, 'department');
+    const category = getStrParam(url, 'category');
     const subcategories = getStrParam(url, 'subcategories');
 
     const filters: any = [
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
         filters.push(
             {
                 department: {
-                    id: department,
+                    slug: department,
                 },
             }
         );
@@ -46,7 +46,7 @@ export async function GET(req: Request) {
         filters.push(
             {
                 category: {
-                    id: category,
+                    slug: category,
                 },
             }
         );
@@ -55,8 +55,8 @@ export async function GET(req: Request) {
         filters.push(
             {
                 subcategory: {
-                    id: {
-                        in: subcategories.split(',').map(Number)
+                    slug: {
+                        in: subcategories.split(',')
                     }
                 }
             }

@@ -232,15 +232,15 @@ const ProductForm = ({
                 {/* AVAILABILITY */}
                 <PrimarySelect
                     label="Available"
-                    value={available ? { mongo_id: '0', name: available.toString() } : { mongo_id: '-1', name: 'None:' }}
+                    value={{ mongo_id: '-1', name: available.toString() }}
                     options={[{ mongo_id: '0', name: 'true' }, { mongo_id: '1', name: 'false' }]}
-                    onValueChange={(value: Option) => setAvailable(Boolean(value.name))}
+                    onValueChange={(value: Option) => setAvailable(value.name === 'false' ? false : true)}
                 />
                 {/* STATUS */}
                 <PrimarySelect
                     label="Status"
                     value={{ mongo_id: '-1', name: status.toString() }}
-                    options={[{ mongo_id: '-1', name: '-1' }, { mongo_id: '0', name: '0' }, { mongo_id: '1', name: '1' }, { mongo_id: '2', name: '2' }]}
+                    options={[{ mongo_id: '0', name: '-1' }, { mongo_id: '1', name: '0' }, { mongo_id: '2', name: '1' }, { mongo_id: '3', name: '2' }]}
                     onValueChange={(value: Option) => setStatus(Number(value.name))}
                 />
 

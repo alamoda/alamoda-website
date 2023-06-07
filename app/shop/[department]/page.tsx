@@ -90,7 +90,7 @@ export default async function Shop(
                     <h2 className="sr-only">Products</h2>
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {products.map((product: any) => (
-                            <ProductCard route='shop' key={product.mongo_id} product={product} />
+                            <ProductCard route={`shop/${department}`} key={product.mongo_id} product={product} />
                         ))}
                     </div>
                     {/* PAGINATION */}

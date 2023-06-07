@@ -291,6 +291,11 @@ export default function Filters({ route, department, category, subcategories }: 
                             onClick={() => setOpen(true)}
                         >
                             Filters
+                            {subcategories.length > 0 ? (
+                                <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                    {subcategories.length}
+                                </span>
+                            ) : null}
                         </button>
 
                         <div className="hidden sm:block">

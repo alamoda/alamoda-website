@@ -1,10 +1,12 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
+import axios from 'axios'
+import { Category, Subcategory } from '../(types)'
 
 interface ComponentProps {
     route: string,
@@ -27,9 +29,23 @@ export default function Filters({ route, department, category, subcategories }: 
 
     // State
     const [open, setOpen] = useState(false)
-    // const [currentDepartment, setCurrentDepartment] = useState<any>()
-    // const [currentCategory, setCurrentCategory] = useState<any>()
-    // const [currentSubcategories, setCurrentSubcategories] = useState<any>([])
+
+    const [availableCategories, setAvailableCategories] = useState<Category[]>();
+    const [availableSubcategories, setAvailableSubcategories] = useState<Subcategory[]>();
+
+    useEffect(() => {
+        fetchFilters();
+    }, []);
+
+    async function fetchFilters() {
+        const resCat = await axios.get(`http://localhost:3000/api/departments/${department}/categories`);
+        setAvailableCategories(resCat.data);
+
+        if (category) {
+            const resSub = await axios.get(`http://localhost:3000/api/departments/${department}/categories/${category}/subcategories`);
+            setAvailableSubcategories(resSub.data);
+        }
+    }
 
     const activeFilters: string[] = [];
 
@@ -37,28 +53,21 @@ export default function Filters({ route, department, category, subcategories }: 
         activeFilters.push(category);
     }
 
-    if (subcategories) {
+    if (category && subcategories) {
         activeFilters.push(...subcategories);
     }
 
-    const availableCategories: any = []
-    const availableSubcategories: any = []
-    
-    // const availableCategories = HEADER_NAVIGATION.find(element => element.name.toLowerCase() === department.toLowerCase())?.categories;
-    // const availableSubcategories = category && availableCategories ? availableCategories.find((cat: any) => cat.name.toLowerCase() === category.toLowerCase())?.subcategories : [];
-
-
-    const getSubcategoryUrl = (sub: any) => {
+    const getSubcategoryUrl = (sub: Subcategory) => {
 
         // Remove from URL if filter already included
-        if (subcategories.includes(sub.name.toLowerCase())){
-            let filteredSubcategories = subcategories.filter(val => val !== sub.name.toLowerCase());
+        if (subcategories.includes(sub.slug.toLowerCase())) {
+            let filteredSubcategories = subcategories.filter(val => val !== sub.slug.toLowerCase());
             let subcategoriesStr = filteredSubcategories.join(',');
             return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${subcategoriesStr}`
         }
         // Otherwise, just add it to the url
-        else{
-            return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${[...subcategories, sub.name.toLowerCase()].join()}`
+        else {
+            return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${[...subcategories, sub.slug.toLowerCase()].join()}`
         }
     };
 
@@ -120,31 +129,46 @@ export default function Filters({ route, department, category, subcategories }: 
     //     setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategoryId));
     // };
 
-    // const handleFilterRemoved = (id: Number) => {
+    const handleFilterRemoved = (filter: string) => {
 
-    //     // If it's a category
-    //     // we also remove the category
-    //     if (currentCategory.id === id) {
-    //         setCurrentCategory(null);
+        // If we are removing a category
+        if (category === filter) {
 
-    //         let newActiveFilters = [...activeFilters];
+            return;
+        }
 
-    //         currentSubcategories.forEach((subcategory: any) => {
-    //             newActiveFilters = newActiveFilters.filter((element: any) => element.id !== subcategory.id);
-    //         });
-    //         newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
-    //         setActiveFilters(newActiveFilters);
-    //         setCurrentSubcategories([])
+        // If we are removing a subcategory
+        if (subcategories.includes(filter)){
+            
+            return;
+        }
 
-    //         return;
-    //     }
 
-    //     // If it's a subcategory
-    //     if (currentSubcategories.some((item: any) => item.id === id)) {
-    //         removeSubcategory(id);
-    //         return;
-    //     }
-    // };
+
+
+        // If it's a category
+        // we also remove the category
+        // if (currentCategory.id === id) {
+        //     setCurrentCategory(null);
+
+        //     let newActiveFilters = [...activeFilters];
+
+        //     currentSubcategories.forEach((subcategory: any) => {
+        //         newActiveFilters = newActiveFilters.filter((element: any) => element.id !== subcategory.id);
+        //     });
+        //     newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
+        //     setActiveFilters(newActiveFilters);
+        //     setCurrentSubcategories([])
+
+        //     return;
+        // }
+
+        // // If it's a subcategory
+        // if (currentSubcategories.some((item: any) => item.id === id)) {
+        //     removeSubcategory(id);
+        //     return;
+        // }
+    };
 
     return (
         <div className="bg-white max-w-7xl mx-auto">
@@ -325,17 +349,17 @@ export default function Filters({ route, department, category, subcategories }: 
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {availableCategories?.map((cat: any) => (
-                                                        <Menu.Item key={cat.id}>
+                                                    {availableCategories?.map((cat: Category) => (
+                                                        <Menu.Item key={cat.mongo_id}>
                                                             {({ active }) => (
-                                                                <Link href={`${route}/${department}?category=${cat.name.replace(' ', '-').toLowerCase()}`}
+                                                                <Link href={`${route}/${department}?category=${cat.slug.toLowerCase()}`}
                                                                     className={classNames(
-                                                                        category && category.toLowerCase() == cat.name.toLowerCase() ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                        category && category.toLowerCase() == cat.slug.toLowerCase() ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm cursor-pointer capitalize'
                                                                     )}
                                                                 >
-                                                                    {cat.name.replace('-', ' ').toLowerCase()}
+                                                                    {cat.name}
                                                                 </Link>
                                                             )}
                                                         </Menu.Item>
@@ -350,11 +374,11 @@ export default function Filters({ route, department, category, subcategories }: 
                                         <Popover className="relative inline-block px-4 text-left">
                                             <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                                 <span className="capitalize">{category.replace('-', ' ').toLowerCase()}</span>
-                                                {/* {sectionIdx === 0 ? (
-                                                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                                                                                        1
-                                                                                    </span>
-                                                                                ) : null} */}
+                                                {subcategories.length > 0 ? (
+                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                        {subcategories.length}
+                                                    </span>
+                                                ) : null}
                                                 <ChevronDownIcon
                                                     className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                     aria-hidden="true"
@@ -373,22 +397,22 @@ export default function Filters({ route, department, category, subcategories }: 
 
                                                 <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <form className="space-y-4">
-                                                        {availableSubcategories?.map((sub: any) => (
-                                                            <div key={sub.id} className="flex items-center">
+                                                        {availableSubcategories?.map((sub: Subcategory) => (
+                                                            <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
                                                                 <Link
                                                                     href={getSubcategoryUrl(sub)}>
                                                                     <input
-                                                                        name={`${sub.id}[]`}
-                                                                        defaultValue={sub.name}
+                                                                        name={`${sub.mongo_id}[]`}
+                                                                        defaultValue={sub.slug}
                                                                         type="checkbox"
-                                                                        defaultChecked={subcategories.some((s: any) => s.toLowerCase() === sub.name.toLowerCase())}
+                                                                        checked={subcategories.some((s: any) => s.toLowerCase() === sub.slug.toLowerCase())}
                                                                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                     />
                                                                     <label
-                                                                        htmlFor={`filter-${sub.name}`}
-                                                                        className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900 capitalize"
+                                                                        htmlFor={`filter-${sub.slug}`}
+                                                                        className="ml-3 pr-6 text-sm font-medium text-gray-900 capitalize"
                                                                     >
-                                                                        {sub.name.replace('-', ' ').toLowerCase()}
+                                                                        {sub.name}
                                                                     </label>
                                                                 </Link>
                                                             </div>
@@ -417,22 +441,22 @@ export default function Filters({ route, department, category, subcategories }: 
 
                             <div className="mt-2 sm:ml-4 sm:mt-0">
                                 <div className="-m-1 flex flex-wrap items-center">
-                                    {activeFilters.map((activeFilter: any) => (
+                                    {activeFilters.map((activeFilter: string) => (
                                         <span
                                             key={activeFilter}
                                             className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
                                         >
                                             <span className="capitalize">{activeFilter.replace('-', ' ').toLowerCase()}</span>
-                                            <button
+                                            <Link
                                                 type="button"
-                                                //onClick={() => handleFilterRemoved(activeFilter.id)}
+                                                href="test"
                                                 className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
                                             >
                                                 <span className="sr-only">Remove filter for {activeFilter}</span>
                                                 <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                     <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
                                                 </svg>
-                                            </button>
+                                            </Link>
                                         </span>
                                     ))}
                                 </div>

@@ -126,6 +126,11 @@ export default function Filters({ route, department, category, subcategories }: 
                             <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                                 <div className="flex items-center justify-between px-4">
                                     <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                                    {subcategories.length > 0 ? (
+                                        <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                            {subcategories.length}
+                                        </span>
+                                    ) : null}
                                     <button
                                         type="button"
                                         className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
@@ -137,14 +142,15 @@ export default function Filters({ route, department, category, subcategories }: 
                                 </div>
 
                                 {/* Filters */}
-                                <form className="mt-4">
+                                <div className="mt-4">
+
                                     {/* Category */}
                                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
                                         {({ open }) => (
                                             <>
                                                 <h3 className="-mx-2 -my-3 flow-root">
                                                     <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
-                                                        <span className="font-medium text-gray-900">Categories</span>
+                                                        <span className="font-medium text-gray-900">Category</span>
                                                         <span className="ml-6 flex items-center">
                                                             <ChevronDownIcon
                                                                 className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
@@ -154,33 +160,74 @@ export default function Filters({ route, department, category, subcategories }: 
                                                     </Disclosure.Button>
                                                 </h3>
 
+                                                <Disclosure.Panel className="pt-6">
+                                                    <div className="space-y-2">
+                                                        {availableDepartment?.categories.map((cat: Category, catIdx: number) => (
+                                                            <div key={cat.mongo_id} className="flex items-center">
+                                                                <Link href={`${route}/${department}?category=${cat.slug.toLowerCase()}`}
+                                                                    className={classNames(
+                                                                        category && category.toLowerCase() == cat.slug.toLowerCase() ? 'font-medium text-gray-900' : 'text-gray-500',
 
-                                                {/* <Disclosure.Panel className="pt-6">
-                                                    <div className="space-y-6">
-                                                        {currentDepartment?.categories.map((category, categoryIdx) => (
-                                                                <div key={category.id} className="flex items-center">
-                                                                    <input
-                                                                        id={`filter-mobile-${category.id}-${categoryIdx}`}
-                                                                        name={`${category.id}[]`}
-                                                                        defaultValue={category.name}
-                                                                        type="checkbox"
-                                                                        defaultChecked={option.checked}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                    />
-                                                                    <label
-                                                                        htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                        className="ml-3 text-sm text-gray-500"
-                                                                    >
-                                                                        {option.label}
-                                                                    </label>
-                                                                </div>
-                                                            ))}
+                                                                        'block px-4 py-2 text-sm cursor-pointer capitalize'
+                                                                    )}
+                                                                >
+                                                                    {cat.name}
+                                                                </Link>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                </Disclosure.Panel> */}
+                                                </Disclosure.Panel>
                                             </>
                                         )}
                                     </Disclosure>
-                                </form>
+
+                                    {/* Subcategories */}
+                                    {category &&
+                                        <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                                            {({ open }) => (
+                                                <>
+                                                    <h3 className="-mx-2 -my-3 flow-root">
+                                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
+                                                            <span className="font-medium text-gray-900 capitalize">{category.replace('-', ' ').toLowerCase()}</span>
+                                                            <span className="ml-6 flex items-center">
+                                                                <ChevronDownIcon
+                                                                    className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                                                                    aria-hidden="true"
+                                                                />
+                                                            </span>
+                                                        </Disclosure.Button>
+                                                    </h3>
+
+                                                    <Disclosure.Panel className="pt-6">
+                                                        <div className="space-y-2">
+                                                            {availableDepartment?.categories.find((cat: Category) => cat.slug === category)?.subcategories.map((sub: Subcategory) => (
+                                                                <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
+                                                                    <Link
+                                                                        href={getSubcategoryUrl(sub)}>
+                                                                        <input
+                                                                            name={`${sub.mongo_id}[]`}
+                                                                            defaultValue={sub.slug}
+                                                                            type="checkbox"
+                                                                            readOnly
+                                                                            checked={subcategories.some((s: any) => s.toLowerCase() === sub.slug.toLowerCase())}
+                                                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                        />
+                                                                        <label
+                                                                            htmlFor={`filter-${sub.slug}`}
+                                                                            className="ml-3 pr-6 text-sm font-regular text-gray-900 capitalize"
+                                                                        >
+                                                                            {sub.name}
+                                                                        </label>
+                                                                    </Link>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </Disclosure.Panel>
+                                                </>
+                                            )}
+                                        </Disclosure>
+                                    }
+                                </div>
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>

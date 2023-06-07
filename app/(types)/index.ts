@@ -76,3 +76,8 @@ export type Subcategory = {
     name: string,
     mapped_ids: number[],
 }
+
+export type Route = {
+    name: string,
+    href: string
+}

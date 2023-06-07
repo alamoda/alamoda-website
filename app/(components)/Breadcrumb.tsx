@@ -1,13 +1,10 @@
 import Link from "next/link"
+import { Route } from "../(types)"
 
 interface ComponentProps {
     routes: Route[],
 }
 
-interface Route {
-    name: string,
-    href: string
-}
 
 export default function Breadcrumb({ routes }: ComponentProps) {
     return (

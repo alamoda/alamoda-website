@@ -62,113 +62,37 @@ export default function Filters({ route, department, category, subcategories }: 
 
         // Remove from URL if filter already included
         if (subcategories.includes(sub.slug.toLowerCase())) {
-            let filteredSubcategories = subcategories.filter(val => val !== sub.slug.toLowerCase());
-            let subcategoriesStr = filteredSubcategories.join(',');
-            return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${subcategoriesStr}`
+            return getRemoveSubcategoryUrl(sub.slug.toLowerCase());
         }
         // Otherwise, just add it to the url
         else {
-            return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${[...subcategories, sub.slug.toLowerCase()].join()}`
+            return getAddSubcategoryUrl(sub.slug.toLowerCase());
         }
     };
 
+    const getAddSubcategoryUrl = (slug: string) => {
+        return `${route}/${department}?category=${category.toLowerCase()}&subcategories=${[...subcategories, slug].join()}`
+    };
 
-    // // Functions
-    // const handleCategoryUpdate = (category: any) => {
+    const getRemoveSubcategoryUrl = (slug: string) => {
+        let filteredSubcategories = subcategories.filter(val => val !== slug);
+        let subcategoriesStr = filteredSubcategories.join(',');
+        return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${subcategoriesStr}`
+    };
 
-    //     if (currentCategory == null) {
-    //         addCategory(category)
-    //     }
-    //     else {
-    //         if (currentCategory.id == category.id) return
-    //         handleFilterRemoved(currentCategory.id)
-    //         addCategory(category)
-    //     }
-    // }
-
-    // const addCategory = (category: any) => {
-
-    //     setCurrentCategory(category);
-
-    //     const filter: Filter = {
-    //         id: category.id,
-    //         name: category.name,
-    //         value: {
-    //             category: category.name
-    //         }
-    //     }
-    //     setActiveFilters((prev: any) => { return [...prev, filter] })
-    // };
-
-    // const removeCategory = (categoryId: any) => {
-    //     setCurrentCategory(null);
-    //     setActiveFilters(activeFilters.filter((element: any) => element.id !== categoryId))
-    // };
-
-    // const handleSubcategoryUpdate = (subcategory: any, event: any) => {
-    //     if (event.target.checked) addSubcategory(subcategory)
-    //     else removeSubcategory(subcategory.id)
-    // };
-
-    // const addSubcategory = (subcategory: any) => {
-
-    //     setCurrentSubcategories((prev: any) => { return [...prev, { id: subcategory.id, name: subcategory.name }] })
-
-    //     const filter: Filter = {
-    //         id: subcategory.id,
-    //         name: subcategory.name,
-    //         value: {
-    //             subcategory: subcategory.name
-    //         }
-    //     }
-
-    //     setActiveFilters((prev: any) => { return [...prev, filter] });
-    // };
-
-    // const removeSubcategory = (subcategoryId: any) => {
-    //     setCurrentSubcategories(currentSubcategories.filter((element: any) => element.id !== subcategoryId));
-    //     setActiveFilters(activeFilters.filter((element: any) => element.id !== subcategoryId));
-    // };
-
-    const handleFilterRemoved = (filter: string) => {
-
-        // If we are removing a category
-        if (category === filter) {
-
-            return;
-        }
-
-        // If we are removing a subcategory
-        if (subcategories.includes(filter)){
-            
-            return;
-        }
-
-
-
+    const getRemoveFilterUrl = (filterSlug: string) => {
 
         // If it's a category
         // we also remove the category
-        // if (currentCategory.id === id) {
-        //     setCurrentCategory(null);
+        if (filterSlug === category) {
+            return `${route}/${department}`;
+        }
 
-        //     let newActiveFilters = [...activeFilters];
-
-        //     currentSubcategories.forEach((subcategory: any) => {
-        //         newActiveFilters = newActiveFilters.filter((element: any) => element.id !== subcategory.id);
-        //     });
-        //     newActiveFilters = newActiveFilters.filter((element: any) => element.id !== id);
-        //     setActiveFilters(newActiveFilters);
-        //     setCurrentSubcategories([])
-
-        //     return;
-        // }
-
-        // // If it's a subcategory
-        // if (currentSubcategories.some((item: any) => item.id === id)) {
-        //     removeSubcategory(id);
-        //     return;
-        // }
+        // If it's a subcategory
+        if (subcategories.some((s: string) => s === filterSlug)) {
+            return getRemoveSubcategoryUrl(filterSlug);
+        }
+        return ""
     };
 
     return (
@@ -406,6 +330,7 @@ export default function Filters({ route, department, category, subcategories }: 
                                                                         name={`${sub.mongo_id}[]`}
                                                                         defaultValue={sub.slug}
                                                                         type="checkbox"
+                                                                        readOnly
                                                                         checked={subcategories.some((s: any) => s.toLowerCase() === sub.slug.toLowerCase())}
                                                                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                     />
@@ -450,7 +375,7 @@ export default function Filters({ route, department, category, subcategories }: 
                                             <span className="capitalize">{activeFilter.replace('-', ' ').toLowerCase()}</span>
                                             <Link
                                                 type="button"
-                                                href="test"
+                                                href={getRemoveFilterUrl(activeFilter)}
                                                 className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
                                             >
                                                 <span className="sr-only">Remove filter for {activeFilter}</span>

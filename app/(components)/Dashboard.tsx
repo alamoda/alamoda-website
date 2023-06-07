@@ -37,7 +37,7 @@ export default function Dashboard({
     const { data: session } = useSession();
 
     return (
-        <div>
+        <div className="mx-auto max-w-7xl">
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
                     <Transition.Child

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import ProductForm from "@/app/(components)/ProductForm";
 import DeleteButton from "@/app/(components)/DeleteButtons";
+import SecondaryButton from "@/app/(components)/SecondaryButton";
 
 export default function Page({
     params,
@@ -65,8 +66,8 @@ export default function Page({
             {Object.keys(product).length > 0 ?
                 <>
                     <ProductForm {...product} />
-                    <span className="px-16">
-                        <DeleteButton text="delete" onClick={deleteProduct} />
+                    <span className="ml-4">
+                        <SecondaryButton text="delete" onClick={deleteProduct} />
                     </span>
                 </>
                 : null}

@@ -12,6 +12,7 @@ import PrimaryInput from "@/app/(components)/PrimaryInput";
 import TextAreaInput from "@/app/(components)/TextAreaInput";
 import Image from 'next/image';
 import PrimarySelect from "./PrimarySelect";
+import { isAnyArrayBuffer } from "util/types";
 
 const ProductForm = ({
     mongo_id = '',
@@ -165,11 +166,10 @@ const ProductForm = ({
     })) as ItemInterface[];
 
     return (
-        <div className="px-16">
+        <>
             {/* IMAGES */}
-            <div className="flex items-center gap-4">
-                <div className="flex flex-wrap items-center gap-4">
-                    <PhotoInput text="Product Images" onChange={uploadImages} />
+            <div className="flex items-center">
+                <div className="flex flex-wrap items-center">
                     <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
                         {!!itemObjects?.length && itemObjects.map(item => (
                             <div key={item.id} className="inline-block mx-4">
@@ -177,122 +177,125 @@ const ProductForm = ({
                             </div>
                         ))}
                     </ReactSortable>
+                    <PhotoInput text="Product Images" onChange={uploadImages} />
                 </div>
+            </div>
+
+            <div className="flex items-center gap-6 mt-4">
+                {/* NAME */}
+                <PrimaryInput size='w-56' label="Name" placeholder="Name" value={name} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                {/* SKU */}
+                <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
+                {/* ID */}
+                <PrimaryInput size='w-56' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6 mt-4">
+                {/* DEPARTMENT */}
+                <PrimarySelect
+                    label="Department"
+                    value={department || { mongo_id: 0, name: 'None' }}
+                    options={departments}
+                    onValueChange={(value: Department) => {
+                        setDepartment(value);
+                        setCategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], subcategories: [] });
+                        setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
+                    }}
+                />
+                {/* CATEGORY  */}
+                <PrimarySelect
+                    label="Category"
+                    value={category || { mongo_id: 0, name: 'None' }}
+                    options={department.categories}
+                    onValueChange={(value: Category) => {
+                        setCategory(value);
+                        setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
+                    }}
+                />
+                {/* SUBCATEGORY  */}
+                <PrimarySelect
+                    label="Subcategory"
+                    value={subcategory || { mongo_id: '', name: 'None', slug: '', mapped_ids: [], }}
+                    options={category.subcategories}
+                    onValueChange={(value: Subcategory) => setSubcategory(value)}
+                />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6 mt-4">
+                {/* BRAND */}
+                <PrimarySelect
+                    label="Brand"
+                    value={brand}
+                    options={brands}
+                    onValueChange={(value: Brand) => setBrand(value)}
+                />
+                {/* AVAILABILITY */}
+                <PrimarySelect
+                    label="Available"
+                    value={available ? { mongo_id: '0', name: available.toString() } : { mongo_id: '-1', name: 'None:' }}
+                    options={[{ mongo_id: '0', name: 'true' }, { mongo_id: '1', name: 'false' }]}
+                    onValueChange={(value: Option) => setAvailable(Boolean(value.name))}
+                />
+                {/* STATUS */}
+                <PrimarySelect
+                    label="Status"
+                    value={{ mongo_id: '-1', name: status.toString() }}
+                    options={[{ mongo_id: '-1', name: '-1' }, { mongo_id: '0', name: '0' }, { mongo_id: '1', name: '1' }, { mongo_id: '2', name: '2' }]}
+                    onValueChange={(value: Option) => setStatus(Number(value.name))}
+                />
 
             </div>
 
-            <div className="gap-8 mt-8">
-                <div className="flex items-center gap-4">
-                    {/* NAME */}
-                    <PrimaryInput size='w-56' label="Name" placeholder="Name" value={name} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
-                    {/* SKU */}
-                    <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
-                    {/* ID */}
-                    <PrimaryInput size='w-56' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
-                </div>
-                <div className="flex items-center mt-4">
-                    <div>
-                        <div className="flex items-center gap-4">
-                            {/* DEPARTMENT */}
-                            <PrimarySelect
-                                label="Department"
-                                value={department || { mongo_id: 0, name: 'None' }}
-                                options={departments}
-                                onValueChange={(value: Department) => {
-                                    setDepartment(value);
-                                    setCategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], subcategories: [] });
-                                    setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
-                                }}
-                            />
-                            {/* CATEGORY  */}
-                            <PrimarySelect
-                                label="Category"
-                                value={category || { mongo_id: 0, name: 'None' }}
-                                options={department.categories}
-                                onValueChange={(value: Category) => {
-                                    setCategory(value);
-                                    setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
-                                }}
-                            />
-                            {/* SUBCATEGORY  */}
-                            <PrimarySelect
-                                label="Subcategory"
-                                value={subcategory || { mongo_id: '', name: 'None', slug: '', mapped_ids: [], }}
-                                options={category.subcategories}
-                                onValueChange={(value: Subcategory) => setSubcategory(value)}
-                            />
-                        </div>
-                        <div className="flex flex-wrap items-center gap-4 mt-4">
-                            {/* BRAND */}
-                            <PrimarySelect
-                                label="Brand"
-                                value={brand}
-                                options={brands}
-                                onValueChange={(value: Brand) => setBrand(value)}
-                            />
-                            {/* AVAILABILITY */}
-                            <PrimarySelect
-                                label="Available"
-                                value={available ? { mongo_id: '0', name: available.toString() } : { mongo_id: '-1', name: 'None:' }}
-                                options={[{ mongo_id: '0', name: 'true' }, { mongo_id: '1', name: 'false' }]}
-                                onValueChange={(value: Option) => setAvailable(Boolean(value.name))}
-                            />
-                            {/* STATUS */}
-                            <PrimarySelect
-                                label="Status"
-                                value={{ mongo_id: '-1', name: status.toString() }}
-                                options={[{ mongo_id: '-1', name: '-1' }, { mongo_id: '0', name: '0' }, { mongo_id: '1', name: '1' }, { mongo_id: '2', name: '2' }]}
-                                onValueChange={(value: Option) => setStatus(Number(value.name))}
-                            />
-                            {/* SIZES */}
-                            {sizes.length > 0 &&
-                                <div>
-                                    <span className="font-medium text-sm">
-                                        Sizes:
-                                    </span>
-                                    {sizes.map((size, index) => (
-                                        <span key={index} className="text-sm">
-                                            {" " + size.name}
-                                        </span>
-                                    ))
-                                    }
-                                </div>
-                            }
-                        </div>
+            {/* SIZES */}
+            {sizes.length > 0 &&
+                <div className="mt-4">
+                    <div className="font-medium text-sm">
+                        Sizes:
+                    </div>
+                    <div className="mt-2">
+                        {sizes.map((size, index) => (
+                            <span key={index} className="text-sm">
+                                {" " + size.name}
+                            </span>
+                        ))
+                        }
                     </div>
                 </div>
-            </div>
+            }
 
             {/* DESCRIPTION */}
-            < div className="flex items-center justify-between mt-2" >
+            < div className="flex items-center justify-between mt-4" >
                 <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
             </div >
-
+            
             {/* FEATURES */}
-            <div className="flex flex-wrap gap-4 text-sm mt-2" >
-                {Array.from(features).map((feature, index) => (
-                    <div key={index}>
-                        <div className="font-medium mb-1">
-                            {feature.name}
+            {Array.from(features).length > 0 &&
+                <div className="flex flex-wrap gap-6 text-sm mt-4" >
+                    {Array.from(features).map((feature, index) => (
+                        <div key={index}>
+                            <div className="font-medium mb-1">
+                                {feature.name}
+                            </div>
+                            <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
+                                {feature.value}
+                            </div>
                         </div>
-                        <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
-                            {feature.value}
-                        </div>
-                    </div>
-                ))}
-            </div>
-            < div className="flex items-center gap-4 mt-2" >
+                    ))}
+                </div>
+            }
+
+            < div className="flex items-center gap-6">
                 {/* PRICE */}
                 <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
                 {/* WHOLESALE PRICE */}
                 <PriceInput name="Wholesale Price" value={wholesale_price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
             </div>
 
-            <div className="mt-2">
+            <span>
                 {/* SAVE BUTTON */}
                 <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
-            </div>
-        </div>
+            </span>
+        </>
     )
 }
 

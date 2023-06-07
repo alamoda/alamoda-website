@@ -17,7 +17,7 @@ export default function PrimaryInput({name, label, value, onChangeMethod, placeh
         <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
           {label}
         </label>
-        <div className="mt-2">
+        <div>
           <input
             value={value}
             onChange={onChangeMethod}

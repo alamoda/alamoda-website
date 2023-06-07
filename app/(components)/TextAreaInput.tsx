@@ -1,13 +1,19 @@
-export default function TextAreaInput(props: any) {
+type ComponentProps = {
+  label?: string
+  value: string
+  onChange: (value: any) => void
+}
+
+export default function TextAreaInput({label, value, onChange}: ComponentProps) {
     return (
       <div className="w-96 my-2">
         <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-          {props.label}
+          {label}
         </label>
         <div className="mt-2">
           <textarea
-            value={props.value}
-            onChange={props.onChange}
+            value={value}
+            onChange={onChange}
             rows={4}
             name="text"
             id="text"

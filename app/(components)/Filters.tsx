@@ -6,7 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import axios from 'axios'
-import { Category, Subcategory } from '../(types)'
+import { Category, Subcategory, Department } from '../(types)'
 
 interface ComponentProps {
     route: string,
@@ -30,21 +30,22 @@ export default function Filters({ route, department, category, subcategories }: 
     // State
     const [open, setOpen] = useState(false)
 
-    const [availableCategories, setAvailableCategories] = useState<Category[]>();
-    const [availableSubcategories, setAvailableSubcategories] = useState<Subcategory[]>();
+    const [availableDepartment, setAvailableDepartment] = useState<Department>();
+    // const [availableSubcategories, setAvailableSubcategories] = useState<Subcategory[]>();
 
     useEffect(() => {
         fetchFilters();
     }, []);
 
     async function fetchFilters() {
-        const resCat = await axios.get(`http://localhost:3000/api/departments/${department}/categories`);
-        setAvailableCategories(resCat.data);
+        const resCat = await axios.get(`http://localhost:3000/api/departments/${department}`);
+        setAvailableDepartment(resCat.data);
 
-        if (category) {
-            const resSub = await axios.get(`http://localhost:3000/api/departments/${department}/categories/${category}/subcategories`);
-            setAvailableSubcategories(resSub.data);
-        }
+
+        // if (category) {
+        //     const resSub = await axios.get(`http://localhost:3000/api/departments/${department}/categories/${category}/subcategories`);
+        //     setAvailableSubcategories(resSub.data);
+        // }
     }
 
     const activeFilters: string[] = [];
@@ -349,7 +350,7 @@ export default function Filters({ route, department, category, subcategories }: 
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {availableCategories?.map((cat: Category) => (
+                                                    {availableDepartment?.categories.map((cat: Category) => (
                                                         <Menu.Item key={cat.mongo_id}>
                                                             {({ active }) => (
                                                                 <Link href={`${route}/${department}?category=${cat.slug.toLowerCase()}`}
@@ -397,7 +398,7 @@ export default function Filters({ route, department, category, subcategories }: 
 
                                                 <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <form className="space-y-4">
-                                                        {availableSubcategories?.map((sub: Subcategory) => (
+                                                        {availableDepartment?.categories.find((cat: Category) => cat.slug === category)?.subcategories.map((sub: Subcategory) => (
                                                             <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
                                                                 <Link
                                                                     href={getSubcategoryUrl(sub)}>

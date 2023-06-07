@@ -5,47 +5,6 @@ import Pagination from '@/app/(components)/Pagination';
 import ProductCard from '@/app/(components)/ProductCard';
 import Filters from '@/app/(components)/Filters';
 import Footer from '@/app/(components)/Footer';
-import { Category, Department, Subcategory } from '@/app/(types)';
-
-// async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
-
-//     const navigationJson = await getNavigation();
-//     const dept: Department = navigationJson.find((d: Department) => { d.slug === department?.toLowerCase() });
-//     let cat: Category | undefined = undefined;
-//     let sub: Subcategory[] | undefined = undefined;
-
-//     if (category) {
-//         cat = dept.categories.find((c: Category) => c.slug === category);
-//     }
-
-//     if (cat && subcategories) {
-
-//         sub = [];
-
-//         for (const subcategory of subcategories) {
-//             const s = cat.subcategories.find((s: Subcategory) => s.slug === subcategory);
-//             if (s) sub.push(s);
-//         }
-//     }
-
-//     const productsJson = await getProducts(dept, cat, sub, skip, query);
-
-//     return { products: [], count: 0 };
-// };
-
-// async function getNavigation() {
-
-//     const res = await fetch(`http://localhost:3000/api/departments`, {
-//         cache: 'no-store',
-//         method: 'GET'
-//     });
-
-//     if (!res.ok) {
-//         throw new Error('Failed to fetch departments');
-//     }
-
-//     return await res.json();
-// }
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
 

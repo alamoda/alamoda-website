@@ -163,7 +163,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
                         {product.sizes.map((size: Size) => (
                           <RadioGroup.Option
-                            key={size.variant_id}
+                            key={size.name}
                             value={size.variant_id}
                             className={({ active, checked }) =>
                               classNames(

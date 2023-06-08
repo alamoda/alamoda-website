@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Disclosure, RadioGroup } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { Feature, Product, Route, Size } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import Image from 'next/image';
 import axios from 'axios'
+import { CartContext } from '@/context/CartContext'
 
 
 const policies = [
@@ -35,6 +36,8 @@ function classNames(...classes: any) {
 export default function Page({ params }: { params: { product_id: string } }) {
   const [selectedSize, setSelectedSize] = useState<string>();
   const [product, setProduct] = useState<Product>();
+
+  const { setCartProducts } = useContext(CartContext);
 
   useEffect(() => {
     fetchProduct(params.product_id);
@@ -73,6 +76,10 @@ export default function Page({ params }: { params: { product_id: string } }) {
     }
   }
 
+  const addProductToCart = () => {
+    setCartProducts((prev: Product[]) => [...prev, product] as Product[]);
+  }
+
   return (
     <>
 
@@ -94,7 +101,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                     <span className="capitalize">{product?.name}</span> by <span className="capitalize">{product?.brand.name.toLowerCase()}</span>
                   </h1>
                   <p className="text-xl font-medium text-red-700">
-                      <span className="text-gray-600 line-through mr-2">USD {product ? Math.round(product.price * 1.6) : 0}</span>USD {product ? Math.round(product.price) : 0}
+                    <span className="text-gray-600 line-through mr-2">USD {product ? Math.round(product.price * 1.6) : 0}</span>USD {product ? Math.round(product.price) : 0}
                   </p>
                 </div>
               </div>
@@ -121,45 +128,43 @@ export default function Page({ params }: { params: { product_id: string } }) {
               </div>
 
               <div className="mt-8 lg:col-span-5">
-                <form>
 
-                  {/* Size picker */}
-                  <div className="mt-8">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-sm font-medium text-gray-900">Size</h2>
-                    </div>
-
-                    <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-2">
-                      <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
-                      <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                        {product?.sizes.map((size: Size) => (
-                          <RadioGroup.Option
-                            key={size.name}
-                            value={size.variant_id}
-                            className={({ active, checked }) =>
-                              classNames(
-                                active ? 'ring-2 ring-indigo-500 ring-offset-2' : '',
-                                checked
-                                  ? 'border-transparent bg-indigo-600 text-white hover:bg-indigo-700'
-                                  : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
-                                'cursor-pointer focus:outline-none flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
-                              )
-                            }
-                          >
-                            <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                          </RadioGroup.Option>
-                        ))}
-                      </div>
-                    </RadioGroup>
+                {/* Size picker */}
+                <div className="mt-8">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-medium text-gray-900">Size</h2>
                   </div>
 
-                  <button
-                    type="submit"
-                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Add to cart
-                  </button>
-                </form>
+                  <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-2">
+                    <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
+                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                      {product?.sizes.map((size: Size) => (
+                        <RadioGroup.Option
+                          key={size.name}
+                          value={size.variant_id}
+                          className={({ active, checked }) =>
+                            classNames(
+                              active ? 'ring-2 ring-indigo-500 ring-offset-2' : '',
+                              checked
+                                ? 'border-transparent bg-indigo-600 text-white hover:bg-indigo-700'
+                                : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
+                              'cursor-pointer focus:outline-none flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
+                            )
+                          }
+                        >
+                          <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
+                        </RadioGroup.Option>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <button
+                  onClick={addProductToCart}
+                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  Add to cart
+                </button>
 
                 {/* Product details */}
                 {product?.description &&

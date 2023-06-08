@@ -1,5 +1,9 @@
+'use client'
+
+import { CartContext } from '@/context/CartContext';
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
+import { useContext } from 'react';
 
 const products = [
   {
@@ -38,6 +42,12 @@ const products = [
 ]
 
 export default function Page() {
+
+  const { cartProducts } = useContext(CartContext);
+
+  const cartPrice = cartProducts.reduce((sum, product) => sum + product.price, 0);
+
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -49,15 +59,14 @@ export default function Page() {
             </h2>
 
             <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
-              {products.map((product, productIdx) => (
-                <li key={product.id} className="flex py-6 sm:py-10">
-                  <div className="flex-shrink-0">
+              {cartProducts.map((product, productIdx) => (
+                <li key={product.mongo_id} className="flex items-center py-6 sm:py-10">
+                  <div className="">
                     <Image
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
-                      className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
-                      width={500}
-                      height={500}
+                      src={product.images[0]}
+                      alt={product.mongo_id}
+                      width={200}
+                      height={200}
                     />
                   </div>
 
@@ -66,18 +75,18 @@ export default function Page() {
                       <div>
                         <div className="flex justify-between">
                           <h3 className="text-sm">
-                            <a href={product.href} className="font-medium text-gray-700 hover:text-gray-800">
+                            <p className="font-medium text-gray-700 hover:text-gray-800">
                               {product.name}
-                            </a>
+                            </p>
                           </h3>
                         </div>
                         <div className="mt-1 flex text-sm">
-                          <p className="text-gray-500">{product.color}</p>
-                          {product.size ? (
+                          {/* <p className="text-gray-500">{product.color}</p> */}
+                          {/* {product.size ? (
                             <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{product.size}</p>
-                          ) : null}
+                          ) : null} */}
                         </div>
-                        <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">${product.price}</p>
                       </div>
 
                       <div className="mt-4 sm:mt-0 sm:pr-9">
@@ -108,7 +117,7 @@ export default function Page() {
                       </div>
                     </div>
 
-                    <p className="mt-4 flex space-x-2 text-sm text-gray-700">
+                    {/* <p className="mt-4 flex space-x-2 text-sm text-gray-700">
                       {product.inStock ? (
                         <CheckIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
                       ) : (
@@ -116,7 +125,7 @@ export default function Page() {
                       )}
 
                       <span>{product.inStock ? 'In stock' : `Ships in ${product.leadTime}`}</span>
-                    </p>
+                    </p> */}
                   </div>
                 </li>
               ))}
@@ -135,7 +144,7 @@ export default function Page() {
             <dl className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <dt className="text-sm text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-gray-900">$99.00</dd>
+                <dd className="text-sm font-medium text-gray-900">${cartPrice}</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex items-center text-sm text-gray-600">
@@ -145,7 +154,7 @@ export default function Page() {
                     <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                   </a>
                 </dt>
-                <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+                <dd className="text-sm font-medium text-gray-900">$30</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
@@ -155,11 +164,11 @@ export default function Page() {
                     <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                   </a>
                 </dt>
-                <dd className="text-sm font-medium text-gray-900">$8.32</dd>
+                <dd className="text-sm font-medium text-gray-900">$0</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-medium text-gray-900">Order total</dt>
-                <dd className="text-base font-medium text-gray-900">$112.32</dd>
+                <dd className="text-base font-medium text-gray-900">${cartPrice + 30}</dd>
               </div>
             </dl>
 

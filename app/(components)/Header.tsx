@@ -1,11 +1,12 @@
 'use client'
 
-import { Fragment, useState, useEffect, useRef } from 'react'
+import { Fragment, useState, useEffect, useRef, useContext } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Category, Department, Subcategory } from '../(types)'
 import axios from 'axios'
 import Link from 'next/link'
+import { CartContext } from '@/context/CartContext'
 
 interface Navigation {
   departments: Department[],
@@ -29,7 +30,7 @@ export default function Header() {
 
   const [navigation, setNavigation] = useState<Navigation>({ departments: [], pages: [] });
 
-  const [cartCount, setCartCount] = useState(0);
+  const {cartProducts} = useContext(CartContext);
 
   useEffect(() => {
     fetchDepartments();
@@ -360,7 +361,7 @@ export default function Header() {
                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                             aria-hidden="true"
                           />
-                          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartCount}</span>
+                          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartProducts.length}</span>
                           <span className="sr-only">items in cart, view bag</span>
                         </Link>
                       </div>

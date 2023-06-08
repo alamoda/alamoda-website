@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { StarIcon } from '@heroicons/react/20/solid'
 import { Disclosure, RadioGroup } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import { Product, Route, Size } from '@/app/(types)'
+import { Feature, Product, Route, Size } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import Image from 'next/image';
 
@@ -210,8 +208,8 @@ export default async function Page({ params }: { params: { product_id: string } 
                   </h2>
 
                   <div className="divide-y divide-gray-200 border-t">
-                    {product_fake.details.map((detail) => (
-                      <Disclosure as="div" key={detail.name}>
+                    
+                      <Disclosure as="div" defaultOpen={true}>
                         {({ open }) => (
                           <>
                             <h3>
@@ -219,7 +217,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                                 <span
                                   className={classNames(open ? 'text-indigo-600' : 'text-gray-900', 'text-sm font-medium')}
                                 >
-                                  {detail.name}
+                                  Features
                                 </span>
                                 <span className="ml-6 flex items-center">
                                   {open ? (
@@ -238,15 +236,15 @@ export default async function Page({ params }: { params: { product_id: string } 
                             </h3>
                             <Disclosure.Panel as="div" className="prose prose-sm pb-6">
                               <ul role="list">
-                                {detail.items.map((item) => (
-                                  <li key={item}>{item}</li>
+                                {product.features?.map((feature: Feature) => (
+                                  <li key={feature.id_feature}>
+                                    <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
                                 ))}
                               </ul>
                             </Disclosure.Panel>
                           </>
                         )}
                       </Disclosure>
-                    ))}
                   </div>
                 </section>
 

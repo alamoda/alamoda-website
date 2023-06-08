@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Disclosure, RadioGroup } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import Breadcrumb from '@/app/(components)/Breadcrumb'
 import { Product, Route, Size } from '@/app/(types)'
+import Breadcrumb from '@/app/(components)/Breadcrumb'
+import Image from 'next/image';
 
 const product_fake = {
   name: 'Zip Tote Basket',
@@ -130,10 +131,12 @@ export default async function Page({ params }: { params: { product_id: string } 
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
                   {product.images.map((image: string, imgeIdx: number) => (
-                    <img
+                    <Image
                       key={image}
                       src={image}
-                      alt={product.description}
+                      alt={product.description || product.mongo_id}
+                      width={500}
+                      height={500}
                       className={classNames(
                         imgeIdx === 0 ? 'lg:col-span-2 lg:row-span-2' : 'hidden lg:block',
                         'rounded-lg'

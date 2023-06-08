@@ -1,4 +1,5 @@
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import Image from 'next/image';
 
 const products = [
   {
@@ -36,11 +37,11 @@ const products = [
   },
 ]
 
-export default function Example() {
+export default function Page() {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">Shopping Cart</h1>
         <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
           <section aria-labelledby="cart-heading" className="lg:col-span-7">
             <h2 id="cart-heading" className="sr-only">
@@ -51,10 +52,12 @@ export default function Example() {
               {products.map((product, productIdx) => (
                 <li key={product.id} className="flex py-6 sm:py-10">
                   <div className="flex-shrink-0">
-                    <img
+                    <Image
                       src={product.imageSrc}
                       alt={product.imageAlt}
                       className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                      width={500}
+                      height={500}
                     />
                   </div>
 

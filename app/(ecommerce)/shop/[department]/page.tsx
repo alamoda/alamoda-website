@@ -1,10 +1,8 @@
 
 import Breadcrumb from '@/app/(components)/Breadcrumb';
-import Header from '@/app/(components)/Header';
 import Pagination from '@/app/(components)/Pagination';
 import ProductCard from '@/app/(components)/ProductCard';
 import Filters from '@/app/(components)/Filters';
-import Footer from '@/app/(components)/Footer';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
 
@@ -59,8 +57,6 @@ export default async function Shop(
 
     return (
         <>
-            {/* HEADER */}
-            <Header />
 
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -106,8 +102,6 @@ export default async function Shop(
                 </div>
             </div >
 
-            {/* FOOTER */}
-            < Footer />
         </>
     )
 }

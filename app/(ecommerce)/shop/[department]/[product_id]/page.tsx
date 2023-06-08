@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Disclosure, RadioGroup } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import Header from '@/app/(components)/Header'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import { Product, Route, Size } from '@/app/(types)'
 
@@ -101,9 +100,7 @@ export default async function Page({ params }: { params: { product_id: string } 
 
   return (
     <>
-      {/* HEADER */}
-      <Header />
-
+      
       {/* TITLE */}
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
 

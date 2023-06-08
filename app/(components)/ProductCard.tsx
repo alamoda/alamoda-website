@@ -23,7 +23,7 @@ const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
             width={217}
             height={290}
             className="w-full h-full object-cover object-center"
-            onMouseEnter={() => setImage(product.images[1])}
+            onMouseEnter={() => product.images[1] ? setImage(product.images[1]) : null}
             onMouseLeave={() => setImage(product.images[0])}
           />
         </div>

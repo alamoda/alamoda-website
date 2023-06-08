@@ -6,14 +6,23 @@ import Filters from '@/app/(components)/Filters';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string) {
 
-    const departementParam = department ? `department=${department}&` : ''
-    const categoryParam = category ? `category=${category}&` : ''
-    const subcategoriesParam = subcategories && subcategories.length > 0 ? `subcategories=${subcategories.join(',')}&` : ''
+    const url = new URL("http://localhost:3000/api/products");
+    const params = new URLSearchParams();
 
-    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}&order=${order}`, {
-        cache: 'no-store',
-        method: 'GET'
-    });
+    if (department) params.append("department", department);
+    if (category) params.append("category", category);
+    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','))
+
+    params.append("limit", "60");
+    params.append("status-min", "1");
+    params.append("available", "true")
+    params.append("skip", String(skip))
+    params.append("query", query)
+    params.append("order", order)
+
+    url.search = params.toString();
+
+    const res = await fetch(url.toString());
 
     if (!res.ok) {
         throw new Error('Failed to fetch products');

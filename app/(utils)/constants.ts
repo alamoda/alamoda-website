@@ -8,12 +8,12 @@ export const PRODUCT_SORT_OPTIONS: SortOption[] = [
     },
     {
         name: 'Price (high first)',
-        slug: 'price-low',
+        slug: 'price-high',
         filter: { price: 'desc', }
     },
     {
         name: 'Price (low first)',
-        slug: 'price-high',
+        slug: 'price-low',
         filter: { price: 'asc' }
     },
 ]

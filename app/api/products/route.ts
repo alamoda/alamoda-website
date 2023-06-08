@@ -25,15 +25,18 @@ export async function GET(req: Request) {
     const subcategories = getStrParam(url, 'subcategories');
 
     const order = getStrParam(url, 'order');
+    const statusMin = getIntParam(url, 'status-min');
+    const available = getBoolParam(url, 'available');
 
-    const filters: any = [
+    
+    const filters: object[] = [
         {
             status: {
-                not: 0
+                gte: statusMin ? statusMin : -1
             }
         },
         {
-            available: true
+            available: available ? available : false
         }
     ];
 
@@ -142,4 +145,16 @@ function getStrParam(url: URL, name: string) {
     if (!strParam) return null
 
     return strParam;
+}
+
+function getBoolParam(url: URL, name: string) {
+    const strParam = url.searchParams.get(name);
+
+    if (!strParam) return null
+
+    if (strParam.toLowerCase() === "true") return true
+
+    if (strParam.toLowerCase() === "false") return false
+
+    return null;
 }

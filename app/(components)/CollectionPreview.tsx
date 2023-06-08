@@ -1,10 +1,24 @@
 import Link from "next/link";
+import { PRODUCT_SORT_OPTIONS } from "../(utils)/constants";
+import { Product } from "../(types)";
 
 const collectionName = "New Arrivals"
 
 async function getNewArrivals() {
+    const url = new URL("http://localhost:3000/api/products");
+    const params = new URLSearchParams();
 
-    const res = await fetch('http://localhost:3000/api/products/new-arrivals?limit=3');
+    params.append("orderBy", PRODUCT_SORT_OPTIONS[0].slug);
+    params.append("limit", "3");
+    params.append("status-min", "2");
+    params.append("available", "true")
+
+    url.search = params.toString();
+
+    const res = await fetch(url.toString(), {
+        cache: 'no-store',
+        method: 'GET'
+    });
 
     if (!res.ok) {
         throw new Error('Failed to fetch data');
@@ -15,7 +29,8 @@ async function getNewArrivals() {
 
 export default async function CollectionPreview() {
 
-    const products = await getNewArrivals();
+    const data = await getNewArrivals();
+    const products: Product[] = data.products;
 
     return (
         <div className="bg-white">
@@ -29,7 +44,7 @@ export default async function CollectionPreview() {
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-                    {products.map((product: any) => (
+                    {products.map((product: Product) => (
                         <a key={product.id} className="group relative" href={('/' + product.department + '/' + product.category + '/' + (product.subcategory ? product.subcategory + "/" : "") + product.mongo_id).toLowerCase()} >
                             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg sm:aspect-h-3 sm:aspect-w-2">
                                 <img

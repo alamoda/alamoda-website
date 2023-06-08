@@ -1,4 +1,10 @@
-import { Department } from "../(types)";
+import { Department, SortOption } from "../(types)";
+
+export const PRODUCT_SORT_OPTIONS: SortOption[] = [
+    { name: 'New in', value: 'new-in' },
+    { name: 'Price (high first)', value: 'price-low' },
+    { name: 'Price (low first)', value: 'price-high' },
+]
 
 export const DEPARTMENTS: Department[] = [
 

@@ -36,6 +36,7 @@ export default async function Shop(
     const department = params.department;
     const category = searchParams.category ? String(searchParams.category) : "";
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
+    const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
 
     const breadcrumb = [
         {
@@ -75,7 +76,7 @@ export default async function Shop(
             </div>
 
             {/* FILTERS */}
-            <Filters route='shop' department={department} category={category} subcategories={subcategories} />
+            <Filters route='shop' department={department} category={category} subcategories={subcategories} order={order} />
 
             {/* PRODUCTS */}
             < div className="bg-white" >
@@ -84,7 +85,7 @@ export default async function Shop(
                         <div className="mx-auto text-center text-gray-500">No products available yet!</div>
                     }
                     <h2 className="sr-only">Products</h2>
-                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
                         {products.map((product: any) => (
                             <ProductCard route={`shop/${department}`} key={product.mongo_id} product={product} />
                         ))}

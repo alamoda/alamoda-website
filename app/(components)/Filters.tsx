@@ -7,29 +7,24 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import axios from 'axios'
 import { Category, Subcategory, Department } from '../(types)'
+import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
 
 interface ComponentProps {
     route: string,
     department: string,
     category: string,
     subcategories: string[],
+    order: string,
 }
-
-const sortOptions = [
-    { name: 'Most Popular', href: '#', current: true },
-    { name: 'Best Rating', href: '#', current: false },
-    { name: 'Newest', href: '#', current: false },
-]
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Filters({ route, department, category, subcategories }: ComponentProps) {
+export default function Filters({ route, department, category, subcategories, order }: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
-
     const [availableDepartment, setAvailableDepartment] = useState<Department>();
 
     useEffect(() => {
@@ -41,6 +36,7 @@ export default function Filters({ route, department, category, subcategories }: 
         setAvailableDepartment(resCat.data);
     }
 
+    const base_url = `http://localhost:3000/${route}/${department}`
     const activeFilters: string[] = [];
 
     if (category) {
@@ -51,26 +47,40 @@ export default function Filters({ route, department, category, subcategories }: 
         activeFilters.push(...subcategories);
     }
 
+    if (!order) {
+        order = PRODUCT_SORT_OPTIONS[0].value;
+    }
+
+    const buildUrl = (cat: string | null, sub: string | null, ord: string | null) => {
+        const url = new URL(base_url);
+        const params = new URLSearchParams();
+
+        if (cat)
+            params.append("category", category);
+
+        if (sub)
+            params.append("subcategories", sub);
+
+        if (ord)
+            params.append("orderBy", ord);
+
+        url.search = params.toString();
+        return url.toString()
+    };
+
     const getSubcategoryUrl = (sub: Subcategory) => {
 
+        let filteredSubcategories: String[] = [];
         // Remove from URL if filter already included
         if (subcategories.includes(sub.slug.toLowerCase())) {
-            return getRemoveSubcategoryUrl(sub.slug.toLowerCase());
+            filteredSubcategories = subcategories.filter(val => val !== sub.slug.toLowerCase());
         }
         // Otherwise, just add it to the url
         else {
-            return getAddSubcategoryUrl(sub.slug.toLowerCase());
+            filteredSubcategories = [...subcategories, sub.slug.toLowerCase()];
         }
-    };
 
-    const getAddSubcategoryUrl = (slug: string) => {
-        return `${route}/${department}?category=${category.toLowerCase()}&subcategories=${[...subcategories, slug].join()}`
-    };
-
-    const getRemoveSubcategoryUrl = (slug: string) => {
-        let filteredSubcategories = subcategories.filter(val => val !== slug);
-        let subcategoriesStr = filteredSubcategories.join(',');
-        return `${route}/${department}?category=${category.replace(' ', '-').toLowerCase()}&subcategories=${subcategoriesStr}`
+        return buildUrl(category, filteredSubcategories.join(','), order);
     };
 
     const getRemoveFilterUrl = (filterSlug: string) => {
@@ -78,14 +88,19 @@ export default function Filters({ route, department, category, subcategories }: 
         // If it's a category
         // we also remove the category
         if (filterSlug === category) {
-            return `${route}/${department}`;
+            return buildUrl(null, null, null);
         }
 
         // If it's a subcategory
         if (subcategories.some((s: string) => s === filterSlug)) {
-            return getRemoveSubcategoryUrl(filterSlug);
+            const filteredSubcategories = subcategories.filter(val => val !== filterSlug);
+            return buildUrl(category, filteredSubcategories.join(','), order);
         }
         return ""
+    };
+
+    const getSortUrl = (orderValue: string) => {
+        return buildUrl(category, subcategories.join(','), orderValue);
     };
 
     return (
@@ -257,13 +272,13 @@ export default function Filters({ route, department, category, subcategories }: 
                             >
                                 <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
-                                        {sortOptions.map((option) => (
+                                        {PRODUCT_SORT_OPTIONS.map((option) => (
                                             <Menu.Item key={option.name}>
                                                 {({ active }) => (
                                                     <a
-                                                        href={option.href}
+                                                        href={getSortUrl(option.value)}
                                                         className={classNames(
-                                                            option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                            option.value === order ? 'font-medium text-gray-900' : 'text-gray-500',
                                                             active ? 'bg-gray-100' : '',
                                                             'block px-4 py-2 text-sm'
                                                         )}

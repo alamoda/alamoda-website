@@ -81,3 +81,8 @@ export type Route = {
     name: string,
     href: string
 }
+
+export type SortOption = {
+    name: string,
+    value: string
+}

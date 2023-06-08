@@ -31,7 +31,6 @@ export default function Filters({ route, department, category, subcategories }: 
     const [open, setOpen] = useState(false)
 
     const [availableDepartment, setAvailableDepartment] = useState<Department>();
-    // const [availableSubcategories, setAvailableSubcategories] = useState<Subcategory[]>();
 
     useEffect(() => {
         fetchFilters();
@@ -40,12 +39,6 @@ export default function Filters({ route, department, category, subcategories }: 
     async function fetchFilters() {
         const resCat = await axios.get(`http://localhost:3000/api/departments/${department}`);
         setAvailableDepartment(resCat.data);
-
-
-        // if (category) {
-        //     const resSub = await axios.get(`http://localhost:3000/api/departments/${department}/categories/${category}/subcategories`);
-        //     setAvailableSubcategories(resSub.data);
-        // }
     }
 
     const activeFilters: string[] = [];

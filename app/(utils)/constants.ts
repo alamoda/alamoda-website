@@ -1,9 +1,21 @@
 import { Department, SortOption } from "../(types)";
 
 export const PRODUCT_SORT_OPTIONS: SortOption[] = [
-    { name: 'New in', value: 'new-in' },
-    { name: 'Price (high first)', value: 'price-low' },
-    { name: 'Price (low first)', value: 'price-high' },
+    {
+        name: 'New in',
+        slug: 'new-in',
+        filter: { created_at: 'desc', }
+    },
+    {
+        name: 'Price (high first)',
+        slug: 'price-low',
+        filter: { price: 'desc', }
+    },
+    {
+        name: 'Price (low first)',
+        slug: 'price-high',
+        filter: { price: 'asc' }
+    },
 ]
 
 export const DEPARTMENTS: Department[] = [

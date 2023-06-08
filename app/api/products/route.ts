@@ -1,4 +1,6 @@
 import { db } from "@/app/(lib)/db"
+import { SortOption } from "@/app/(types)";
+import { PRODUCT_SORT_OPTIONS } from "@/app/(utils)/constants";
 
 export async function GET(req: Request) {
 
@@ -21,6 +23,8 @@ export async function GET(req: Request) {
     const department = getStrParam(url, 'department');
     const category = getStrParam(url, 'category');
     const subcategories = getStrParam(url, 'subcategories');
+
+    const order = getStrParam(url, 'order');
 
     const filters: any = [
         {
@@ -86,6 +90,12 @@ export async function GET(req: Request) {
         )
     }
 
+    let orderFilter: SortOption = PRODUCT_SORT_OPTIONS[0];
+    if (order) {
+        const res = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === order);
+        if (res) orderFilter = res
+    }
+
     const products = await db.product.findMany({
         where: {
             AND: filters
@@ -97,7 +107,8 @@ export async function GET(req: Request) {
             department: true,
             category: true,
             subcategory: true,
-        }
+        },
+        orderBy: orderFilter.filter
     });
 
     const count = await db.product.count({

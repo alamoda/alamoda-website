@@ -84,5 +84,6 @@ export type Route = {
 
 export type SortOption = {
     name: string,
-    value: string
+    slug: string
+    filter: object
 }

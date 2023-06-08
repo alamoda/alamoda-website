@@ -4,13 +4,13 @@ import Pagination from '@/app/(components)/Pagination';
 import ProductCard from '@/app/(components)/ProductCard';
 import Filters from '@/app/(components)/Filters';
 
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "") {
+async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string) {
 
     const departementParam = department ? `department=${department}&` : ''
     const categoryParam = category ? `category=${category}&` : ''
     const subcategoriesParam = subcategories && subcategories.length > 0 ? `subcategories=${subcategories.join(',')}&` : ''
 
-    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}`, {
+    const res = await fetch(`http://localhost:3000/api/products?${departementParam}${categoryParam}${subcategoriesParam}limit=60&skip=${skip}&q=${query}&order=${order}`, {
         cache: 'no-store',
         method: 'GET'
     });
@@ -53,7 +53,7 @@ export default async function Shop(
         breadcrumb.push({ name: category, href: `shop/${department}?category=${category}` })
     }
 
-    const data = await getData(department, category, subcategories, skip, query);
+    const data = await getData(department, category, subcategories, skip, query, order);
     const { products, count } = data;
 
     return (

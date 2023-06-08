@@ -48,7 +48,7 @@ export default function Filters({ route, department, category, subcategories, or
     }
 
     if (!order) {
-        order = PRODUCT_SORT_OPTIONS[0].value;
+        order = PRODUCT_SORT_OPTIONS[0].slug;
     }
 
     const buildUrl = (cat: string | null, sub: string | null, ord: string | null) => {
@@ -275,16 +275,16 @@ export default function Filters({ route, department, category, subcategories, or
                                         {PRODUCT_SORT_OPTIONS.map((option) => (
                                             <Menu.Item key={option.name}>
                                                 {({ active }) => (
-                                                    <a
-                                                        href={getSortUrl(option.value)}
+                                                    <Link
+                                                        href={getSortUrl(option.slug)}
                                                         className={classNames(
-                                                            option.value === order ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                            option.slug === order ? 'font-medium text-gray-900' : 'text-gray-500',
                                                             active ? 'bg-gray-100' : '',
                                                             'block px-4 py-2 text-sm'
                                                         )}
                                                     >
                                                         {option.name}
-                                                    </a>
+                                                    </Link>
                                                 )}
                                             </Menu.Item>
                                         ))}

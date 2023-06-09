@@ -67,14 +67,13 @@ export default async function Shop(
 
     return (
         <>
-
             {/* BREADCRUMBS */}
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
                 <Breadcrumb routes={breadcrumb} />
             </div>
 
             {/* TITLE */}
-            <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:p-0 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
                     {category ? category.toLocaleLowerCase().replace('-', ' ') : department.toLowerCase().replace('-', ' ')}
                 </h1>
@@ -82,7 +81,6 @@ export default async function Shop(
                     Our thoughtfully designed workspace objects are crafted in limited runs. Improve your productivity and
                     organization with these sale items before we run out.
                 </p>
-
             </div>
 
             {/* FILTERS */}

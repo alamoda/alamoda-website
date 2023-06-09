@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useContext, Fragment } from 'react'
+import { useState, useEffect, useContext, Fragment, useRef } from 'react'
 import { Dialog, Disclosure, RadioGroup, Transition } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { Feature, Product, Route, Size } from '@/app/(types)'
@@ -8,6 +8,11 @@ import Breadcrumb from '@/app/(components)/Breadcrumb'
 import Image from 'next/image';
 import axios from 'axios'
 import { CartContext } from '@/context/CartContext'
+import Flicking from "@egjs/react-flicking";
+import "@egjs/react-flicking/dist/flicking.css";
+// Or, if you have to support IE9
+import "@egjs/react-flicking/dist/flicking-inline.css";
+import ImageScroll from '@/app/(components)/ImageScroll'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
@@ -22,12 +27,14 @@ export default function Page({ params }: { params: { product_id: string } }) {
   const [selectedSize, setSelectedSize] = useState<string>();
   const [product, setProduct] = useState<Product>();
   const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null)
+  const [imgPaginationIndex, setImgPaginationIndex] = useState<number>(0)
+
+  const flicking = useRef<any>();
 
   const { setCartProducts } = useContext(CartContext);
 
   useEffect(() => {
     fetchProduct(params.product_id);
-
   }, []);
 
   async function fetchProduct(productId: string) {
@@ -64,42 +71,55 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   const addProductToCart = () => {
     setCartProducts((prev: Product[]) => [...prev, product] as Product[]);
-  }
+  };
+
+  const openImageModal = (image: string) => {
+    if (!product) return;
+
+    setCurrentImage({ src: image, alt: product.description || product.mongo_id })
+  };
 
   return (
     <>
-
-      <Transition.Root show={currentImage != null} as={Fragment}>
-        <Dialog as="div" className="relative z-40" onClose={() => setCurrentImage(null)}>
+      <Transition appear show={currentImage != null} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => setCurrentImage(null)}>
           <Transition.Child
             as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
+            enter="ease-out duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
+            leave="ease-in duration-200"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
-          <div className="fixed inset-0 z-40 flex">
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="translate-x-full"
-            >
-              <Dialog.Panel className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <img src={currentImage?.src} alt={currentImage?.src} />
-              </Dialog.Panel>
-            </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-auto transform overflow-hidden p-6 text-left align-middle transition-all">
+                  <Image
+                    src={currentImage?.src || ""}
+                    width={500}
+                    height={500}
+                    alt={currentImage?.alt || ""}
+                    className="mx-auto min-h-full"
+                  />
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
 
       {/* BREADCRUMBS */}
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
@@ -125,10 +145,11 @@ export default function Page({ params }: { params: { product_id: string } }) {
               <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
                 <h2 className="sr-only">Images</h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
+                {/* Desktop images */}
+                <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8 ">
                   {product?.images.map((image: string, imgeIdx: number) => (
                     <Image
-                      onClick={() => setCurrentImage({ src: image, alt: product.description || product.mongo_id })}
+                      onClick={() => openImageModal(image)}
                       key={image}
                       src={image}
                       alt={product.description || product.mongo_id}
@@ -136,10 +157,15 @@ export default function Page({ params }: { params: { product_id: string } }) {
                       height={500}
                       className={classNames(
                         imgeIdx === 0 ? 'lg:col-span-2 lg:row-span-2' : 'hidden lg:block',
-                        'rounded-lg'
+                        'rounded-lg cursor-zoom-in'
                       )}
                     />
                   ))}
+                </div>
+
+                {/* Mobile Images */}
+                <div className="block md:hidden">
+                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} />
                 </div>
               </div>
 
@@ -242,18 +268,6 @@ export default function Page({ params }: { params: { product_id: string } }) {
                     </Disclosure>
                   </div>
                 </section>
-
-                {/* <div className="mt-8 border-t border-gray-200 pt-8">
-                  <h2 className="text-sm font-medium text-gray-900">Fabric &amp; Care</h2>
-
-                  <div className="prose prose-sm mt-4 text-gray-500">
-                    <ul role="list">
-                      {product.details.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div> */}
 
                 {/* Policies */}
                 <section aria-labelledby="policies-heading" className="mt-10">

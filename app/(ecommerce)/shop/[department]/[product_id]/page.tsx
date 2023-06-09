@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   const flicking = useRef<any>();
 
-  const { setCartProducts } = useContext(CartContext);
+  const { addProduct } = useContext(CartContext);
 
   useEffect(() => {
     fetchProduct(params.product_id);
@@ -68,10 +68,6 @@ export default function Page({ params }: { params: { product_id: string } }) {
       })
     }
   }
-
-  const addProductToCart = () => {
-    setCartProducts((prev: Product[]) => [...prev, product] as Product[]);
-  };
 
   const openImageModal = (image: string) => {
     if (!product) return;
@@ -202,7 +198,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 </div>
 
                 <button
-                  onClick={addProductToCart}
+                  onClick={() => product ? addProduct(product) : null}
                   className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Add to cart

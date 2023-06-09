@@ -65,7 +65,7 @@ export default function Filters({ route, department, category, subcategories, br
         order = PRODUCT_SORT_OPTIONS[0].slug;
     }
 
-    const buildUrl = (cat: string | null, sub: string | null, ord: string | null) => {
+    const buildUrl = (cat: string | null, sub: string | null, ord: string | null, bds: string | null) => {
         const url = new URL(baseUrl);
         const params = new URLSearchParams();
 
@@ -77,6 +77,9 @@ export default function Filters({ route, department, category, subcategories, br
 
         if (ord)
             params.append("orderBy", ord);
+
+        if (bds)
+            params.append("brands", bds);
 
         url.search = params.toString();
         return url.toString()
@@ -94,7 +97,7 @@ export default function Filters({ route, department, category, subcategories, br
             filteredSubcategories = [...subcategories, sub.slug.toLowerCase()];
         }
 
-        return buildUrl(category, filteredSubcategories.join(','), order);
+        return buildUrl(category, filteredSubcategories.join(','), order, brands.join(','));
     };
 
     const getRemoveFilterUrl = (filterSlug: string) => {
@@ -102,23 +105,40 @@ export default function Filters({ route, department, category, subcategories, br
         // If it's a category
         // we also remove the category
         if (filterSlug === category) {
-            return buildUrl(null, null, null);
+            return buildUrl(null, null, null, null);
         }
 
         // If it's a subcategory
         if (subcategories.some((s: string) => s === filterSlug)) {
             const filteredSubcategories = subcategories.filter(val => val !== filterSlug);
-            return buildUrl(category, filteredSubcategories.join(','), order);
+            return buildUrl(category, filteredSubcategories.join(','), order, brands.join(','));
+        }
+
+        // If it's a brand
+        if (brands.some((s: string) => s === filterSlug)) {
+            const filteredBrands = brands.filter(val => val !== filterSlug);
+            return buildUrl(category, subcategories.join(','), order, filteredBrands.join(','));
         }
         return ""
     };
 
     const getSortUrl = (orderValue: string) => {
-        return buildUrl(category, subcategories.join(','), orderValue);
+        return buildUrl(category, subcategories.join(','), orderValue, brands.join(','));
     };
 
     const getBrandUrl = (brandSlug: string) => {
-        return "";
+
+        let filteredBrands: String[] = [];
+        // Remove from URL if filter already included
+        if (brands.includes(brandSlug)) {
+            filteredBrands = brands.filter(val => val !== brandSlug);
+        }
+        // Otherwise, just add it to the url
+        else {
+            filteredBrands = [...brands, brandSlug];
+        }
+
+        return buildUrl(category, subcategories.join(','), order, filteredBrands.join(','));
     };
 
     return (
@@ -383,13 +403,13 @@ export default function Filters({ route, department, category, subcategories, br
                                                             .map((brand: Brand) => (
                                                                 <div key={brand.mongo_id} className="flex items-center truncate">
                                                                     <Link
-                                                                        href={getBrandUrl(brand.name)}>
+                                                                        href={getBrandUrl(brand.slug)}>
                                                                         <input
                                                                             name={`${brand.mongo_id}[]`}
                                                                             defaultValue={brand.slug}
                                                                             type="checkbox"
                                                                             readOnly
-                                                                            checked={subcategories.some((s: any) => s.toLowerCase() === brand.slug.toLowerCase())}
+                                                                            checked={brands.some((s: any) => s.toLowerCase() === brand.slug.toLowerCase())}
                                                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                         />
                                                                         <label

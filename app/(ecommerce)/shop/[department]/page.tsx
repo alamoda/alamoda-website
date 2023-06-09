@@ -4,14 +4,15 @@ import Pagination from '@/app/(components)/Pagination';
 import ProductCard from '@/app/(components)/ProductCard';
 import Filters from '@/app/(components)/Filters';
 
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string) {
+async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[]) {
 
     const url = new URL("http://localhost:3000/api/products");
     const params = new URLSearchParams();
 
     if (department) params.append("department", department);
     if (category) params.append("category", category);
-    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','))
+    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','));
+    if (brands && brands.length > 0) params.append("brands", brands.join(','));
 
     params.append("limit", "60");
     params.append("status-min", "1");
@@ -65,7 +66,7 @@ export default async function Shop(
         breadcrumb.push({ name: category, href: `shop/${department}?category=${category}` })
     }
 
-    const data = await getData(department, category, subcategories, skip, query, order);
+    const data = await getData(department, category, subcategories, skip, query, order, brands);
     const { products, count } = data;
 
     return (

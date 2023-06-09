@@ -23,6 +23,7 @@ export async function GET(req: Request) {
     const department = getStrParam(url, 'department');
     const category = getStrParam(url, 'category');
     const subcategories = getStrParam(url, 'subcategories');
+    const brands = getStrParam(url, 'brands');
 
     const order = getStrParam(url, 'order');
     const statusMin = getIntParam(url, 'status-min');
@@ -64,6 +65,18 @@ export async function GET(req: Request) {
                 subcategory: {
                     slug: {
                         in: subcategories.split(',')
+                    }
+                }
+            }
+        );
+    }
+
+    if (brands) {
+        filters.push(
+            {
+                brand: {
+                    slug: {
+                        in: brands.split(',')
                     }
                 }
             }

@@ -28,7 +28,7 @@ export async function GET(req: Request) {
     const statusMin = getIntParam(url, 'status-min');
     const available = getBoolParam(url, 'available');
 
-    
+
     const filters: object[] = [
         {
             status: {
@@ -118,7 +118,7 @@ export async function GET(req: Request) {
         where: {
             AND: filters
         },
-    })
+    });
 
     const res = {
         products: products,

@@ -46,6 +46,7 @@ export default async function Shop(
     const category = searchParams.category ? String(searchParams.category) : "";
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
+    const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
     const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
 
@@ -86,7 +87,13 @@ export default async function Shop(
             </div>
 
             {/* FILTERS */}
-            <Filters route='shop' department={department} category={category} subcategories={subcategories} order={order} />
+            <Filters 
+                route='shop' 
+                department={department} 
+                category={category} 
+                subcategories={subcategories} 
+                order={order} 
+                brands={brands} />
 
             {/* PRODUCTS */}
             < div className="bg-white" >

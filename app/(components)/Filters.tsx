@@ -2,39 +2,49 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import axios from 'axios'
-import { Category, Subcategory, Department } from '../(types)'
+import { Category, Subcategory, Department, Brand } from '../(types)'
 import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
 
 interface ComponentProps {
-    route: string,
-    department: string,
-    category: string,
-    subcategories: string[],
-    order: string,
+    route: string
+    department: string
+    category: string
+    subcategories: string[]
+    brands: string[]
+    order: string
 }
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Filters({ route, department, category, subcategories, order }: ComponentProps) {
+export default function Filters({ route, department, category, subcategories, brands, order }: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
     const [availableDepartment, setAvailableDepartment] = useState<Department>();
+    const [availableBrands, setAvailableBrands] = useState<Brand[]>([]);
+    const [brandSearchTerm, setBrandSearchTerm] = useState("");
+
 
     useEffect(() => {
         fetchFilters();
+        fetchBrands();
     }, []);
 
     async function fetchFilters() {
         const resCat = await axios.get(`http://localhost:3000/api/departments/${department}`);
         setAvailableDepartment(resCat.data);
-    }
+    };
+
+    async function fetchBrands() {
+        const resCat = await axios.get(`http://localhost:3000/api/brands`);
+        setAvailableBrands(resCat.data);
+    };
 
     const baseUrl = `http://localhost:3000/${route}/${department}`
     const activeFilters: string[] = [];
@@ -45,6 +55,10 @@ export default function Filters({ route, department, category, subcategories, or
 
     if (category && subcategories) {
         activeFilters.push(...subcategories);
+    }
+
+    if (brands && brands.length > 0) {
+        activeFilters.push(...brands);
     }
 
     if (!order) {
@@ -101,6 +115,10 @@ export default function Filters({ route, department, category, subcategories, or
 
     const getSortUrl = (orderValue: string) => {
         return buildUrl(category, subcategories.join(','), orderValue);
+    };
+
+    const getBrandUrl = (brandSlug: string) => {
+        return "";
     };
 
     return (
@@ -310,6 +328,84 @@ export default function Filters({ route, department, category, subcategories, or
                             <div className="flow-root">
 
                                 <Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
+
+                                    <Popover className="relative inline-block px-4 text-left">
+                                        <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                            <span className="capitalize">Brands</span>
+                                            {brands.length > 0 ? (
+                                                <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                    {brands.length}
+                                                </span>
+                                            ) : null}
+                                            <ChevronDownIcon
+                                                className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                aria-hidden="true"
+                                            />
+                                        </Popover.Button>
+
+                                        <Transition
+                                            as={Fragment}
+                                            enter="transition ease-out duration-100"
+                                            enterFrom="transform opacity-0 scale-95"
+                                            enterTo="transform opacity-100 scale-100"
+                                            leave="transition ease-in duration-75"
+                                            leaveFrom="transform opacity-100 scale-100"
+                                            leaveTo="transform opacity-0 scale-95"
+                                        >
+
+                                            <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <form className="space-y-4 w-48">
+
+
+                                                    <div className="relative flex flex-1 items-center justify-center">
+                                                        <div className="w-full sm:max-w-xs">
+                                                            <label htmlFor="search" className="sr-only">
+                                                                Search
+                                                            </label>
+                                                            <div className="relative">
+                                                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                </div>
+                                                                <input
+                                                                    id="search"
+                                                                    name="search"
+                                                                    className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                                    placeholder="Search"
+                                                                    type="search"
+                                                                    onChange={event => setBrandSearchTerm(event.target.value)}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                    {availableBrands
+                                                        ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
+                                                        .map((brand: Brand) => (
+                                                            <div key={brand.mongo_id} className="flex items-center truncate">
+                                                                <Link
+                                                                    href={getBrandUrl(brand.name)}>
+                                                                    <input
+                                                                        name={`${brand.mongo_id}[]`}
+                                                                        defaultValue={brand.id}
+                                                                        type="checkbox"
+                                                                        readOnly
+                                                                        checked={subcategories.some((s: any) => s.toLowerCase() === String(brand.id).toLowerCase())}
+                                                                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                    />
+                                                                    <label
+                                                                        htmlFor={`filter-${brand.id}`}
+                                                                        className="ml-3 pr-6 text-xs font-normal text-gray-900 capitalize truncate"
+                                                                    >
+                                                                        {brand.name}
+                                                                    </label>
+                                                                </Link>
+                                                            </div>
+                                                        ))}
+                                                </form>
+                                            </Popover.Panel>
+                                        </Transition>
+                                    </Popover>
+
 
                                     {/* Category */}
                                     <Menu as="div" className="relative inline-block text-left px-4">

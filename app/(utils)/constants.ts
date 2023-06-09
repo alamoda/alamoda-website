@@ -843,3 +843,9 @@ export const DEPARTMENTS: Department[] = [
         ],
     },
 ];
+
+export const EXCLUDED_PRODUCT_FEATURES: string[] = [
+    "fta",
+    "category uid",
+    "hs_code"
+]

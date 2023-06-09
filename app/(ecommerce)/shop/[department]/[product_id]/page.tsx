@@ -8,26 +8,12 @@ import Breadcrumb from '@/app/(components)/Breadcrumb'
 import Image from 'next/image';
 import axios from 'axios'
 import { CartContext } from '@/context/CartContext'
-
+import { EXCLUDED_PRODUCT_FEATURES } from '@/app/(utils)/constants'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
-
-async function getProductData(productId: string) {
-
-  const res = await fetch(`http://localhost:3000/api/product?id=${productId}`, {
-    cache: 'no-store',
-    method: 'GET'
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch products');
-  }
-
-  return await res.json();
-};
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -212,10 +198,15 @@ export default function Page({ params }: { params: { product_id: string } }) {
                           </h3>
                           <Disclosure.Panel as="div" className="prose prose-sm pb-6">
                             <ul role="list">
+
                               {product?.features?.map((feature: Feature) => (
-                                <li key={feature.id_feature}>
-                                  <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
-                              ))}
+                                EXCLUDED_PRODUCT_FEATURES.includes(feature.name) ? "" : (
+                                  <li key={feature.id_feature}>
+                                    <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
+                                )))}
+                              <li>
+                                SKU: {product?.sku}
+                              </li>
                             </ul>
                           </Disclosure.Panel>
                         </>

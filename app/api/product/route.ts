@@ -31,7 +31,7 @@ export async function POST(req: Request) {
             available: available,
             name: name,
             brand: {
-                connect: { id: brand_id }
+                connect: { mongo_id: brand_id }
             },
             description: description,
             features: features,

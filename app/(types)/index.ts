@@ -42,18 +42,6 @@ export type Size = {
     quantity: string
 }
 
-export type FilterValue = {
-    department?: string,
-    category?: string,
-    subcategory?: string,
-}
-
-export type Filter = {
-    id: string,
-    name: string,
-    value: FilterValue
-}
-
 export type Department = {
     mongo_id?: string,
     name: string,

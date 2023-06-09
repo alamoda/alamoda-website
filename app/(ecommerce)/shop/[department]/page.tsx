@@ -47,6 +47,8 @@ export default async function Shop(
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
 
+    const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
+
     const breadcrumb = [
         {
             name: 'Shop',
@@ -102,11 +104,11 @@ export default async function Shop(
                     <div className='mt-8'>
                         <Pagination
                             productCount={count}
-                            skip={skip}
-                            route="shop"
-                            department={department}
+                            baseUrl={baseUrl}
                             category={category}
-                            subcategories={subcategories} />
+                            subcategories={subcategories}
+                            skip={skip}
+                            order={order} />
                     </div>
                 </div>
             </div >

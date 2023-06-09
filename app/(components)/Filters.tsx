@@ -36,7 +36,7 @@ export default function Filters({ route, department, category, subcategories, or
         setAvailableDepartment(resCat.data);
     }
 
-    const base_url = `http://localhost:3000/${route}/${department}`
+    const baseUrl = `http://localhost:3000/${route}/${department}`
     const activeFilters: string[] = [];
 
     if (category) {
@@ -52,11 +52,11 @@ export default function Filters({ route, department, category, subcategories, or
     }
 
     const buildUrl = (cat: string | null, sub: string | null, ord: string | null) => {
-        const url = new URL(base_url);
+        const url = new URL(baseUrl);
         const params = new URLSearchParams();
 
         if (cat)
-            params.append("category", category);
+            params.append("category", cat);
 
         if (sub)
             params.append("subcategories", sub);

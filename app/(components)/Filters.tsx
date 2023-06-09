@@ -356,7 +356,6 @@ export default function Filters({ route, department, category, subcategories, br
                                             <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <form className="space-y-4 w-48">
 
-
                                                     <div className="relative flex flex-1 items-center justify-center">
                                                         <div className="w-full sm:max-w-xs">
                                                             <label htmlFor="search" className="sr-only">
@@ -378,29 +377,31 @@ export default function Filters({ route, department, category, subcategories, br
                                                         </div>
                                                     </div>
                                                     <hr />
-                                                    {availableBrands
-                                                        ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
-                                                        .map((brand: Brand) => (
-                                                            <div key={brand.mongo_id} className="flex items-center truncate">
-                                                                <Link
-                                                                    href={getBrandUrl(brand.name)}>
-                                                                    <input
-                                                                        name={`${brand.mongo_id}[]`}
-                                                                        defaultValue={brand.id}
-                                                                        type="checkbox"
-                                                                        readOnly
-                                                                        checked={subcategories.some((s: any) => s.toLowerCase() === String(brand.id).toLowerCase())}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                    />
-                                                                    <label
-                                                                        htmlFor={`filter-${brand.id}`}
-                                                                        className="ml-3 pr-6 text-xs font-normal text-gray-900 capitalize truncate"
-                                                                    >
-                                                                        {brand.name}
-                                                                    </label>
-                                                                </Link>
-                                                            </div>
-                                                        ))}
+                                                    <div className="overflow-y-auto h-64 space-y-1">
+                                                        {availableBrands
+                                                            ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
+                                                            .map((brand: Brand) => (
+                                                                <div key={brand.mongo_id} className="flex items-center truncate">
+                                                                    <Link
+                                                                        href={getBrandUrl(brand.name)}>
+                                                                        <input
+                                                                            name={`${brand.mongo_id}[]`}
+                                                                            defaultValue={brand.slug}
+                                                                            type="checkbox"
+                                                                            readOnly
+                                                                            checked={subcategories.some((s: any) => s.toLowerCase() === brand.slug.toLowerCase())}
+                                                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                        />
+                                                                        <label
+                                                                            htmlFor={`filter-${brand.slug}`}
+                                                                            className="ml-3 pr-6 text-xs font-normal text-gray-900 capitalize truncate"
+                                                                        >
+                                                                            {brand.name}
+                                                                        </label>
+                                                                    </Link>
+                                                                </div>
+                                                            ))}
+                                                    </div>
                                                 </form>
                                             </Popover.Panel>
                                         </Transition>

@@ -4,36 +4,48 @@ export async function POST(req: Request) {
 
     const brands = await req.json();
 
-    const db_brands = await db.brand.findMany({
+    const availableBrands = await db.brand.findMany({
         select: {
-            id: true
+            slug: true,
+            mapped_ids: true
         }
     });
 
-    const available_ids = db_brands.map(brand => brand.id);
-
-    let updated = 0;
+    let updated: number = 0;
     for (let brand of brands) {
 
-        const brand_id = parseInt(brand.id, 10);
-        if (isNaN(brand_id)) continue;
+        let found: boolean = false;
+        for (let avB of availableBrands) {
+            if (avB.slug === brand.slug) {
+                found = true;
+                break
+            }
+        }
 
-        if (available_ids.includes(brand_id)) continue
+        if (found) continue
 
         // Otherwise add the brand in the db
         await db.brand.create({
             data: {
-                id: brand_id,
                 name: brand.name,
+                slug: brand.slug,
+                mapped_ids: [Number(brand.id)]
             }
         });
         updated++;
     }
 
-    return new Response(JSON.stringify({"updated": updated}));
+    return new Response(JSON.stringify({ "updated": updated }));
 }
 
 export async function GET(req: Request) {
+
+    const brands = await db.brand.findMany();
+
+    return new Response(JSON.stringify(brands));
+}
+
+export async function PUT(req: Request) {
 
     const brands = await db.brand.findMany();
 

@@ -50,10 +50,11 @@ model User {
 }
 
 model Brand {
-  mongo_id String    @id @default(auto()) @map("_id") @db.ObjectId
-  id       Int       @unique
-  name     String    @unique
-  products Product[]
+  mongo_id   String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @unique
+  slug       String    @unique
+  mapped_ids Int[]
+  products   Product[]
 }
 
 model Product {
@@ -68,10 +69,10 @@ model Product {
   name            String
   description     String?
   features        Json
-  department      Department?   @relation(fields: [departmentId], references: [mongo_id])
-  departmentId    String?       @db.ObjectId
-  category        Category?     @relation(fields: [categoryId], references: [mongo_id])
-  categoryId      String?       @db.ObjectId
+  department      Department?  @relation(fields: [departmentId], references: [mongo_id])
+  departmentId    String?      @db.ObjectId
+  category        Category?    @relation(fields: [categoryId], references: [mongo_id])
+  categoryId      String?      @db.ObjectId
   subcategory     Subcategory? @relation(fields: [subcategoryId], references: [mongo_id])
   subcategoryId   String?      @db.ObjectId
   images          Json

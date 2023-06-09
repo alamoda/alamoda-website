@@ -21,8 +21,9 @@ export type Product = {
 
 export type Brand = {
     mongo_id: string
-    id: number
     name: string
+    slug: string
+    mapped_ids: [number]
 }
 
 export type Option = {

@@ -68,12 +68,13 @@ export default async function Shop(
     return (
         <>
 
-            {/* TITLE */}
-            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-
-                {/* BREADCRUMBS */}
+            {/* BREADCRUMBS */}
+            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
                 <Breadcrumb routes={breadcrumb} />
+            </div>
 
+            {/* TITLE */}
+            <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:p-0 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
                     {category ? category.toLocaleLowerCase().replace('-', ' ') : department.toLowerCase().replace('-', ' ')}
                 </h1>

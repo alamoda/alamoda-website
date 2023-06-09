@@ -5,10 +5,9 @@ interface ComponentProps {
     routes: Route[],
 }
 
-
 export default function Breadcrumb({ routes }: ComponentProps) {
     return (
-        <nav className="mb-8 flex items-center justify-center" aria-label="Breadcrumb">
+        <nav className="flex items-center justify-center" aria-label="Breadcrumb">
             <ol role="list" className="flex items-center space-x-4">
                 {routes.length > 0 && routes.map((route: Route, routeId: Number) => (
                     <li key={route.name}>

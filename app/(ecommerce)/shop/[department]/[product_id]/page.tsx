@@ -1,14 +1,13 @@
 'use client'
 
-import { useState, useEffect, useContext } from 'react'
-import { Disclosure, RadioGroup } from '@headlessui/react'
+import { useState, useEffect, useContext, Fragment } from 'react'
+import { Dialog, Disclosure, RadioGroup, Transition } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { Feature, Product, Route, Size } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import Image from 'next/image';
 import axios from 'axios'
 import { CartContext } from '@/context/CartContext'
-import { EXCLUDED_PRODUCT_FEATURES } from '@/app/(utils)/constants'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
@@ -22,6 +21,7 @@ function classNames(...classes: any) {
 export default function Page({ params }: { params: { product_id: string } }) {
   const [selectedSize, setSelectedSize] = useState<string>();
   const [product, setProduct] = useState<Product>();
+  const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null)
 
   const { setCartProducts } = useContext(CartContext);
 
@@ -69,17 +69,46 @@ export default function Page({ params }: { params: { product_id: string } }) {
   return (
     <>
 
-      {/* TITLE */}
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <Transition.Root show={currentImage != null} as={Fragment}>
+        <Dialog as="div" className="relative z-40" onClose={() => setCurrentImage(null)}>
+          <Transition.Child
+            as={Fragment}
+            enter="transition-opacity ease-linear duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity ease-linear duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
 
-        {/* BREADCRUMBS */}
+          <div className="fixed inset-0 z-40 flex">
+            <Transition.Child
+              as={Fragment}
+              enter="transition ease-in-out duration-300 transform"
+              enterFrom="translate-x-full"
+              enterTo="translate-x-0"
+              leave="transition ease-in-out duration-300 transform"
+              leaveFrom="translate-x-0"
+              leaveTo="translate-x-full"
+            >
+              <Dialog.Panel className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <img src={currentImage?.src} alt={currentImage?.src} />
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition.Root>
+
+      {/* BREADCRUMBS */}
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
         <Breadcrumb routes={breadcrumb} />
-
       </div>
 
-      <div className="bg-white">
-        <div className="pb-16 pt-6 sm:pb-24">
-          <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="pt-16 md:pt-0 bg-white">
+        <div className="pb-16 sm:pb-24">
+          <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
               <div className="lg:col-span-5 lg:col-start-8">
                 <div className="flex justify-between">
@@ -99,6 +128,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
                   {product?.images.map((image: string, imgeIdx: number) => (
                     <Image
+                      onClick={() => setCurrentImage({ src: image, alt: product.description || product.mongo_id })}
                       key={image}
                       src={image}
                       alt={product.description || product.mongo_id}
@@ -198,12 +228,10 @@ export default function Page({ params }: { params: { product_id: string } }) {
                           </h3>
                           <Disclosure.Panel as="div" className="prose prose-sm pb-6">
                             <ul role="list">
-
                               {product?.features?.map((feature: Feature) => (
-                                EXCLUDED_PRODUCT_FEATURES.includes(feature.name) ? "" : (
-                                  <li key={feature.id_feature}>
-                                    <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
-                                )))}
+                                <li key={feature.id_feature}>
+                                  <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
+                              ))}
                               <li>
                                 SKU: {product?.sku}
                               </li>

@@ -8,6 +8,7 @@ interface ComponentProps {
   category: string
   subcategories: string[]
   order: string
+  brands: string[]
 }
 
 function classNames(...classes: any) {
@@ -16,7 +17,7 @@ function classNames(...classes: any) {
 
 const productLimit = 60;
 
-export default function Pagination({ productCount, skip, baseUrl, category, subcategories, order }: ComponentProps) {
+export default function Pagination({ productCount, skip, baseUrl, category, subcategories, order, brands }: ComponentProps) {
 
   const selectedPage = Math.ceil((skip + 60) / 60);
   const pageCount = Math.ceil(productCount / productLimit);
@@ -25,16 +26,13 @@ export default function Pagination({ productCount, skip, baseUrl, category, subc
     const url = new URL(baseUrl);
     const params = new URLSearchParams();
 
-    if (category)
-      params.append("category", category);
+    if (category) params.append("category", category);
 
-    if (subcategories && subcategories.length > 0)
-      params.append("subcategories", subcategories.join(','));
+    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','));
 
-    if (order)
-      params.append("orderBy", order);
-
-    params.append("skip", String(updatedSkip))
+    if (order) params.append("orderBy", order);
+    
+    if (brands && brands.length > 0) params.append("brands", brands.join(','))
 
     url.search = params.toString();
     return url.toString()

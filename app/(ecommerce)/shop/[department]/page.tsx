@@ -116,7 +116,8 @@ export default async function Shop(
                             category={category}
                             subcategories={subcategories}
                             skip={skip}
-                            order={order} />
+                            order={order}
+                            brands={brands} />
                     </div>
                 </div>
             </div >

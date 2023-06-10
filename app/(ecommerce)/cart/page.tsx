@@ -155,6 +155,11 @@ export default function Page() {
                 >
                   Checkout
                 </button>
+                <div className="pt-2 underline text-sm">
+                  <Link href="/">
+                    continue shopping
+                  </Link>
+                </div>
               </div>
             </section>
           </form>

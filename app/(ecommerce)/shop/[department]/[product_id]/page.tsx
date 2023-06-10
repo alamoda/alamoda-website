@@ -48,8 +48,9 @@ export default function Page({ params }: { params: { product_id: string } }) {
   }, []);
 
   async function fetchProduct(productId: string) {
-    const resProd = await axios.get(`http://localhost:3000/api/product?id=${productId}`);
-    setProduct(resProd.data);
+    const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
+    const resProd = await response.json();
+    setProduct(resProd);
   }
 
   const breadcrumb: Route[] = [];

@@ -25,6 +25,9 @@ export function CartContextProvider({
     }, [cartProducts])
 
     const addProduct = (product: CartProduct) => {
+        if(cartProducts.find(x => x.product.mongo_id === product.product.mongo_id && x.size.name === product.size.name)) {
+            return;
+        }
         setCartProducts((prev: CartProduct[]) => [...prev, product]);
     }
 

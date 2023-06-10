@@ -7,6 +7,7 @@ import { Category, Department, Subcategory } from '../(types)'
 import axios from 'axios'
 import Link from 'next/link'
 import { CartContext } from '@/context/CartContext'
+import SearchPalettes from './SearchPalettes'
 
 interface Navigation {
   departments: Department[],
@@ -30,7 +31,9 @@ export default function Header() {
 
   const [navigation, setNavigation] = useState<Navigation>({ departments: [], pages: [] });
 
-  const {cartProducts} = useContext(CartContext);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+
+  const { cartProducts } = useContext(CartContext);
 
   useEffect(() => {
     fetchDepartments();
@@ -64,6 +67,10 @@ export default function Header() {
 
   return (
     <div className="bg-white z-40">
+      <div className=''>
+        <SearchPalettes open={showSearch} toggle={setShowSearch} />
+      </div>
+
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -319,10 +326,10 @@ export default function Header() {
                     </button>
 
                     {/* Search */}
-                    <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                    <button onClick={() => setShowSearch(true)} className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                       <span className="sr-only">Search</span>
                       <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                    </a>
+                    </button>
                   </div>
 
                   {/* Logo (lg-) */}
@@ -339,10 +346,10 @@ export default function Header() {
                     <div className="flex items-center lg:ml-8">
                       <div className="flex space-x-8">
                         <div className="hidden lg:flex">
-                          <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                          <button onClick={() => setShowSearch(true)} className="-m-2 p-2 text-gray-400 hover:text-gray-500">
                             <span className="sr-only">Search</span>
                             <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                          </a>
+                          </button>
                         </div>
 
                         {/* <div className="flex">

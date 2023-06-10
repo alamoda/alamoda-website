@@ -32,7 +32,9 @@ export default function Pagination({ productCount, skip, baseUrl, category, subc
 
     if (order) params.append("orderBy", order);
     
-    if (brands && brands.length > 0) params.append("brands", brands.join(','))
+    if (brands && brands.length > 0) params.append("brands", brands.join(','));
+
+    params.append('skip', updatedSkip.toString());
 
     url.search = params.toString();
     return url.toString()

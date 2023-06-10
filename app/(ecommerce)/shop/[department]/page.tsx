@@ -6,6 +6,8 @@ import Filters from '@/app/(components)/Filters';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[]) {
 
+
+
     const url = new URL("http://localhost:3000/api/products");
     const params = new URLSearchParams();
 
@@ -18,12 +20,18 @@ async function getData(department: string | null, category: string | null, subca
     params.append("status-min", "1");
     params.append("available", "true")
     params.append("skip", String(skip))
-    params.append("query", query)
+    params.append("q", query)
     params.append("order", order)
 
     url.search = params.toString();
 
-    const res = await fetch(url.toString());
+    console.log("url issss", url.toString());
+
+
+    const res = await fetch(url.toString(), {
+        cache: 'no-store',
+        method: 'GET'
+    });
 
     if (!res.ok) {
         throw new Error('Failed to fetch products');
@@ -42,7 +50,7 @@ export default async function Shop(
     }) {
 
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
-    const query = searchParams.q ? String(searchParams.q) : ""
+    const query = searchParams.q ? String(searchParams.q) : "";
     const department = params.department;
     const category = searchParams.category ? String(searchParams.category) : "";
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];

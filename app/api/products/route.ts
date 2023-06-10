@@ -1,6 +1,7 @@
 import { db } from "@/app/(lib)/db"
 import { SortOption } from "@/app/(types)";
 import { PRODUCT_SORT_OPTIONS } from "@/app/(utils)/constants";
+import { ConnectionPoolClosedEvent } from "mongodb";
 
 export async function GET(req: Request) {
 

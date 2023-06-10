@@ -33,7 +33,7 @@ function classNames(...classes: any) {
 }
 
 export default function Page({ params }: { params: { product_id: string } }) {
-  const [selectedSize, setSelectedSize] = useState<Size>();
+  const [selectedSize, setSelectedSize] = useState<Size>({ name: '', variant_id: '', quantity: '' });
   const [product, setProduct] = useState<Product>();
   const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null)
   const [showError, setShowError] = useState(false);
@@ -188,18 +188,19 @@ export default function Page({ params }: { params: { product_id: string } }) {
                     <h2 className="text-sm font-medium text-gray-900">Size</h2>
                   </div>
 
-                  <RadioGroup value={selectedSize} 
-                  onChange={(size: Size) => {
-                    setSelectedSize(size);
-                    setShowError(false);
-                  }} 
+                  <RadioGroup
+                    value={selectedSize}
+                    onChange={(size: Size) => {
+                      setSelectedSize(size);
+                      setShowError(false);
+                    }}
                     className="mt-2">
                     <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                     <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
                       {product?.sizes.map((size: Size) => (
                         <RadioGroup.Option
                           key={size.name}
-                          value={size.variant_id}
+                          value={size}
                           className={({ active, checked }) =>
                             classNames(
                               active ? 'ring-2 ring-indigo-500 ring-offset-2' : '',

@@ -21,7 +21,6 @@ export function CartContextProvider({
     }, [])
 
     useEffect(() => {
-        console.log("called use effect");
         localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
     }, [cartProducts])
 

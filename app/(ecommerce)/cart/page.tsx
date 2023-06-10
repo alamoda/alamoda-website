@@ -1,53 +1,20 @@
 'use client'
 
-import { Product } from '@/app/(types)';
 import { CartContext } from '@/context/CartContext';
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext } from 'react';
-
-const products = [
-  {
-    id: 1,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32.00',
-    color: 'Sienna',
-    inStock: true,
-    size: 'Large',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg',
-    imageAlt: "Front of men's Basic Tee in sienna.",
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32.00',
-    color: 'Black',
-    inStock: false,
-    leadTime: '3–4 weeks',
-    size: 'Large',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-  {
-    id: 3,
-    name: 'Nomad Tumbler',
-    href: '#',
-    price: '$35.00',
-    color: 'White',
-    inStock: true,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg',
-    imageAlt: 'Insulated bottle with white base and black snap lid.',
-  },
-]
+import { useContext, useEffect } from 'react';
 
 export default function Page() {
 
   const { cartProducts, removeProduct } = useContext(CartContext);
 
   const cartPrice = cartProducts.reduce((sum, product) => sum + product.product.price, 0);
+
+  useEffect(() => {
+    console.log(cartProducts)
+  }, [cartProducts])
 
   return (
     <div className="bg-white">
@@ -95,10 +62,10 @@ export default function Page() {
                             </h3>
                           </div>
                           <div className="mt-1 flex text-sm">
-                            {/* <p className="text-gray-500">{product.color}</p> */}
+                            <p className="text-gray-500">{cartProduct.product.department.name}</p>
                             {cartProduct.size ? (
-                            <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{cartProduct.size.name}</p>
-                          ) : null}
+                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{cartProduct.size.name}</p>
+                            ) : null}
                           </div>
                           <p className="mt-1 text-sm font-medium text-gray-900">${cartProduct.product.price}</p>
                         </div>
@@ -112,14 +79,9 @@ export default function Page() {
                             name={`quantity-${productIdx}`}
                             className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                           >
-                            <option value={1}>1</option>
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            <option value={4}>4</option>
-                            <option value={5}>5</option>
-                            <option value={6}>6</option>
-                            <option value={7}>7</option>
-                            <option value={8}>8</option>
+                            {Array.from({ length: Number(cartProduct.size.quantity) }, (_, index) => (
+                              <option key={index} value={index + 1}>{index + 1}</option>
+                            ))}
                           </select>
 
                           <div className="absolute right-0 top-0">

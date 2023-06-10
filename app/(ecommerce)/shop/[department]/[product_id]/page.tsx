@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useContext, Fragment, useRef } from 'react'
+import { useState, useEffect, useContext, Fragment } from 'react'
 import { Dialog, Disclosure, RadioGroup, Transition } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { Feature, Product, Route, Size } from '@/app/(types)'
@@ -9,6 +9,7 @@ import Image from 'next/image';
 import axios from 'axios'
 import { CartContext } from '@/context/CartContext'
 import ImageScroll from '@/app/(components)/ImageScroll'
+import { useRouter } from 'next/navigation'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
@@ -39,6 +40,8 @@ export default function Page({ params }: { params: { product_id: string } }) {
   const [showError, setShowError] = useState(false);
 
   const { addProduct } = useContext(CartContext);
+
+  const router = useRouter();
 
   useEffect(() => {
     fetchProduct(params.product_id);
@@ -85,6 +88,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
   const handleAddToCart = () => {
     if (product && selectedSize) {
       addProduct({ product, size: selectedSize });
+      router.push('/cart');
     } else if (product && !selectedSize) {
       setShowError(true);
     }

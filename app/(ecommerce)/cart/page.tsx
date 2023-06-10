@@ -41,7 +41,7 @@ export default function Page() {
 
               <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                 {cartProducts.map((cartProduct, productIdx) => (
-                  <li key={cartProduct.product.mongo_id} className="flex items-center py-6 sm:py-10">
+                  <li key={cartProduct.product.mongo_id + cartProduct.size.name} className="flex items-center py-6 sm:py-10">
                     <div className="">
                       <Image
                         src={cartProduct.product.images[0]}
@@ -124,7 +124,7 @@ export default function Page() {
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                   <dt className="flex items-center text-sm text-gray-600">
-                    <span>Shipping estimate</span>
+                    <span>Shipping</span>
                     <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                       <span className="sr-only">Learn more about how shipping is calculated</span>
                       <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />

@@ -67,9 +67,9 @@ export default function Header() {
 
   return (
     <div className="bg-white z-40">
-      <div className=''>
-        <SearchPalettes open={showSearch} toggle={setShowSearch} />
-      </div>
+      
+      {/* Search Palettes */}
+      <SearchPalettes open={showSearch} toggle={setShowSearch} />
 
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>

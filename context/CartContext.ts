@@ -1,12 +1,12 @@
 'use client'
 
-import { Product } from "@/app/(types)";
+import { CartProduct } from "@/app/(types)";
 import { createContext } from "react"
 
 interface ICartContext {
-    cartProducts: Product[];
-    setCartProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-    addProduct: (product: Product) => void
+    cartProducts: CartProduct[];
+    setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>;
+    addProduct: (product: CartProduct) => void
     removeProduct: (productId: string) => void
 }
 

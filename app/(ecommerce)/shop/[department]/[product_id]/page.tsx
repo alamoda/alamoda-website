@@ -33,9 +33,10 @@ function classNames(...classes: any) {
 }
 
 export default function Page({ params }: { params: { product_id: string } }) {
-  const [selectedSize, setSelectedSize] = useState<string>();
+  const [selectedSize, setSelectedSize] = useState<Size>();
   const [product, setProduct] = useState<Product>();
   const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null)
+  const [showError, setShowError] = useState(false);
 
   const { addProduct } = useContext(CartContext);
 
@@ -80,6 +81,14 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
     setCurrentImage({ src: image, alt: product.description || product.mongo_id })
   };
+
+  const handleAddToCart = () => {
+    if (product && selectedSize) {
+      addProduct({ product, size: selectedSize });
+    } else if (product && !selectedSize) {
+      setShowError(true);
+    }
+  }
 
   return (
     <>
@@ -179,7 +188,12 @@ export default function Page({ params }: { params: { product_id: string } }) {
                     <h2 className="text-sm font-medium text-gray-900">Size</h2>
                   </div>
 
-                  <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-2">
+                  <RadioGroup value={selectedSize} 
+                  onChange={(size: Size) => {
+                    setSelectedSize(size);
+                    setShowError(false);
+                  }} 
+                    className="mt-2">
                     <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                     <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
                       {product?.sizes.map((size: Size) => (
@@ -204,11 +218,17 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 </div>
 
                 <button
-                  onClick={() => product ? addProduct(product) : null}
+                  onClick={handleAddToCart}
                   className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Add to cart
                 </button>
+
+                {showError &&
+                  <p className='text-red-500 text-sm mt-2'>
+                    You need to select a size first
+                  </p>
+                }
 
                 {/* Product details */}
                 {product?.description &&

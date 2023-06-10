@@ -47,7 +47,7 @@ export default function Page() {
 
   const { cartProducts, removeProduct } = useContext(CartContext);
 
-  const cartPrice = cartProducts.reduce((sum, product) => sum + product?.price, 0);
+  const cartPrice = cartProducts.reduce((sum, product) => sum + product.product.price, 0);
 
   return (
     <div className="bg-white">
@@ -73,12 +73,12 @@ export default function Page() {
               </h2>
 
               <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
-                {cartProducts.map((product, productIdx) => (
-                  <li key={product.mongo_id} className="flex items-center py-6 sm:py-10">
+                {cartProducts.map((cartProduct, productIdx) => (
+                  <li key={cartProduct.product.mongo_id} className="flex items-center py-6 sm:py-10">
                     <div className="">
                       <Image
-                        src={product.images[0]}
-                        alt={product.mongo_id}
+                        src={cartProduct.product.images[0]}
+                        alt={cartProduct.product.mongo_id}
                         width={200}
                         height={200}
                       />
@@ -90,22 +90,22 @@ export default function Page() {
                           <div className="flex justify-between">
                             <h3 className="text-sm">
                               <p className="font-medium text-gray-700 hover:text-gray-800">
-                                {product.name}
+                                {cartProduct.product.name}
                               </p>
                             </h3>
                           </div>
                           <div className="mt-1 flex text-sm">
                             {/* <p className="text-gray-500">{product.color}</p> */}
-                            {/* {product.size ? (
-                            <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{product.size}</p>
-                          ) : null} */}
+                            {cartProduct.size ? (
+                            <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{cartProduct.size.name}</p>
+                          ) : null}
                           </div>
-                          <p className="mt-1 text-sm font-medium text-gray-900">${product.price}</p>
+                          <p className="mt-1 text-sm font-medium text-gray-900">${cartProduct.product.price}</p>
                         </div>
 
                         <div className="mt-4 sm:mt-0 sm:pr-9">
                           <label htmlFor={`quantity-${productIdx}`} className="sr-only">
-                            Quantity, {product.name}
+                            Quantity, {cartProduct.product.name}
                           </label>
                           <select
                             id={`quantity-${productIdx}`}
@@ -123,7 +123,7 @@ export default function Page() {
                           </select>
 
                           <div className="absolute right-0 top-0">
-                            <button onClick={() => removeProduct(product.mongo_id)} type="button" className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
+                            <button onClick={() => removeProduct(cartProduct.product.mongo_id)} type="button" className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
                               <span className="sr-only">Remove</span>
                               <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                             </button>

@@ -77,3 +77,8 @@ export type SortOption = {
     slug: string
     filter: object
 }
+
+export type CartProduct = {
+    product: Product, 
+    size: Size
+}

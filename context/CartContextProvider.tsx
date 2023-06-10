@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { CartContext } from "./CartContext"
-import { Product } from "@/app/(types)"
+import { CartProduct } from "@/app/(types)"
 
 function getInitialState() {
     const cartProducts = localStorage.getItem('cartProducts')
@@ -14,7 +14,7 @@ export function CartContextProvider({
 }: {
     children: React.ReactNode
 }) {
-    const [cartProducts, setCartProducts] = useState<Product[]>([]);
+    const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
     useEffect(() => {
         setCartProducts(getInitialState())
@@ -25,12 +25,12 @@ export function CartContextProvider({
         localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
     }, [cartProducts])
 
-    const addProduct = (product: Product) => {
-        setCartProducts((prev: Product[]) => [...prev, product]);
+    const addProduct = (product: CartProduct) => {
+        setCartProducts((prev: CartProduct[]) => [...prev, product]);
     }
 
     const removeProduct = (productId: string) => {
-        const index = cartProducts.findIndex(x => x.mongo_id === productId);
+        const index = cartProducts.findIndex(x => x.product.mongo_id === productId);
         const updatedProducts = [...cartProducts]
         updatedProducts.splice(index, 1);
         setCartProducts(updatedProducts);

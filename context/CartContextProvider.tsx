@@ -26,10 +26,10 @@ export function CartContextProvider({
 
     const addProduct = (product: CartProduct) => {
         if (cartProducts.find(x =>
-            x.product.mongo_id !== product.product.mongo_id && x.size.name !== product.size.name)
-        ) {
-            setCartProducts((prev: CartProduct[]) => [...prev, product]);
+            x.product.mongo_id === product.product.mongo_id && x.size.name === product.size.name)) {
+            return;
         }
+        setCartProducts((prev: CartProduct[]) => [...prev, product]);
     }
 
     const removeProduct = (productId: string) => {

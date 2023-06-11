@@ -36,8 +36,11 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   useEffect(() => {
     fetchProduct(params.product_id);
-    fetchRecommendations();
   }, []);
+
+  useEffect(() => {
+    if (product) fetchRecommendations();
+  }, [product]);
 
   async function fetchProduct(productId: string) {
     const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
@@ -51,17 +54,46 @@ export default function Page({ params }: { params: { product_id: string } }) {
   };
 
   async function fetchSubcategoryProducts() {
-    // const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
-    // return await response.json();
 
-    return [];
+    const url = new URL("http://localhost:3000/api/products");
+    const params = new URLSearchParams();
+
+    if (product?.department) params.append("department", product?.department.slug);
+    if (product?.category) params.append("category", product?.category.slug);
+    if (product?.subcategory) params.append("subcategories", product?.subcategory.slug);
+
+    params.append("limit", "4");
+    params.append("status-min", "1");
+    params.append("available", "true")
+    params.append("order", "new-in")
+
+    url.search = params.toString();
+
+    console.log(url.toString())
+    const response = await fetch(url.toString());
+
+    return (await response.json()).products;
   };
 
   async function fetchBrandProducts() {
-    // const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
-    // return await response.json();
+    const url = new URL("http://localhost:3000/api/products");
+    const params = new URLSearchParams();
 
-    return [];
+    if (product?.department) params.append("department", product?.department.slug);
+    
+    if (product?.brand) params.append("brands", product?.brand.slug);
+
+    params.append("limit", "4");
+    params.append("status-min", "1");
+    params.append("available", "true")
+    params.append("order", "new-in")
+
+    url.search = params.toString();
+
+    console.log(url.toString())
+    const response = await fetch(url.toString());
+
+    return (await response.json()).products;
   };
 
   const breadcrumb: Route[] = [];
@@ -99,7 +131,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   const handleAddToCart = () => {
     if (product && selectedSize) {
-      addProduct({ product, size: selectedSize });
+      //addProduct({ product, size: selectedSize });
       router.push('/cart');
     } else if (product && !selectedSize) {
       setShowError(true);
@@ -333,7 +365,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
               <ProductList
                 listName="You might also like"
                 baseUrl=""
-                products={[]}
+                products={subcategoryProducts || []}
               />
             </div>
 
@@ -343,7 +375,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
               <ProductList
                 listName={`More from ${product?.brand.name.toLowerCase()}`}
                 baseUrl=""
-                products={[]}
+                products={brandProducts || []}
               />
             </div>
 

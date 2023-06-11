@@ -25,7 +25,9 @@ export function CartContextProvider({
     }, [cartProducts])
 
     const addProduct = (product: CartProduct) => {
-        if(cartProducts.find(x => x.product.mongo_id === product.product.mongo_id && x.size.name === product.size.name)) {
+        if (cartProducts.find(x =>
+            x.product.mongo_id === product.product.mongo_id &&
+            x.size.name === product.size.name)) {
             return;
         }
         setCartProducts((prev: CartProduct[]) => [...prev, product]);
@@ -34,12 +36,16 @@ export function CartContextProvider({
     const removeProduct = (productId: string) => {
         const index = cartProducts.findIndex(x => x.product.mongo_id === productId);
         const updatedProducts = [...cartProducts]
-        updatedProducts.splice(index, 1);
+        updatedProducts.slice(index, 1);
         setCartProducts(updatedProducts);
     }
 
+    const updateQuantity = (productId: string, quantity: number) => {
+
+    }
+
     return (
-        <CartContext.Provider value={{ cartProducts, setCartProducts, addProduct, removeProduct }}>
+        <CartContext.Provider value={{ cartProducts, setCartProducts, addProduct, removeProduct, updateQuantity }}>
             {children}
         </CartContext.Provider>
     )

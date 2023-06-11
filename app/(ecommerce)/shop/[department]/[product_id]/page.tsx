@@ -22,7 +22,7 @@ function classNames(...classes: any) {
 }
 
 export default function Page({ params }: { params: { product_id: string } }) {
-  const [selectedSize, setSelectedSize] = useState<Size>({ name: '', variant_id: '', quantity: '' });
+  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [product, setProduct] = useState<Product>();
   const [subcategoryProducts, setSubcategoryProducts] = useState<Product[]>();
   const [brandProducts, setBrandProducts] = useState<Product[]>();
@@ -131,6 +131,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   const handleAddToCart = () => {
     if (product && selectedSize) {
+      console.log(selectedSize);
       addProduct({ product, size: selectedSize, quantity: 1 });
       router.push('/cart');
     } else if (product && !selectedSize) {

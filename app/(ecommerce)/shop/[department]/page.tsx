@@ -6,8 +6,6 @@ import Filters from '@/app/(components)/Filters';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[]) {
 
-
-
     const url = new URL("http://localhost:3000/api/products");
     const params = new URLSearchParams();
 

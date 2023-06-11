@@ -40,7 +40,7 @@ export default function Page() {
               </h2>
 
               <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
-                {cartProducts.map((cartProduct, productIdx) => (
+                {cartProducts.map((cartProduct, index) => (
                   <li key={cartProduct.product.mongo_id + cartProduct.size.name} className="flex items-center py-6 sm:py-10">
                     <div className="">
                       <Image
@@ -71,13 +71,13 @@ export default function Page() {
                         </div>
 
                         <div className="mt-4 sm:mt-0 sm:pr-9">
-                          <label htmlFor={`quantity-${productIdx}`} className="sr-only">
+                          <label htmlFor={`quantity-${index}`} className="sr-only">
                             Quantity, {cartProduct.product.name}
                           </label>
                           <select
-                            id={`quantity-${productIdx}`}
-                            name={`quantity-${productIdx}`}
-                            className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            id={`quantity-${index}`}
+                            name={`quantity-${index}`}
+                            className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm sm:text-sm"
                           >
                             {Array.from({ length: Number(cartProduct.size.quantity) }, (_, index) => (
                               <option key={index} value={index + 1}>{index + 1}</option>

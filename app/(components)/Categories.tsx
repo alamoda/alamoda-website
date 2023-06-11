@@ -24,7 +24,7 @@ export default function Categories() {
             <div className="flex items-end p-6">
               <div>
                 <h3 className="font-semibold text-white">
-                  <Link href="/shop/725">
+                  <Link href="/shop/women">
                     <span className="absolute inset-0" />
                     Women
                   </Link>
@@ -49,7 +49,7 @@ export default function Categories() {
             <div className="flex items-end p-6 sm:absolute sm:inset-0">
               <div>
                 <h3 className="font-semibold text-white">
-                  <Link href="/shop/637">
+                  <Link href="/shop/men">
                     <span className="absolute inset-0" />
                     Men
                   </Link>
@@ -74,7 +74,7 @@ export default function Categories() {
             <div className="flex items-end p-6 sm:absolute sm:inset-0">
               <div>
                 <h3 className="font-semibold text-white">
-                  <Link href="/shop/1060">
+                  <Link href="/shop/lifestyle">
                     <span className="absolute inset-0" />
                     Lifestyle
                   </Link>

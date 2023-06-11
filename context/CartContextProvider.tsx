@@ -26,22 +26,25 @@ export function CartContextProvider({
 
     const addProduct = (product: CartProduct) => {
         if (cartProducts.find(x =>
-            x.product.mongo_id === product.product.mongo_id &&
-            x.size.name === product.size.name)) {
-            return;
+            x.product.mongo_id !== product.product.mongo_id && x.size.name !== product.size.name)
+        ) {
+            setCartProducts((prev: CartProduct[]) => [...prev, product]);
         }
-        setCartProducts((prev: CartProduct[]) => [...prev, product]);
     }
 
     const removeProduct = (productId: string) => {
-        const index = cartProducts.findIndex(x => x.product.mongo_id === productId);
-        const updatedProducts = [...cartProducts]
-        updatedProducts.slice(index, 1);
-        setCartProducts(updatedProducts);
+        setCartProducts(cartProducts.filter(x => x.product.mongo_id !== productId));
     }
 
-    const updateQuantity = (productId: string, quantity: number) => {
-
+    const updateQuantity = (index: number, quantity: number) => {
+        const updatedProducts = cartProducts.map((product: CartProduct, i: number) => {
+            if (i === index) {
+                product.quantity = quantity;
+                return product;
+            }
+            return product;
+        })
+        setCartProducts(updatedProducts);
     }
 
     return (

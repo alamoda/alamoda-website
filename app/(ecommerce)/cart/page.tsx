@@ -8,9 +8,9 @@ import { useContext, useEffect } from 'react';
 
 export default function Page() {
 
-  const { cartProducts, removeProduct } = useContext(CartContext);
+  const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
 
-  const cartPrice = cartProducts.reduce((sum, product) => sum + product.product.price, 0);
+  const cartPrice = cartProducts.reduce((sum, cartProduct) => sum + (cartProduct.product.price * cartProduct.quantity), 0);
 
   useEffect(() => {
     console.log(cartProducts)
@@ -75,8 +75,8 @@ export default function Page() {
                             Quantity, {cartProduct.product.name}
                           </label>
                           <select
-                            id={`quantity-${index}`}
-                            name={`quantity-${index}`}
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateQuantity(index, Number(e.target.value))}
+                            value={cartProduct.quantity}
                             className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm sm:text-sm"
                           >
                             {Array.from({ length: Number(cartProduct.size.quantity) }, (_, index) => (

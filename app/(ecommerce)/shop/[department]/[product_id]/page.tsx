@@ -88,7 +88,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   const handleAddToCart = () => {
     if (product && selectedSize) {
-      addProduct({ product, size: selectedSize });
+      addProduct({ product, size: selectedSize, quantity: 1 });
       router.push('/cart');
     } else if (product && !selectedSize) {
       setShowError(true);

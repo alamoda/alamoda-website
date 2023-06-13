@@ -28,6 +28,14 @@ export async function POST(req: Request) {
         });
     }
 
+    const order = await db.order.create({
+        data: {
+            line_items, 
+            email,
+            paid: false
+        }
+    })
+
     const session = await stripe.checkout.sessions.create({
         shipping_address_collection: {
             allowed_countries: ['US'],

@@ -116,9 +116,9 @@ model Order {
   mongo_id   String  @id @default(auto()) @map("_id") @db.ObjectId
   line_items Json
   email      String
-  city       String
-  postalCode String
-  country    String
+  city       String?
+  postalCode String?
+  country    String?
   paid       Boolean
   updated_at Float?
   created_at Float?

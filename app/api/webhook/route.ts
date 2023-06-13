@@ -2,11 +2,11 @@ import { db } from "@/app/(lib)/db";
 import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
-    const payload = await req.json();
+    const body = await req.text()
     const sig = req.headers.get('stripe-signature');
-    const endpointSecret = process.env.STRIPE_SECRET;
+    const endpointSecret = "whsec_b6f4ab9b39282469a9b3559c8a75d9072aae76576a7dbe41d8a4e78ee8212ab1";
 
-    if(!sig || !endpointSecret) throw new Error('could not find stripe sig or secret');
+    if (!sig || !endpointSecret) throw new Error('could not find stripe sig or secret');
 
     const stripe = new Stripe(process.env.STRIPE_SECRET!, {
         typescript: true,
@@ -15,15 +15,9 @@ export async function POST(req: Request) {
 
     if (!stripe) throw new Error('cant load stripe');
 
-    let event;
+    const event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
 
-    try {
-        event = stripe.webhooks.constructEvent(payload, sig!, endpointSecret);
-    } catch (err) {
-        return new Response(`Webhook Error: ${err}`, {
-            status: 400
-        });
-    }
+    if (!event) throw new Error('cant create event');
 
     // Handle the event
     switch (event.type) {
@@ -31,7 +25,6 @@ export async function POST(req: Request) {
             const session = event.data.object as Stripe.Checkout.Session;
             const orderId = session.metadata?.orderId;
             const paid = session.payment_status === 'paid';
-            console.log("id", orderId, "paid", paid);
             if (orderId && paid) {
                 await db.order.update({
                     where: { mongo_id: orderId },

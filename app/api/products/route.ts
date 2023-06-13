@@ -25,6 +25,7 @@ export async function GET(req: Request) {
     const category = getStrParam(url, 'category');
     const subcategories = getStrParam(url, 'subcategories');
     const brands = getStrParam(url, 'brands');
+    const exclude = getStrParam(url, 'exclude');
 
     const order = getStrParam(url, 'order');
     const statusMin = getIntParam(url, 'status-min');
@@ -79,6 +80,16 @@ export async function GET(req: Request) {
                     slug: {
                         in: brands.split(',')
                     }
+                }
+            }
+        );
+    }
+
+    if (exclude) {
+        filters.push(
+            {
+                mongo_id: {
+                    notIn: exclude.split(',')
                 }
             }
         );

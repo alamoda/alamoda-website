@@ -118,6 +118,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
     if (product?.department) params.append("department", product?.department.slug);
     if (product?.category) params.append("category", product?.category.slug);
     if (product?.subcategory) params.append("subcategories", product?.subcategory.slug);
+    if (product?.mongo_id) params.append("exclude", product?.mongo_id)
 
     params.append("limit", "4");
     params.append("status-min", "1");
@@ -139,6 +140,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
     if (product?.department) params.append("department", product?.department.slug);
 
     if (product?.brand) params.append("brands", product?.brand.slug);
+    if (product?.mongo_id) params.append("exclude", product?.mongo_id)
 
     params.append("limit", "4");
     params.append("status-min", "1");
@@ -267,14 +269,14 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 <h2 className="sr-only">Images</h2>
 
                 {/* Desktop images */}
-                <Tab.Group as="div" className="flex flex-col-reverse">
+                <Tab.Group as="div" className="hidden md:flex flex-col-reverse">
                   {/* Image selector */}
                   <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
                     <Tab.List className="grid grid-cols-4 gap-6">
                       {product?.images.map((image: string, imageIdx: number) => (
                         <Tab
                           key={imageIdx}
-                          className="relative flex h-48 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                          className="relative flex aspect-h-13 aspect-w-10 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
                         >
                           {({ selected }) => (
                             <>
@@ -296,7 +298,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                     </Tab.List>
                   </div>
 
-                  <Tab.Panels className="aspect-h-1 aspect-w-1 w-full">
+                  <Tab.Panels className="aspect-h-13 aspect-w-10 w-full">
                     {product?.images.map((image: string, imageIdx: number) => (
                       <Tab.Panel key={imageIdx}>
                         <Image
@@ -305,31 +307,13 @@ export default function Page({ params }: { params: { product_id: string } }) {
                           src={image}
                           alt={product.description || product.mongo_id}
                           width={1000}
-                          height={1000}
+                          height={1333}
                           className="h-full w-full object-cover object-center sm:rounded-lg"
                         />
                       </Tab.Panel>
                     ))}
                   </Tab.Panels>
                 </Tab.Group>
-
-
-                {/* <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
-                  {product?.images.map((image: string, imgeIdx: number) => (
-                    <Image
-                      onClick={() => openImageModal(image)}
-                      key={image}
-                      src={image}
-                      alt={product.description || product.mongo_id}
-                      width={1000}
-                      height={1000}
-                      className={classNames(
-                        imgeIdx === 0 ? 'lg:col-span-2 lg:row-span-2' : 'hidden lg:block',
-                        'rounded-lg cursor-zoom-in'
-                      )}
-                    />
-                  ))}
-                </div> */}
 
                 {/* Mobile Images */}
                 <div className="block md:hidden">

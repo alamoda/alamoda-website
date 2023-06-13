@@ -18,7 +18,7 @@ const ProductForm = ({
     mongo_id = '',
     id: existingId = 0,
     sku: existingSku = '',
-    brand: existingBrand = { mongo_id: '', name: 'Brand' },
+    brand: existingBrand = null,
     name: existingName = '',
     description: existingDescription = '',
     price: existingPrice = 0,
@@ -35,7 +35,7 @@ const ProductForm = ({
     const [id, setId] = useState<number>(existingId);
     const [sku, setSku] = useState<string>(existingSku);
     const [name, setName] = useState<string>(existingName);
-    const [brand, setBrand] = useState<Brand>(existingBrand);
+    const [brand, setBrand] = useState<Brand | null>(existingBrand);
     const [description, setDescription] = useState<string>(existingDescription);
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
@@ -76,7 +76,7 @@ const ProductForm = ({
                 mongo_id,
                 id,
                 sku,
-                brand_name: brand.name,
+                brand_name: brand?.name,
                 name,
                 description,
                 price,
@@ -94,7 +94,7 @@ const ProductForm = ({
             axios.post('/api/product', {
                 id,
                 sku,
-                brand_name: brand.name,
+                brand_name: brand?.name,
                 name,
                 description,
                 price,
@@ -225,7 +225,7 @@ const ProductForm = ({
                 {/* BRAND */}
                 <PrimarySelect
                     label="Brand"
-                    value={brand}
+                    value={brand!}
                     options={brands}
                     onValueChange={(value: Brand) => setBrand(value)}
                 />

@@ -2,9 +2,11 @@
 
 import { CartContext } from '@/context/CartContext';
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect } from 'react';
+import Stripe from 'stripe';
 
 export default function Page() {
 
@@ -15,6 +17,16 @@ export default function Page() {
   useEffect(() => {
     console.log(cartProducts)
   }, [cartProducts])
+
+  async function goToPayment() {
+    const res = await axios.post('/api/checkout', {
+      cartProducts
+    });
+
+    if (res.data.url) {
+      
+    }
+  }
 
   return (
     <div className="bg-white">
@@ -150,7 +162,7 @@ export default function Page() {
 
               <div className="mt-6">
                 <button
-                  type="submit"
+                  onClick={goToPayment}
                   className="w-full rounded-md border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
                 >
                   Checkout

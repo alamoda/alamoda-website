@@ -6,7 +6,6 @@ import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect } from 'react';
-import Stripe from 'stripe';
 
 export default function Page() {
 
@@ -24,7 +23,7 @@ export default function Page() {
     });
 
     if (res.data.url) {
-      
+      window.location = res.data.url;
     }
   }
 

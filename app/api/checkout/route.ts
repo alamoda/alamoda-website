@@ -1,11 +1,20 @@
 import { db } from "@/app/(lib)/db";
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+        typescript: true,
+        apiVersion: "2022-11-15"
+    });
+
+    if(!stripe) throw new Error('cant load stripe');
 
     const {
         cartProducts
     } = await req.json();
+
+    console.log(cartProducts);
 
     const line_items = [];
     for (const cartProduct of cartProducts) {

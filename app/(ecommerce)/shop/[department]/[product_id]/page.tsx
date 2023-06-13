@@ -64,8 +64,8 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
     params.append("limit", "4");
     params.append("status-min", "1");
-    params.append("available", "true")
-    params.append("order", "new-in")
+    params.append("available", "true");
+    params.append("order", "new-in");
 
     url.search = params.toString();
 

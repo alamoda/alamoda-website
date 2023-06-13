@@ -23,7 +23,7 @@ export async function POST(req: Request) {
             price_data: {
                 currency: 'USD',
                 product_data: { name: cartProduct.product.name },
-                unit_amount: cartProduct.quantity * cartProduct.product.price,
+                unit_amount: cartProduct.quantity * cartProduct.product.price * 100,
             },
         });
     }
@@ -59,6 +59,8 @@ export async function POST(req: Request) {
         success_url: 'http://localhost:3000/cart?success=1',
         cancel_url: 'http://localhost:3000/cart?canceled=1',
     });
+    
+    console.log(session.url);
 
     return new Response(JSON.stringify(session.url));
 }

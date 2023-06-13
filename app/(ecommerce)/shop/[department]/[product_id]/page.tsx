@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useContext, Fragment } from 'react'
-import { Dialog, Disclosure, RadioGroup, Transition } from '@headlessui/react'
+import { Dialog, Disclosure, RadioGroup, Transition, Tab } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { Feature, Product, Route, Size } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
@@ -16,6 +16,63 @@ const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
+
+const product_fake = {
+  name: 'Zip Tote Basket',
+  price: '$140',
+  rating: 4,
+  images: [
+    {
+      id: 1,
+      name: 'Angled view',
+      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
+      alt: 'Angled front view with bag zipped and handles upright.',
+    },
+    {
+      id: 2,
+      name: 'Angled view',
+      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
+      alt: 'Angled front view with bag zipped and handles upright.',
+    },
+    {
+      id: 3,
+      name: 'Angled view',
+      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
+      alt: 'Angled front view with bag zipped and handles upright.',
+    },
+    {
+      id: 4,
+      name: 'Angled view',
+      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
+      alt: 'Angled front view with bag zipped and handles upright.',
+    },
+    // More images...
+  ],
+  colors: [
+    { name: 'Washed Black', bgColor: 'bg-gray-700', selectedColor: 'ring-gray-700' },
+    { name: 'White', bgColor: 'bg-white', selectedColor: 'ring-gray-400' },
+    { name: 'Washed Gray', bgColor: 'bg-gray-500', selectedColor: 'ring-gray-500' },
+  ],
+  description: `
+    <p>The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.</p>
+  `,
+  details: [
+    {
+      name: 'Features',
+      items: [
+        'Multiple strap configurations',
+        'Spacious interior with top zip',
+        'Leather handle and tabs',
+        'Interior dividers',
+        'Stainless strap loops',
+        'Double stitched construction',
+        'Water-resistant',
+      ],
+    },
+    // More sections...
+  ],
+}
+
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -80,7 +137,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
     const params = new URLSearchParams();
 
     if (product?.department) params.append("department", product?.department.slug);
-    
+
     if (product?.brand) params.append("brands", product?.brand.slug);
 
     params.append("limit", "4");
@@ -189,7 +246,11 @@ export default function Page({ params }: { params: { product_id: string } }) {
       <div className="pt-16 md:pt-0 bg-white">
         <div className="pb-16 sm:pb-24">
           <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+
+            {/* Main Container */}
             <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
+
+              {/* Title */}
               <div className="lg:col-span-5 lg:col-start-8">
                 <div className="flex justify-between">
                   <h1 className="text-xl font-medium text-gray-900">
@@ -206,22 +267,69 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 <h2 className="sr-only">Images</h2>
 
                 {/* Desktop images */}
-                <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8 ">
+                <Tab.Group as="div" className="flex flex-col-reverse">
+                  {/* Image selector */}
+                  <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
+                    <Tab.List className="grid grid-cols-4 gap-6">
+                      {product?.images.map((image: string, imageIdx: number) => (
+                        <Tab
+                          key={imageIdx}
+                          className="relative flex h-48 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span className="sr-only">{product.name}</span>
+                              <span className="absolute inset-0 overflow-hidden rounded-md">
+                                <img src={image} alt="" className="h-full w-full object-cover object-center" />
+                              </span>
+                              <span
+                                className={classNames(
+                                  selected ? 'ring-indigo-500' : 'ring-transparent',
+                                  'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
+                                )}
+                                aria-hidden="true"
+                              />
+                            </>
+                          )}
+                        </Tab>
+                      ))}
+                    </Tab.List>
+                  </div>
+
+                  <Tab.Panels className="aspect-h-1 aspect-w-1 w-full">
+                    {product?.images.map((image: string, imageIdx: number) => (
+                      <Tab.Panel key={imageIdx}>
+                        <Image
+                          onClick={() => openImageModal(image)}
+                          key={image}
+                          src={image}
+                          alt={product.description || product.mongo_id}
+                          width={1000}
+                          height={1000}
+                          className="h-full w-full object-cover object-center sm:rounded-lg"
+                        />
+                      </Tab.Panel>
+                    ))}
+                  </Tab.Panels>
+                </Tab.Group>
+
+
+                {/* <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
                   {product?.images.map((image: string, imgeIdx: number) => (
                     <Image
                       onClick={() => openImageModal(image)}
                       key={image}
                       src={image}
                       alt={product.description || product.mongo_id}
-                      width={500}
-                      height={500}
+                      width={1000}
+                      height={1000}
                       className={classNames(
                         imgeIdx === 0 ? 'lg:col-span-2 lg:row-span-2' : 'hidden lg:block',
                         'rounded-lg cursor-zoom-in'
                       )}
                     />
                   ))}
-                </div>
+                </div> */}
 
                 {/* Mobile Images */}
                 <div className="block md:hidden">
@@ -229,6 +337,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 </div>
               </div>
 
+              {/* Product info */}
               <div className="mt-8 lg:col-span-5">
 
                 {/* Size picker */}

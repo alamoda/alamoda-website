@@ -17,63 +17,6 @@ const policies = [
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
 
-const product_fake = {
-  name: 'Zip Tote Basket',
-  price: '$140',
-  rating: 4,
-  images: [
-    {
-      id: 1,
-      name: 'Angled view',
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
-      alt: 'Angled front view with bag zipped and handles upright.',
-    },
-    {
-      id: 2,
-      name: 'Angled view',
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
-      alt: 'Angled front view with bag zipped and handles upright.',
-    },
-    {
-      id: 3,
-      name: 'Angled view',
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
-      alt: 'Angled front view with bag zipped and handles upright.',
-    },
-    {
-      id: 4,
-      name: 'Angled view',
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
-      alt: 'Angled front view with bag zipped and handles upright.',
-    },
-    // More images...
-  ],
-  colors: [
-    { name: 'Washed Black', bgColor: 'bg-gray-700', selectedColor: 'ring-gray-700' },
-    { name: 'White', bgColor: 'bg-white', selectedColor: 'ring-gray-400' },
-    { name: 'Washed Gray', bgColor: 'bg-gray-500', selectedColor: 'ring-gray-500' },
-  ],
-  description: `
-    <p>The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.</p>
-  `,
-  details: [
-    {
-      name: 'Features',
-      items: [
-        'Multiple strap configurations',
-        'Spacious interior with top zip',
-        'Leather handle and tabs',
-        'Interior dividers',
-        'Stainless strap loops',
-        'Double stitched construction',
-        'Water-resistant',
-      ],
-    },
-    // More sections...
-  ],
-}
-
-
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
@@ -317,7 +260,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
                 {/* Mobile Images */}
                 <div className="block md:hidden">
-                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} />
+                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} alt={product?.name ? product?.name : ""}/>
                 </div>
               </div>
 
@@ -455,24 +398,26 @@ export default function Page({ params }: { params: { product_id: string } }) {
             </div>
 
             {/* You might also like */}
-            <div className="pt-16">
-              <ProductList
-                listName="You might also like"
-                baseUrl=""
-                products={subcategoryProducts || []}
-              />
-            </div>
+            {(subcategoryProducts && subcategoryProducts?.length > 0) &&
+              <div className="pt-16">
+                <ProductList
+                  listName="You might also like"
+                  baseUrl=""
+                  products={subcategoryProducts || []}
+                />
+              </div>
+            }
 
             {/* More from brand */}
-
-            <div className="pt-16">
-              <ProductList
-                listName={`More from ${product?.brand.name.toLowerCase()}`}
-                baseUrl=""
-                products={brandProducts || []}
-              />
-            </div>
-
+            {(brandProducts && brandProducts?.length > 0) &&
+              <div className="pt-16">
+                <ProductList
+                  listName={`More from ${product?.brand.name.toLowerCase()}`}
+                  baseUrl=""
+                  products={brandProducts || []}
+                />
+              </div>
+            }
           </div>
         </div>
       </div>

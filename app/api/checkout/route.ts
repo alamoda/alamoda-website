@@ -1,5 +1,4 @@
 import { db } from "@/app/(lib)/db";
-import { redirect } from "next/navigation";
 import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
@@ -9,7 +8,7 @@ export async function POST(req: Request) {
         apiVersion: "2022-11-15"
     });
 
-    if(!stripe) throw new Error('cant load stripe');
+    if (!stripe) throw new Error('cant load stripe');
 
     const {
         cartProducts,
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
 
     const order = await db.order.create({
         data: {
-            line_items, 
+            line_items,
             email,
             paid: false
         }
@@ -67,7 +66,8 @@ export async function POST(req: Request) {
         mode: 'payment',
         success_url: 'http://localhost:3000/cart?success=1',
         cancel_url: 'http://localhost:3000/cart?canceled=1',
+        metadata: { orderId: order.mongo_id }
     });
-    
+
     return new Response(JSON.stringify(session.url));
 }

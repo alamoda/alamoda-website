@@ -1,4 +1,5 @@
 import { db } from "@/app/(lib)/db";
+import { redirect } from "next/navigation";
 import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
@@ -13,8 +14,6 @@ export async function POST(req: Request) {
     const {
         cartProducts
     } = await req.json();
-
-    console.log(cartProducts);
 
     const line_items = [];
     for (const cartProduct of cartProducts) {
@@ -60,7 +59,5 @@ export async function POST(req: Request) {
         cancel_url: 'http://localhost:3000/cart?canceled=1',
     });
     
-    console.log(session.url);
-
     return new Response(JSON.stringify(session.url));
 }

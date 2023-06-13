@@ -12,7 +12,8 @@ export async function POST(req: Request) {
     if(!stripe) throw new Error('cant load stripe');
 
     const {
-        cartProducts
+        cartProducts,
+        email
     } = await req.json();
 
     const line_items = [];
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
             },
         ],
         line_items,
+        customer_email: email,
         mode: 'payment',
         success_url: 'http://localhost:3000/cart?success=1',
         cancel_url: 'http://localhost:3000/cart?canceled=1',

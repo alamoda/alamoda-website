@@ -11,8 +11,6 @@ import { useContext, useEffect, useState } from 'react';
 export default function Page() {
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [nameError, setNameError] = useState<boolean>(false);
 
   const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
 
@@ -23,14 +21,14 @@ export default function Page() {
   }, [cartProducts])
 
   async function goToPayment() {
-    if (!name || !email) {
-      if (!name) setNameError(true);
-      if (!email) setEmailError(true);
+    if (!email) {
+      setEmailError(true);
       return;
     }
 
     const res = await axios.post('/api/checkout', {
-      cartProducts
+      cartProducts,
+      email
     });
 
     if (res.data) {
@@ -174,22 +172,6 @@ export default function Page() {
                 <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
                   Order information
                 </h2>
-                <PrimaryInput
-                  value={name}
-                  label="Name"
-                  name="name"
-                  placeholder='name'
-                  onChangeMethod={
-                    (e: React.ChangeEvent<HTMLInputElement>) => {
-                      setName(e.target.value);
-                      setNameError(false);
-                    }
-                  } />
-                {nameError &&
-                  <p className='text-red-500 text-sm mt-2'>
-                    You need to enter your name
-                  </p>
-                }
                 <PrimaryInput
                   value={email}
                   label="Email"

@@ -70,7 +70,6 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
     url.search = params.toString();
 
-    console.log(url.toString())
     const response = await fetch(url.toString());
 
     return (await response.json()).products;
@@ -92,7 +91,6 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
     url.search = params.toString();
 
-    console.log(url.toString())
     const response = await fetch(url.toString());
 
     return (await response.json()).products;
@@ -399,10 +397,10 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
             {/* You might also like */}
             {(subcategoryProducts && subcategoryProducts?.length > 0) &&
-              <div className="pt-16">
+              <div className="pt-16 md:pt-32">
                 <ProductList
                   listName="You might also like"
-                  baseUrl=""
+                  listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories="+product?.subcategory.slug : ""}`}
                   products={subcategoryProducts || []}
                 />
               </div>
@@ -410,10 +408,10 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
             {/* More from brand */}
             {(brandProducts && brandProducts?.length > 0) &&
-              <div className="pt-16">
+              <div className="pt-16 md:pt-32">
                 <ProductList
                   listName={`More from ${product?.brand.name.toLowerCase()}`}
-                  baseUrl=""
+                  listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
                   products={brandProducts || []}
                 />
               </div>

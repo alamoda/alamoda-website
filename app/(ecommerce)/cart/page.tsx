@@ -1,13 +1,18 @@
 'use client'
 
+import PrimaryInput from '@/app/(components)/PrimaryInput';
 import { CartContext } from '@/context/CartContext';
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export default function Page() {
+  const [email, setEmail] = useState<string>('');
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [nameError, setNameError] = useState<boolean>(false);
 
   const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
 
@@ -18,6 +23,12 @@ export default function Page() {
   }, [cartProducts])
 
   async function goToPayment() {
+    if (!name || !email) {
+      if (!name) setNameError(true);
+      if (!email) setEmailError(true);
+      return;
+    }
+
     const res = await axios.post('/api/checkout', {
       cartProducts
     });
@@ -160,9 +171,45 @@ export default function Page() {
               </dl>
 
               <div className="mt-6">
+                <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+                  Order information
+                </h2>
+                <PrimaryInput
+                  value={name}
+                  label="Name"
+                  name="name"
+                  placeholder='name'
+                  onChangeMethod={
+                    (e: React.ChangeEvent<HTMLInputElement>) => {
+                      setName(e.target.value);
+                      setNameError(false);
+                    }
+                  } />
+                {nameError &&
+                  <p className='text-red-500 text-sm mt-2'>
+                    You need to enter your name
+                  </p>
+                }
+                <PrimaryInput
+                  value={email}
+                  label="Email"
+                  name="email"
+                  placeholder='email'
+                  onChangeMethod={
+                    (e: React.ChangeEvent<HTMLInputElement>) => {
+                      setEmail(e.target.value);
+                      setEmailError(false);
+                    }
+                  }
+                />
+                {emailError &&
+                  <p className='text-red-500 text-sm mt-2'>
+                    You need to enter your email
+                  </p>
+                }
                 <button
                   onClick={goToPayment}
-                  className="w-full rounded-md border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
+                  className="w-full mt-4 rounded-md border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
                 >
                   Checkout
                 </button>

@@ -202,7 +202,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                     <span className="capitalize">{product?.name}</span> by <span className="capitalize">{product?.brand.name.toLowerCase()}</span>
                   </h1>
                   <p className="text-xl font-medium text-red-700">
-                    <span className="text-gray-600 line-through mr-2">USD {product ? Math.round(product.price * 1.6) : 0}</span>USD {product ? Math.round(product.price) : 0}
+                    <span className="text-gray-600 line-through mr-2">${product ? Math.round(product.price * 1.6) : 0}</span>${product ? Math.round(product.price) : 0}
                   </p>
                 </div>
               </div>

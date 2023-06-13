@@ -22,8 +22,8 @@ export default function Page() {
       cartProducts
     });
 
-    if (res.data.url) {
-      window.location = res.data.url;
+    if (res.data) {
+      window.location = res.data;
     }
   }
 

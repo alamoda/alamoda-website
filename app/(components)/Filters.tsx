@@ -5,68 +5,63 @@ import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
-import axios from 'axios'
-import { Category, Subcategory, Department, Brand, SortOption } from '../(types)'
+import { Category, Subcategory, Department, Brand, SortOption, ProductFilters } from '../(types)'
 import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
 
 interface ComponentProps {
     route: string
-    department: Department
+    currentDepartment: Department
+    currentBrands: Brand[]
     activeFilters: ProductFilters
-}
-
-interface ProductFilters {
-    category?: Category,
-    subcategories?: Subcategory[]
-    order?: SortOption
-    brands?: Brand[]
 }
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Filters({ route, department, activeFilters}: ComponentProps) {
+export default function Filters({ route, currentDepartment, currentBrands, activeFilters }: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
-    const [availableBrands, setAvailableBrands] = useState<Brand[]>([]);
-    const [brandSearchTerm, setBrandSearchTerm] = useState("");
+    const [brandSearchTerm, setBrandSearchTerm] = useState<string>("");
+    const [displayFilters, setdisplayFilters] = useState<any>([]);
+
+    const baseUrl = `http://localhost:3000/${route}/${currentDepartment.slug}`
+
 
     useEffect(() => {
-        fetchBrands();
+        prepareDisplayFilters();
     }, []);
 
-    async function fetchBrands() {
-        const resCat = await axios.get(`http://localhost:3000/api/brands`);
-        setAvailableBrands(resCat.data);
-    };
+    const prepareDisplayFilters = () => {
+        const toDisplayFilters = [];
+        if (activeFilters.category) toDisplayFilters.push(activeFilters.category)
+        if (activeFilters.subcategories) toDisplayFilters.push(...activeFilters.subcategories)
+        if (activeFilters.brands) toDisplayFilters.push(...activeFilters.brands)
 
-    const baseUrl = `http://localhost:3000/${route}/${department.slug}`
+        setdisplayFilters(toDisplayFilters)
+    };
 
     const buildUrl = (newFilters: ProductFilters) => {
         const url = new URL(baseUrl);
         const params = new URLSearchParams();
 
-        // if (cat)
-        //     params.append("category", cat);
+        if (newFilters.category) params.append("category", newFilters.category.slug);
 
-        // if (sub)
-        //     params.append("subcategories", sub);
+        if (newFilters.subcategories) params.append("subcategories", newFilters.subcategories.map(sub => sub.slug).join(","));
 
-        // if (ord)
-        //     params.append("orderBy", ord);
+        if (newFilters.order) params.append("orderBy", newFilters.order.slug);
 
-        // if (bds)
-        //     params.append("brands", bds);
+        if (newFilters.brands) params.append("brands", newFilters.brands.map(brd => brd.slug).join(","));
 
-        // url.search = params.toString();
-        // return url.toString()
-        return "";
+        url.search = params.toString();
+        return url.toString()
     };
 
     const getCategoryUrl = (cat: Category) => {
-        return `${route}/${department}?category=${cat.slug.toLowerCase()}`
+        return buildUrl({
+            category: cat,
+        } as ProductFilters);
     };
 
     const getSubcategoryUrl = (sub: Subcategory) => {
@@ -74,16 +69,16 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
         let filteredSubcategories: Subcategory[] = [];
         // Remove from URL if filter already included
 
-        if (activeFilters.subcategories?.some((s : Subcategory) => s.slug === sub.slug)) {
-            filteredSubcategories = activeFilters.subcategories.filter((val : Subcategory) => val.slug !== sub.slug);
+        if (activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)) {
+            filteredSubcategories = activeFilters.subcategories.filter((val: Subcategory) => val.slug !== sub.slug);
         }
         // Otherwise, just add it to the url
         else {
-            if (activeFilters.subcategories)filteredSubcategories = [...activeFilters.subcategories, sub];
+            if (activeFilters.subcategories) filteredSubcategories = [...activeFilters.subcategories, sub];
             else filteredSubcategories = [sub];
         }
 
-        buildUrl({
+        return buildUrl({
             category: activeFilters.category,
             subcategories: filteredSubcategories,
             order: activeFilters.order,
@@ -92,7 +87,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
     };
 
     const getSortUrl = (srt: SortOption) => {
-        buildUrl({
+        return buildUrl({
             category: activeFilters.category,
             subcategories: activeFilters.subcategories,
             order: srt,
@@ -104,7 +99,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
 
         let filteredBrands: Brand[] = [];
         // Remove from URL if filter already included
-        if (activeFilters.brands?.some((b : Brand) => b.slug === brd.slug)) {
+        if (activeFilters.brands?.some((b: Brand) => b.slug === brd.slug)) {
             filteredBrands = activeFilters.brands.filter((val: Brand) => val.slug !== brd.slug);
         }
         // Otherwise, just add it to the url
@@ -114,7 +109,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
             else filteredBrands = [brd];
         }
 
-        buildUrl({
+        return buildUrl({
             category: activeFilters.category,
             subcategories: activeFilters.subcategories,
             order: activeFilters.order,
@@ -127,12 +122,12 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
         // If it's a category
         // we also remove the category
         if (activeFilters.category?.slug === filterSlug) {
-            buildUrl({} as ProductFilters);
+            return buildUrl({} as ProductFilters);
         }
 
         // If it's a subcategory
         if (activeFilters.subcategories?.some((s: Subcategory) => s.slug === filterSlug)) {
-            buildUrl({
+            return buildUrl({
                 category: activeFilters.category,
                 subcategories: activeFilters.subcategories.filter((val: Subcategory) => val.slug !== filterSlug),
                 order: activeFilters.order,
@@ -142,7 +137,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
 
         // If it's a brand
         if (activeFilters.brands?.some((b: Brand) => b.slug === filterSlug)) {
-            buildUrl({
+            return buildUrl({
                 category: activeFilters.category,
                 subcategories: activeFilters.subcategories,
                 order: activeFilters.order,
@@ -220,7 +215,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
 
                                                 <Disclosure.Panel className="pt-6">
                                                     <div className="space-y-2">
-                                                        {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
+                                                        {currentDepartment.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
                                                             <div key={cat.mongo_id} className="flex items-center">
                                                                 <Link href={getCategoryUrl(cat)}
                                                                     className={classNames(
@@ -321,18 +316,18 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
                             >
                                 <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
-                                        {PRODUCT_SORT_OPTIONS.map((option) => (
-                                            <Menu.Item key={option.name}>
+                                        {PRODUCT_SORT_OPTIONS.map((sortOption: SortOption) => (
+                                            <Menu.Item key={sortOption.slug}>
                                                 {({ active }) => (
                                                     <Link
-                                                        href={getSortUrl(option.slug)}
+                                                        href={getSortUrl(sortOption)}
                                                         className={classNames(
-                                                            option.slug === activeFilters.order?.slug ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                            sortOption.slug === activeFilters.order?.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                             active ? 'bg-gray-100' : '',
                                                             'block px-4 py-2 text-sm'
                                                         )}
                                                     >
-                                                        {option.name}
+                                                        {sortOption.name}
                                                     </Link>
                                                 )}
                                             </Menu.Item>
@@ -348,7 +343,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
                             onClick={() => setOpen(true)}
                         >
                             Filters
-                            { (activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
+                            {(activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
                                 <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                     {activeFilters.subcategories.length}
                                 </span>
@@ -411,12 +406,12 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
                                                     </div>
                                                     <hr />
                                                     <div className="overflow-y-auto h-64 space-y-1">
-                                                        {availableBrands
+                                                        {currentBrands
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (
                                                                 <div key={brand.mongo_id} className="flex items-center truncate">
                                                                     <Link
-                                                                        href={getBrandUrl(brand.slug)}>
+                                                                        href={getBrandUrl(brand)}>
                                                                         <input
                                                                             name={`${brand.mongo_id}[]`}
                                                                             defaultValue={brand.slug}
@@ -464,7 +459,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
+                                                    {currentDepartment.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
                                                         <Menu.Item key={cat.mongo_id}>
                                                             {({ active }) => (
                                                                 <Link href={getCategoryUrl(cat)}
@@ -489,7 +484,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
                                         <Popover className="relative inline-block px-4 text-left">
                                             <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                                 <span className="capitalize">{activeFilters.category.name}</span>
-                                                { (activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
+                                                {(activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
                                                     <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                                         {activeFilters.subcategories.length}
                                                     </span>
@@ -545,7 +540,7 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
                 </div>
 
                 {/* Active filters */}
-                { Object.values(activeFilters).some(value => value !== null && value !== undefined) &&
+                {   displayFilters.length > 0 &&
                     <div className="bg-gray-100">
                         <div className="mx-auto max-w-7xl px-4 py-3 sm:flex sm:items-center sm:px-6 lg:px-8">
                             <h3 className="text-sm font-medium text-gray-500">
@@ -557,7 +552,8 @@ export default function Filters({ route, department, activeFilters}: ComponentPr
 
                             <div className="mt-2 sm:ml-4 sm:mt-0">
                                 <div className="-m-1 flex flex-wrap items-center">
-                                    {Object.values(activeFilters).reduce((acc, val) => acc.concat(val), [] as (Category | Subcategory | SortOption | Brand)[]).map((activeFilter: any) => (
+
+                                    {displayFilters.map((activeFilter: any) => (
                                         <span
                                             key={activeFilter.slug}
                                             className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"

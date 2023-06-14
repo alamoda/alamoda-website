@@ -90,3 +90,10 @@ export type CartProduct = {
     size: Size
     quantity: number
 }
+
+export type ProductFilters = {
+    category?: Category,
+    subcategories?: Subcategory[]
+    order?: SortOption
+    brands?: Brand[]
+}

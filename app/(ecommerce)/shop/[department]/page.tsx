@@ -1,4 +1,3 @@
-
 import Breadcrumb from '@/app/(components)/Breadcrumb';
 import Pagination from '@/app/(components)/Pagination';
 import ProductCard from '@/app/(components)/ProductCard';
@@ -57,6 +56,8 @@ async function getData(department: string | null, category: string | null, subca
     }
 
     const currentDepartment = await resDepartment.json();
+
+    console.log("Getting data");
     return { products: products, count: count, availableBrands: availableBrands, currentDepartment: currentDepartment }
 };
 
@@ -88,7 +89,7 @@ export default async function Shop(
 
     const activeFilters: ProductFilters = {
         category: currentCategory,
-        subcategories: subcategories && currentCategory ? currentCategory.subcategories.filter((sub: Subcategory) => subcategories.includes(sub.slug)) : undefined,
+        subcategories: (subcategories && currentCategory) ? currentCategory.subcategories.filter((sub: Subcategory) => subcategories.includes(sub.slug)) : undefined,
         order: order ? PRODUCT_SORT_OPTIONS.find((opt: SortOption) => opt.slug === order) : PRODUCT_SORT_OPTIONS[0],
         brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
     };
@@ -160,8 +161,7 @@ export default async function Shop(
                             brands={brands} />
                     </div>
                 </div>
-            </div >
-
+            </div>
         </>
     )
 }

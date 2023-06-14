@@ -28,10 +28,11 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
 
     const baseUrl = `http://localhost:3000/${route}/${currentDepartment.slug}`
 
-
     useEffect(() => {
+        console.log("CHANGE TO FILTERS");
+
         prepareDisplayFilters();
-    }, []);
+    }, [activeFilters]);
 
     const prepareDisplayFilters = () => {
         const toDisplayFilters = [];

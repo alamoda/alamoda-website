@@ -67,7 +67,7 @@ export default function Header() {
 
   return (
     <div className="bg-white z-40">
-      
+
       {/* Search Palettes */}
       <SearchPalettes open={showSearch} toggle={setShowSearch} />
 
@@ -232,7 +232,7 @@ export default function Header() {
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
-                                    <Link href={`/shop/${department.slug}`}>
+                                    <Link className="h-full w-full flex items-center justify-center" onClick={() => onHoverExitMenu(departmentIdx)} href={`/shop/${department.slug}`}>
                                       {department.name}
                                     </Link>
                                   </Popover.Button>
@@ -262,6 +262,7 @@ export default function Header() {
                                             {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((category: Category, categoryIdx: number) => (
                                               <div key={category.mongo_id}>
                                                 <Link
+                                                  onClick={() => onHoverExitMenu(departmentIdx)}
                                                   href={`/shop/${department.slug}?category=${category.slug}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
@@ -275,7 +276,9 @@ export default function Header() {
                                                 >
                                                   {category.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((subcategory: Subcategory) => (
                                                     <li key={subcategory.mongo_id} className="flex">
-                                                      <Link href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="hover:text-gray-800 hover:underline">
+                                                      <Link
+                                                        onClick={() => onHoverExitMenu(departmentIdx)}
+                                                        href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="hover:text-gray-800 hover:underline">
                                                         {subcategory.name}
                                                       </Link>
                                                     </li>

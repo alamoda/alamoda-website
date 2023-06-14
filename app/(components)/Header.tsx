@@ -40,9 +40,9 @@ export default function Header() {
   }, []);
 
   async function fetchDepartments() {
-    const res = await axios.get('http://localhost:3000/api/departments');
+    const res = await axios.get('http://localhost:3000/api/departments?available=true');
     setNavigation({
-      departments: res.data,
+      departments: res.data.sort((a: Department, b: Department) => a.order - b.order),
       pages: [
         { name: 'About Alamoda', href: '#' },
       ]
@@ -259,7 +259,7 @@ export default function Header() {
                                       <div className="mx-auto max-w-7xl px-8">
                                         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
-                                            {department.categories.map((category: Category, categoryIdx: number) => (
+                                            {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((category: Category, categoryIdx: number) => (
                                               <div key={category.mongo_id}>
                                                 <Link
                                                   href={`/shop/${department.slug}?category=${category.slug}`}
@@ -271,22 +271,15 @@ export default function Header() {
                                                 <ul
                                                   role="list"
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
-                                                  className="mt-6 space-y-4 sm:mt-4 sm:space-y-2"
+                                                  className="mt-6 space-y-2 sm:mt-4 sm:space-y-1"
                                                 >
-                                                  {category.subcategories.slice(0, 5).map((subcategory: Subcategory) => (
+                                                  {category.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((subcategory: Subcategory) => (
                                                     <li key={subcategory.mongo_id} className="flex">
                                                       <Link href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="hover:text-gray-800 hover:underline">
                                                         {subcategory.name}
                                                       </Link>
                                                     </li>
                                                   ))}
-                                                  {category.subcategories.length > 5 && (
-                                                    <li className="flex pt-3">
-                                                      <Link href={`/shop/${department.slug}?category=${category.slug}`} className="hover:text-gray-800 hover:underline">
-                                                        View More...
-                                                      </Link>
-                                                    </li>
-                                                  )}
                                                 </ul>
                                               </div>
                                             ))}

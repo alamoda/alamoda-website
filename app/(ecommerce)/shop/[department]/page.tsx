@@ -23,9 +23,6 @@ async function getData(department: string | null, category: string | null, subca
 
     url.search = params.toString();
 
-    console.log("url issss", url.toString());
-
-
     const res = await fetch(url.toString(), {
         cache: 'no-store',
         method: 'GET'

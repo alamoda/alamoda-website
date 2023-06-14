@@ -45,26 +45,30 @@ export type Size = {
 }
 
 export type Department = {
-    mongo_id?: string,
-    name: string,
-    slug: string,
-    mapped_ids: number[],
+    mongo_id?: string
+    name: string
+    description: string
+    slug: string
+    mapped_ids: number[]
+    order: number
     categories: Category[]
 }
 
 export type Category = {
-    mongo_id?: string,
-    name: string,
-    slug: string,
+    mongo_id?: string
+    name: string
+    slug: string
     mapped_ids: number[]
+    order: number
     subcategories: Subcategory[]
 }
 
 export type Subcategory = {
-    mongo_id?: string,
-    slug: string,
-    name: string,
-    mapped_ids: number[],
+    mongo_id?: string
+    slug: string
+    name: string
+    order: number
+    mapped_ids: number[]
 }
 
 export type Route = {

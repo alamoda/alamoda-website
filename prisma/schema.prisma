@@ -83,12 +83,15 @@ model Product {
 }
 
 model Department {
-  mongo_id   String     @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  slug       String
-  mapped_ids Int[]
-  categories Category[]
-  Product    Product[]
+  mongo_id    String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  slug        String
+  mapped_ids  Int[]
+  order       Int
+  available   Boolean
+  categories  Category[]
+  Product     Product[]
 }
 
 model Category {
@@ -96,6 +99,8 @@ model Category {
   name          String
   slug          String
   mapped_ids    Int[]
+  order         Int
+  available     Boolean
   department    Department    @relation(fields: [departmentId], references: [mongo_id])
   departmentId  String        @db.ObjectId
   subcategories Subcategory[]
@@ -106,6 +111,8 @@ model Subcategory {
   mongo_id   String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   slug       String
+  order      Int
+  available  Boolean
   mapped_ids Int[]
   category   Category  @relation(fields: [categoryId], references: [mongo_id])
   categoryId String    @db.ObjectId

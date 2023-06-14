@@ -29,7 +29,7 @@ export async function POST(req: Request) {
             data: {
                 name: brand.name,
                 slug: brand.slug,
-                mapped_ids: [Number(brand.id)]
+                mapped_ids: brand.mapped_ids.split(',').map(Number)
             }
         });
         updated++;

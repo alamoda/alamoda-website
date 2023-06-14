@@ -17,14 +17,17 @@ export async function GET(req: Request) {
 
 
 // import { DEPARTMENTS } from "@/app/(utils)/constants";
-// export async function POST(req: Request) {
+// export async function GET(req: Request) {
 
 //   for (const department of DEPARTMENTS) {
 
 //     const dept = {
 //       name: department.name,
+//       description: department.description,
 //       slug: department.slug,
 //       mapped_ids: department.mapped_ids,
+//       order: department.order,
+//       available: department.available
 //     };
 
 //     const newDepartment =await db.department.create({
@@ -37,6 +40,8 @@ export async function GET(req: Request) {
 //         name: category.name,
 //         slug: category.slug,
 //         mapped_ids: category.mapped_ids,
+//         order: category.order,
+//         available: category.available,
 //         department: {
 //           connect: { mongo_id: newDepartment.mongo_id }
 //         },
@@ -52,6 +57,8 @@ export async function GET(req: Request) {
 //           name: subcategory.name,
 //           slug: subcategory.slug,
 //           mapped_ids: subcategory.mapped_ids,
+//           order: subcategory.order,
+//           available: subcategory.available,
 //           category: {
 //             connect: { mongo_id: newCategory.mongo_id }
 //           },

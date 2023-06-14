@@ -452,7 +452,7 @@ export const DEPARTMENTS: Department[] = [
     // Women
     {
         name: "Women",
-        description: "",
+        description: "Immerse yourself in the elegance of our premium women's fashion collection. Handpicked from esteemed designers, our selection showcases the finest in luxury wear, from chic dresses to sophisticated separates. Transform your wardrobe with our exclusive array of women's styles.",
         slug: "women",
         mapped_ids: [725],
         order: 0,
@@ -915,7 +915,7 @@ export const DEPARTMENTS: Department[] = [
     // Unisex
     {
         name: "Unisex",
-        description: "",
+        description: "Explore the versatility of our unisex fashion collection. Sourced from celebrated designers, our range embodies the fusion of style and comfort, offering an array of luxury pieces that transcend traditional gender norms. Redefine your fashion journey with our exclusive unisex ensemble.",
         slug: "unisex",
         mapped_ids: [881],
         order: 2,
@@ -1124,7 +1124,7 @@ export const DEPARTMENTS: Department[] = [
     // Lifestyle
     {
         name: "Lifestyle",
-        description: "",
+        description: "Explore our lifestyle selection featuring luxury accessories, stylish home items, and exquisite textiles. Sourced from top designers, each piece promises to enhance your everyday experiences and bring a touch of elegance to your personal style and living space. Experience the essence of luxury living with our curated collection.",
         slug: "lifestyle",
         mapped_ids: [1065],
         order: 3,

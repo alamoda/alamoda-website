@@ -51,6 +51,7 @@ export type Department = {
     slug: string
     mapped_ids: number[]
     order: number
+    available: boolean
     categories: Category[]
 }
 
@@ -60,6 +61,7 @@ export type Category = {
     slug: string
     mapped_ids: number[]
     order: number
+    available: boolean
     subcategories: Subcategory[]
 }
 
@@ -68,6 +70,7 @@ export type Subcategory = {
     slug: string
     name: string
     order: number
+    available: boolean
     mapped_ids: number[]
 }
 

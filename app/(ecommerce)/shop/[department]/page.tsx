@@ -57,7 +57,6 @@ async function getData(department: string | null, category: string | null, subca
 
     const currentDepartment = await resDepartment.json();
 
-    console.log("Getting data");
     return { products: products, count: count, availableBrands: availableBrands, currentDepartment: currentDepartment }
 };
 
@@ -121,7 +120,7 @@ export default async function Shop(
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
-                    {currentDepartment.name}
+                    {currentDepartment.name + (currentCategory ? ` - ${currentCategory.name}` : "")}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
                     {currentDepartment.description}

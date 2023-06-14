@@ -28,8 +28,10 @@ export async function POST(req: Request) {
         await db.brand.create({
             data: {
                 name: brand.name,
+                description: "",
                 slug: brand.slug,
-                mapped_ids: brand.mapped_ids.split(',').map(Number)
+                mapped_ids: brand.mapped_ids.split(',').map(Number),
+                available: true
             }
         });
         updated++;

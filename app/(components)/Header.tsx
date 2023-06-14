@@ -5,9 +5,11 @@ import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Category, Department, Subcategory } from '../(types)'
 import axios from 'axios'
-import Link from 'next/link'
 import { CartContext } from '@/context/CartContext'
 import SearchPalettes from './SearchPalettes'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+
 
 interface Navigation {
   departments: Department[],
@@ -24,6 +26,8 @@ function classNames(...classes: any) {
 }
 
 export default function Header() {
+
+  const params = useParams()
 
   const [open, setOpen] = useState(false)
   const [isShowing, setIsShowing] = useState<boolean[]>([])
@@ -227,8 +231,11 @@ export default function Header() {
                                   <Popover.Button
                                     className={classNames(
                                       isShowing[departmentIdx]
-                                        ? 'border-indigo-600 hover:text-indigo-600'
-                                        : 'border-transparent text-gray-700 hover:text-gray-800',
+                                        ? 'hover:text-indigo-600'
+                                        : 'text-gray-700 hover:text-gray-800',
+                                      params.department && params.department === department.slug
+                                        ? "border-indigo-600"
+                                        : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >

@@ -6,139 +6,151 @@ import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import axios from 'axios'
-import { Category, Subcategory, Department, Brand } from '../(types)'
+import { Category, Subcategory, Department, Brand, SortOption } from '../(types)'
 import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
 
 interface ComponentProps {
     route: string
-    department: string
-    category: string
-    subcategories: string[]
-    brands: string[]
-    order: string
+    department: Department
+    activeFilters: ProductFilters
+}
+
+interface ProductFilters {
+    category?: Category,
+    subcategories?: Subcategory[]
+    order?: SortOption
+    brands?: Brand[]
 }
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Filters({ route, department, category, subcategories, brands, order }: ComponentProps) {
+export default function Filters({ route, department, activeFilters}: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
-    const [availableDepartment, setAvailableDepartment] = useState<Department>();
     const [availableBrands, setAvailableBrands] = useState<Brand[]>([]);
     const [brandSearchTerm, setBrandSearchTerm] = useState("");
 
-
     useEffect(() => {
-        fetchFilters();
         fetchBrands();
     }, []);
-
-    async function fetchFilters() {
-        const resCat = await axios.get(`http://localhost:3000/api/departments/${department}`);
-        setAvailableDepartment(resCat.data);
-    };
 
     async function fetchBrands() {
         const resCat = await axios.get(`http://localhost:3000/api/brands`);
         setAvailableBrands(resCat.data);
     };
 
-    const baseUrl = `http://localhost:3000/${route}/${department}`
-    const activeFilters: string[] = [];
+    const baseUrl = `http://localhost:3000/${route}/${department.slug}`
 
-    if (category) {
-        activeFilters.push(category);
-    }
-
-    if (category && subcategories) {
-        activeFilters.push(...subcategories);
-    }
-
-    if (brands && brands.length > 0) {
-        activeFilters.push(...brands);
-    }
-
-    if (!order) {
-        order = PRODUCT_SORT_OPTIONS[0].slug;
-    }
-
-    const buildUrl = (cat: string | null, sub: string | null, ord: string | null, bds: string | null) => {
+    const buildUrl = (newFilters: ProductFilters) => {
         const url = new URL(baseUrl);
         const params = new URLSearchParams();
 
-        if (cat)
-            params.append("category", cat);
+        // if (cat)
+        //     params.append("category", cat);
 
-        if (sub)
-            params.append("subcategories", sub);
+        // if (sub)
+        //     params.append("subcategories", sub);
 
-        if (ord)
-            params.append("orderBy", ord);
+        // if (ord)
+        //     params.append("orderBy", ord);
 
-        if (bds)
-            params.append("brands", bds);
+        // if (bds)
+        //     params.append("brands", bds);
 
-        url.search = params.toString();
-        return url.toString()
+        // url.search = params.toString();
+        // return url.toString()
+        return "";
+    };
+
+    const getCategoryUrl = (cat: Category) => {
+        return `${route}/${department}?category=${cat.slug.toLowerCase()}`
     };
 
     const getSubcategoryUrl = (sub: Subcategory) => {
 
-        let filteredSubcategories: String[] = [];
+        let filteredSubcategories: Subcategory[] = [];
         // Remove from URL if filter already included
-        if (subcategories.includes(sub.slug.toLowerCase())) {
-            filteredSubcategories = subcategories.filter(val => val !== sub.slug.toLowerCase());
+
+        if (activeFilters.subcategories?.some((s : Subcategory) => s.slug === sub.slug)) {
+            filteredSubcategories = activeFilters.subcategories.filter((val : Subcategory) => val.slug !== sub.slug);
         }
         // Otherwise, just add it to the url
         else {
-            filteredSubcategories = [...subcategories, sub.slug.toLowerCase()];
+            if (activeFilters.subcategories)filteredSubcategories = [...activeFilters.subcategories, sub];
+            else filteredSubcategories = [sub];
         }
 
-        return buildUrl(category, filteredSubcategories.join(','), order, brands.join(','));
+        buildUrl({
+            category: activeFilters.category,
+            subcategories: filteredSubcategories,
+            order: activeFilters.order,
+            brands: activeFilters.brands,
+        } as ProductFilters);
+    };
+
+    const getSortUrl = (srt: SortOption) => {
+        buildUrl({
+            category: activeFilters.category,
+            subcategories: activeFilters.subcategories,
+            order: srt,
+            brands: activeFilters.brands,
+        } as ProductFilters);
+    };
+
+    const getBrandUrl = (brd: Brand) => {
+
+        let filteredBrands: Brand[] = [];
+        // Remove from URL if filter already included
+        if (activeFilters.brands?.some((b : Brand) => b.slug === brd.slug)) {
+            filteredBrands = activeFilters.brands.filter((val: Brand) => val.slug !== brd.slug);
+        }
+        // Otherwise, just add it to the url
+        else {
+
+            if (activeFilters.brands) filteredBrands = [...activeFilters.brands, brd];
+            else filteredBrands = [brd];
+        }
+
+        buildUrl({
+            category: activeFilters.category,
+            subcategories: activeFilters.subcategories,
+            order: activeFilters.order,
+            brands: filteredBrands,
+        } as ProductFilters);
     };
 
     const getRemoveFilterUrl = (filterSlug: string) => {
 
         // If it's a category
         // we also remove the category
-        if (filterSlug === category) {
-            return buildUrl(null, null, null, null);
+        if (activeFilters.category?.slug === filterSlug) {
+            buildUrl({} as ProductFilters);
         }
 
         // If it's a subcategory
-        if (subcategories.some((s: string) => s === filterSlug)) {
-            const filteredSubcategories = subcategories.filter(val => val !== filterSlug);
-            return buildUrl(category, filteredSubcategories.join(','), order, brands.join(','));
+        if (activeFilters.subcategories?.some((s: Subcategory) => s.slug === filterSlug)) {
+            buildUrl({
+                category: activeFilters.category,
+                subcategories: activeFilters.subcategories.filter((val: Subcategory) => val.slug !== filterSlug),
+                order: activeFilters.order,
+                brands: activeFilters.brands,
+            } as ProductFilters);
         }
 
         // If it's a brand
-        if (brands.some((s: string) => s === filterSlug)) {
-            const filteredBrands = brands.filter(val => val !== filterSlug);
-            return buildUrl(category, subcategories.join(','), order, filteredBrands.join(','));
-        }
-        return ""
-    };
-
-    const getSortUrl = (orderValue: string) => {
-        return buildUrl(category, subcategories.join(','), orderValue, brands.join(','));
-    };
-
-    const getBrandUrl = (brandSlug: string) => {
-
-        let filteredBrands: String[] = [];
-        // Remove from URL if filter already included
-        if (brands.includes(brandSlug)) {
-            filteredBrands = brands.filter(val => val !== brandSlug);
-        }
-        // Otherwise, just add it to the url
-        else {
-            filteredBrands = [...brands, brandSlug];
+        if (activeFilters.brands?.some((b: Brand) => b.slug === filterSlug)) {
+            buildUrl({
+                category: activeFilters.category,
+                subcategories: activeFilters.subcategories,
+                order: activeFilters.order,
+                brands: activeFilters.brands.filter((val: Brand) => val.slug !== filterSlug),
+            } as ProductFilters);
         }
 
-        return buildUrl(category, subcategories.join(','), order, filteredBrands.join(','));
+        return "#";
     };
 
     return (
@@ -172,9 +184,9 @@ export default function Filters({ route, department, category, subcategories, br
                             <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                                 <div className="flex items-center justify-between px-4">
                                     <h2 className="text-lg font-medium text-gray-900">Filters</h2>
-                                    {subcategories.length > 0 ? (
+                                    {activeFilters.subcategories ? (
                                         <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                                            {subcategories.length}
+                                            {activeFilters.subcategories.length}
                                         </span>
                                     ) : null}
                                     <button
@@ -208,12 +220,11 @@ export default function Filters({ route, department, category, subcategories, br
 
                                                 <Disclosure.Panel className="pt-6">
                                                     <div className="space-y-2">
-                                                        {availableDepartment?.categories.map((cat: Category, catIdx: number) => (
+                                                        {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
                                                             <div key={cat.mongo_id} className="flex items-center">
-                                                                <Link href={`${route}/${department}?category=${cat.slug.toLowerCase()}`}
+                                                                <Link href={getCategoryUrl(cat)}
                                                                     className={classNames(
-                                                                        category && category.toLowerCase() == cat.slug.toLowerCase() ? 'font-medium text-gray-900' : 'text-gray-500',
-
+                                                                        activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         'block px-4 py-2 text-sm cursor-pointer capitalize'
                                                                     )}
                                                                 >
@@ -228,13 +239,13 @@ export default function Filters({ route, department, category, subcategories, br
                                     </Disclosure>
 
                                     {/* Subcategories */}
-                                    {category &&
+                                    {activeFilters.category &&
                                         <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
                                             {({ open }) => (
                                                 <>
                                                     <h3 className="-mx-2 -my-3 flow-root">
                                                         <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
-                                                            <span className="font-medium text-gray-900 capitalize">{category.replace('-', ' ').toLowerCase()}</span>
+                                                            <span className="font-medium text-gray-900 capitalize">{activeFilters.category?.name}</span>
                                                             <span className="ml-6 flex items-center">
                                                                 <ChevronDownIcon
                                                                     className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
@@ -246,7 +257,7 @@ export default function Filters({ route, department, category, subcategories, br
 
                                                     <Disclosure.Panel className="pt-6">
                                                         <div className="space-y-2">
-                                                            {availableDepartment?.categories.find((cat: Category) => cat.slug === category)?.subcategories.map((sub: Subcategory) => (
+                                                            {activeFilters.category?.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
                                                                 <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
                                                                     <Link
                                                                         href={getSubcategoryUrl(sub)}>
@@ -255,7 +266,7 @@ export default function Filters({ route, department, category, subcategories, br
                                                                             defaultValue={sub.slug}
                                                                             type="checkbox"
                                                                             readOnly
-                                                                            checked={subcategories.some((s: any) => s.toLowerCase() === sub.slug.toLowerCase())}
+                                                                            checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
                                                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                         />
                                                                         <label
@@ -316,7 +327,7 @@ export default function Filters({ route, department, category, subcategories, br
                                                     <Link
                                                         href={getSortUrl(option.slug)}
                                                         className={classNames(
-                                                            option.slug === order ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                            option.slug === activeFilters.order?.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                             active ? 'bg-gray-100' : '',
                                                             'block px-4 py-2 text-sm'
                                                         )}
@@ -337,9 +348,9 @@ export default function Filters({ route, department, category, subcategories, br
                             onClick={() => setOpen(true)}
                         >
                             Filters
-                            {subcategories.length > 0 ? (
+                            { (activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
                                 <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                                    {subcategories.length}
+                                    {activeFilters.subcategories.length}
                                 </span>
                             ) : null}
                         </button>
@@ -352,9 +363,9 @@ export default function Filters({ route, department, category, subcategories, br
                                     <Popover className="relative inline-block px-4 text-left">
                                         <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                             <span className="capitalize">Brands</span>
-                                            {brands.length > 0 ? (
+                                            {(activeFilters.brands && activeFilters.brands.length > 0) ? (
                                                 <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                                                    {brands.length}
+                                                    {activeFilters.brands.length}
                                                 </span>
                                             ) : null}
                                             <ChevronDownIcon
@@ -391,6 +402,8 @@ export default function Filters({ route, department, category, subcategories, br
                                                                     className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                                     placeholder="Search"
                                                                     type="search"
+                                                                    autoComplete="false"
+                                                                    value={brandSearchTerm}
                                                                     onChange={event => setBrandSearchTerm(event.target.value)}
                                                                 />
                                                             </div>
@@ -409,7 +422,7 @@ export default function Filters({ route, department, category, subcategories, br
                                                                             defaultValue={brand.slug}
                                                                             type="checkbox"
                                                                             readOnly
-                                                                            checked={brands.some((s: any) => s.toLowerCase() === brand.slug.toLowerCase())}
+                                                                            checked={activeFilters.brands?.some((b: Brand) => b.slug === brand.slug)}
                                                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                         />
                                                                         <label
@@ -451,12 +464,12 @@ export default function Filters({ route, department, category, subcategories, br
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {availableDepartment?.categories.map((cat: Category) => (
+                                                    {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
                                                         <Menu.Item key={cat.mongo_id}>
                                                             {({ active }) => (
-                                                                <Link href={`${route}/${department}?category=${cat.slug.toLowerCase()}`}
+                                                                <Link href={getCategoryUrl(cat)}
                                                                     className={classNames(
-                                                                        category && category.toLowerCase() == cat.slug.toLowerCase() ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                        activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm cursor-pointer capitalize'
                                                                     )}
@@ -472,13 +485,13 @@ export default function Filters({ route, department, category, subcategories, br
                                     </Menu>
 
                                     {/* Subcategory */}
-                                    {category &&
+                                    {activeFilters.category &&
                                         <Popover className="relative inline-block px-4 text-left">
                                             <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                                <span className="capitalize">{category.replace('-', ' ').toLowerCase()}</span>
-                                                {subcategories.length > 0 ? (
+                                                <span className="capitalize">{activeFilters.category.name}</span>
+                                                { (activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
                                                     <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                                                        {subcategories.length}
+                                                        {activeFilters.subcategories.length}
                                                     </span>
                                                 ) : null}
                                                 <ChevronDownIcon
@@ -499,7 +512,7 @@ export default function Filters({ route, department, category, subcategories, br
 
                                                 <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <form className="space-y-4">
-                                                        {availableDepartment?.categories.find((cat: Category) => cat.slug === category)?.subcategories.map((sub: Subcategory) => (
+                                                        {activeFilters.category.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
                                                             <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
                                                                 <Link
                                                                     href={getSubcategoryUrl(sub)}>
@@ -508,7 +521,7 @@ export default function Filters({ route, department, category, subcategories, br
                                                                         defaultValue={sub.slug}
                                                                         type="checkbox"
                                                                         readOnly
-                                                                        checked={subcategories.some((s: any) => s.toLowerCase() === sub.slug.toLowerCase())}
+                                                                        checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
                                                                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                     />
                                                                     <label
@@ -532,7 +545,7 @@ export default function Filters({ route, department, category, subcategories, br
                 </div>
 
                 {/* Active filters */}
-                {activeFilters.length > 0 &&
+                { Object.values(activeFilters).some(value => value !== null && value !== undefined) &&
                     <div className="bg-gray-100">
                         <div className="mx-auto max-w-7xl px-4 py-3 sm:flex sm:items-center sm:px-6 lg:px-8">
                             <h3 className="text-sm font-medium text-gray-500">
@@ -544,18 +557,18 @@ export default function Filters({ route, department, category, subcategories, br
 
                             <div className="mt-2 sm:ml-4 sm:mt-0">
                                 <div className="-m-1 flex flex-wrap items-center">
-                                    {activeFilters.map((activeFilter: string) => (
+                                    {Object.values(activeFilters).reduce((acc, val) => acc.concat(val), [] as (Category | Subcategory | SortOption | Brand)[]).map((activeFilter: any) => (
                                         <span
-                                            key={activeFilter}
+                                            key={activeFilter.slug}
                                             className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
                                         >
-                                            <span className="capitalize">{activeFilter.replace('-', ' ').toLowerCase()}</span>
+                                            <span className="capitalize">{activeFilter.name}</span>
                                             <Link
                                                 type="button"
-                                                href={getRemoveFilterUrl(activeFilter)}
+                                                href={getRemoveFilterUrl(activeFilter.slug)}
                                                 className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
                                             >
-                                                <span className="sr-only">Remove filter for {activeFilter}</span>
+                                                <span className="sr-only">Remove filter for {activeFilter.name}</span>
                                                 <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                     <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
                                                 </svg>

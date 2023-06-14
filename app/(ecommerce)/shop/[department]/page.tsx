@@ -52,6 +52,27 @@ export default async function Shop(
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
+
+    // const resCat = await axios.get(`http://localhost:3000/api/departments/${department}`);
+    // if ("category" in activeFilters) {
+    //     activeFilters.push(category);
+    // }
+
+    // if (category && subcategories) {
+    //     activeFilters.push(...subcategories);
+    // }
+
+    // if (brands && brands.length > 0) {
+    //     activeFilters.push(...brands);
+    // }
+
+    // if (!order) {
+    //     order = PRODUCT_SORT_OPTIONS[0].slug;
+    // }
+
+
+
+
     const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
 
     const breadcrumb = [
@@ -82,7 +103,7 @@ export default async function Shop(
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
-                    {category ? category.toLocaleLowerCase().replace('-', ' ') : department.toLowerCase().replace('-', ' ')}
+                    {category ? category.toLowerCase().replace('-', ' ') : department.toLowerCase().replace('-', ' ')}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
                     Our thoughtfully designed workspace objects are crafted in limited runs. Improve your productivity and

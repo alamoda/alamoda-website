@@ -6,7 +6,7 @@ import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroic
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 export default function Page() {
   const [email, setEmail] = useState<string>('');
@@ -15,10 +15,6 @@ export default function Page() {
   const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
 
   const cartPrice = cartProducts.reduce((sum, cartProduct) => sum + (cartProduct.product.price * cartProduct.quantity), 0);
-
-  useEffect(() => {
-    console.log(cartProducts)
-  }, [cartProducts])
 
   async function goToPayment() {
     if (!email) {

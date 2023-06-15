@@ -31,6 +31,10 @@ export default async function page({ searchParams }: pageProps) {
     const session = await stripe.checkout.sessions.retrieve(session_id) as Stripe.Checkout.Session;
     const shipping = session?.shipping_details;
 
+    const orderId = session?.metadata?.orderId;
+
+    //const response = await fetch('')
+
     return (
         <div>
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-32 xl:gap-x-24">

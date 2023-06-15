@@ -6,7 +6,9 @@ import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroic
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
+import Stripe from 'stripe';
 
 export default function Page() {
   const [email, setEmail] = useState<string>('');
@@ -15,6 +17,30 @@ export default function Page() {
   const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
 
   const cartPrice = cartProducts.reduce((sum, cartProduct) => sum + (cartProduct.product.price * cartProduct.quantity), 0);
+
+  const searchParams = useSearchParams();
+  const session_id = searchParams.get('session_id');
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+    typescript: true,
+    apiVersion: "2022-11-15"
+  });
+
+  async function handleSuccessfulPayment() {
+    if(!session_id) return;
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    console.log("success", session);
+  }
+
+  useEffect(() => {
+    console.log("session id is", session_id);
+    if (typeof window === 'undefined') {
+      return;
+    }
+    if (window?.location.href.includes('success')) {
+      handleSuccessfulPayment();
+    }
+  }, [session_id]);
 
   async function goToPayment() {
     if (!email) {

@@ -38,7 +38,8 @@ export default async function page({ searchParams }: pageProps) {
     });
 
     const order = await response.json();
-    console.log("order", order);
+    const line_items = order?.line_items;
+    console.log("order", line_items);
 
     return (
         <div>
@@ -53,23 +54,23 @@ export default async function page({ searchParams }: pageProps) {
                     role="list"
                     className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"
                 >
-                    {products.map((product) => (
-                        <li key={product.id} className="flex space-x-6 py-6">
+                    {line_items.map((item: any) => (
+                        <li key={item.price_data.product_data.mongo_id} className="flex space-x-6 py-6">
                             <Image
-                                src={product.imageSrc}
-                                alt={product.imageAlt}
+                                src={item.price_data.product_data.images || 'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg'}
+                                alt={item.price_data.product_data.name}
                                 width={100}
                                 height={100}
                                 className="flex-none rounded-md bg-gray-100 object-cover object-center"
                             />
                             <div className="flex-auto space-y-1">
                                 <h3 className="text-gray-900">
-                                    <a href={product.href}>{product.name}</a>
+                                    <a >{item.price_data.product_data.name}</a>
                                 </h3>
-                                <p>{product.color}</p>
-                                <p>{product.size}</p>
+                                <p>{item.price_data.product_data.brand}</p>
+                                <p>{item.price_data.product_data.size}</p>
                             </div>
-                            <p className="flex-none font-medium text-gray-900">{product.price}</p>
+                            <p className="flex-none font-medium text-gray-900">${item.price_data.unit_amount / 100}</p>
                         </li>
                     ))}
                 </ul>

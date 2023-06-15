@@ -21,7 +21,12 @@ export async function POST(req: Request) {
             quantity: cartProduct.quantity,
             price_data: {
                 currency: 'USD',
-                product_data: { name: cartProduct.product.name },
+                product_data: { 
+                    name: cartProduct.product.name,
+                    brand: cartProduct.product.brand.name,
+                    size: cartProduct.size, 
+                    image: cartProduct.product.images[0]
+                },
                 unit_amount: cartProduct.product.price * 100,
             },
         });

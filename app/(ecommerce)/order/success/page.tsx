@@ -33,18 +33,22 @@ export default async function page({ searchParams }: pageProps) {
 
     const orderId = session?.metadata?.orderId;
 
-    //const response = await fetch('')
+    const response = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+        method: 'GET'
+    });
+
+    const order = await response.json();
+    console.log("order", order);
 
     return (
         <div>
-            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-32 xl:gap-x-24">
-                <h1 className="text-sm font-medium text-indigo-600">Payment successful</h1>
-                <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Thanks for ordering</p>
-                <p className="mt-2 text-base text-gray-500">
-                    We appreciate your order, we’re currently processing it. So hang tight and we’ll send you confirmation
-                    very soon!
-                </p>
-
+            <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-24 lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-16 xl:gap-x-24">
+                <h1 className="text-sm font-medium text-gray-900">Payment successful</h1>
+                <p className="mt-4 text-2xl font-semibold tracking-tight text-gray-900">Thanks for shopping with us!</p>
+                <div className="mt-4 text-sm text-gray-800">
+                    <p> We appreciate your order, we’re currently processing it. </p>
+                    <p> So hang tight and we’ll send you confirmation at {session.customer_email} very soon! </p>
+                </div>
                 <ul
                     role="list"
                     className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"

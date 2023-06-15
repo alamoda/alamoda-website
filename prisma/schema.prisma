@@ -82,6 +82,8 @@ model Product {
   status          Int
   updated_at      Float?
   created_at      Float?
+  Order           Order?       @relation(fields: [orderMongo_id], references: [mongo_id])
+  orderMongo_id   String?      @db.ObjectId
 }
 
 model Department {
@@ -122,13 +124,15 @@ model Subcategory {
 }
 
 model Order {
-  mongo_id   String  @id @default(auto()) @map("_id") @db.ObjectId
-  line_items Json
-  email      String
-  city       String?
-  postalCode String?
-  country    String?
-  paid       Boolean
-  updated_at Float?
-  created_at Float?
+  mongo_id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  cart_products Json
+  line_items    Json
+  email         String
+  city          String?
+  postalCode    String?
+  country       String?
+  paid          Boolean
+  updated_at    Float?
+  created_at    Float?
+  Product       Product[]
 }

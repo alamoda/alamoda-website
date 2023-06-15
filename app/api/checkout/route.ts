@@ -16,24 +16,29 @@ export async function POST(req: Request) {
     } = await req.json();
 
     const line_items = [];
+    const products = [];
     for (const cartProduct of cartProducts) {
         line_items.push({
             quantity: cartProduct.quantity,
             price_data: {
                 currency: 'USD',
-                product_data: { 
-                    name: cartProduct.product.name,
-                    brand: cartProduct.product.brand.name,
-                    size: cartProduct.size, 
-                    image: cartProduct.product.images[0]
-                },
+                product_data: { name: cartProduct.product.name },
                 unit_amount: cartProduct.product.price * 100,
             },
         });
+        products.push({
+            name: cartProduct.product.name,
+            brand: cartProduct.product.brand.name,
+            price: cartProduct.product.price,
+            image: cartProduct.product.images[0],
+            quantity: cartProduct.quantity,
+            size: cartProduct.size.name
+        })
     }
 
     const order = await db.order.create({
         data: {
+            cart_products: products,
             line_items,
             email,
             paid: false

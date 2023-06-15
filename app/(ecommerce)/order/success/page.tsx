@@ -38,8 +38,8 @@ export default async function page({ searchParams }: pageProps) {
     });
 
     const order = await response.json();
-    const line_items = order?.line_items;
-    console.log("order", line_items);
+    const cartProducts = order.cart_products;
+    console.log("order", cartProducts);
 
     return (
         <div>
@@ -52,46 +52,43 @@ export default async function page({ searchParams }: pageProps) {
                 </div>
                 <ul
                     role="list"
-                    className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"
+                    className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-800"
                 >
-                    {line_items.map((item: any) => (
-                        <li key={item.price_data.product_data.mongo_id} className="flex space-x-6 py-6">
+                    {cartProducts.map((product: any, index: number) => (
+                        <li key={index} className="flex space-x-6 py-6">
                             <Image
-                                src={item.price_data.product_data.images || 'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg'}
-                                alt={item.price_data.product_data.name}
-                                width={100}
-                                height={100}
+                                src={product.image || 'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg'}
+                                alt={product.name}
+                                width={50}
+                                height={50}
                                 className="flex-none rounded-md bg-gray-100 object-cover object-center"
                             />
                             <div className="flex-auto space-y-1">
                                 <h3 className="text-gray-900">
-                                    <a >{item.price_data.product_data.name}</a>
+                                    <a >{product.name}</a>
                                 </h3>
-                                <p>{item.price_data.product_data.brand}</p>
-                                <p>{item.price_data.product_data.size}</p>
+                                <p>{product.brand}</p>
+                                <p>{product.size}</p>
                             </div>
-                            <p className="flex-none font-medium text-gray-900">${item.price_data.unit_amount / 100}</p>
+                            <p className="flex-none font-medium text-gray-900">${product.price}</p>
                         </li>
                     ))}
                 </ul>
 
-                <dl className="space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">
+                <dl className="space-y-3 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">
                     <div className="flex justify-between">
                         <dt>Subtotal</dt>
                         <dd className="text-gray-900">${session.amount_subtotal! / 100}</dd>
                     </div>
-
                     <div className="flex justify-between">
                         <dt>Shipping</dt>
                         <dd className="text-gray-900">${session?.shipping_cost?.amount_total! / 100}</dd>
                     </div>
-
                     <div className="flex justify-between">
                         <dt>Taxes</dt>
                         <dd className="text-gray-900">$0</dd>
                     </div>
-
-                    <div className="flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900">
+                    <div className="flex items-center justify-between border-t border-gray-200 pt-3 text-gray-900">
                         <dt className="text-base">Total</dt>
                         <dd className="text-base">${session.amount_total! / 100}</dd>
                     </div>
@@ -109,7 +106,7 @@ export default async function page({ searchParams }: pageProps) {
                 </div>
 
                 <div className="mt-8 border-t border-gray-200 py-6 text-right">
-                    <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
                         Continue Shopping
                         <span aria-hidden="true"> &rarr;</span>
                     </a>

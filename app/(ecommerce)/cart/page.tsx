@@ -41,10 +41,11 @@ export default function Page() {
             <div>
               Your shopping cart is currently empty
             </div>
-            <div className="pt-2 underline">
-              <Link href="/">
-                continue shopping
-              </Link>
+            <div className="mt-2">
+              <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+                Continue Shopping
+                <span aria-hidden="true"> &rarr;</span>
+              </a>
             </div>
           </div>
         }
@@ -198,10 +199,11 @@ export default function Page() {
                 >
                   Checkout
                 </button>
-                <div className="pt-2 underline text-sm">
-                  <Link href="/">
-                    continue shopping
-                  </Link>
+                <div className="mt-2">
+                  <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+                    Continue Shopping
+                    <span aria-hidden="true"> &rarr;</span>
+                  </a>
                 </div>
               </div>
             </section>

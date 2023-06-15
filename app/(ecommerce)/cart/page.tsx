@@ -77,10 +77,17 @@ export default function Page() {
                               </p>
                             </h3>
                           </div>
+                          <div className="flex justify-between mt-1">
+                            <h3 className="text-xs">
+                              <p className="font-semibold text-gray-700 hover:text-gray-800">
+                                {cartProduct.product.brand.name}
+                              </p>
+                            </h3>
+                          </div>
                           <div className="mt-1 flex text-sm">
-                            <p className="text-gray-500">{cartProduct.product.department.name}</p>
+                            <p className="text-gray-900">{cartProduct.product.department.name}</p>
                             {cartProduct.size ? (
-                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{cartProduct.size.name}</p>
+                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-900">{cartProduct.size.name}</p>
                             ) : null}
                           </div>
                           <p className="mt-1 text-sm font-medium text-gray-900">${cartProduct.product.price}</p>

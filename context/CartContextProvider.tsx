@@ -49,8 +49,6 @@ export function CartContextProvider({
     }
 
     const clearCart = () => {
-        console.log("called");
-        
         setCartProducts([]);
     }
 

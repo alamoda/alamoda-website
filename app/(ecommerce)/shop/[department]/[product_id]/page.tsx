@@ -1,100 +1,26 @@
-'use client'
-
-import { useState, useEffect, useContext, Fragment, Suspense } from 'react'
-import { Dialog, Disclosure, RadioGroup, Transition, Tab } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import { Feature, Product, Route, Size } from '@/app/(types)'
+import { Feature, Route } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
-import Image from 'next/image';
-import axios from 'axios'
-import { CartContext } from '@/context/CartContext'
-import ImageScroll from '@/app/(components)/ImageScroll'
-import { useRouter } from 'next/navigation'
 import ProductList from '@/app/(components)/ProductList'
+import SizeSelector from '@/app/(components)/SizeSelector'
+import ProductImageGallery from '@/app/(components)/ProductImageGallery'
+import ProductFeatures from '@/app/(components)/ProductFeatures'
+
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
+async function fetchProduct(productId: string) {
+  const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
+  const resProd = await response.json();
+  return resProd;
 }
 
-export default function Page({ params }: { params: { product_id: string } }) {
-  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
-  const [product, setProduct] = useState<Product>();
-  const [subcategoryProducts, setSubcategoryProducts] = useState<Product[]>();
-  const [brandProducts, setBrandProducts] = useState<Product[]>();
+export default async function Page({ params }: { params: { product_id: string } }) {
 
-  const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null)
-  const [showError, setShowError] = useState(false);
-
-  const { addProduct } = useContext(CartContext);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    fetchProduct(params.product_id);
-  }, []);
-
-  useEffect(() => {
-    if (product) fetchRecommendations();
-  }, [product]);
-
-  async function fetchProduct(productId: string) {
-    const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
-    const resProd = await response.json();
-    setProduct(resProd);
-  }
-
-  async function fetchRecommendations() {
-    setSubcategoryProducts(await fetchSubcategoryProducts());
-    setBrandProducts(await fetchBrandProducts());
-  };
-
-  async function fetchSubcategoryProducts() {
-
-    const url = new URL("http://localhost:3000/api/products");
-    const params = new URLSearchParams();
-
-    if (product?.department) params.append("department", product?.department.slug);
-    if (product?.category) params.append("category", product?.category.slug);
-    if (product?.subcategory) params.append("subcategories", product?.subcategory.slug);
-    if (product?.mongo_id) params.append("exclude", product?.mongo_id)
-
-    params.append("limit", "4");
-    params.append("status-min", "1");
-    params.append("available", "true");
-    params.append("order", "new-in");
-
-    url.search = params.toString();
-
-    const response = await fetch(url.toString());
-
-    return (await response.json()).products;
-  };
-
-  async function fetchBrandProducts() {
-    const url = new URL("http://localhost:3000/api/products");
-    const params = new URLSearchParams();
-
-    if (product?.department) params.append("department", product?.department.slug);
-
-    if (product?.brand) params.append("brands", product?.brand.slug);
-    if (product?.mongo_id) params.append("exclude", product?.mongo_id)
-
-    params.append("limit", "4");
-    params.append("status-min", "1");
-    params.append("available", "true")
-    params.append("order", "new-in")
-
-    url.search = params.toString();
-
-    const response = await fetch(url.toString());
-
-    return (await response.json()).products;
-  };
+  const product = await fetchProduct(params.product_id);
 
   const breadcrumb: Route[] = [];
   if (product) {
@@ -120,22 +46,6 @@ export default function Page({ params }: { params: { product_id: string } }) {
         name: product.subcategory.name,
         href: `shop/${product.department.slug}?category=${product.category.slug}&subcategories=${product.subcategory.slug}`
       })
-    }
-  }
-
-  const openImageModal = (image: string) => {
-    if (!product) return;
-
-    setCurrentImage({ src: image, alt: product.description || product.mongo_id })
-  };
-
-  const handleAddToCart = () => {
-    if (product && selectedSize) {
-      console.log(selectedSize);
-      addProduct({ product, size: selectedSize, quantity: 1 });
-      router.push('/cart');
-    } else if (product && !selectedSize) {
-      setShowError(true);
     }
   }
 
@@ -165,113 +75,13 @@ export default function Page({ params }: { params: { product_id: string } }) {
                 </div>
               </div>
 
-              {/* Image gallery */}
-              <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-                <h2 className="sr-only">Images</h2>
-
-                {/* Desktop images */}
-                <Tab.Group as="div" className="hidden md:flex flex-col-reverse">
-                  {/* Image selector */}
-                  <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-                    <Tab.List className="grid grid-cols-4 gap-6">
-                      {product?.images.map((image: string, imageIdx: number) => (
-                        <Tab
-                          key={imageIdx}
-                          className="relative flex aspect-h-13 aspect-w-10 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
-                        >
-                          {({ selected }) => (
-                            <>
-                              <span className="sr-only">{product.name}</span>
-                              <span className="absolute inset-0 overflow-hidden rounded-md">
-                                <img src={image} alt="" className="h-full w-full object-cover object-center" />
-                              </span>
-                              <span
-                                className={classNames(
-                                  selected ? 'ring-indigo-500' : 'ring-transparent',
-                                  'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
-                                )}
-                                aria-hidden="true"
-                              />
-                            </>
-                          )}
-                        </Tab>
-                      ))}
-                    </Tab.List>
-                  </div>
-
-                  <Tab.Panels className="aspect-h-13 aspect-w-10 w-full">
-                    {product?.images.map((image: string, imageIdx: number) => (
-                      <Tab.Panel key={imageIdx}>
-                        <Image
-                          onClick={() => openImageModal(image)}
-                          key={image}
-                          src={image}
-                          alt={product.description || product.mongo_id}
-                          width={1000}
-                          height={1333}
-                          className="h-full w-full object-cover object-center sm:rounded-lg"
-                        />
-                      </Tab.Panel>
-                    ))}
-                  </Tab.Panels>
-                </Tab.Group>
-
-                {/* Mobile Images */}
-                <div className="block md:hidden">
-                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} alt={product?.name ? product?.name : ""} />
-                </div>
-              </div>
+              <ProductImageGallery product={product} />
 
               {/* Product info */}
               <div className="mt-8 lg:col-span-5">
 
-                {/* Size picker */}
-                <div className="mt-8">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-medium text-gray-900">Size</h2>
-                  </div>
-
-                  <RadioGroup
-                    value={selectedSize}
-                    onChange={(size: Size) => {
-                      setSelectedSize(size);
-                      setShowError(false);
-                    }}
-                    className="mt-2">
-                    <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
-                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                      {product?.sizes.map((size: Size) => (
-                        <RadioGroup.Option
-                          key={size.name}
-                          value={size}
-                          className={({ active, checked }) =>
-                            classNames(
-                              checked
-                                ? 'border-transparent bg-gray-900 text-white hover:bg-gray-800'
-                                : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
-                              'cursor-pointer focus:outline-none flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
-                            )
-                          }
-                        >
-                          <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                        </RadioGroup.Option>
-                      ))}
-                    </div>
-                  </RadioGroup>
-                </div>
-
-                <button
-                  onClick={handleAddToCart}
-                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-3 text-base font-medium text-white hover:bg-gray-800"
-                >
-                  Add to cart
-                </button>
-
-                {showError &&
-                  <p className='text-red-500 text-sm mt-2'>
-                    You need to select a size first
-                  </p>
-                }
+                {/* Sizes and Add to Cart */}
+                <SizeSelector product={product} />
 
                 {/* Product details */}
                 {product?.description &&
@@ -285,54 +95,9 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
                   </div>
                 }
-                <section aria-labelledby="details-heading" className="mt-12">
-                  <h2 id="details-heading" className="sr-only">
-                    Additional details
-                  </h2>
 
-                  <div className="divide-y divide-gray-200 border-t">
-
-                    <Disclosure as="div" defaultOpen={true}>
-                      {({ open }) => (
-                        <>
-                          <h3>
-                            <Disclosure.Button className="group relative flex w-full items-center justify-between py-6 text-left">
-                              <span
-                                className={classNames(open ? 'text-gray-800' : 'text-gray-900', 'text-sm font-medium')}
-                              >
-                                Features
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon
-                                    className="block h-6 w-6 text-gray-900 group-hover:text-gray-800"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusIcon
-                                    className="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel as="div" className="prose prose-sm pb-6">
-                            <ul role="list">
-                              {product?.features?.map((feature: Feature) => (
-                                <li key={feature.id_feature}>
-                                  <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
-                              ))}
-                              <li>
-                                SKU: {product?.sku}
-                              </li>
-                            </ul>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  </div>
-                </section>
+                {/* Product Features */}
+                <ProductFeatures product={product} />
 
                 {/* Policies */}
                 <section aria-labelledby="policies-heading" className="mt-10">
@@ -356,26 +121,26 @@ export default function Page({ params }: { params: { product_id: string } }) {
             </div>
 
             {/* You might also like */}
-            {(subcategoryProducts && subcategoryProducts?.length > 0) &&
-              <div className="pt-16 md:pt-32">
-                <ProductList
-                  listName="You might also like"
-                  listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories=" + product?.subcategory.slug : ""}`}
-                  products={subcategoryProducts || []}
-                />
-              </div>
-            }
+            <div className="pt-16 md:pt-32">
+              {/* @ts-expect-error Server Component */}
+              <ProductList
+                listName="You might also like"
+                listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories=" + product?.subcategory.slug : ""}`}
+                product={product}
+                brandOnly={false}
+              />
+            </div>
 
             {/* More from brand */}
-            {(brandProducts && brandProducts?.length > 0) &&
-              <div className="pt-16 md:pt-32">
-                <ProductList
-                  listName={`More from ${product?.brand.name.toLowerCase()}`}
-                  listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
-                  products={brandProducts || []}
-                />
-              </div>
-            }
+            <div className="pt-16 md:pt-32">
+              {/* @ts-expect-error Server Component */}
+              <ProductList
+                listName={`More from ${product?.brand.name.toLowerCase()}`}
+                listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
+                product={product}
+                brandOnly={true}
+              />
+            </div>
           </div>
         </div>
       </div>

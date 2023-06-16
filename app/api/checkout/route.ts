@@ -3,7 +3,7 @@ import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+    const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET!, {
         typescript: true,
         apiVersion: "2022-11-15"
     });

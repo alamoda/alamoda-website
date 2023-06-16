@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 
     if (!sig || !endpointSecret) throw new Error('could not find stripe sig or secret');
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+    const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET!, {
         typescript: true,
         apiVersion: "2022-11-15"
     });

@@ -5,6 +5,7 @@ import ProductList from '@/app/(components)/ProductList'
 import SizeSelector from '@/app/(components)/SizeSelector'
 import ProductImageGallery from '@/app/(components)/ProductImageGallery'
 import ProductFeatures from '@/app/(components)/ProductFeatures'
+import { Suspense } from 'react'
 
 
 const policies = [
@@ -14,8 +15,9 @@ const policies = [
 
 async function fetchProduct(productId: string) {
   const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
-  const resProd = await response.json();
-  return resProd;
+  const product = await response.json();
+
+  return product;
 }
 
 export default async function Page({ params }: { params: { product_id: string } }) {
@@ -75,6 +77,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                 </div>
               </div>
 
+              {/* Product Images */}
               <ProductImageGallery product={product} />
 
               {/* Product info */}
@@ -87,12 +90,10 @@ export default async function Page({ params }: { params: { product_id: string } 
                 {product?.description &&
                   <div className="mt-10">
                     <h2 className="text-sm font-medium text-gray-900">Description</h2>
-
                     <div
                       className="prose prose-sm mt-4 text-gray-500">
                       {product?.description.replace("&amp;", "&")}
                     </div>
-
                   </div>
                 }
 

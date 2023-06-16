@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useContext, Fragment } from 'react'
+import { useState, useEffect, useContext, Fragment, Suspense } from 'react'
 import { Dialog, Disclosure, RadioGroup, Transition, Tab } from '@headlessui/react'
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { Feature, Product, Route, Size } from '@/app/(types)'
@@ -141,46 +141,6 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
   return (
     <>
-      <Transition appear show={currentImage != null} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setCurrentImage(null)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-auto transform overflow-hidden p-6 text-left align-middle transition-all">
-                  <Image
-                    src={currentImage?.src || ""}
-                    width={500}
-                    height={500}
-                    alt={currentImage?.alt || ""}
-                    className="mx-auto min-h-full"
-                  />
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-
       {/* BREADCRUMBS */}
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
         <Breadcrumb routes={breadcrumb} />
@@ -258,7 +218,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
 
                 {/* Mobile Images */}
                 <div className="block md:hidden">
-                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} alt={product?.name ? product?.name : ""}/>
+                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} alt={product?.name ? product?.name : ""} />
                 </div>
               </div>
 
@@ -400,7 +360,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
               <div className="pt-16 md:pt-32">
                 <ProductList
                   listName="You might also like"
-                  listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories="+product?.subcategory.slug : ""}`}
+                  listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories=" + product?.subcategory.slug : ""}`}
                   products={subcategoryProducts || []}
                 />
               </div>

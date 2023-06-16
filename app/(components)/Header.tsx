@@ -9,7 +9,7 @@ import { CartContext } from '@/context/CartContext'
 import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-
+import Image from 'next/image'
 
 interface Navigation {
   departments: Department[],
@@ -208,10 +208,11 @@ export default function Header() {
                   <div className="hidden lg:flex lg:items-center">
                     <Link href="/">
                       <span className="sr-only">Alamoda Inc</span>
-                      <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt=""
+                      <Image
+                        src="/logo.png"
+                        width={75}
+                        height={75}
+                        alt="alamoda logo"
                       />
                     </Link>
                   </div>
@@ -338,10 +339,11 @@ export default function Header() {
                   {/* Logo (lg-) */}
                   <Link href="/" className="lg:hidden">
                     <span className="sr-only">Alamoda Inc</span>
-                    <img
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      alt=""
-                      className="h-8 w-auto"
+                    <Image
+                      src="/logo.png"
+                      width={100}
+                      height={100}
+                      alt="alamoda logo"
                     />
                   </Link>
 

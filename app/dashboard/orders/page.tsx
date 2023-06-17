@@ -23,10 +23,13 @@ const people = [
 ]
 
 async function getOrders() {
-    // const response = await fetch('http://localhost:3000/api/orders')
-    // const orders = await response.json()
+    const response = await fetch('http://localhost:3000/api/orders', {
+        cache: 'no-store',
+        method: 'GET'
+    });
+    const orders = await response.json();
 
-    // return orders;
+    return orders;
 }
 
 export default async function Page() {
@@ -42,6 +45,9 @@ export default async function Page() {
         }]
 
     const orders = await getOrders();
+
+    console.log(orders);
+    
 
     return (
         <div className="px-4 py-4">

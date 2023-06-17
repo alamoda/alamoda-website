@@ -29,6 +29,12 @@ export async function POST(req: Request) {
                 await db.order.update({
                     where: { mongo_id: orderId },
                     data: {
+                        amount: session.amount_total,
+                        name: session.customer_details?.name,
+                        street: `${session.shipping_details?.address?.line1} + ${session.shipping_details?.address?.line2}`,
+                        city: session.shipping_details?.address?.city,
+                        postalCode: session.shipping_details?.address?.postal_code,
+                        country: session.shipping_details?.address?.country,
                         paid: true,
                     }
                 })

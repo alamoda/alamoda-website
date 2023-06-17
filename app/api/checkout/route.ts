@@ -1,4 +1,5 @@
 import { db } from "@/app/(lib)/db";
+import { time } from "console";
 import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
@@ -39,9 +40,8 @@ export async function POST(req: Request) {
     const order = await db.order.create({
         data: {
             cart_products: products,
-            line_items,
             email,
-            paid: false
+            paid: false,
         }
     })
 

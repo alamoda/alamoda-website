@@ -103,10 +103,14 @@ export type ProductFilters = {
 export type Order = {
     mongo_id: string
     cart_products: Object[]
-    line_items: Object
+    amount?: number
+    name?: string
     email: string
+    street?: string
     city?: string
+    state?: string
     postalCode?: string
     country?: string
     paid: boolean
+    created_at: Date
 }

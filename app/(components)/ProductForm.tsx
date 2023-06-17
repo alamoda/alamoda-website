@@ -24,9 +24,9 @@ const ProductForm = ({
     price: existingPrice = 0,
     wholesale_price: existingWholesaleprice = 0,
     available: existingAvailable = true,
-    department: existingDepartment = { mongo_id: '', name: 'None', slug: '', mapped_ids: [], categories: [] },
-    category: existingCategory = { mongo_id: '', name: 'None', slug: '', mapped_ids: [], subcategories: [] },
-    subcategory: existingSubcategory = { mongo_id: '', name: 'None', slug: '', mapped_ids: [] },
+    department: existingDepartment = null,
+    category: existingCategory = null,
+    subcategory: existingSubcategory = null,
     features: existingFeatures = [],
     sizes: existingSizes = [],
     images: existingImages = [],
@@ -40,9 +40,9 @@ const ProductForm = ({
     const [price, setPrice] = useState<number>(existingPrice);
     const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
     const [available, setAvailable] = useState<boolean>(existingAvailable);
-    const [department, setDepartment] = useState<Department>(existingDepartment);
-    const [category, setCategory] = useState<Category>(existingCategory);
-    const [subcategory, setSubcategory] = useState<Subcategory>(existingSubcategory);
+    const [department, setDepartment] = useState<Department | null>(existingDepartment);
+    const [category, setCategory] = useState<Category | null>(existingCategory);
+    const [subcategory, setSubcategory] = useState<Subcategory | null>(existingSubcategory);
     const [features, setFeatures] = useState<Feature[]>(existingFeatures);
     const [sizes, setSizes] = useState<Size[]>(existingSizes);
     const [images, setImages] = useState<string[]>(existingImages);
@@ -168,7 +168,7 @@ const ProductForm = ({
     return (
         <>
             {/* IMAGES */}
-            <div className="flex items-center">
+            <div className="flex items-center mt-16">
                 <div className="flex flex-wrap items-center">
                     <ReactSortable list={itemObjects} setList={(newItems) => setImages(newItems.map((item) => item.url))}>
                         {!!itemObjects?.length && itemObjects.map(item => (
@@ -194,29 +194,29 @@ const ProductForm = ({
                 {/* DEPARTMENT */}
                 <PrimarySelect
                     label="Department"
-                    value={department || { mongo_id: 0, name: 'None' }}
+                    value={department}
                     options={departments}
                     onValueChange={(value: Department) => {
                         setDepartment(value);
-                        setCategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], subcategories: [] });
-                        setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
+                        setCategory(null);
+                        setSubcategory(null);
                     }}
                 />
                 {/* CATEGORY  */}
                 <PrimarySelect
                     label="Category"
-                    value={category || { mongo_id: 0, name: 'None' }}
-                    options={department.categories}
+                    value={category || null}
+                    options={department?.categories || null}
                     onValueChange={(value: Category) => {
                         setCategory(value);
-                        setSubcategory({ mongo_id: '', name: 'None', slug: '', mapped_ids: [], });
+                        setSubcategory(null);
                     }}
                 />
                 {/* SUBCATEGORY  */}
                 <PrimarySelect
                     label="Subcategory"
-                    value={subcategory || { mongo_id: '', name: 'None', slug: '', mapped_ids: [], }}
-                    options={category.subcategories}
+                    value={subcategory || null}
+                    options={category?.subcategories || null}
                     onValueChange={(value: Subcategory) => setSubcategory(value)}
                 />
             </div>

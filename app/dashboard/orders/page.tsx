@@ -25,8 +25,12 @@ export default async function Page() {
 
     const orders = await getOrders();
 
-    console.log(orders);
+    const convertToDate = (dateString: string) => {
+        const date = new Date(dateString);
 
+        console.log(date.getTime())
+        return '';
+    }
 
     return (
         <div className="px-4 py-4">
@@ -81,7 +85,7 @@ export default async function Page() {
                                     {orders.map((order: Order, index: number) => (
                                         <tr key={index}>
                                             <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                                                ${order.amount}
+                                                ${order.amount! / 100}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 {order.paid ?
@@ -93,9 +97,9 @@ export default async function Page() {
                                                         Not Paid
                                                     </span>}
                                             </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            <td className="whitespace-nowrap px-3 py-5 text-xs text-gray-900">
                                                 {order.cart_products.map((cartProduct: any, index: number) => (
-                                                    <div key={index} className="mb-1 text-xs text-gray-900">
+                                                    <div key={index} className="mb-1">
                                                         <div>
                                                             <span className="font-semibold">{cartProduct.name}</span>
                                                             {" - qty: " + cartProduct.quantity + ", " + "sz: " + cartProduct.size}
@@ -104,21 +108,16 @@ export default async function Page() {
                                                     </div>
                                                 ))}
                                             </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-xs text-gray-500">
+                                            <td className="whitespace-nowrap px-3 py-5 text-xs text-gray-900">
                                                 {order.name &&
                                                     <div className="text-gray-500">{order.name}</div>
                                                 }
                                                 <div className="text-gray-500">{order.email}</div>
-                                                {order.street && order.city && order.state && order.country &&
+                                                {
                                                     <div className="text-gray-500">{order.street + ", " + order.city + " " + order.state + ", " + order.country}</div>
                                                 }
                                             </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{order.created_at.getDate()}</td>
-                                            <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                    View
-                                                </a>
-                                            </td>
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{(new Date(order.created_at)).toLocaleString()}</td>
                                         </tr>
                                     ))}
                                 </tbody>

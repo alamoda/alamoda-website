@@ -25,17 +25,27 @@ export async function POST(req: Request) {
             const session = event.data.object as Stripe.Checkout.Session;
             const orderId = session.metadata?.orderId;
             const paid = session.payment_status === 'paid';
+            const amount = session.amount_total || -1;
+            const name = session.customer_details?.name || 'none';
+            const line1 = session.shipping_details?.address?.line1;
+            const line2 = session.shipping_details?.address?.line2;
+            const street = line2 ? line1 + line2 : line1;
+            const city = session.shipping_details?.address?.city || '';
+            const state = session.shipping_details?.address?.state || '';
+            const postalCode = session.shipping_details?.address?.postal_code || '';
+            const country = session.shipping_details?.address?.country || '';
             if (orderId && paid) {
                 await db.order.update({
                     where: { mongo_id: orderId },
                     data: {
-                        amount: session.amount_total,
-                        name: session.customer_details?.name,
-                        street: `${session.shipping_details?.address?.line1} + ${session.shipping_details?.address?.line2}`,
-                        city: session.shipping_details?.address?.city,
-                        postalCode: session.shipping_details?.address?.postal_code,
-                        country: session.shipping_details?.address?.country,
-                        paid: true,
+                        amount,
+                        name,
+                        street,
+                        city,
+                        state,
+                        postalCode,
+                        country,
+                        paid,
                     }
                 })
             }

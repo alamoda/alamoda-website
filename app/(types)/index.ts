@@ -112,5 +112,5 @@ export type Order = {
     postalCode?: string
     country?: string
     paid: boolean
-    created_at: Date
+    created_at: string
 }

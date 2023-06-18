@@ -113,8 +113,11 @@ export default async function Page() {
                                                     <div className="text-gray-500">{order.name}</div>
                                                 }
                                                 <div className="text-gray-500">{order.email}</div>
-                                                {
-                                                    <div className="text-gray-500">{order.street + ", " + order.city + " " + order.state + ", " + order.country}</div>
+                                                {order.street &&
+                                                    <div className="text-gray-500">{order.street}</div>
+                                                }
+                                                {order.city && order.state &&
+                                                    <div className="text-gray-500">{order.city + " " + order.state + ", " + order.country}</div>
                                                 }
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{(new Date(order.created_at)).toLocaleString()}</td>

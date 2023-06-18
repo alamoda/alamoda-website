@@ -1,4 +1,5 @@
 import { db } from "@/app/(lib)/db";
+import { CartProduct } from "@/app/(types)";
 import { time } from "console";
 import { Stripe } from 'stripe';
 
@@ -37,9 +38,12 @@ export async function POST(req: Request) {
         })
     }
 
+    const amount = cartProducts.reduce((sum: number, cartProduct: CartProduct) => sum + cartProduct.product.price * cartProduct.quantity, 0) + 30;
+
     const order = await db.order.create({
         data: {
             cart_products: products,
+            amount,
             email,
             paid: false,
         }

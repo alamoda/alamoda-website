@@ -95,7 +95,7 @@ export default async function Shop(
 
     const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
 
-    const breadcrumb = [
+    const breadcrumbs = [
         {
             name: 'Shop',
             href: 'shop'
@@ -107,14 +107,14 @@ export default async function Shop(
     ];
 
     if (category) {
-        breadcrumb.push({ name: category, href: `shop/${department}?category=${category}` })
+        breadcrumbs.push({ name: category, href: `shop/${department}?category=${category}` })
     }
 
     return (
         <>
             {/* BREADCRUMBS */}
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
-                <Breadcrumb routes={breadcrumb} />
+                <Breadcrumb routes={breadcrumbs} />
             </div>
 
             {/* TITLE */}
@@ -128,7 +128,6 @@ export default async function Shop(
             </div>
 
             {/* FILTERS */}
-
             <Filters
                 route='shop'
                 currentDepartment={currentDepartment}

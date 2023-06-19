@@ -66,7 +66,6 @@ const ProductForm = ({
 
     async function fetchDepartments() {
         const res = await axios.get('/api/departments');
-        console.log(res.data);
         setDepartments(res.data);
     }
 

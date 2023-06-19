@@ -96,12 +96,12 @@ export default async function Page({
 
     const breadcrumbs = [
         {
-            name: 'Shop',
-            href: 'shop'
+            name: 'Dashboard',
+            href: 'dashboard'
         },
         {
             name: department,
-            href: `shop/${department}`
+            href: `dashboard/products/${department}`
         },
     ];
 
@@ -120,7 +120,7 @@ export default async function Page({
             {/* FILTERS */}
             <div className='py-8'>
                 <Filters
-                    route='shop'
+                    route='dashboard/products'
                     currentDepartment={currentDepartment}
                     currentBrands={availableBrands}
                     activeFilters={activeFilters}

@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         })
     }
 
-    const amount = cartProducts.reduce((sum: number, cartProduct: CartProduct) => sum + cartProduct.product.price * cartProduct.quantity, 0) + 30;
+    const amount = cartProducts.reduce((sum: number, cartProduct: CartProduct) => sum + cartProduct.product.price * cartProduct.quantity * 100, 3000);
 
     const order = await db.order.create({
         data: {

@@ -93,7 +93,7 @@ export default async function Page({
         brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
     };
 
-    const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
+    const baseUrl = `http://localhost:3000/dashboard/${department ? '/products/' + department : ''}`
 
     const breadcrumbs = [
         {
@@ -151,6 +151,7 @@ export default async function Page({
                     subcategories={subcategories}
                     order={order}
                     brands={brands}
+                    statuses={statuses}
                 />
             </div>
 

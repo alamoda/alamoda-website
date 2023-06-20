@@ -16,7 +16,7 @@ async function getData(department: string | null, category: string | null, subca
     if (brands && brands.length > 0) params.append("brands", brands.join(','));
 
     params.append("limit", "60");
-    params.append("status-min", "1");
+    params.append("status-min", "2");
     params.append("available", "true");
     params.append("skip", String(skip));
     params.append("q", query);
@@ -57,7 +57,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const currentDepartment = await resDepartment.json();
 
-    return { products: products, count: count, availableBrands: availableBrands, currentDepartment: currentDepartment }
+    return { products, count, availableBrands, currentDepartment }
 };
 
 export default async function Shop(
@@ -76,6 +76,7 @@ export default async function Shop(
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
+    const statuses = searchParams.statuses ? String(searchParams.statuses).split(',') : [];
 
     const { products, count, currentDepartment, availableBrands }: {
         products: Product[],
@@ -129,10 +130,12 @@ export default async function Shop(
 
             {/* FILTERS */}
             <Filters
+                admin={true}
                 route='shop'
                 currentDepartment={currentDepartment}
                 currentBrands={availableBrands}
                 activeFilters={activeFilters}
+                currentStatuses={[]}
             />
 
             {/* PRODUCTS */}

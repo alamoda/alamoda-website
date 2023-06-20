@@ -98,6 +98,7 @@ export type ProductFilters = {
     subcategories?: Subcategory[]
     order?: SortOption
     brands?: Brand[]
+    statuses?: string[]
 }
 
 export type Order = {

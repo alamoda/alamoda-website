@@ -120,6 +120,7 @@ export default async function Page({
             {/* FILTERS */}
             <div className='py-8'>
                 <Filters
+                    admin={false}
                     route='dashboard/products'
                     currentDepartment={currentDepartment}
                     currentBrands={availableBrands}

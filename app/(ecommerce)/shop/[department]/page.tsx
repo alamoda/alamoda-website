@@ -76,7 +76,6 @@ export default async function Shop(
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
-    const statuses = searchParams.statuses ? String(searchParams.statuses).split(',') : [];
 
     const { products, count, currentDepartment, availableBrands }: {
         products: Product[],
@@ -130,12 +129,11 @@ export default async function Shop(
 
             {/* FILTERS */}
             <Filters
-                admin={true}
+                admin={false}
                 route='shop'
                 currentDepartment={currentDepartment}
                 currentBrands={availableBrands}
                 activeFilters={activeFilters}
-                currentStatuses={[]}
             />
 
             {/* PRODUCTS */}

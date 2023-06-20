@@ -75,6 +75,7 @@ export default async function Page({
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
+    const statuses = searchParams.statuses ? String(searchParams.statuses).split(',') : [];
 
     const { products, count, currentDepartment, availableBrands }: {
         products: Product[],
@@ -120,11 +121,12 @@ export default async function Page({
             {/* FILTERS */}
             <div className='py-8'>
                 <Filters
-                    admin={false}
+                    admin={true}
                     route='dashboard/products'
                     currentDepartment={currentDepartment}
                     currentBrands={availableBrands}
                     activeFilters={activeFilters}
+                    currentStatuses={statuses}
                 />
             </div>
 

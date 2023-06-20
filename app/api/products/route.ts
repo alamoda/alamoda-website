@@ -31,17 +31,14 @@ export async function GET(req: Request) {
     const order = getStrParam(url, 'order');
     const available = getBoolParam(url, 'available');
 
-    // const statuses = url.searchParams.get('statuses');
-    // console.log("statuses is ", statuses)
-    // console.log("split is", statuses?.split(','));
-    
+    const statuses = url.searchParams.get('statuses');
 
     const filters: object[] = [
-        // {
-        //     status: {
-        //         gte: statuses ? statuses : -1
-        //     }
-        // },
+        {
+            status: statuses ? {
+                in: Number(statuses.split(','))
+            } : 2
+        },
         {
             available: available ? available : false
         }
@@ -121,16 +118,6 @@ export async function GET(req: Request) {
             }
         )
     }
-
-    // if(statuses) {
-    //     filters.push(
-    //         {
-    //             status: {
-    //                 in: statuses.split(',')
-    //             }
-    //         }
-    //     )
-    // }
 
     let orderFilter: SortOption = PRODUCT_SORT_OPTIONS[0];
     if (order) {

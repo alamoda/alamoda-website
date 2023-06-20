@@ -128,12 +128,12 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
         let filteredStatuses: string[] = [];
         // Remove from URL if filter already included
 
-        if (statuses?.some((s: string) => s === status)) {
-            filteredStatuses = statuses.filter((val: string) => val !== status);
+        if (statuses.some((s: string) => s === status)) {
+            filteredStatuses = statuses.filter((val: string) => val === status);
         }
         // Otherwise, just add it to the url
         else {
-            if (currentStatuses) filteredStatuses = [...currentStatuses, status];
+            if (currentStatuses && currentStatuses?.length > 0) filteredStatuses = [...currentStatuses, status];
             else filteredStatuses = [status];
         }
 
@@ -384,7 +384,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                     {admin &&
                                         <Popover className="relative inline-block px-4 text-left">
                                             <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                                <span className="capitalize">Status</span>
+                                                <span className="capitalize">Statuses</span>
                                                 {(currentStatuses && currentStatuses.length > 0) ? (
                                                     <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                                         {currentStatuses.length}

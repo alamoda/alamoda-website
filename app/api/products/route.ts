@@ -29,16 +29,19 @@ export async function GET(req: Request) {
     const exclude = getStrParam(url, 'exclude');
 
     const order = getStrParam(url, 'order');
-    const statusMin = getIntParam(url, 'status-min');
     const available = getBoolParam(url, 'available');
 
+    // const statuses = url.searchParams.get('statuses');
+    // console.log("statuses is ", statuses)
+    // console.log("split is", statuses?.split(','));
+    
 
     const filters: object[] = [
-        {
-            status: {
-                gte: statusMin ? statusMin : -1
-            }
-        },
+        // {
+        //     status: {
+        //         gte: statuses ? statuses : -1
+        //     }
+        // },
         {
             available: available ? available : false
         }
@@ -118,6 +121,16 @@ export async function GET(req: Request) {
             }
         )
     }
+
+    // if(statuses) {
+    //     filters.push(
+    //         {
+    //             status: {
+    //                 in: statuses.split(',')
+    //             }
+    //         }
+    //     )
+    // }
 
     let orderFilter: SortOption = PRODUCT_SORT_OPTIONS[0];
     if (order) {

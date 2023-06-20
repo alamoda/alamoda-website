@@ -5,7 +5,7 @@ import ProductCard from '@/app/(components)/ProductCard';
 import { Brand, Category, Department, Product, ProductFilters, SortOption, Subcategory } from '@/app/(types)';
 import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[]) {
+async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[], statuses: string[]) {
 
     const url = new URL("http://localhost:3000/api/products");
     const params = new URLSearchParams();
@@ -14,9 +14,9 @@ async function getData(department: string | null, category: string | null, subca
     if (category) params.append("category", category);
     if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','));
     if (brands && brands.length > 0) params.append("brands", brands.join(','));
+    if (statuses && statuses.length > 0) params.append("statuses", statuses.join(','))
 
     params.append("limit", "60");
-    params.append("status-min", "1");
     params.append("available", "true");
     params.append("skip", String(skip));
     params.append("q", query);
@@ -82,7 +82,7 @@ export default async function Page({
         count: number,
         currentDepartment: Department,
         availableBrands: Brand[]
-    } = await getData(department, category, subcategories, skip, query, order, brands);
+    } = await getData(department, category, subcategories, skip, query, order, brands, statuses);
 
     const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
 

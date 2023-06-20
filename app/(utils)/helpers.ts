@@ -1,12 +1,12 @@
 export function getIntParam(url: URL, name: string) {
-    const limitParam = url.searchParams.get(name);
+    const intParam = url.searchParams.get(name);
 
-    if (!limitParam) return null
+    if (!intParam) return null
 
-    const limit = parseInt(limitParam, 10);
-    if (isNaN(limit)) return null
+    const int = parseInt(intParam, 10);
+    if (isNaN(int)) return null
 
-    return limit
+    return int
 }
 
 export function getStrParam(url: URL, name: string) {

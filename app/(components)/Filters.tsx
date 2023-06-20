@@ -14,7 +14,7 @@ interface ComponentProps {
     currentDepartment: Department
     currentBrands: Brand[]
     activeFilters: ProductFilters
-    currentStatuses?: string[]
+    currentStatuses?: string[] | undefined
 }
 
 function classNames(...classes: any) {
@@ -25,7 +25,7 @@ const statuses = [
     "-1", "0", "1", "2"
 ]
 
-export default function Filters({ admin, route, currentDepartment, currentBrands, activeFilters, currentStatuses }: ComponentProps) {
+export default function Filters({ admin, route, currentDepartment, currentBrands, activeFilters, currentStatuses: currentStatuses = ["2"] }: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
@@ -129,7 +129,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
         // Remove from URL if filter already included
 
         if (currentStatuses && currentStatuses.some((s: string) => s === status)) {
-            filteredStatuses = statuses.filter((val: string) => val !== status);
+            filteredStatuses = currentStatuses.filter((val: string) => val !== status);
         }
         // Otherwise, just add it to the url
         else {

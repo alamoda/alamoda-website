@@ -5,7 +5,7 @@ import ProductCard from '@/app/(components)/ProductCard';
 import { Brand, Category, Department, Product, ProductFilters, SortOption, Subcategory } from '@/app/(types)';
 import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[], statuses: string[]) {
+async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[], statuses: string[] | undefined) {
 
     const url = new URL("http://localhost:3000/api/products");
     const params = new URLSearchParams();
@@ -75,7 +75,7 @@ export default async function Page({
     const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
-    const statuses = searchParams.statuses ? String(searchParams.statuses).split(',') : [];
+    const statuses = searchParams.statuses ? String(searchParams.statuses).split(',') : undefined;
 
     const { products, count, currentDepartment, availableBrands }: {
         products: Product[],

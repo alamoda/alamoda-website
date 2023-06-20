@@ -9,7 +9,7 @@ interface ComponentProps {
   subcategories: string[]
   order: string
   brands: string[]
-  statuses?: string[]
+  statuses?: string[] | undefined
 }
 
 function classNames(...classes: any) {

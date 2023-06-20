@@ -32,11 +32,11 @@ export async function GET(req: Request) {
     const available = getBoolParam(url, 'available');
 
     const statuses = url.searchParams.get('statuses');
-
+    
     const filters: object[] = [
         {
             status: statuses ? {
-                in: Number(statuses.split(','))
+                in: statuses?.split(',').map(status => Number(status))
             } : 2
         },
         {

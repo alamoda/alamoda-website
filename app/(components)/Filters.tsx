@@ -128,12 +128,12 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
         let filteredStatuses: string[] = [];
         // Remove from URL if filter already included
 
-        if (statuses.some((s: string) => s === status)) {
-            filteredStatuses = statuses.filter((val: string) => val === status);
+        if (currentStatuses && currentStatuses.some((s: string) => s === status)) {
+            filteredStatuses = statuses.filter((val: string) => val !== status);
         }
         // Otherwise, just add it to the url
         else {
-            if (currentStatuses && currentStatuses?.length > 0) filteredStatuses = [...currentStatuses, status];
+            if (currentStatuses && currentStatuses.length > 0) filteredStatuses = [...currentStatuses, status];
             else filteredStatuses = [status];
         }
 

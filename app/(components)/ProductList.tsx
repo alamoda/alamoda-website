@@ -11,7 +11,7 @@ interface ComponentProps {
 
 async function fetchProducts(urlParams: URLSearchParams) {
 
-    const url = new URL(`${process.env.MY_URL}api/products`);
+    const url = new URL(`${process.env.URL}api/products`);
 
     if (!urlParams.has("limit")) urlParams.append("limit", "4");
     if (!urlParams.has("statuses")) urlParams.append("statuses", "2");

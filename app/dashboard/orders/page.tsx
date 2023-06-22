@@ -2,7 +2,7 @@ import Breadcrumb from "@/app/(components)/Breadcrumb";
 import { Order } from "@/app/(types)";
 
 async function getOrders() {
-    const response = await fetch(`${process.env.MY_URL}api/orders`, {
+    const response = await fetch(`${process.env.URL}api/orders`, {
         cache: 'no-store',
         method: 'GET'
     });

@@ -32,7 +32,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
     const [brandSearchTerm, setBrandSearchTerm] = useState<string>("");
     const [displayFilters, setdisplayFilters] = useState<any>([]);
 
-    const baseUrl = `${process.env.MY_URL}${route}/${currentDepartment.slug}`
+    const baseUrl = `${process.env.URL}${route}/${currentDepartment.slug}`
 
     useEffect(() => {
         prepareDisplayFilters();

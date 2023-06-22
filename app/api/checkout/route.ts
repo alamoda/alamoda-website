@@ -78,8 +78,8 @@ export async function POST(req: Request) {
         line_items,
         customer_email: email,
         mode: 'payment',
-        success_url: `${process.env.MY_URL}order/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.MY_URL}cart?canceled`,
+        success_url: `${process.env.URL}order/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.URL}cart?canceled`,
         metadata: { orderId: order.mongo_id }
     });
 

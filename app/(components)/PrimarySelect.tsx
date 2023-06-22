@@ -27,8 +27,13 @@ export default function PrimarySelect({ label, value, onValueChange, options }: 
                 {({ open }) => (
                     <div>
                         <div className="relative">
+<<<<<<< HEAD
+                            <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 sm:text-sm sm:leading-6">
+                                <span className="block truncate pr-10">{value.name}</span>
+=======
                             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                 <span className="block truncate pr-10">{value?.name || 'not selected'}</span>
+>>>>>>> f54f51356301cf8cba0d60d0476fd70dd8da314b
                                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                     <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </span>
@@ -47,7 +52,7 @@ export default function PrimarySelect({ label, value, onValueChange, options }: 
                                             key={option.mongo_id}
                                             className={({ active }) =>
                                                 classNames(
-                                                    active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                                                    active ? 'bg-gray-600 text-white' : 'text-gray-900',
                                                     'relative cursor-default select-none py-2 pl-8 pr-4'
                                                 )
                                             }
@@ -62,7 +67,7 @@ export default function PrimarySelect({ label, value, onValueChange, options }: 
                                                     {selected ? (
                                                         <span
                                                             className={classNames(
-                                                                active ? 'text-white' : 'text-indigo-600',
+                                                                active ? 'text-white' : 'text-gray-900',
                                                                 'absolute inset-y-0 left-0 flex items-center pl-1.5'
                                                             )}
                                                         >

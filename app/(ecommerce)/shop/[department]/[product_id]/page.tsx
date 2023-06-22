@@ -77,8 +77,67 @@ export default async function Page({ params }: { params: { product_id: string } 
                 </div>
               </div>
 
+<<<<<<< HEAD
+              {/* Image gallery */}
+              <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+                <h2 className="sr-only">Images</h2>
+
+                {/* Desktop images */}
+                <Tab.Group as="div" className="hidden md:flex flex-col-reverse">
+                  {/* Image selector */}
+                  <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
+                    <Tab.List className="grid grid-cols-4 gap-6">
+                      {product?.images.map((image: string, imageIdx: number) => (
+                        <Tab
+                          key={imageIdx}
+                          className="relative flex aspect-h-13 aspect-w-10 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span className="sr-only">{product.name}</span>
+                              <span className="absolute inset-0 overflow-hidden rounded-md">
+                                <img src={image} alt="" className="h-full w-full object-cover object-center" />
+                              </span>
+                              <span
+                                className={classNames(
+                                  selected ? 'ring-gray-500' : 'ring-transparent',
+                                  'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
+                                )}
+                                aria-hidden="true"
+                              />
+                            </>
+                          )}
+                        </Tab>
+                      ))}
+                    </Tab.List>
+                  </div>
+
+                  <Tab.Panels className="aspect-h-13 aspect-w-10 w-full">
+                    {product?.images.map((image: string, imageIdx: number) => (
+                      <Tab.Panel key={imageIdx}>
+                        <Image
+                          onClick={() => openImageModal(image)}
+                          key={image}
+                          src={image}
+                          alt={product.description || product.mongo_id}
+                          width={1000}
+                          height={1333}
+                          className="h-full w-full object-cover object-center sm:rounded-lg"
+                        />
+                      </Tab.Panel>
+                    ))}
+                  </Tab.Panels>
+                </Tab.Group>
+
+                {/* Mobile Images */}
+                <div className="block md:hidden">
+                  <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} alt={product?.name ? product?.name : ""}/>
+                </div>
+              </div>
+=======
               {/* Product Images */}
               <ProductImageGallery product={product} />
+>>>>>>> f54f51356301cf8cba0d60d0476fd70dd8da314b
 
               {/* Product info */}
               <div className="mt-8 lg:col-span-5">

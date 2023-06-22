@@ -2,12 +2,9 @@
 
 import Breadcrumb from "@/app/(components)/Breadcrumb";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import { Product } from "@/app/(types)/index";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import ProductForm from "@/app/(components)/ProductForm";
-import DeleteButton from "@/app/(components)/DeleteButtons";
 import SecondaryButton from "@/app/(components)/SecondaryButton";
 
 export default function Page({

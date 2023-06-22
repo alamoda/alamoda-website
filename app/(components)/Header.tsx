@@ -121,7 +121,7 @@ export default function Header() {
                           key={department.mongo_id}
                           className={({ selected }) =>
                             classNames(
-                              selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
+                              selected ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-700',
                               'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
                             )
                           }
@@ -208,11 +208,18 @@ export default function Header() {
                   <div className="hidden lg:flex lg:items-center">
                     <Link href="/">
                       <span className="sr-only">Alamoda Inc</span>
+<<<<<<< HEAD
+                      <img
+                        className="h-8 w-auto"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=900"
+                        alt=""
+=======
                       <Image
                         src="/logo.png"
                         width={75}
                         height={75}
                         alt="alamoda logo"
+>>>>>>> f54f51356301cf8cba0d60d0476fd70dd8da314b
                       />
                     </Link>
                   </div>
@@ -232,10 +239,10 @@ export default function Header() {
                                   <Popover.Button
                                     className={classNames(
                                       isShowing[departmentIdx]
-                                        ? 'hover:text-indigo-600'
+                                        ? 'hover:text-gray-900'
                                         : 'text-gray-700 hover:text-gray-800',
                                       params.department && params.department === department.slug
-                                        ? "border-indigo-600"
+                                        ? "border-gray-900"
                                         : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
@@ -339,11 +346,18 @@ export default function Header() {
                   {/* Logo (lg-) */}
                   <Link href="/" className="lg:hidden">
                     <span className="sr-only">Alamoda Inc</span>
+<<<<<<< HEAD
+                    <img
+                      src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=900"
+                      alt=""
+                      className="h-8 w-auto"
+=======
                     <Image
                       src="/logo.png"
                       width={100}
                       height={100}
                       alt="alamoda logo"
+>>>>>>> f54f51356301cf8cba0d60d0476fd70dd8da314b
                     />
                   </Link>
 

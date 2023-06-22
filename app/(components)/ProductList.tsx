@@ -42,7 +42,7 @@ export default async function ProductList({ product, brandOnly, listUrl, listNam
             <div className="md:flex md:items-center md:justify-between">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900 capitalize">{listName}</h2>
                 {listUrl &&
-                    <Link href={listUrl} className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block">
+                    <Link href={listUrl} className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 md:block">
                         Shop the collection
                         <span aria-hidden="true"> &rarr;</span>
                     </Link>
@@ -56,7 +56,7 @@ export default async function ProductList({ product, brandOnly, listUrl, listNam
             </div>
 
             <div className="mt-8 text-sm md:hidden">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="#" className="font-medium text-gray-900 hover:text-gray-700">
                     Shop the collection
                     <span aria-hidden="true"> &rarr;</span>
                 </a>

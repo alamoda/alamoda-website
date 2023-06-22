@@ -75,18 +75,24 @@ export default function ProductImageGallery({ product }: ProductImageGalleryProp
                             {product?.images.map((image: string, imageIdx: number) => (
                                 <Tab
                                     key={imageIdx}
-                                    className="relative flex aspect-h-13 aspect-w-10 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                                    className="relative flex aspect-h-13 aspect-w-10 cursor-pointer items-center justify-center bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none"
                                 >
                                     {({ selected }) => (
                                         <>
                                             <span className="sr-only">{product.name}</span>
-                                            <span className="absolute inset-0 overflow-hidden rounded-md">
-                                                <img src={image} alt="" className="h-full w-full object-cover object-center" />
+                                            <span className="absolute inset-0 overflow-hidden">
+                                                <Image 
+                                                src={image} 
+                                                alt="" 
+                                                className="h-full w-full object-cover object-center" 
+                                                width={1000}
+                                                height={1000}
+                                                />
                                             </span>
                                             <span
                                                 className={classNames(
-                                                    selected ? 'ring-gray-900' : 'ring-transparent',
-                                                    'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
+                                                    selected ? 'shadow-lg' : '',
+                                                    'pointer-events-none absolute inset-0 rounded-md'
                                                 )}
                                                 aria-hidden="true"
                                             />
@@ -107,7 +113,7 @@ export default function ProductImageGallery({ product }: ProductImageGalleryProp
                                     alt={product.description || product.mongo_id}
                                     width={1000}
                                     height={1333}
-                                    className="h-full w-full object-cover object-center sm:rounded-lg"
+                                    className="h-full w-full object-cover object-center"
                                 />
                             </Tab.Panel>
                         ))}

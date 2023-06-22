@@ -14,7 +14,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function SizeSelector({ product }: SizeSelectorProps) {
+export default function CheckoutButton({ product }: SizeSelectorProps) {
     const [selectedSize, setSelectedSize] = useState<Size | null>(null);
     const [showError, setShowError] = useState(false);
     const { addProduct } = useContext(CartContext);
@@ -32,9 +32,9 @@ export default function SizeSelector({ product }: SizeSelectorProps) {
     }
 
     return (
-        <div className="mt-8">
+        <>
             <div className="flex items-center justify-between">
-                <h2 className="text-sm font-medium text-gray-900">Size</h2>
+                <h2 className="text-sm text-gray-900">Size</h2>
             </div>
 
             <RadioGroup
@@ -42,6 +42,9 @@ export default function SizeSelector({ product }: SizeSelectorProps) {
                 onChange={(size: Size) => {
                     setSelectedSize(size);
                     setShowError(false);
+                }}
+                onBlur={() => {
+                    setSelectedSize(null);
                 }}
                 className="mt-2">
                 <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
@@ -55,8 +58,8 @@ export default function SizeSelector({ product }: SizeSelectorProps) {
                                     checked
                                         ? 'border-transparent bg-gray-900 text-white hover:bg-gray-800'
                                         : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
-                                    'cursor-pointer focus:outline-none flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
-                                )
+                                    'cursor-pointer focus:outline-none flex items-center justify-center border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
+                                )                            
                             }
                         >
                             <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
@@ -67,7 +70,7 @@ export default function SizeSelector({ product }: SizeSelectorProps) {
 
             <button
                 onClick={handleAddToCart}
-                className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-3 text-base font-medium text-white hover:bg-gray-800"
+                className="mt-4 flex w-full items-center justify-center border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800"
             >
                 Add to cart
             </button>
@@ -77,6 +80,6 @@ export default function SizeSelector({ product }: SizeSelectorProps) {
                     You need to select a size first
                 </p>
             }
-        </div>
+        </>
     )
 }

@@ -2,9 +2,9 @@ import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@her
 import { Route } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import ProductList from '@/app/(components)/ProductList'
-import SizeSelector from '@/app/(components)/SizeSelector'
 import ProductImageGallery from '@/app/(components)/ProductImageGallery'
 import ProductFeatures from '@/app/(components)/ProductFeatures'
+import CheckoutButton from '@/app/(components)/CheckoutButton'
 
 
 const policies = [
@@ -64,15 +64,15 @@ export default async function Page({ params }: { params: { product_id: string } 
             {/* Main Container */}
             <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
 
-              {/* Title */}
-              <div className="lg:col-span-5 lg:col-start-8">
-                <div className="flex justify-between">
-                  <h1 className="text-xl font-medium text-gray-900">
-                    <span className="capitalize">{product?.name}</span> by <span className="capitalize">{product?.brand.name.toLowerCase()}</span>
-                  </h1>
-                  <p className="text-xl font-medium text-red-700">
-                    <span className="text-gray-600 line-through mr-2">${product ? Math.round(product.price * 1.6) : 0}</span>${product ? Math.round(product.price) : 0}
-                  </p>
+              <div>
+                {/* Title and Brand */}
+                <div className='text-gray-900 capitalize'>
+                  <h1 className="text-4xl ">{product?.brand.name.toLowerCase()}</h1>
+                  <h2 className="text-sm text-mediummt-2">{product?.name}</h2>
+                </div>
+                {/* Price */}
+                <div className="text-2xl text-red-700 mt-4">
+                  <span className="text-gray-900 line-through mr-2">${product ? Math.round(product.price * 1.6) : 0}</span>${product ? Math.round(product.price) : 0}
                 </div>
               </div>
 
@@ -83,14 +83,14 @@ export default async function Page({ params }: { params: { product_id: string } 
               <div className="mt-8 lg:col-span-5">
 
                 {/* Sizes and Add to Cart */}
-                <SizeSelector product={product} />
+                <CheckoutButton product={product} />
 
                 {/* Product details */}
                 {product?.description &&
                   <div className="mt-10">
                     <h2 className="text-sm font-medium text-gray-900">Description</h2>
                     <div
-                      className="prose prose-sm mt-4 text-gray-500">
+                      className="text-sm mt-2 text-gray-800">
                       {product?.description.replace("&amp;", "&")}
                     </div>
                   </div>
@@ -100,14 +100,14 @@ export default async function Page({ params }: { params: { product_id: string } 
                 <ProductFeatures product={product} />
 
                 {/* Policies */}
-                <section aria-labelledby="policies-heading" className="mt-10">
+                <section aria-labelledby="policies-heading" className="mt-8">
                   <h2 id="policies-heading" className="sr-only">
                     Our Policies
                   </h2>
 
                   <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {policies.map((policy) => (
-                      <div key={policy.name} className="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center">
+                      <div key={policy.name} className="border border-gray-200 bg-gray-50 p-6 text-center">
                         <dt>
                           <policy.icon className="mx-auto h-6 w-6 flex-shrink-0 text-gray-400" aria-hidden="true" />
                           <span className="mt-4 text-sm font-medium text-gray-900">{policy.name}</span>
@@ -141,15 +141,15 @@ export default async function Page({ params }: { params: { product_id: string } 
               <ProductList
                 listTitle={`More from ${product?.brand.name.toLowerCase()}`}
                 filterParams={new URLSearchParams({
-                    brands: product?.brand.slug,
-                    exclude: product?.mongo_id
+                  brands: product?.brand.slug,
+                  exclude: product?.mongo_id
                 })}
                 listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
               />
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
 
   )

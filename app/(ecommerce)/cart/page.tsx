@@ -35,7 +35,7 @@ export default function Page() {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">Shopping Cart</h1>
+        <h1 className="text-4xl tracking-tight text-gray-900 capitalize">Shopping Cart</h1>
         {cartProducts.length == 0 &&
           <div className='pt-8 text-sm'>
             <div>
@@ -101,7 +101,7 @@ export default function Page() {
                           <select
                             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateQuantity(index, Number(e.target.value))}
                             value={cartProduct.quantity}
-                            className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm sm:text-sm"
+                            className="max-w-full border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm sm:text-sm"
                           >
                             {Array.from({ length: Number(cartProduct.size.quantity) }, (_, index) => (
                               <option key={index} value={index + 1}>{index + 1}</option>
@@ -135,9 +135,9 @@ export default function Page() {
             {/* Order summary */}
             <section
               aria-labelledby="summary-heading"
-              className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+              className="mt-16 bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
             >
-              <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+              <h2 id="summary-heading" className="font-medium text-gray-900">
                 Order summary
               </h2>
 
@@ -149,38 +149,37 @@ export default function Page() {
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                   <dt className="flex items-center text-sm text-gray-600">
                     <span>Shipping</span>
-                    <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                    {/* <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                       <span className="sr-only">Learn more about how shipping is calculated</span>
                       <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
-                    </a>
+                    </a> */}
                   </dt>
                   <dd className="text-sm font-medium text-gray-900">$30</dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                   <dt className="flex text-sm text-gray-600">
                     <span>Tax estimate</span>
-                    <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                    {/* <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                       <span className="sr-only">Learn more about how tax is calculated</span>
                       <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
-                    </a>
+                    </a> */}
                   </dt>
                   <dd className="text-sm font-medium text-gray-900">$0</dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                  <dt className="text-base font-medium text-gray-900">Order total</dt>
+                  <dt className="text-sm font-medium text-gray-900">Order total</dt>
                   <dd className="text-base font-medium text-gray-900">${cartPrice + 30}</dd>
                 </div>
               </dl>
 
               <div className="mt-6">
-                <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+                <h2 id="summary-heading" className="font-medium text-gray-900 mb-4">
                   Order information
                 </h2>
                 <PrimaryInput
                   value={email}
-                  label="Email"
                   name="email"
-                  placeholder='email'
+                  placeholder='Email'
                   onChangeMethod={
                     (e: React.ChangeEvent<HTMLInputElement>) => {
                       setEmail(e.target.value);
@@ -195,11 +194,11 @@ export default function Page() {
                 }
                 <button
                   onClick={goToPayment}
-                  className="w-full mt-4 rounded-md border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
+                  className="w-full mt-4 border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
                 >
                   Checkout
                 </button>
-                <div className="mt-2">
+                <div className="mt-4">
                   <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
                     Continue Shopping
                     <span aria-hidden="true"> &rarr;</span>

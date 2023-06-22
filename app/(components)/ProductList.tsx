@@ -1,6 +1,5 @@
 
 import { Product } from "../(types)"
-import Image from 'next/image';
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 
@@ -17,7 +16,7 @@ export default function ProductList({ listUrl, listName, products }: ComponentPr
             <div className="md:flex md:items-center md:justify-between">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900 capitalize">{listName}</h2>
                 {listUrl &&
-                    <Link href={listUrl} className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block">
+                    <Link href={listUrl} className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 md:block">
                         Shop the collection
                         <span aria-hidden="true"> &rarr;</span>
                     </Link>
@@ -31,7 +30,7 @@ export default function ProductList({ listUrl, listName, products }: ComponentPr
             </div>
 
             <div className="mt-8 text-sm md:hidden">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="#" className="font-medium text-gray-900 hover:text-gray-700">
                     Shop the collection
                     <span aria-hidden="true"> &rarr;</span>
                 </a>

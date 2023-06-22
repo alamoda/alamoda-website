@@ -261,7 +261,7 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
                                                                             type="checkbox"
                                                                             readOnly
                                                                             checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
-                                                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-${sub.slug}`}
@@ -393,7 +393,7 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
                                                                 <input
                                                                     id="search"
                                                                     name="search"
-                                                                    className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                                    className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
                                                                     placeholder="Search"
                                                                     type="search"
                                                                     autoComplete="false"
@@ -410,14 +410,14 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
                                                             .map((brand: Brand) => (
                                                                 <div key={brand.mongo_id} className="flex items-center truncate">
                                                                     <Link
-                                                                        href={getBrandUrl(brand)}>
+                                                                        href={getBrandUrl(brand)} className="p-1">
                                                                         <input
                                                                             name={`${brand.mongo_id}[]`}
                                                                             defaultValue={brand.slug}
                                                                             type="checkbox"
                                                                             readOnly
                                                                             checked={activeFilters.brands?.some((b: Brand) => b.slug === brand.slug)}
-                                                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-${brand.slug}`}
@@ -516,7 +516,7 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
                                                                         type="checkbox"
                                                                         readOnly
                                                                         checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                        className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                     />
                                                                     <label
                                                                         htmlFor={`filter-${sub.slug}`}

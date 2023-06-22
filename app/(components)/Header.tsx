@@ -121,7 +121,7 @@ export default function Header() {
                           key={department.mongo_id}
                           className={({ selected }) =>
                             classNames(
-                              selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
+                              selected ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-700',
                               'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
                             )
                           }
@@ -210,7 +210,7 @@ export default function Header() {
                       <span className="sr-only">Alamoda Inc</span>
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=900"
                         alt=""
                       />
                     </Link>
@@ -231,10 +231,10 @@ export default function Header() {
                                   <Popover.Button
                                     className={classNames(
                                       isShowing[departmentIdx]
-                                        ? 'hover:text-indigo-600'
+                                        ? 'hover:text-gray-900'
                                         : 'text-gray-700 hover:text-gray-800',
                                       params.department && params.department === department.slug
-                                        ? "border-indigo-600"
+                                        ? "border-gray-900"
                                         : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                     )}
@@ -339,7 +339,7 @@ export default function Header() {
                   <Link href="/" className="lg:hidden">
                     <span className="sr-only">Alamoda Inc</span>
                     <img
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                      src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=900"
                       alt=""
                       className="h-8 w-auto"
                     />

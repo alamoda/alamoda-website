@@ -227,7 +227,7 @@ export default function Page({ params }: { params: { product_id: string } }) {
                               </span>
                               <span
                                 className={classNames(
-                                  selected ? 'ring-indigo-500' : 'ring-transparent',
+                                  selected ? 'ring-gray-500' : 'ring-transparent',
                                   'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
                                 )}
                                 aria-hidden="true"

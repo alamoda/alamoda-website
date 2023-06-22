@@ -98,11 +98,11 @@ export default async function Shop(
     const breadcrumbs = [
         {
             name: 'Shop',
-            href: 'shop'
+            href: '/shop'
         },
         {
             name: department,
-            href: `shop/${department}`
+            href: `/shop/${department}`
         },
     ];
 
@@ -145,7 +145,7 @@ export default async function Shop(
                     <h2 className="sr-only">Products</h2>
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
                         {products.map((product: any) => (
-                            <ProductCard route={`shop/${department}`} key={product.mongo_id} product={product} />
+                            <ProductCard route={`/shop/${department}/${product.mongo_id}`} key={product.mongo_id} product={product} />
                         ))}
                     </div>
                     {/* PAGINATION */}

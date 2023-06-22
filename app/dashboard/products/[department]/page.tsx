@@ -136,7 +136,7 @@ export default async function Page({
                     <ProductCard
                         key={product.mongo_id}
                         product={product}
-                        route={"dashboard/products/" + department}
+                        route={`/dashboard/products/${department}/${product.mongo_id}`}
                     />
                 ))}
             </div>

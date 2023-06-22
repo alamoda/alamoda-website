@@ -14,7 +14,7 @@ const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
   const [image, setImage] = useState(product.images[0]);
 
   return (
-    <Link key={product.mongo_id} href={route + '/' + product.mongo_id} className="group flex flex-col justify-end">
+    <Link key={product.mongo_id} href={route} className="group flex flex-col justify-end">
       <div className="flex flex-col justify-center items-center">
         <div className="aspect-h-13 aspect-w-10 w-full overflow-hidden">
           <Image

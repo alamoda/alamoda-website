@@ -33,7 +33,7 @@ export default async function ProductList({ filterParams, listUrl, listTitle }: 
     return (
         <div>
             <div className="md:flex md:items-center md:justify-between">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 capitalize">{listTitle}</h2>
+                <h2 className="text-4xl tracking-tight text-gray-900 capitalize">{listTitle}</h2>
                 {listUrl &&
                     <Link href={listUrl} className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 md:block">
                         Shop the collection

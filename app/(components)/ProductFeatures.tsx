@@ -35,19 +35,19 @@ export default function ProductFeatures({ product }: ProductFeaturesProps) {
                                         <span className="ml-6 flex items-center">
                                             {open ? (
                                                 <MinusIcon
-                                                    className="block h-6 w-6 text-gray-900 group-hover:text-gray-800"
+                                                    className="block h-5 w-5 text-gray-900 group-hover:text-gray-800"
                                                     aria-hidden="true"
                                                 />
                                             ) : (
                                                 <PlusIcon
-                                                    className="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                                                    className="block h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                     aria-hidden="true"
                                                 />
                                             )}
                                         </span>
                                     </Disclosure.Button>
                                 </h3>
-                                <Disclosure.Panel as="div" className="prose prose-sm pb-6">
+                                <Disclosure.Panel as="div" className="prose prose-sm">
                                     <ul role="list">
                                         {product?.features?.map((feature: Feature) => (
                                             <li key={feature.id_feature}>

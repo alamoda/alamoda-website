@@ -208,21 +208,14 @@ export default function Header() {
                   <div className="hidden lg:flex lg:items-center">
                     <Link href="/">
                       <span className="sr-only">Alamoda Inc</span>
-<<<<<<< HEAD
-                      <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=900"
-                        alt=""
-=======
                       <Image
                         src="/logo.png"
                         width={75}
                         height={75}
                         alt="alamoda logo"
->>>>>>> f54f51356301cf8cba0d60d0476fd70dd8da314b
                       />
-                    </Link>
-                  </div>
+                    </Link >
+                  </div >
 
                   <div className="hidden h-full lg:flex">
                     {/* Mega menus */}
@@ -346,20 +339,13 @@ export default function Header() {
                   {/* Logo (lg-) */}
                   <Link href="/" className="lg:hidden">
                     <span className="sr-only">Alamoda Inc</span>
-<<<<<<< HEAD
-                    <img
-                      src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=900"
-                      alt=""
-                      className="h-8 w-auto"
-=======
                     <Image
                       src="/logo.png"
                       width={100}
                       height={100}
                       alt="alamoda logo"
->>>>>>> f54f51356301cf8cba0d60d0476fd70dd8da314b
                     />
-                  </Link>
+                  </Link >
 
                   <div className="flex flex-1 items-center justify-end">
                     <div className="flex items-center lg:ml-8">
@@ -393,10 +379,10 @@ export default function Header() {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                </div >
+              </div >
+            </div >
+          </div >
         </nav >
       </header >
     </div >

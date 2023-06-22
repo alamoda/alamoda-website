@@ -36,8 +36,8 @@ export default async function CollectionPreview() {
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <div className="sm:flex sm:items-baseline sm:justify-between">
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">{collectionName}</h2>
-                    <a href="/shop" className="hidden text-sm font-semibold text-gray-900 hover:text-gray-700 sm:block">
+                    <h2 className="text-4xl tracking-tight text-gray-900">{collectionName}</h2>
+                    <a href="/shop" className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 sm:block">
                         Browse {collectionName}
                         <span aria-hidden="true"> &rarr;</span>
                     </a>

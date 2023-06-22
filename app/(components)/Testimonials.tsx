@@ -1,4 +1,5 @@
 import Script from 'next/script';
+import Image from 'next/image';
 
 const featuredTestimonial = {
     body: 'Integer id nunc sit semper purus. Bibendum at lacus ut arcu blandit montes vitae auctor libero. Hac condimentum dignissim nibh vulputate ut nunc. Amet nibh orci mi venenatis blandit vel et proin. Non hendrerit in vel ac diam.',
@@ -73,8 +74,8 @@ export default function Testimonials() {
         <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-xl text-center">
-                    <h2 className="text-lg font-semibold leading-8 tracking-tight text-gray-600">Testimonials</h2>
-                    <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <h2 className="text-lg leading-8 tracking-tight text-gray-600">Testimonials</h2>
+                    <p className="mt-2 text-4xl tracking-tight text-gray-900 sm:text-4xl">
                         Shared by Our Clients
                     </p>
 
@@ -95,10 +96,12 @@ export default function Testimonials() {
                             <p>{`“${featuredTestimonial.body}”`}</p>
                         </blockquote>
                         <figcaption className="flex items-center gap-x-4 border-t border-gray-900/10 px-6 py-4">
-                            <img
+                            <Image
                                 className="h-10 w-10 flex-none rounded-full bg-gray-50"
                                 src={featuredTestimonial.author.imageUrl}
                                 alt=""
+                                width={1000}
+                                height={1000}
                             />
                             <div className="flex-auto">
                                 <div className="font-semibold">{featuredTestimonial.author.name}</div>
@@ -128,7 +131,13 @@ export default function Testimonials() {
                                                 <p>{`“${testimonial.body}”`}</p>
                                             </blockquote>
                                             <figcaption className="mt-6 flex items-center gap-x-4">
-                                                <img className="h-10 w-10 rounded-full bg-gray-50" src={testimonial.author.imageUrl} alt="" />
+                                                <Image 
+                                                className="h-10 w-10 rounded-full bg-gray-50" 
+                                                src={testimonial.author.imageUrl} 
+                                                alt="" 
+                                                width={1000}
+                                                height={1000}
+                                                />
                                                 <div>
                                                     <div className="font-semibold">{testimonial.author.name}</div>
                                                     <div className="text-gray-600">{`@${testimonial.author.handle}`}</div>

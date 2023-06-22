@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const incentives = [
     {
       name: 'Free shipping',
@@ -24,20 +26,22 @@ export default function Incentives() {
           <div className="mx-auto max-w-2xl px-4 lg:max-w-none">
             <div className="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-2">
               <div>
-                <h2 className="text-4xl font-bold tracking-tight text-gray-900">
+                <h2 className="text-4xl tracking-tight text-gray-900">
                   We built our business on great customer service
                 </h2>
-                <p className="mt-4 text-gray-500">
+                <p className="mt-4 text-gray-800">
                   At the beginning at least, but then we realized we could make a lot more money if we kinda stopped
                   caring about that. Our new strategy is to write a bunch of things that look really good in the
-                  headlines, then clarify in the small print but hope people don't actually read it.
+                  headlines, then clarify in the small print but hope people don&apos;t actually read it.
                 </p>
               </div>
               <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg bg-gray-100">
-                <img
+                <Image
                   src="/brand-alamoda.jpg"
                   alt="Women clothes on a hanger"
                   className="object-cover object-center"
+                  width={1000}
+                  height={1000}
                 />
               </div>
             </div>
@@ -45,11 +49,17 @@ export default function Incentives() {
               {incentives.map((incentive) => (
                 <div key={incentive.name} className="sm:flex lg:block">
                   <div className="sm:flex-shrink-0">
-                    <img className="h-16 w-16" src={incentive.imageSrc} alt="" />
+                    <Image 
+                    className="h-10 w-10" 
+                    src={incentive.imageSrc} 
+                    alt="" 
+                    width={1000}
+                    height={1000}
+                    />
                   </div>
                   <div className="mt-4 sm:ml-6 sm:mt-0 lg:ml-0 lg:mt-6">
                     <h3 className="text-sm font-medium text-gray-900">{incentive.name}</h3>
-                    <p className="mt-2 text-sm text-gray-500">{incentive.description}</p>
+                    <p className="mt-2 text-sm text-gray-800">{incentive.description}</p>
                   </div>
                 </div>
               ))}

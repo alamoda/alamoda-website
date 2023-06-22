@@ -85,7 +85,6 @@ export default function Page() {
                             <p className="mt-2 text-gray-800 font-semibold">
                                 This translates to a consistent savings of 50 to 60% off US retail prices!
                             </p>
-
                         </div>
                         <div>
                             <div className="mt-10">

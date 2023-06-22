@@ -122,7 +122,7 @@ export default function Header() {
                           className={({ selected }) =>
                             classNames(
                               selected ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-700',
-                              'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
+                              'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-xs font-medium'
                             )
                           }
                         >
@@ -237,7 +237,7 @@ export default function Header() {
                                       params.department && params.department === department.slug
                                         ? "border-gray-900"
                                         : "border-transparent",
-                                      'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
+                                      'relative z-10 -mb-px flex items-center border-b-2 pt-px text-xs font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
                                     <Link className="h-full w-full flex items-center justify-center" onClick={() => onHoverExitMenu(departmentIdx)} href={`/shop/${department.slug}`}>
@@ -259,7 +259,7 @@ export default function Header() {
                                   <Popover.Panel
                                     onMouseEnter={() => onHoverEnterMenu(departmentIdx)}
                                     onMouseLeave={() => onHoverExitMenu(departmentIdx)}
-                                    className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
+                                    className="absolute inset-x-0 top-full text-gray-500 sm:text-xs">
                                     {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                     <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
 
@@ -305,15 +305,15 @@ export default function Header() {
                           </Popover>
                         ))}
 
-                        {navigation.pages.map((page) => (
+                        {/* {navigation.pages.map((page) => (
                           <Link
                             key={page.name}
                             href={page.href}
-                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            className="flex items-center text-xs font-medium text-gray-700 hover:text-gray-800"
                           >
                             {page.name}
                           </Link>
-                        ))}
+                        ))} */}
                       </div>
                     </Popover.Group>
                   </div>
@@ -353,7 +353,7 @@ export default function Header() {
                         <div className="hidden lg:flex">
                           <button onClick={() => setShowSearch(true)} className="-m-2 p-2 text-gray-400 hover:text-gray-500">
                             <span className="sr-only">Search</span>
-                            <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                            <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
                           </button>
                         </div>
 
@@ -370,10 +370,10 @@ export default function Header() {
                       <div className="flow-root">
                         <Link href="/cart" className="group -m-2 flex items-center p-2">
                           <ShoppingCartIcon
-                            className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                            className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                             aria-hidden="true"
                           />
-                          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartProducts.length}</span>
+                          <span className="ml-2 text-xs font-medium text-gray-700 group-hover:text-gray-800">{"(" + cartProducts.length + ")"}</span>
                           <span className="sr-only">items in cart, view bag</span>
                         </Link>
                       </div>

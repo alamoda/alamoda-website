@@ -6,7 +6,7 @@ import Link from "next/link";
 const collectionName = "New Arrivals"
 
 async function getNewArrivals() {
-    const url = new URL(`${process.env.URL}api/products`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_URL}api/products`);
     const params = new URLSearchParams();
 
     params.append("orderBy", PRODUCT_SORT_OPTIONS[0].slug);

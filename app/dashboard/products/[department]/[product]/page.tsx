@@ -24,15 +24,15 @@ export default function Page({
     const breadcrumbs = [
         {
             name: 'Dashboard',
-            href: 'dashboard'
+            href: '/dashboard'
         },
         {
             name: 'Products',
-            href: 'products'
+            href: '/products'
         },
         {
             name: id,
-            href: id
+            href: `/${id}`
         }
     ];
 

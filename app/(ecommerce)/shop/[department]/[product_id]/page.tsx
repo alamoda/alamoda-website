@@ -13,7 +13,7 @@ const policies = [
 ]
 
 async function fetchProduct(productId: string) {
-  const response = await fetch(`${process.env.URL}api/product?id=${productId}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/product?id=${productId}`);
   const product = await response.json();
 
   return product;

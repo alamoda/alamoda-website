@@ -205,13 +205,13 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                 <div className="flex items-center justify-between px-4">
                                     <h2 className="text-lg font-medium text-gray-900">Filters</h2>
                                     {activeFilters.subcategories ? (
-                                        <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                        <span className="ml-1.5 bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                             {activeFilters.subcategories.length}
                                         </span>
                                     ) : null}
                                     <button
                                         type="button"
-                                        className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                                        className="-mr-2 flex h-10 w-10 items-center justify-center bg-white p-2 text-gray-400"
                                         onClick={() => setOpen(false)}
                                     >
                                         <span className="sr-only">Close menu</span>
@@ -287,7 +287,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                                             type="checkbox"
                                                                             readOnly
                                                                             checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
-                                                                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                                                                            className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-${sub.slug}`}
@@ -319,12 +319,14 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
 
                 <div className="border-b border-gray-200 bg-white pb-4">
                     <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
+                        {/* Sort */}
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
-                                <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                <Menu.Button className="group inline-flex items-center justify-center text-xs font-medium text-gray-900 hover:text-gray-700">
                                     Sort
                                     <ChevronDownIcon
-                                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                        className="-mr-1 ml-1 h-4 w-4 flex-shrink-0 text-gray-900 group-hover:text-gray-600"
                                         aria-hidden="true"
                                     />
                                 </Menu.Button>
@@ -339,7 +341,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
                                         {PRODUCT_SORT_OPTIONS.map((sortOption: SortOption) => (
                                             <Menu.Item key={sortOption.slug}>
@@ -349,7 +351,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                         className={classNames(
                                                             sortOption.slug === activeFilters.order?.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                             active ? 'bg-gray-100' : '',
-                                                            'block px-4 py-2 text-sm'
+                                                            'text-xs block px-4 py-2'
                                                         )}
                                                     >
                                                         {sortOption.name}
@@ -362,6 +364,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                             </Transition>
                         </Menu>
 
+                        {/* Mobile open filters */}
                         <button
                             type="button"
                             className="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
@@ -369,7 +372,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                         >
                             Filters
                             {(activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
-                                <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                <span className="ml-1.5 bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                     {activeFilters.subcategories.length}
                                 </span>
                             ) : null}
@@ -383,15 +386,15 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                     {/* Status */}
                                     {admin &&
                                         <Popover className="relative inline-block px-4 text-left">
-                                            <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                            <Popover.Button className="group inline-flex items-center justify-center text-xs font-medium text-gray-900 hover:text-gray-600">
                                                 <span className="capitalize">Statuses</span>
                                                 {(currentStatuses && currentStatuses.length > 0) ? (
-                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                    <span className="ml-1.5 bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                                         {currentStatuses.length}
                                                     </span>
                                                 ) : null}
                                                 <ChevronDownIcon
-                                                    className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                    className="-mr-1 ml-1 h-4 w-4 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                     aria-hidden="true"
                                                 />
                                             </Popover.Button>
@@ -406,7 +409,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
 
-                                                <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <form className="space-y-4">
                                                         {statuses.map((status: string) => (
                                                             <div key={status} className="flex items-center whitespace-nowrap">
@@ -418,11 +421,11 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                                         type="checkbox"
                                                                         readOnly
                                                                         checked={currentStatuses?.some((s: string) => s === status)}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                                                                        className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                     />
                                                                     <label
                                                                         htmlFor={`filter-${status}`}
-                                                                        className="ml-3 pr-6 text-sm font-medium text-gray-900 capitalize"
+                                                                        className="ml-3 pr-6 text-xs text-gray-900 capitalize"
                                                                     >
                                                                         {status}
                                                                     </label>
@@ -437,15 +440,15 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
 
                                     {/* Brands */}
                                     <Popover className="relative inline-block px-4 text-left">
-                                        <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                        <Popover.Button className="group inline-flex items-center justify-center text-xs font-medium text-gray-900 hover:text-gray-600">
                                             <span className="capitalize">Brands</span>
                                             {(activeFilters.brands && activeFilters.brands.length > 0) ? (
-                                                <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                <span className="ml-1.5 bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                                     {activeFilters.brands.length}
                                                 </span>
                                             ) : null}
                                             <ChevronDownIcon
-                                                className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                className="-mr-1 ml-1 h-4 w-4 flex-shrink-0 text-gray-900 group-hover:text-gray-600"
                                                 aria-hidden="true"
                                             />
                                         </Popover.Button>
@@ -460,7 +463,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                             leaveTo="transform opacity-0 scale-95"
                                         >
 
-                                            <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <form className="space-y-4 w-48">
 
                                                     <div className="relative flex flex-1 items-center justify-center">
@@ -475,7 +478,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                                 <input
                                                                     id="search"
                                                                     name="search"
-                                                                    className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
+                                                                    className="block w-full border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
                                                                     placeholder="Search"
                                                                     type="search"
                                                                     autoComplete="false"
@@ -486,7 +489,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                         </div>
                                                     </div>
                                                     <hr />
-                                                    <div className="overflow-y-auto h-64 space-y-1">
+                                                    <div className="overflow-y-auto h-64">
                                                         {currentBrands
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (
@@ -499,7 +502,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                                             type="checkbox"
                                                                             readOnly
                                                                             checked={activeFilters.brands?.some((b: Brand) => b.slug === brand.slug)}
-                                                                            className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                                                                            className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-${brand.slug}`}
@@ -520,10 +523,10 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                     {/* Category */}
                                     <Menu as="div" className="relative inline-block text-left px-4">
                                         <div>
-                                            <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                            <Menu.Button className="group inline-flex items-center justify-center text-xs font-medium text-gray-900 hover:text-gray-600">
                                                 Category
                                                 <ChevronDownIcon
-                                                    className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                    className="-mr-1 ml-1 h-4 w-4 flex-shrink-0 text-gray-900 group-hover:text-gray-600"
                                                     aria-hidden="true"
                                                 />
                                             </Menu.Button>
@@ -538,7 +541,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
                                                     {currentDepartment.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
                                                         <Menu.Item key={cat.mongo_id}>
@@ -547,7 +550,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                                     className={classNames(
                                                                         activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
-                                                                        'block px-4 py-2 text-sm cursor-pointer capitalize'
+                                                                        'block px-4 py-2 text-xs cursor-pointer capitalize'
                                                                     )}
                                                                 >
                                                                     {cat.name}
@@ -563,15 +566,15 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                     {/* Subcategory */}
                                     {activeFilters.category &&
                                         <Popover className="relative inline-block px-4 text-left">
-                                            <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                            <Popover.Button className="group inline-flex items-center justify-center text-xs font-medium text-gray-900 hover:text-gray-600">
                                                 <span className="capitalize">{activeFilters.category.name}</span>
                                                 {(activeFilters.subcategories && activeFilters.subcategories.length > 0) ? (
-                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                    <span className="ml-1.5 bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
                                                         {activeFilters.subcategories.length}
                                                     </span>
                                                 ) : null}
                                                 <ChevronDownIcon
-                                                    className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                    className="-mr-1 ml-1 h-4 w-4 flex-shrink-0 text-gray-900 group-hover:text-gray-600"
                                                     aria-hidden="true"
                                                 />
                                             </Popover.Button>
@@ -586,8 +589,8 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
 
-                                                <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                    <form className="space-y-4">
+                                                <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <form className="space-y-1">
                                                         {activeFilters.category.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
                                                             <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
                                                                 <Link
@@ -598,11 +601,11 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                                                         type="checkbox"
                                                                         readOnly
                                                                         checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                                                                        className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                     />
                                                                     <label
                                                                         htmlFor={`filter-${sub.slug}`}
-                                                                        className="ml-3 pr-6 text-sm font-medium text-gray-900 capitalize"
+                                                                        className="ml-3 pr-6 text-xs text-gray-900 capitalize"
                                                                     >
                                                                         {sub.name}
                                                                     </label>
@@ -637,7 +640,7 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
                                     {displayFilters.map((activeFilter: any) => (
                                         <span
                                             key={activeFilter.slug}
-                                            className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
+                                            className="m-1 inline-flex items-center border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-xs font-medium text-gray-900"
                                         >
                                             <span className="capitalize">{activeFilter.name}</span>
                                             <Link

@@ -28,8 +28,8 @@ const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
           />
         </div>
 
-        <div className="mt-1 text-xs font-semibold">{product.brand.name}</div>
-        <div className="mt-1 text-sm">{product.name}</div>
+        <div className="mt-1 text-xs font-semibold text-center">{product.brand.name}</div>
+        <div className="mt-1 text-sm text-center">{product.name}</div>
         <div className="mt-1 text-xs font-medium text-gray-900">{'$ ' + product.price}</div>
       </div>
     </Link>

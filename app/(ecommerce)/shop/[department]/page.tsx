@@ -119,7 +119,7 @@ export default async function Shop(
 
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 capitalize">
+                <h1 className="text-4xl tracking-tight text-gray-900 capitalize">
                     {currentDepartment.name + (currentCategory ? ` - ${currentCategory.name}` : "")}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
@@ -137,7 +137,7 @@ export default async function Shop(
             />
 
             {/* PRODUCTS */}
-            < div className="bg-white" >
+            <div className="bg-white" >
                 <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                     {products.length === 0 &&
                         <div className="mx-auto text-center text-gray-500">No products available yet!</div>

@@ -10,16 +10,22 @@ import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
 
 interface ComponentProps {
     route: string
+    admin: boolean
     currentDepartment: Department
     currentBrands: Brand[]
     activeFilters: ProductFilters
+    currentStatuses?: string[] | undefined
 }
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Filters({ route, currentDepartment, currentBrands, activeFilters }: ComponentProps) {
+const statuses = [
+    "-1", "0", "1", "2"
+]
+
+export default function Filters({ admin, route, currentDepartment, currentBrands, activeFilters, currentStatuses: currentStatuses = ["2"] }: ComponentProps) {
 
     // State
     const [open, setOpen] = useState(false)
@@ -52,6 +58,8 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
         if (newFilters.order) params.append("orderBy", newFilters.order.slug);
 
         if (newFilters.brands) params.append("brands", newFilters.brands.map(brd => brd.slug).join(","));
+
+        if (newFilters.statuses) params.append("statuses", newFilters.statuses.join(","));
 
         url.search = params.toString();
         return url.toString()
@@ -115,6 +123,24 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
             brands: filteredBrands,
         } as ProductFilters);
     };
+
+    const getStatusUrl = (status: string) => {
+        let filteredStatuses: string[] = [];
+        // Remove from URL if filter already included
+
+        if (currentStatuses && currentStatuses.some((s: string) => s === status)) {
+            filteredStatuses = currentStatuses.filter((val: string) => val !== status);
+        }
+        // Otherwise, just add it to the url
+        else {
+            if (currentStatuses && currentStatuses.length > 0) filteredStatuses = [...currentStatuses, status];
+            else filteredStatuses = [status];
+        }
+
+        return buildUrl({
+            statuses: filteredStatuses
+        } as ProductFilters);
+    }
 
     const getRemoveFilterUrl = (filterSlug: string) => {
 
@@ -354,6 +380,62 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
 
                                 <Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
 
+                                    {/* Status */}
+                                    {admin &&
+                                        <Popover className="relative inline-block px-4 text-left">
+                                            <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                                <span className="capitalize">Statuses</span>
+                                                {(currentStatuses && currentStatuses.length > 0) ? (
+                                                    <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                                        {currentStatuses.length}
+                                                    </span>
+                                                ) : null}
+                                                <ChevronDownIcon
+                                                    className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                                    aria-hidden="true"
+                                                />
+                                            </Popover.Button>
+
+                                            <Transition
+                                                as={Fragment}
+                                                enter="transition ease-out duration-100"
+                                                enterFrom="transform opacity-0 scale-95"
+                                                enterTo="transform opacity-100 scale-100"
+                                                leave="transition ease-in duration-75"
+                                                leaveFrom="transform opacity-100 scale-100"
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
+
+                                                <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <form className="space-y-4">
+                                                        {statuses.map((status: string) => (
+                                                            <div key={status} className="flex items-center whitespace-nowrap">
+                                                                <Link
+                                                                    href={getStatusUrl(status)}>
+                                                                    <input
+                                                                        name={status}
+                                                                        defaultValue={status}
+                                                                        type="checkbox"
+                                                                        readOnly
+                                                                        checked={currentStatuses?.some((s: string) => s === status)}
+                                                                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                    />
+                                                                    <label
+                                                                        htmlFor={`filter-${status}`}
+                                                                        className="ml-3 pr-6 text-sm font-medium text-gray-900 capitalize"
+                                                                    >
+                                                                        {status}
+                                                                    </label>
+                                                                </Link>
+                                                            </div>
+                                                        ))}
+                                                    </form>
+                                                </Popover.Panel>
+                                            </Transition>
+                                        </Popover>
+                                    }
+
+                                    {/* Brands */}
                                     <Popover className="relative inline-block px-4 text-left">
                                         <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                             <span className="capitalize">Brands</span>
@@ -539,7 +621,7 @@ export default function Filters({ route, currentDepartment, currentBrands, activ
                 </div>
 
                 {/* Active filters */}
-                {   displayFilters.length > 0 &&
+                {displayFilters.length > 0 &&
                     <div className="bg-gray-100">
                         <div className="mx-auto max-w-7xl px-4 py-3 sm:flex sm:items-center sm:px-6 lg:px-8">
                             <h3 className="text-sm font-medium text-gray-500">

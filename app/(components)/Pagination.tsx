@@ -9,6 +9,7 @@ interface ComponentProps {
   subcategories: string[]
   order: string
   brands: string[]
+  statuses?: string[] | undefined
 }
 
 function classNames(...classes: any) {
@@ -17,7 +18,7 @@ function classNames(...classes: any) {
 
 const productLimit = 60;
 
-export default function Pagination({ productCount, skip, baseUrl, category, subcategories, order, brands }: ComponentProps) {
+export default function Pagination({ productCount, skip, baseUrl, category, subcategories, order, brands, statuses }: ComponentProps) {
 
   const selectedPage = Math.ceil((skip + 60) / 60);
   const pageCount = Math.ceil(productCount / productLimit);
@@ -33,6 +34,8 @@ export default function Pagination({ productCount, skip, baseUrl, category, subc
     if (order) params.append("orderBy", order);
     
     if (brands && brands.length > 0) params.append("brands", brands.join(','));
+
+    if (statuses && statuses.length > 0) params.append("statuses", statuses.join(','));
 
     params.append('skip', updatedSkip.toString());
 

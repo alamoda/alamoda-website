@@ -29,15 +29,15 @@ export async function GET(req: Request) {
     const exclude = getStrParam(url, 'exclude');
 
     const order = getStrParam(url, 'order');
-    const statusMin = getIntParam(url, 'status-min');
     const available = getBoolParam(url, 'available');
 
-
+    const statuses = url.searchParams.get('statuses');
+    
     const filters: object[] = [
         {
-            status: {
-                gte: statusMin ? statusMin : -1
-            }
+            status: statuses ? {
+                in: statuses?.split(',').map(status => Number(status))
+            } : 2
         },
         {
             available: available ? available : false

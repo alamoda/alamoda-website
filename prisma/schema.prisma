@@ -122,13 +122,17 @@ model Subcategory {
 }
 
 model Order {
-  mongo_id   String  @id @default(auto()) @map("_id") @db.ObjectId
-  line_items Json
-  email      String
-  city       String?
-  postalCode String?
-  country    String?
-  paid       Boolean
-  updated_at Float?
-  created_at Float?
+  mongo_id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  cart_products Json
+  amount        Float?
+  name          String?
+  email         String
+  street        String?
+  city          String?
+  state         String?
+  postalCode    String?
+  country       String?
+  paid          Boolean
+  updated_at    DateTime?
+  created_at    DateTime @default(now())
 }

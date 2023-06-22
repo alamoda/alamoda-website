@@ -21,6 +21,7 @@ export function CartContextProvider({
     }, [])
 
     useEffect(() => {
+        console.log("updating local storage")
         localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
     }, [cartProducts])
 
@@ -47,8 +48,12 @@ export function CartContextProvider({
         setCartProducts(updatedProducts);
     }
 
+    const clearCart = () => {
+        setCartProducts([]);
+    }
+
     return (
-        <CartContext.Provider value={{ cartProducts, setCartProducts, addProduct, removeProduct, updateQuantity }}>
+        <CartContext.Provider value={{ cartProducts, setCartProducts, addProduct, removeProduct, updateQuantity, clearCart }}>
             {children}
         </CartContext.Provider>
     )

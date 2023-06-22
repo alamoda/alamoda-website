@@ -4,15 +4,41 @@ import ProductCard from "./ProductCard";
 import Link from "next/link";
 
 interface ComponentProps {
+    product: Product
+    brandOnly: boolean
     listUrl: string
     listName: string
-    products: Product[]
 }
 
-export default function ProductList({ listUrl, listName, products }: ComponentProps) {
+async function fetchProducts(product: Product, brandOnly: boolean) {
+
+    const url = new URL("http://localhost:3000/api/products");
+    const params = new URLSearchParams();
+
+    if (product?.department && !brandOnly) params.append("department", product?.department.slug);
+    if (product?.category && !brandOnly) params.append("category", product?.category.slug);
+    if (product?.subcategory && !brandOnly) params.append("subcategories", product?.subcategory.slug);
+    if (product?.brand && brandOnly) params.append("brands", product?.brand.slug);
+    if (product?.mongo_id) params.append("exclude", product?.mongo_id)
+
+    params.append("limit", "4");
+    params.append("status-min", "1");
+    params.append("available", "true");
+    params.append("order", "new-in");
+
+    url.search = params.toString();
+
+    const response = await fetch(url.toString());
+
+    return (await response.json()).products;
+  };
+
+export default async function ProductList({ product, brandOnly, listUrl, listName }: ComponentProps) {
+
+    const products = await fetchProducts(product, brandOnly);
 
     return (
-        <>
+        <div>
             <div className="md:flex md:items-center md:justify-between">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900 capitalize">{listName}</h2>
                 {listUrl &&
@@ -35,6 +61,6 @@ export default function ProductList({ listUrl, listName, products }: ComponentPr
                     <span aria-hidden="true"> &rarr;</span>
                 </a>
             </div>
-        </>
+        </div>
     )
 }

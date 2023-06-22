@@ -16,7 +16,7 @@ async function getData(department: string | null, category: string | null, subca
     if (brands && brands.length > 0) params.append("brands", brands.join(','));
 
     params.append("limit", "60");
-    params.append("status-min", "1");
+    params.append("status-min", "2");
     params.append("available", "true");
     params.append("skip", String(skip));
     params.append("q", query);
@@ -57,7 +57,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const currentDepartment = await resDepartment.json();
 
-    return { products: products, count: count, availableBrands: availableBrands, currentDepartment: currentDepartment }
+    return { products, count, availableBrands, currentDepartment }
 };
 
 export default async function Shop(
@@ -95,7 +95,7 @@ export default async function Shop(
 
     const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
 
-    const breadcrumb = [
+    const breadcrumbs = [
         {
             name: 'Shop',
             href: 'shop'
@@ -107,14 +107,14 @@ export default async function Shop(
     ];
 
     if (category) {
-        breadcrumb.push({ name: category, href: `shop/${department}?category=${category}` })
+        breadcrumbs.push({ name: category, href: `shop/${department}?category=${category}` })
     }
 
     return (
         <>
             {/* BREADCRUMBS */}
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
-                <Breadcrumb routes={breadcrumb} />
+                <Breadcrumb routes={breadcrumbs} />
             </div>
 
             {/* TITLE */}
@@ -128,8 +128,8 @@ export default async function Shop(
             </div>
 
             {/* FILTERS */}
-
             <Filters
+                admin={false}
                 route='shop'
                 currentDepartment={currentDepartment}
                 currentBrands={availableBrands}

@@ -88,7 +88,7 @@ export type SortOption = {
 }
 
 export type CartProduct = {
-    product: Product, 
+    product: Product,
     size: Size
     quantity: number
 }
@@ -98,4 +98,20 @@ export type ProductFilters = {
     subcategories?: Subcategory[]
     order?: SortOption
     brands?: Brand[]
+    statuses?: string[]
+}
+
+export type Order = {
+    mongo_id: string
+    cart_products: Object[]
+    amount?: number
+    name?: string
+    email: string
+    street?: string
+    city?: string
+    state?: string
+    postalCode?: string
+    country?: string
+    paid: boolean
+    created_at: string
 }

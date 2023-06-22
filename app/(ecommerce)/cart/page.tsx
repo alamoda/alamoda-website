@@ -6,7 +6,7 @@ import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroic
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 export default function Page() {
   const [email, setEmail] = useState<string>('');
@@ -15,10 +15,6 @@ export default function Page() {
   const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
 
   const cartPrice = cartProducts.reduce((sum, cartProduct) => sum + (cartProduct.product.price * cartProduct.quantity), 0);
-
-  useEffect(() => {
-    console.log(cartProducts)
-  }, [cartProducts])
 
   async function goToPayment() {
     if (!email) {
@@ -45,10 +41,11 @@ export default function Page() {
             <div>
               Your shopping cart is currently empty
             </div>
-            <div className="pt-2 underline">
-              <Link href="/">
-                continue shopping
-              </Link>
+            <div className="mt-2">
+              <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+                Continue Shopping
+                <span aria-hidden="true"> &rarr;</span>
+              </a>
             </div>
           </div>
         }
@@ -81,10 +78,17 @@ export default function Page() {
                               </p>
                             </h3>
                           </div>
+                          <div className="flex justify-between mt-1">
+                            <h3 className="text-xs">
+                              <p className="font-semibold text-gray-700 hover:text-gray-800">
+                                {cartProduct.product.brand.name}
+                              </p>
+                            </h3>
+                          </div>
                           <div className="mt-1 flex text-sm">
-                            <p className="text-gray-500">{cartProduct.product.department.name}</p>
+                            <p className="text-gray-900">{cartProduct.product.department.name}</p>
                             {cartProduct.size ? (
-                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{cartProduct.size.name}</p>
+                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-900">{cartProduct.size.name}</p>
                             ) : null}
                           </div>
                           <p className="mt-1 text-sm font-medium text-gray-900">${cartProduct.product.price}</p>
@@ -195,10 +199,11 @@ export default function Page() {
                 >
                   Checkout
                 </button>
-                <div className="pt-2 underline text-sm">
-                  <Link href="/">
-                    continue shopping
-                  </Link>
+                <div className="mt-2">
+                  <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+                    Continue Shopping
+                    <span aria-hidden="true"> &rarr;</span>
+                  </a>
                 </div>
               </div>
             </section>

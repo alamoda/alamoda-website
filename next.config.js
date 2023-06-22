@@ -27,6 +27,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'www.baseblu.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com'
       }
     ],
   },

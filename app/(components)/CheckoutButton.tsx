@@ -43,9 +43,6 @@ export default function CheckoutButton({ product }: SizeSelectorProps) {
                     setSelectedSize(size);
                     setShowError(false);
                 }}
-                onBlur={() => {
-                    setSelectedSize(null);
-                }}
                 className="mt-2">
                 <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                 <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">

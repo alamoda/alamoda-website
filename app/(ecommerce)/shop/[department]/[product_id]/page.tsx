@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: { product_id: string } 
             {/* Main Container */}
             <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
 
-              <div>
+              <div className="w-full lg:col-span-5">
                 {/* Title and Brand */}
                 <div className='text-gray-900 capitalize'>
                   <h1 className="text-4xl ">{product?.brand.name.toLowerCase()}</h1>

@@ -35,7 +35,7 @@ export default function Incentives() {
                   headlines, then clarify in the small print but hope people don&apos;t actually read it.
                 </p>
               </div>
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg bg-gray-100">
+              <div className="aspect-h-2 aspect-w-3 overflow-hidden bg-gray-100">
                 <Image
                   src="/brand-alamoda.jpg"
                   alt="Women clothes on a hanger"

@@ -69,7 +69,7 @@ export default function Faqs() {
                                     <>
                                         <dt>
                                             <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                                                <span className="leading-7">{faq.question}</span>
+                                                <span className="leading-7 text-sm font-medium">{faq.question}</span>
                                                 <span className="ml-6 flex h-7 items-center">
                                                     {open ? (
                                                         <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
@@ -80,7 +80,7 @@ export default function Faqs() {
                                             </Disclosure.Button>
                                         </dt>
                                         <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                                            <p className="text-base leading-7 text-gray-800">{faq.answer}</p>
+                                            <p className="text-sm leading-7 text-gray-800">{faq.answer}</p>
                                         </Disclosure.Panel>
                                     </>
                                 )}

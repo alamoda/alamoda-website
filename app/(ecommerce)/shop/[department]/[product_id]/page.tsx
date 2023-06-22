@@ -1,11 +1,10 @@
 import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import { Feature, Route } from '@/app/(types)'
+import { Route } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import ProductList from '@/app/(components)/ProductList'
 import SizeSelector from '@/app/(components)/SizeSelector'
 import ProductImageGallery from '@/app/(components)/ProductImageGallery'
 import ProductFeatures from '@/app/(components)/ProductFeatures'
-import { Suspense } from 'react'
 
 
 const policies = [
@@ -125,10 +124,14 @@ export default async function Page({ params }: { params: { product_id: string } 
             <div className="pt-16 md:pt-32">
               {/* @ts-expect-error Server Component */}
               <ProductList
-                listName="You might also like"
+                listTitle="You might also like"
+                filterParams={new URLSearchParams({
+                  department: product?.department.slug,
+                  category: product?.category.slug,
+                  subcategory: product?.subcategory ? "&subcategories=" + product?.subcategory.slug : "",
+                  exclude: product?.mongo_id
+                })}
                 listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories=" + product?.subcategory.slug : ""}`}
-                product={product}
-                brandOnly={false}
               />
             </div>
 
@@ -136,10 +139,12 @@ export default async function Page({ params }: { params: { product_id: string } 
             <div className="pt-16 md:pt-32">
               {/* @ts-expect-error Server Component */}
               <ProductList
-                listName={`More from ${product?.brand.name.toLowerCase()}`}
+                listTitle={`More from ${product?.brand.name.toLowerCase()}`}
+                filterParams={new URLSearchParams({
+                    brands: product?.brand.slug,
+                    exclude: product?.mongo_id
+                })}
                 listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
-                product={product}
-                brandOnly={true}
               />
             </div>
           </div>

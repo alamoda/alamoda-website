@@ -85,7 +85,7 @@ export default function ProductImageGallery({ product }: ProductImageGalleryProp
                                             </span>
                                             <span
                                                 className={classNames(
-                                                    selected ? 'ring-indigo-500' : 'ring-transparent',
+                                                    selected ? 'ring-gray-900' : 'ring-transparent',
                                                     'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
                                                 )}
                                                 aria-hidden="true"

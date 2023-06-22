@@ -4,43 +4,36 @@ import ProductCard from "./ProductCard";
 import Link from "next/link";
 
 interface ComponentProps {
-    product: Product
-    brandOnly: boolean
+    filterParams: URLSearchParams
     listUrl: string
-    listName: string
+    listTitle: string
 }
 
-async function fetchProducts(product: Product, brandOnly: boolean) {
+async function fetchProducts(urlParams: URLSearchParams) {
 
     const url = new URL("http://localhost:3000/api/products");
-    const params = new URLSearchParams();
 
-    if (product?.department && !brandOnly) params.append("department", product?.department.slug);
-    if (product?.category && !brandOnly) params.append("category", product?.category.slug);
-    if (product?.subcategory && !brandOnly) params.append("subcategories", product?.subcategory.slug);
-    if (product?.brand && brandOnly) params.append("brands", product?.brand.slug);
-    if (product?.mongo_id) params.append("exclude", product?.mongo_id)
+    if (!urlParams.has("limit")) urlParams.append("limit", "4");
+    if (!urlParams.has("statuses")) urlParams.append("statuses", "2");
+    if (!urlParams.has("available")) urlParams.append("available", "true");
+    if (!urlParams.has("order")) urlParams.append("order", "new-in");
 
-    params.append("limit", "4");
-    params.append("status-min", "1");
-    params.append("available", "true");
-    params.append("order", "new-in");
 
-    url.search = params.toString();
+    url.search = urlParams.toString();
 
     const response = await fetch(url.toString());
 
     return (await response.json()).products;
   };
 
-export default async function ProductList({ product, brandOnly, listUrl, listName }: ComponentProps) {
+export default async function ProductList({ filterParams, listUrl, listTitle }: ComponentProps) {
 
-    const products = await fetchProducts(product, brandOnly);
+    const products = await fetchProducts(filterParams);
 
     return (
         <div>
             <div className="md:flex md:items-center md:justify-between">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 capitalize">{listName}</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 capitalize">{listTitle}</h2>
                 {listUrl &&
                     <Link href={listUrl} className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 md:block">
                         Shop the collection

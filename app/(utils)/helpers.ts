@@ -7,7 +7,7 @@ export function getIntParam(url: URL, name: string) {
     if (isNaN(int)) return null
 
     return int
-}
+};
 
 export function getStrParam(url: URL, name: string) {
     const strParam = url.searchParams.get(name);
@@ -15,7 +15,7 @@ export function getStrParam(url: URL, name: string) {
     if (!strParam) return null
 
     return strParam;
-}
+};
 
 export function getBoolParam(url: URL, name: string) {
     const strParam = url.searchParams.get(name);
@@ -27,4 +27,4 @@ export function getBoolParam(url: URL, name: string) {
     if (strParam.toLowerCase() === "false") return false
 
     return null;
-}
+};

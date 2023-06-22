@@ -94,11 +94,15 @@ export type CartProduct = {
 }
 
 export type ProductFilters = {
+    department?: Department,
     category?: Category,
     subcategories?: Subcategory[]
     order?: SortOption
     brands?: Brand[]
     statuses?: string[]
+    excludes?: string[]
+    limit?: number
+    available?: boolean
 }
 
 export type Order = {

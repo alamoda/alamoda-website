@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { Product, Size } from "../(types)";
 import { useRouter } from "next/navigation";
 import { CartContext } from "@/context/CartContext";
+import { LETTER_SIZE_ORDER } from "../(utils)/constants";
 
 interface SizeSelectorProps {
     product: Product
@@ -29,7 +30,30 @@ export default function CheckoutButton({ product }: SizeSelectorProps) {
         } else if (product && !selectedSize) {
             setShowError(true);
         }
-    }
+    };
+
+
+
+    const reorderSizes = (sizes: Size[]) => {
+        const isNumeric = !isNaN(Number(sizes[0].name));
+
+        if (isNumeric) {
+            return sizes.sort((a, b) => Number(a.name) - Number(b.name));
+        } else {
+
+            return sizes.sort((a, b) => {
+                const indexA = LETTER_SIZE_ORDER.indexOf(a.name.toUpperCase());
+                const indexB = LETTER_SIZE_ORDER.indexOf(b.name.toUpperCase());
+
+                if (indexA === -1) return 1; // Handle unknown sizes at the end
+                if (indexB === -1) return -1;
+
+                return indexA - indexB;
+            });
+        }
+    };
+
+    const sizes = reorderSizes(product.sizes);
 
     return (
         <>
@@ -56,7 +80,7 @@ export default function CheckoutButton({ product }: SizeSelectorProps) {
                                         ? 'border-transparent bg-gray-900 text-white hover:bg-gray-800'
                                         : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
                                     'cursor-pointer focus:outline-none flex items-center justify-center border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
-                                )                            
+                                )
                             }
                         >
                             <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>

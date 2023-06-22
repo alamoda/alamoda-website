@@ -48,7 +48,7 @@ export default function Header() {
     setNavigation({
       departments: res.data.sort((a: Department, b: Department) => a.order - b.order),
       pages: [
-        { name: 'About Alamoda', href: '#' },
+        { name: 'About Alamoda', href: '/about' },
       ]
     });
 

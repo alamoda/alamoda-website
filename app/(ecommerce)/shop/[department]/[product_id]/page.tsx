@@ -13,7 +13,7 @@ const policies = [
 ]
 
 async function fetchProduct(productId: string) {
-  const response = await fetch(`http://localhost:3000/api/product?id=${productId}`);
+  const response = await fetch(`${process.env.MY_URL}api/product?id=${productId}`);
   const product = await response.json();
 
   return product;

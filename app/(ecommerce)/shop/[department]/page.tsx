@@ -7,7 +7,7 @@ import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[]) {
 
-    const url = new URL("http://localhost:3000/api/products");
+    const url = new URL(`${process.env.MY_URL}api/products`);
     const params = new URLSearchParams();
 
     if (department) params.append("department", department);
@@ -35,7 +35,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const { products, count } = await resProducts.json();
 
-    const resBrands = await fetch("http://localhost:3000/api/brands", {
+    const resBrands = await fetch(`${process.env.MY_URL}api/brands`, {
         cache: 'no-store',
         method: 'GET'
     });
@@ -46,7 +46,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const availableBrands = await resBrands.json();
 
-    const resDepartment = await fetch(`http://localhost:3000/api/departments/${department}`, {
+    const resDepartment = await fetch(`${process.env.MY_URL}api/departments/${department}`, {
         cache: 'no-store',
         method: 'GET'
     });
@@ -93,7 +93,7 @@ export default async function Shop(
         brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
     };
 
-    const baseUrl = `http://localhost:3000/shop${department ? '/' + department : ''}`
+    const baseUrl = `${process.env.MY_URL}shop${department ? '/' + department : ''}`
 
     const breadcrumbs = [
         {

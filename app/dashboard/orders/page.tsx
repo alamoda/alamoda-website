@@ -1,8 +1,8 @@
 import Breadcrumb from "@/app/(components)/Breadcrumb";
-import { CartProduct, Order } from "@/app/(types)";
+import { Order } from "@/app/(types)";
 
 async function getOrders() {
-    const response = await fetch('http://localhost:3000/api/orders', {
+    const response = await fetch(`${process.env.MY_URL}api/orders`, {
         cache: 'no-store',
         method: 'GET'
     });

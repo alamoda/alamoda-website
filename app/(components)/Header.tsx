@@ -44,7 +44,7 @@ export default function Header() {
   }, []);
 
   async function fetchDepartments() {
-    const res = await axios.get('http://localhost:3000/api/departments?available=true');
+    const res = await axios.get(`${process.env.MY_URL}api/departments?available=true`);
     setNavigation({
       departments: res.data.sort((a: Department, b: Department) => a.order - b.order),
       pages: [

@@ -40,7 +40,7 @@ export default function Page() {
     }
 
     async function fetchOrder(orderId: string) {
-        const response = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+        const response = await fetch(`${process.env.MY_URL}api/order?id=${orderId}`, {
             method: 'GET'
         });
 

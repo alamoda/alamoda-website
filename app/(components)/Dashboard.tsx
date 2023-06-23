@@ -100,7 +100,7 @@ export default function Dashboard({
                                                                     currentTab === item.href
                                                                         ? 'font-extrabold'
                                                                         : 'font-medium hover:font-semibold',
-                                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6'
+                                                                    'group flex gap-x-3 p-2 text-xs leading-6'
                                                                 )}
                                                             >
                                                                 {item.name}
@@ -132,7 +132,7 @@ export default function Dashboard({
                     <nav className="flex flex-1 flex-col">
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
                             <li>
-                                <ul role="list" className="-mx-2 space-y-1">
+                                <ul role="list" className="space-y-4">
                                     {navigation.map((item) => (
                                         <li key={item.name}>
                                             <Link
@@ -141,7 +141,7 @@ export default function Dashboard({
                                                     currentTab === item.href
                                                         ? 'font-extrabold'
                                                         : 'font-medium hover:font-semibold',
-                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6'
+                                                    'group text-xs'
                                                 )}
                                             >
                                                 {item.name}
@@ -176,7 +176,7 @@ export default function Dashboard({
                                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
                                     <span className="sr-only">Open user menu</span>
                                     <span className="hidden lg:flex lg:items-center">
-                                        <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
+                                        <span className="ml-4 text-xs font-semibold leading-6 text-gray-900" aria-hidden="true">
                                             {session?.user?.email}
                                         </span>
                                         <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />

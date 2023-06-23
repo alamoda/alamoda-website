@@ -1,4 +1,5 @@
 import ProductList from '@/app/(components)/ProductList'
+import Link from 'next/link'
 
 const collections = [
     {
@@ -49,7 +50,6 @@ export default function Page() {
 
     return (
         <div className="bg-white">
-
             <main>
                 {/* Hero section */}
                 <div className="relative">
@@ -59,10 +59,10 @@ export default function Page() {
                         </h2>
                         <div className="mx-auto grid max-w-md grid-cols-1 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 sm:px-6 lg:gap-x-8 lg:px-8">
                             <div
-                                className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
+                                className="group relative h-96 bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
                             >
                                 <div>
-                                    <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-lg">
+                                    <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                                         <div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
                                             <img
                                                 src="https://www.baseblu.com/img/cms/home/donna06.jpg"
@@ -72,26 +72,26 @@ export default function Page() {
                                         </div>
                                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50" />
                                     </div>
-                                    <div className="absolute inset-0 flex items-end rounded-lg p-6">
+                                    <div className="absolute inset-0 flex items-end p-6">
                                         <div>
-                                            <p aria-hidden="true" className="text-sm text-white">
+                                            <p aria-hidden="true" className="text-xs text-white">
                                                 Shop the collection
                                             </p>
-                                            <h3 className="mt-1 font-semibold text-white">
-                                                <a href="shop/women">
+                                            <h3 className="mt-1 text-sm font-semibold text-white">
+                                                <Link href="shop/women">
                                                     <span className="absolute inset-0" />
                                                     Women
-                                                </a>
+                                                </Link>
                                             </h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div
-                                className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
+                                className="group relative h-96 bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
                             >
                                 <div>
-                                    <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-lg">
+                                    <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                                         <div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
                                             <img
                                                 src="https://www.baseblu.com/img/cms/home/uomo06.jpg"
@@ -101,26 +101,26 @@ export default function Page() {
                                         </div>
                                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50" />
                                     </div>
-                                    <div className="absolute inset-0 flex items-end rounded-lg p-6">
+                                    <div className="absolute inset-0 flex items-end p-6">
                                         <div>
-                                            <p aria-hidden="true" className="text-sm text-white">
+                                            <p aria-hidden="true" className="text-xs text-white">
                                                 Discover
                                             </p>
-                                            <h3 className="mt-1 font-semibold text-white">
-                                                <a href="shop/men">
+                                            <h3 className="mt-1 text-sm font-semibold text-white">
+                                                <Link href="shop/men">
                                                     <span className="absolute inset-0" />
                                                     Men
-                                                </a>
+                                                </Link>
                                             </h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div
-                                className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
+                                className="group relative h-96 bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
                             >
                                 <div>
-                                    <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-lg">
+                                    <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                                         <div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
                                             <img
                                                 src="https://luxurylivinggroup.com/wp-content/uploads/2021/11/Versace-Home-SuperSalone-2021_22-1.jpg"
@@ -130,16 +130,16 @@ export default function Page() {
                                         </div>
                                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50" />
                                     </div>
-                                    <div className="absolute inset-0 flex items-end rounded-lg p-6">
+                                    <div className="absolute inset-0 flex items-end p-6">
                                         <div>
-                                            <p aria-hidden="true" className="text-sm text-white">
-                                                Shop the collection
+                                            <p aria-hidden="true" className="text-xs text-white">
+                                                Discover the collection
                                             </p>
-                                            <h3 className="mt-1 font-semibold text-white">
-                                                <a href="shop/lifestyle">
+                                            <h3 className="mt-1 text-sm font-semibold text-white">
+                                                <Link href="shop/lifestyle">
                                                     <span className="absolute inset-0" />
                                                     Lifestyle
-                                                </a>
+                                                </Link>
                                             </h3>
                                         </div>
                                     </div>
@@ -209,19 +209,19 @@ export default function Page() {
                         className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pt-32 text-center sm:px-6 lg:px-8"
                     >
                         <div className="mx-auto max-w-2xl lg:max-w-none">
-                            <h2 id="sale-heading" className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-                                Get 25% off during our one-time sale
+                            <h2 id="sale-heading" className="text-4xl tracking-tight lg:text-6xl text-gray-900">
+                                Get 25% off during Pride Month
                             </h2>
-                            <p className="mx-auto mt-4 max-w-xl text-xl text-gray-600">
+                            <p className="mx-auto mt-4 max-w-xl text-gray-600">
                                 Most of our products are limited releases that won't come back. Get your favorite items while they're in
                                 stock.
                             </p>
-                            <a
-                                href="#"
-                                className="mt-6 inline-block w-full rounded-md border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800 sm:w-auto"
+                            <Link
+                                href="/shop"
+                                className="mt-6 inline-block w-full border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800 sm:w-auto"
                             >
                                 Get access to our one-time sale
-                            </a>
+                            </Link>
                         </div>
                     </section>
 
@@ -231,7 +231,7 @@ export default function Page() {
                         className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
                     >
                         <div className="mx-auto max-w-2xl lg:max-w-none">
-                            <h2 id="testimonial-heading" className="text-2xl font-bold tracking-tight text-gray-900">
+                            <h2 id="testimonial-heading" className="text-4xl tracking-tight text-gray-900">
                                 What are people saying?
                             </h2>
 
@@ -239,8 +239,8 @@ export default function Page() {
                                 {testimonials.map((testimonial) => (
                                     <blockquote key={testimonial.id} className="sm:flex lg:block">
                                         <svg
-                                            width={24}
-                                            height={18}
+                                            width={20}
+                                            height={14}
                                             viewBox="0 0 24 18"
                                             aria-hidden="true"
                                             className="flex-shrink-0 text-gray-300"
@@ -251,8 +251,8 @@ export default function Page() {
                                             />
                                         </svg>
                                         <div className="mt-8 sm:ml-6 sm:mt-0 lg:ml-0 lg:mt-10">
-                                            <p className="text-lg text-gray-600">{testimonial.quote}</p>
-                                            <cite className="mt-4 block font-semibold not-italic text-gray-900">
+                                            <p className="text-gray-600">{testimonial.quote}</p>
+                                            <cite className="mt-4 block text-sm font-semibold not-italic text-gray-900">
                                                 {testimonial.attribution}
                                             </cite>
                                         </div>

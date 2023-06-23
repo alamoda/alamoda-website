@@ -15,7 +15,8 @@ async function getFeed() {
 
 export default async function InstagramFeed() {
 
-    const feed = await getFeed();
+    // const feed = [] await getFeed();
+    const feed = {data: []};
 
     return (
         <div className="bg-white">

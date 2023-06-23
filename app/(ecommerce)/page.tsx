@@ -20,10 +20,10 @@ export default async function Home() {
       <CollectionPreview />
       <Testimonials />
       <Incentives />
+      <Newsletter />
       <Faqs />
       {/* @ts-expect-error Server Component */}
       <InstagramFeed />
-      <Newsletter title="Want an extra 10%?" description='Subscribe to our newsletter' />
     </div>
   )
 }

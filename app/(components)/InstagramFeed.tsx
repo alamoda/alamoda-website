@@ -27,7 +27,7 @@ export default async function InstagramFeed() {
                 <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                     {feed.data.map((post: any) => (
                         <a href={post.permalink} target="_blank">
-                            <div key={post.id} className="group relative">
+                            <div key={post.permalink} className="group relative">
                                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                     <img
                                         src={post.media_url}

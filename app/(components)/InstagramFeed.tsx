@@ -47,7 +47,7 @@ export default async function InstagramFeed() {
                                     </svg>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

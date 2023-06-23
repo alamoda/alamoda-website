@@ -30,7 +30,7 @@ export default function Hero() {
                         while they are still in stock.
                     </p>
                     <a
-                        href="#"
+                        href="/shop"
                         className="mt-8 inline-block border border-transparent bg-white px-8 py-3 font-medium text-gray-900 hover:bg-gray-100"
                     >
                         Shop New Arrivals

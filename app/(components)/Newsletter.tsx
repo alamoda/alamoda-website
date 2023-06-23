@@ -25,7 +25,7 @@ export default function Newsletter() {
                     </p>
 
                     <div className="flex justify-center items-center mx-auto py-8">
-                        <fieldset className="mt-4">
+                        <fieldset>
                             <legend className="sr-only">Notification method</legend>
                             <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
                                 {newsletterDepartments.map((dept) => (
@@ -39,61 +39,13 @@ export default function Newsletter() {
                                             className="h-4 w-4 border-gray-300 text-gray-200 focus:ring-gray-200"
                                             onChange={()=>setCurrentDepartment(dept.id)}
                                         />
-                                        <label htmlFor={dept.id} className="ml-3 block text-sm font-medium leading-6 text-white">
+                                        <label htmlFor={dept.id} className="ml-3 block text-sm font-medium leading-6 text-gray-200">
                                             {dept.title}
                                         </label>
                                     </div>
                                 ))}
                             </div>
                         </fieldset>
-
-
-                        {/* <div className="sm:hidden">
-                            <label htmlFor="tabs" className="sr-only">
-                                Select a tab
-                            </label>
-                            <select
-                                id="tabs"
-                                name="tabs"
-                                className="block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                defaultValue={"both"}
-                            >
-                                <option>Women</option>
-                                <option>Men</option>
-                                <option>Both</option>
-                            </select>
-                        </div>
-                        <div className="hidden sm:block">
-                            <nav className="flex space-x-4" aria-label="Tabs">
-                                <div
-                                    onClick={() => setCurrentDepartment("women")}
-                                    className={classNames(
-                                        currentDepartment === "women" ? 'bg-gray-200 text-gray-900' : 'text-gray-300 hover:text-gray-500',
-                                        'cursor-pointer px-3 py-2 text-sm font-medium'
-                                    )}
-                                >
-                                    Women
-                                </div>
-                                <div
-                                    onClick={() => setCurrentDepartment("men")}
-                                    className={classNames(
-                                        currentDepartment === "men" ? 'bg-gray-200 text-gray-900' : 'text-gray-300 hover:text-gray-500',
-                                        'cursor-pointer px-3 py-2 text-sm font-medium'
-                                    )}
-                                >
-                                    Men
-                                </div>
-                                <div
-                                    onClick={() => setCurrentDepartment("both")}
-                                    className={classNames(
-                                        currentDepartment === "both" ? 'bg-gray-200 text-gray-900' : 'text-gray-300 hover:text-gray-500',
-                                        'cursor-pointer px-3 py-2 text-sm font-medium'
-                                    )}
-                                >
-                                    Both
-                                </div>
-                            </nav>
-                        </div> */}
                     </div>
 
                     <form className="mx-auto flex max-w-md gap-x-4">
@@ -117,26 +69,6 @@ export default function Newsletter() {
                         </button>
                     </form>
                     <p className="mx-auto mt-6 max-w-xl text-xs text-center text-gray-600">By signing up you agree with our Terms and Conditions and Privacy Policy.</p>
-                    {/* <svg
-                        viewBox="0 0 1024 1024"
-                        className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2"
-                        aria-hidden="true"
-                    >
-                        <circle cx={512} cy={512} r={512} fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fillOpacity="0.7" />
-                        <defs>
-                            <radialGradient
-                                id="759c1415-0410-454c-8f7c-9a820de03641"
-                                cx={0}
-                                cy={0}
-                                r={1}
-                                gradientUnits="userSpaceOnUse"
-                                gradientTransform="translate(512 512) rotate(90) scale(512)"
-                            >
-                                <stop stopColor="#7775D6" />
-                                <stop offset={1} stopColor="#E935C1" stopOpacity={0} />
-                            </radialGradient>
-                        </defs>
-                    </svg> */}
                 </div>
             </div>
         </div>

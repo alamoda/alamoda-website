@@ -180,7 +180,7 @@ export default function Page() {
                   value={email}
                   name="email"
                   placeholder='Email'
-                  onChangeMethod={
+                  onChange={
                     (e: React.ChangeEvent<HTMLInputElement>) => {
                       setEmail(e.target.value);
                       setEmailError(false);

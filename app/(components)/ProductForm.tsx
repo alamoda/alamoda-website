@@ -12,7 +12,6 @@ import PrimaryInput from "@/app/(components)/PrimaryInput";
 import TextAreaInput from "@/app/(components)/TextAreaInput";
 import Image from 'next/image';
 import PrimarySelect from "./PrimarySelect";
-import { isAnyArrayBuffer } from "util/types";
 
 const ProductForm = ({
     mongo_id = '',
@@ -50,7 +49,6 @@ const ProductForm = ({
 
     const [brands, setBrands] = useState<Option[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
-
 
     const router = useRouter();
 
@@ -176,17 +174,35 @@ const ProductForm = ({
                             </div>
                         ))}
                     </ReactSortable>
-                    <PhotoInput text="Product Images" onChange={uploadImages} />
+                    <PhotoInput onChange={uploadImages} />
                 </div>
             </div>
 
             <div className="flex items-center gap-6 mt-4">
                 {/* NAME */}
-                <PrimaryInput size='w-56' label="Name" placeholder="Name" value={name} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                <PrimaryInput
+                    width='w-56'
+                    label="Name"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                />
                 {/* SKU */}
-                <PrimaryInput size='w-56' label="SKU" placeholder="SKU" value={sku} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)} />
+                <PrimaryInput
+                    width='w-56'
+                    label="SKU"
+                    placeholder="SKU"
+                    value={sku}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSku(e.target.value)}
+                />
                 {/* ID */}
-                <PrimaryInput size='w-56' label="Product ID" placeholder="ID" value={id.toString()} onChangeMethod={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))} />
+                <PrimaryInput
+                    width='w-56'
+                    label="Product ID"
+                    placeholder="ID"
+                    value={id.toString()}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(Number(e.target.value))}
+                />
             </div>
 
             <div className="flex flex-wrap items-center gap-6 mt-4">
@@ -264,9 +280,13 @@ const ProductForm = ({
 
             {/* DESCRIPTION */}
             < div className="flex items-center justify-between mt-4" >
-                <TextAreaInput label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} />
+                <TextAreaInput
+                    label="Description"
+                    value={description}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
+                />
             </div >
-            
+
             {/* FEATURES */}
             {Array.from(features).length > 0 &&
                 <div className="flex flex-wrap gap-6 text-sm mt-4" >
@@ -275,7 +295,7 @@ const ProductForm = ({
                             <div className="font-medium mb-1">
                                 {feature.name}
                             </div>
-                            <div className="border border-gray-300 rounded-lg px-2 py-2 truncate...">
+                            <div className="border border-gray-300 px-2 py-2 truncate...">
                                 {feature.value}
                             </div>
                         </div>
@@ -283,16 +303,28 @@ const ProductForm = ({
                 </div>
             }
 
-            < div className="flex items-center gap-6">
+            <div className="my-4 flex items-center gap-6">
                 {/* PRICE */}
-                <PriceInput name="Price" value={price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))} />
+                <PriceInput
+                    label="Price"
+                    value={price}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value))}
+                />
                 {/* WHOLESALE PRICE */}
-                <PriceInput name="Wholesale Price" value={wholesale_price} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))} />
+                <PriceInput
+                    label="Wholesale Price"
+                    value={wholesale_price}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWholesaleprice(Number(e.target.value))}
+                />
             </div>
 
             <span>
                 {/* SAVE BUTTON */}
-                <PrimaryButton text="Save" onClick={createOrUpdateProduct} />
+                <PrimaryButton
+                    text="Save"
+                    onClick={createOrUpdateProduct}
+                    className="bg-gray-900 text-white hover:bg-gray-800"
+                />
             </span>
         </>
     )

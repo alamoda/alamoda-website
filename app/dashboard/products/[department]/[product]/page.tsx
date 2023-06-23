@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import ProductForm from "@/app/(components)/ProductForm";
-import SecondaryButton from "@/app/(components)/SecondaryButton";
+import PrimaryButton from "@/app/(components)/PrimaryButton";
 
 export default function Page({
     params,
@@ -19,16 +19,14 @@ export default function Page({
     const department = params.department;
     const id = params.product;
 
-    console.log(id);
-
     const breadcrumbs = [
         {
             name: 'Dashboard',
             href: '/dashboard'
         },
         {
-            name: 'Products',
-            href: '/products'
+            name: department,
+            href: `/products/${department}`
         },
         {
             name: id,
@@ -41,14 +39,12 @@ export default function Page({
             return;
         }
         axios.get('/api/product?id=' + id).then(res => {
-            console.log("product is", res.data);
             setProduct(res.data);
         });
     }, [id]);
 
     function deleteProduct() {
         axios.delete('/api/product?id=' + id).then(res => {
-            console.log("prduct deleted");
             router.push('/dashboard/products');
         });
     }
@@ -64,7 +60,11 @@ export default function Page({
                 <>
                     <ProductForm {...product} />
                     <span className="ml-4">
-                        <SecondaryButton text="delete" onClick={deleteProduct} />
+                        <PrimaryButton
+                            text="delete"
+                            onClick={deleteProduct}
+                            className="bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-5"
+                        />
                     </span>
                 </>
                 : null}

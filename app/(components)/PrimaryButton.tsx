@@ -4,15 +4,21 @@ interface PrimaryButton extends React.HTMLAttributes<HTMLButtonElement> {
   text: string
 }
 
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ')
+}
+
 export default function PrimaryButton({ className, text, ...props }: PrimaryButton) {
   return (
     <>
       <button
         type="button"
-        className="my-3 inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        {...props}
+        className={classNames(className,
+          "my-3 inline-flex items-center px-4 py-2 text-sm shadow-sm ")}
       >
         {text}
-      </button>
+      </button >
     </>
   )
 }

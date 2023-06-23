@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 async function getFeed() {
 
     const url = `https://graph.instagram.com/me/media?fields=id,caption,media_url,timestamp,media_type,permalink&limit=5&access_token=${process.env.INSTAGRAM_TOKEN}`
@@ -20,14 +22,14 @@ export default async function InstagramFeed() {
             <div className="mx-auto w-full py-16 sm:py-24">
                 <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                     <div className="sm:flex sm:items-baseline sm:justify-between">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Follow <a className="hover:text-gray-700" href="https://www.instagram.com/alamodainc/">@alamodainc</a></h2>
+                        <h2 className="text-4xl tracking-tight text-gray-900">Follow <a className="hover:text-gray-700" href="https://www.instagram.com/alamodainc/">@alamodainc</a></h2>
                     </div>
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                     {feed.data.map((post: any) => (
-                        <a href={post.permalink} target="_blank">
-                            <div key={post.permalink} className="group relative">
+                        <Link key={post.permalink} href={post.permalink} target="_blank">
+                            <div className="group relative">
                                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                     <img
                                         src={post.media_url}

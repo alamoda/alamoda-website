@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-
 const newsletterDepartments = [
     { id: 'women', title: 'Women' },
     { id: 'men', title: 'Men' },
@@ -12,6 +11,16 @@ const newsletterDepartments = [
 export default function Newsletter() {
 
     const [currentDepartment, setCurrentDepartment] = useState<string>();
+    const [showError, setShowError] = useState<boolean>(false);
+
+
+
+    const subscribeToNewsletter = () => {
+        if (!currentDepartment){
+            setShowError(true);
+            return;
+        }
+    };
 
     return (
         <div className="bg-white py-16 sm:py-24">
@@ -48,7 +57,7 @@ export default function Newsletter() {
                         </fieldset>
                     </div>
 
-                    <form className="mx-auto flex max-w-md gap-x-4">
+                    <form className="mx-auto flex max-w-md gap-x-4" onSubmit={subscribeToNewsletter}>
                         <label htmlFor="email-address" className="sr-only">
                             Email address
                         </label>

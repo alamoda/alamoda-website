@@ -122,7 +122,7 @@ model Subcategory {
 }
 
 model Order {
-  mongo_id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  mongo_id      String    @id @default(auto()) @map("_id") @db.ObjectId
   cart_products Json
   amount        Float?
   name          String?
@@ -134,5 +134,13 @@ model Order {
   country       String?
   paid          Boolean
   updated_at    DateTime?
-  created_at    DateTime @default(now())
+  created_at    DateTime  @default(now())
+}
+
+model Newsletter {
+  mongo_id   String    @id @default(auto()) @map("_id") @db.ObjectId
+  department String
+  email      String?   @unique
+  updated_at DateTime?
+  created_at DateTime  @default(now())
 }

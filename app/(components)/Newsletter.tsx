@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 const newsletterDepartments = [
     { id: 'women', title: 'Women' },
@@ -10,16 +10,22 @@ const newsletterDepartments = [
 
 export default function Newsletter() {
 
-    const [currentDepartment, setCurrentDepartment] = useState<string>();
     const [showError, setShowError] = useState<boolean>(false);
+    const [inputDepartment, setInputDepartment] = useState<string>();
+    const [inputEmail, setInputEmail] =  useState<string>("");
 
 
-
-    const subscribeToNewsletter = () => {
-        if (!currentDepartment){
+    const subscribeToNewsletter = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!inputDepartment || !inputEmail) {
             setShowError(true);
             return;
         }
+
+        setShowError(false);
+        console.log(inputDepartment);
+        console.log(inputEmail);
+
     };
 
     return (
@@ -44,9 +50,9 @@ export default function Newsletter() {
                                             name="notification-method"
                                             type="radio"
                                             defaultValue={dept.id}
-                                            checked={dept.id === currentDepartment}
+                                            checked={dept.id === inputDepartment}
                                             className="h-4 w-4 border-gray-300 text-gray-200 focus:ring-gray-200"
-                                            onChange={()=>setCurrentDepartment(dept.id)}
+                                            onChange={() => setInputDepartment(dept.id)}
                                         />
                                         <label htmlFor={dept.id} className="ml-3 block text-sm font-medium leading-6 text-gray-200">
                                             {dept.title}
@@ -63,6 +69,8 @@ export default function Newsletter() {
                         </label>
                         <input
                             id="email-address"
+                            value={inputEmail}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => setInputEmail(event?.target.value)}                  
                             name="email"
                             type="email"
                             autoComplete="email"
@@ -77,6 +85,9 @@ export default function Newsletter() {
                             Notify me
                         </button>
                     </form>
+                    {showError &&
+                        <p className="mx-auto mt-6 text-red-500 max-w-xl text-center text-xs">Please fill out all the fields.</p>
+                    }
                     <p className="mx-auto mt-6 max-w-xl text-xs text-center text-gray-600">By signing up you agree with our Terms and Conditions and Privacy Policy.</p>
                 </div>
             </div>

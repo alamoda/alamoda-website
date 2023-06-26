@@ -1,5 +1,6 @@
 'use client'
 
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
 
 const newsletterDepartments = [
@@ -10,21 +11,42 @@ const newsletterDepartments = [
 
 export default function Newsletter() {
 
-    const [showError, setShowError] = useState<boolean>(false);
+    const [errorText, setErrorText] =  useState<string>("");
+    const [successText, setSuccessText] =  useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [inputDepartment, setInputDepartment] = useState<string>();
-    const [inputEmail, setInputEmail] =  useState<string>("");
+    const [inputEmail, setInputEmail] = useState<string>("");
 
 
-    const subscribeToNewsletter = (event: React.FormEvent<HTMLFormElement>) => {
+    const subscribeToNewsletter = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!inputDepartment || !inputEmail) {
-            setShowError(true);
+            setErrorText("Please fill out all the fields.");
             return;
         }
 
-        setShowError(false);
-        console.log(inputDepartment);
-        console.log(inputEmail);
+        setLoading(true);
+        setErrorText("");
+
+        try {
+            const res = await axios.post('/api/newsletter', {
+                inputDepartment,
+                inputEmail
+            });
+
+            if (res.status === 200) {
+                console.log('Form submitted successfully');
+            } else {
+                setErrorText("Error, please try again later.");
+                console.error('Form submission failed');
+            }
+        } catch (error) {
+            setErrorText("An error occurred while submitting the form, please try again later.");
+        }
+
+        setSuccessText("Thank you for joining!");
+        setLoading(false);
 
     };
 
@@ -51,7 +73,7 @@ export default function Newsletter() {
                                             type="radio"
                                             defaultValue={dept.id}
                                             checked={dept.id === inputDepartment}
-                                            className="h-4 w-4 border-gray-300 text-gray-200 focus:ring-gray-200"
+                                            className="h-4 w-4 border-gray-300 text-gray-600 focus:ring-gray-600"
                                             onChange={() => setInputDepartment(dept.id)}
                                         />
                                         <label htmlFor={dept.id} className="ml-3 block text-sm font-medium leading-6 text-gray-200">
@@ -70,7 +92,7 @@ export default function Newsletter() {
                         <input
                             id="email-address"
                             value={inputEmail}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => setInputEmail(event?.target.value)}                  
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => setInputEmail(event?.target.value)}
                             name="email"
                             type="email"
                             autoComplete="email"
@@ -80,13 +102,17 @@ export default function Newsletter() {
                         />
                         <button
                             type="submit"
-                            className="flex-none bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                            disabled={loading}
+                            className=" disabled:bg-gray-400 flex-none bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                         >
                             Notify me
                         </button>
                     </form>
-                    {showError &&
-                        <p className="mx-auto mt-6 text-red-500 max-w-xl text-center text-xs">Please fill out all the fields.</p>
+                    {errorText &&
+                        <p className="mx-auto mt-6 text-red-500 max-w-xl text-center text-xs">{errorText}</p>
+                    }
+                    {successText &&
+                        <p className="mx-auto mt-6 text-green-500 max-w-xl text-center text-xs">{successText}</p>
                     }
                     <p className="mx-auto mt-6 max-w-xl text-xs text-center text-gray-600">By signing up you agree with our Terms and Conditions and Privacy Policy.</p>
                 </div>

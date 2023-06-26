@@ -21,7 +21,6 @@ export function CartContextProvider({
     }, [])
 
     useEffect(() => {
-        console.log("updating local storage")
         localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
     }, [cartProducts])
 

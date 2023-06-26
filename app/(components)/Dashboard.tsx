@@ -84,8 +84,8 @@ export default function Dashboard({
                                  px-6 pb-4 ring-1 ring-white/10">
                                     <Image
                                         src="/logo.png"
-                                        width={100}
-                                        height={100}
+                                        width={1000}
+                                        height={1000}
                                         alt="alamoda logo"
                                     />
                                     <nav className="flex flex-1 flex-col">
@@ -124,10 +124,10 @@ export default function Dashboard({
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 mt-8 overflow-y-auto bg-white px-6 pb-4">
                     <Image
-                        src="/logo.png"
-                        width={100}
-                        height={100}
+                        src="/alamoda_logo.png"
                         alt="alamoda logo"
+                        width={1000}
+                        height={1000}
                     />
                     <nav className="flex flex-1 flex-col">
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">

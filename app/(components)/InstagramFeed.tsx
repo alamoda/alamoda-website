@@ -4,7 +4,7 @@ async function getFeed() {
 
     const url = `https://graph.instagram.com/me/media?fields=id,caption,media_url,timestamp,media_type,permalink&limit=5&access_token=${process.env.INSTAGRAM_TOKEN}`
     const res = await fetch(url);
-    // Recommendation: handle errors
+
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
         throw new Error('Failed to fetch data');

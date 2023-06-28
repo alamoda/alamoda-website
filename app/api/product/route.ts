@@ -111,7 +111,7 @@ export async function PUT(req: Request) {
 
     const {
         mongo_id, id, sku, price, wholesale_price, available, name, description, features,
-        department, category, subcategory, images, sizes, status, updated_at
+        brand_id, department_id, category_id, subcategory_id, images, sizes, status, updated_at
     } = await req.json()
 
 
@@ -120,15 +120,16 @@ export async function PUT(req: Request) {
         data: {
             id: id,
             sku: sku,
+            brandId: brand_id,
             price: price,
             wholesale_price: wholesale_price,
             available: available,
             name: name,
             description: description,
             features: features,
-            departmentId: department.id,
-            categoryId: category.id,
-            subcategoryId: subcategory.id,
+            departmentId: department_id,
+            categoryId: category_id,
+            subcategoryId: subcategory_id,
             images: images,
             sizes: sizes,
             status: status,

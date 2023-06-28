@@ -45,7 +45,7 @@ export default function Page({
 
     function deleteProduct() {
         axios.delete('/api/product?id=' + id).then(res => {
-            router.push('/dashboard/products');
+            router.push('/dashboard');
         });
     }
 

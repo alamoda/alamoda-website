@@ -143,15 +143,12 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
 
     const url = new URL(req.url);
-    const idParam = url.searchParams.get("id");
+    const id = url.searchParams.get("id");
 
-    if (idParam == null) return new Response(JSON.stringify({ message: "Error" }));
-
-    const id = parseInt(idParam, 10);
-    if (isNaN(id)) return new Response(JSON.stringify({ message: "Error" }));
+    if (id == null) return new Response(JSON.stringify({ message: "Error" }));
 
     await db.product.delete({
-        where: { id: id },
+        where: { mongo_id: id },
     });
 
     return new Response();

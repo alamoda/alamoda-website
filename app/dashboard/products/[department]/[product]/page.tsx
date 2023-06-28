@@ -26,11 +26,11 @@ export default function Page({
         },
         {
             name: department,
-            href: `/products/${department}`
+            href: `/dashboard/products/${department}`
         },
         {
             name: id,
-            href: `/${id}`
+            href: `/dashboard/products/${department}/${id}`
         }
     ];
 

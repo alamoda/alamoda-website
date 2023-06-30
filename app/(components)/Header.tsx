@@ -210,11 +210,10 @@ export default function Header() {
                   <div className="hidden lg:flex lg:items-center">
                     <Link href="/">
                       <span className="sr-only">Alamoda Inc</span>
-                      <Image
+                      <img
                         src="/logo.png"
-                        width={75}
-                        height={75}
                         alt="alamoda logo"
+                        className='w-16'
                       />
                     </Link >
                   </div >
@@ -341,11 +340,10 @@ export default function Header() {
                   {/* Logo (lg-) */}
                   <Link href="/" className="lg:hidden">
                     <span className="sr-only">Alamoda Inc</span>
-                    <Image
+                    <img
                       src="/logo.png"
-                      width={100}
-                      height={100}
                       alt="alamoda logo"
+                      className='w-24'
                     />
                   </Link >
 

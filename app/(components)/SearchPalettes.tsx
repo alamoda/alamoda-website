@@ -25,7 +25,6 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [department, setDepartment] = useState<string>('women');
     const router = useRouter();
-    const pathName = usePathname();
 
     function onSearch(e: React.FormEvent) {
         e.preventDefault();
@@ -34,10 +33,8 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
             return;
         }
 
-        console.log("pathname", pathName)
-
         const encodedSearchQuery = encodeURI(searchQuery);
-        router.push(`${pathName}?q=${encodedSearchQuery}`);
+        router.push(`/shop/${department}?q=${encodedSearchQuery}`);
 
         toggle(false);
         setSearchQuery('');
@@ -55,7 +52,7 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" />
+                    <div className="fixed inset-0 backdrop-blur-sm bg-white/20" />
                 </Transition.Child>
 
                 <div className="fixed inset-16 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
@@ -68,7 +65,7 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="mx-auto max-w-md transform p-4 bg-gray-100 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+                        <Dialog.Panel className="mx-auto max-w-2xl lg:max-w-md transform p-4 bg-gray-100 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
                             <form onSubmit={onSearch}>
                                 <input
                                     value={searchQuery}
@@ -84,25 +81,11 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                                             key={dept.id}
                                             onClick={() => setDepartment(dept.id)}
                                             className={classNames(department == dept.id ?
-                                                'border-b border-gray-900 font-semibold' : '',
+                                                'border-b-2 border-gray-900 pb-2' : 'pb-2',
                                                 'text-xs text-gray-900')}
                                         >
                                             {dept.title}
                                         </button>
-                                        // <div key={dept.id} className="flex items-center">
-                                        //     <input
-                                        //         id={dept.id}
-                                        //         name="notification-method"
-                                        //         type="radio"
-                                        //         defaultValue={dept.id}
-                                        //         checked={dept.id === department}
-                                        //         className="h-4 w-4 border-gray-300 text-gray-600 focus:ring-gray-600"
-                                        //         onChange={() => setDepartment(dept.id)}
-                                        //     />
-                                        //     <button htmlFor={dept.id} className="ml-3 block text-xs font-medium leading-6 text-gray-900">
-                                        //         {dept.title}
-                                        //     </button>
-                                        // </div>
                                     ))}
                                 </div>
                             </div>

@@ -64,7 +64,7 @@ export default function Newsletter() {
                     <div className="flex justify-center items-center mx-auto py-8">
                         <fieldset>
                             <legend className="sr-only">Notification method</legend>
-                            <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
+                            <div className="flex items-center space-x-10 space-y-0">
                                 {newsletterDepartments.map((dept) => (
                                     <div key={dept.id} className="flex items-center">
                                         <input

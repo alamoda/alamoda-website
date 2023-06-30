@@ -82,14 +82,15 @@ export default function Dashboard({
                                 {/* Sidebar component, swap this element with another sidebar if you like */}
                                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white
                                  px-6 pb-4 ring-1 ring-white/10">
-                                        <img
-                                            src="/alamoda_logo.png"
-                                            alt="alamoda logo"
-                                            className='h-8'
-                                        />
+
                                     <nav className="flex flex-1 flex-col">
                                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                             <li>
+                                                <img
+                                                    src="/logo.png"
+                                                    alt="alamoda logo"
+                                                    className='h-4 my-8'
+                                                />
                                                 <ul role="list" className="-mx-2 space-y-1">
                                                     {navigation.map((item) => (
                                                         <li key={item.name}>
@@ -122,14 +123,14 @@ export default function Dashboard({
             <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 mt-8 overflow-y-auto bg-white px-6 pb-4">
-                    <img
-                        src="/logo.png"
-                        alt="alamoda logo"
-                        className='h-4'
-                    />
                     <nav className="flex flex-1 flex-col">
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
                             <li>
+                                <img
+                                    src="/logo.png"
+                                    alt="alamoda logo"
+                                    className='h-4 mb-8'
+                                />
                                 <ul role="list" className="space-y-4">
                                     {navigation.map((item) => (
                                         <li key={item.name}>

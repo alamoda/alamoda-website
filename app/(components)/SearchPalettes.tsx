@@ -1,14 +1,16 @@
 'use client'
 
-import { Component, Fragment, useState } from 'react'
-import { UsersIcon } from '@heroicons/react/24/outline'
-import { Combobox, Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 import { usePathname, useRouter } from 'next/navigation'
 
-const people = [
-    { id: 1, name: 'Leslie Alexander', url: '#' },
-    // More people...
-]
+
+const departments = [
+    { id: 'women', title: 'Women' },
+    { id: 'men', title: 'Men' },
+    { id: 'unisex', title: 'Unixes' },
+    { id: 'lifestyle', title: 'Lyfestyle' },
+];
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -21,6 +23,7 @@ type ComponentProps = {
 
 export default function SearchPalettes({ open, toggle }: ComponentProps) {
     const [searchQuery, setSearchQuery] = useState('');
+    const [department, setDepartment] = useState<string>('women');
     const router = useRouter();
     const pathName = usePathname();
 
@@ -65,15 +68,44 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="mx-auto max-w-xl transform rounded-xl bg-white p-2 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+                        <Dialog.Panel className="mx-auto max-w-md transform p-4 bg-gray-100 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
                             <form onSubmit={onSearch}>
                                 <input
                                     value={searchQuery}
-                                    className="w-full rounded-md border-0 bg-gray-100 px-4 py-2.5 text-gray-900 sm:text-sm outline-none"
+                                    className="w-full border-0 bg-white px-4 py-2 text-gray-900 sm:text-sm outline-none"
                                     placeholder="Search..."
                                     onChange={(event) => setSearchQuery(event.target.value)}
                                 />
                             </form>
+                            <div className="flex justify-center items-center pt-4">
+                                <div className="flex items-center space-x-10 space-y-0">
+                                    {departments.map((dept) => (
+                                        <button
+                                            key={dept.id}
+                                            onClick={() => setDepartment(dept.id)}
+                                            className={classNames(department == dept.id ?
+                                                'border-b border-gray-900 font-semibold' : '',
+                                                'text-xs text-gray-900')}
+                                        >
+                                            {dept.title}
+                                        </button>
+                                        // <div key={dept.id} className="flex items-center">
+                                        //     <input
+                                        //         id={dept.id}
+                                        //         name="notification-method"
+                                        //         type="radio"
+                                        //         defaultValue={dept.id}
+                                        //         checked={dept.id === department}
+                                        //         className="h-4 w-4 border-gray-300 text-gray-600 focus:ring-gray-600"
+                                        //         onChange={() => setDepartment(dept.id)}
+                                        //     />
+                                        //     <button htmlFor={dept.id} className="ml-3 block text-xs font-medium leading-6 text-gray-900">
+                                        //         {dept.title}
+                                        //     </button>
+                                        // </div>
+                                    ))}
+                                </div>
+                            </div>
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>

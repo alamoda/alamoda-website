@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -19,13 +19,18 @@ function classNames(...classes: any) {
 type ComponentProps = {
     open: boolean;
     toggle: React.Dispatch<React.SetStateAction<boolean>>;
-    department: string
+    department: string | undefined
 }
 
 export default function SearchPalettes({ open, toggle, department }: ComponentProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchDepartment, setSearchDepartment] = useState<string>(department || 'women');
     const router = useRouter();
+
+    useEffect(() => {
+        console.log(department);
+        console.log(searchDepartment);
+    }, [])
 
     function onSearch(e: React.FormEvent) {
         e.preventDefault();
@@ -80,7 +85,7 @@ export default function SearchPalettes({ open, toggle, department }: ComponentPr
                                     <div key={dept.id} className='px-2'>
                                         <button
                                             onClick={() => setSearchDepartment(dept.id)}
-                                            className={classNames(department == dept.id ?
+                                            className={classNames(searchDepartment == dept.id ?
                                                 'border-b-2 border-gray-900 pb-2' : 'pb-2',
                                                 'text-xs text-gray-900')}
                                         >

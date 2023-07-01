@@ -9,7 +9,6 @@ import Testimonials from '../(components)/Testimonials';
 import InstagramFeed from '../(components)/InstagramFeed';
 import Newsletter from '../(components)/Newsletter';
 
-
 export default async function Home() {
   return (
     <div>

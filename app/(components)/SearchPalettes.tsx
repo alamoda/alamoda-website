@@ -19,11 +19,12 @@ function classNames(...classes: any) {
 type ComponentProps = {
     open: boolean;
     toggle: React.Dispatch<React.SetStateAction<boolean>>;
+    department: string
 }
 
-export default function SearchPalettes({ open, toggle }: ComponentProps) {
+export default function SearchPalettes({ open, toggle, department }: ComponentProps) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [department, setDepartment] = useState<string>('women');
+    const [searchDepartment, setSearchDepartment] = useState<string>(department || 'women');
     const router = useRouter();
 
     function onSearch(e: React.FormEvent) {
@@ -34,7 +35,7 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
         }
 
         const encodedSearchQuery = encodeURI(searchQuery);
-        router.push(`/shop/${department}?q=${encodedSearchQuery}`);
+        router.push(`/shop/${searchDepartment}?q=${encodedSearchQuery}`);
 
         toggle(false);
         setSearchQuery('');
@@ -78,7 +79,7 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                                 {departments.map((dept) => (
                                     <div key={dept.id} className='px-2'>
                                         <button
-                                            onClick={() => setDepartment(dept.id)}
+                                            onClick={() => setSearchDepartment(dept.id)}
                                             className={classNames(department == dept.id ?
                                                 'border-b-2 border-gray-900 pb-2' : 'pb-2',
                                                 'text-xs text-gray-900')}

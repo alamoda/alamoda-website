@@ -1,8 +1,8 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 
 const departments = [
@@ -26,11 +26,6 @@ export default function SearchPalettes({ open, toggle, department }: ComponentPr
     const [searchQuery, setSearchQuery] = useState('');
     const [searchDepartment, setSearchDepartment] = useState<string>(department || 'women');
     const router = useRouter();
-
-    useEffect(() => {
-        console.log(department);
-        console.log(searchDepartment);
-    }, [])
 
     function onSearch(e: React.FormEvent) {
         e.preventDefault();

@@ -75,10 +75,9 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                                 />
                             </form>
                             <div className="flex justify-center items-center pt-4">
-                                <div className="flex items-center space-x-10 space-y-0">
-                                    {departments.map((dept) => (
+                                {departments.map((dept) => (
+                                    <div key={dept.id} className='px-2'>
                                         <button
-                                            key={dept.id}
                                             onClick={() => setDepartment(dept.id)}
                                             className={classNames(department == dept.id ?
                                                 'border-b-2 border-gray-900 pb-2' : 'pb-2',
@@ -86,8 +85,8 @@ export default function SearchPalettes({ open, toggle }: ComponentProps) {
                                         >
                                             {dept.title}
                                         </button>
-                                    ))}
-                                </div>
+                                    </div>
+                                ))}
                             </div>
                         </Dialog.Panel>
                     </Transition.Child>

@@ -1,51 +1,6 @@
-import ProductList from '@/app/(components)/ProductList'
+// import ProductList from '@/app/(components)/ProductList'
 import Testimonials from '@/app/(components)/Testimonials'
 import Link from 'next/link'
-
-const collections = [
-    {
-        name: 'Desk and Office',
-        description: 'Work from home accessories',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg',
-        imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
-        href: '#',
-    },
-    {
-        name: 'Self-Improvement',
-        description: 'Journals and note-taking',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg',
-        imageAlt: 'Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.',
-        href: '#',
-    },
-    {
-        name: 'Travel',
-        description: 'Daily commute essentials',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
-        imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-        href: '#',
-    },
-]
-
-const testimonials = [
-    {
-        id: 1,
-        quote:
-            'My order arrived super quickly. The product is even better than I hoped it would be. Very happy customer over here!',
-        attribution: 'Sarah Peters, New Orleans',
-    },
-    {
-        id: 2,
-        quote:
-            'I had to return a purchase that didn’t fit. The whole process was so simple that I ended up ordering two new items!',
-        attribution: 'Kelly McPherson, Chicago',
-    },
-    {
-        id: 3,
-        quote:
-            'Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.',
-        attribution: 'Chris Paul, Phoenix',
-    },
-]
 
 export default function Page() {
 
@@ -155,36 +110,36 @@ export default function Page() {
                     <div className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-32">
 
                         <div className="">
-                            {/* @ts-expect-error Server Component */}
+                            {/* @ts-expect-error Server Component
                             <ProductList
                                 listTitle="New in for Women"
                                 filterParams={new URLSearchParams({
                                     department: "women",
                                 })}
                                 listUrl={`shop/women`}
-                            />
+                            /> */}
                         </div>
 
                         <div className="py-24 sm:py-32">
-                            {/* @ts-expect-error Server Component */}
+                            {/* @ts-expect-error Server Component
                             <ProductList
                                 listTitle="New in for Men"
                                 filterParams={new URLSearchParams({
                                     department: "men",
                                 })}
                                 listUrl={`shop/men`}
-                            />
+                            /> */}
                         </div>
 
                         <div className="">
-                            {/* @ts-expect-error Server Component */}
+                            {/* @ts-expect-error Server Component
                             <ProductList
                                 listTitle="New in for Lifestyle"
                                 filterParams={new URLSearchParams({
                                     department: "lifestyle",
                                 })}
                                 listUrl={`shop/lifestyle`}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </section>

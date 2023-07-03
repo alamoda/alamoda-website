@@ -18,28 +18,21 @@ export default function Page() {
 
     const stripeSecret = process.env.NEXT_PUBLIC_STRIPE_SECRET;
 
-    useEffect(() => {
-        if (!session_id) return;
+    async function getSession(sessionId: string) {
+        const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+            typescript: true,
+            apiVersion: "2022-11-15"
+        });
 
-        async function getSession(sessionId: string) {
-            const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-                typescript: true,
-                apiVersion: "2022-11-15"
-            });
-    
-            const session = await stripe.checkout.sessions.retrieve(sessionId, { apiKey: stripeSecret }) as Stripe.Checkout.Session;
-            setSession(session);
-    
-            const orderId = session?.metadata?.orderId;
-    
-            if (!orderId) throw new Error('could not find order id');
-    
-            fetchOrder(orderId);
-        }
+        const session = await stripe.checkout.sessions.retrieve(sessionId, { apiKey: stripeSecret }) as Stripe.Checkout.Session;
+        setSession(session);
 
-        getSession(session_id);
-    }, [session_id])
+        const orderId = session?.metadata?.orderId;
 
+        if (!orderId) throw new Error('could not find order id');
+
+        fetchOrder(orderId);
+    }
 
     async function fetchOrder(orderId: string) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/order?id=${orderId}`, {
@@ -52,6 +45,11 @@ export default function Page() {
         // Clear the cart
         clearCart();
     }
+
+    useEffect(() => {
+        if (!session_id) return;
+        getSession(session_id);
+    }, [session_id, getSession])
 
     return (
         <div>

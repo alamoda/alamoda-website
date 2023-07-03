@@ -20,9 +20,10 @@ type ComponentProps = {
     open: boolean;
     toggle: React.Dispatch<React.SetStateAction<boolean>>;
     department: string | undefined
+    path: string
 }
 
-export default function SearchPalettes({ open, toggle, department }: ComponentProps) {
+export default function SearchPalettes({ open, toggle, department, path }: ComponentProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchDepartment, setSearchDepartment] = useState<string>(department || 'women');
     const router = useRouter();
@@ -35,7 +36,7 @@ export default function SearchPalettes({ open, toggle, department }: ComponentPr
         }
 
         const encodedSearchQuery = encodeURI(searchQuery);
-        router.push(`/shop/${searchDepartment}?q=${encodedSearchQuery}`);
+        router.push(`/${path}/${searchDepartment}?q=${encodedSearchQuery}`);
 
         toggle(false);
         setSearchQuery('');

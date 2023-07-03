@@ -1,17 +1,13 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-    Bars3Icon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import Image from 'next/image';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { useParams, usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
-import SearchInput from './SearchInput'
+import Link from 'next/link'
+import SearchPalettes from './SearchPalettes'
 
 const navigation = [
     { name: 'Women', href: '/dashboard/products/women', current: true },
@@ -29,14 +25,24 @@ export default function Dashboard({
 }: {
     children: React.ReactNode
 }) {
-    const currentTab = usePathname();
+    const params = useParams()
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [showSearch, setShowSearch] = useState<boolean>(false);
 
     const { data: session } = useSession();
 
     return (
         <div className="mx-auto max-w-7xl">
+
+            {/* Search Palettes */}
+            <SearchPalettes
+                open={showSearch}
+                toggle={setShowSearch}
+                department={params.department || undefined}
+                path="dashboard/products"
+            />
+
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
                     <Transition.Child
@@ -97,7 +103,7 @@ export default function Dashboard({
                                                             <Link
                                                                 href={item.href}
                                                                 className={classNames(
-                                                                    currentTab === item.href
+                                                                    params.department === item.href
                                                                         ? 'font-extrabold'
                                                                         : 'font-medium hover:font-semibold',
                                                                     'group flex gap-x-3 p-2 text-xs leading-6'
@@ -137,7 +143,7 @@ export default function Dashboard({
                                             <Link
                                                 href={item.href}
                                                 className={classNames(
-                                                    currentTab === item.href
+                                                    params.department === item.href
                                                         ? 'font-extrabold'
                                                         : 'font-medium hover:font-semibold',
                                                     'group text-xs'
@@ -148,7 +154,6 @@ export default function Dashboard({
                                         </li>
                                     ))}
                                 </ul>
-                                {/* <Filters /> */}
                             </li>
                         </ul>
                     </nav>
@@ -165,9 +170,16 @@ export default function Dashboard({
                     {/* Separator */}
                     <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
 
-                    <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                        <SearchInput />
+                    <div className="flex flex-1 justify-end">
                         <div className="flex items-center gap-x-4 lg:gap-x-6">
+
+                            {/* Search */}
+                            <button onClick={() => setShowSearch(true)} className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                <span className="sr-only">Search</span>
+                                <MagnifyingGlassIcon className="h-4 w-4" aria-hidden="true" />
+                            </button>
+
+                            {/* Separator */}
                             <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
                             {/* Profile dropdown */}

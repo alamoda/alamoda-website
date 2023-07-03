@@ -35,17 +35,16 @@ export default function Filters({ admin, route, currentDepartment, currentBrands
     const baseUrl = `${process.env.NEXT_PUBLIC_URL}${route}/${currentDepartment.slug}`
 
     useEffect(() => {
+        const prepareDisplayFilters = () => {
+            const toDisplayFilters = [];
+            if (activeFilters.category) toDisplayFilters.push(activeFilters.category)
+            if (activeFilters.subcategories) toDisplayFilters.push(...activeFilters.subcategories)
+            if (activeFilters.brands) toDisplayFilters.push(...activeFilters.brands)
+    
+            setdisplayFilters(toDisplayFilters)
+        };
         prepareDisplayFilters();
     }, [activeFilters]);
-
-    const prepareDisplayFilters = () => {
-        const toDisplayFilters = [];
-        if (activeFilters.category) toDisplayFilters.push(activeFilters.category)
-        if (activeFilters.subcategories) toDisplayFilters.push(...activeFilters.subcategories)
-        if (activeFilters.brands) toDisplayFilters.push(...activeFilters.brands)
-
-        setdisplayFilters(toDisplayFilters)
-    };
 
     const buildUrl = (newFilters: ProductFilters) => {
         const url = new URL(baseUrl);

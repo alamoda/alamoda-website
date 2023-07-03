@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.332.0",
+    "@aws-sdk/signature-v4-crt": "^3.363.0",
     "@egjs/flicking-plugins": "^4.7.0",
     "@egjs/react-flicking": "^4.10.9",
     "@mongodb-js/zstd": "^1.1.0",

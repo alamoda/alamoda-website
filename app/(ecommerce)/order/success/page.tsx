@@ -20,24 +20,26 @@ export default function Page() {
 
     useEffect(() => {
         if (!session_id) return;
+
+        async function getSession(sessionId: string) {
+            const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+                typescript: true,
+                apiVersion: "2022-11-15"
+            });
+    
+            const session = await stripe.checkout.sessions.retrieve(sessionId, { apiKey: stripeSecret }) as Stripe.Checkout.Session;
+            setSession(session);
+    
+            const orderId = session?.metadata?.orderId;
+    
+            if (!orderId) throw new Error('could not find order id');
+    
+            fetchOrder(orderId);
+        }
+
         getSession(session_id);
     }, [session_id])
 
-    async function getSession(sessionId: string) {
-        const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-            typescript: true,
-            apiVersion: "2022-11-15"
-        });
-
-        const session = await stripe.checkout.sessions.retrieve(sessionId, { apiKey: stripeSecret }) as Stripe.Checkout.Session;
-        setSession(session);
-
-        const orderId = session?.metadata?.orderId;
-
-        if (!orderId) throw new Error('could not find order id');
-
-        fetchOrder(orderId);
-    }
 
     async function fetchOrder(orderId: string) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/order?id=${orderId}`, {

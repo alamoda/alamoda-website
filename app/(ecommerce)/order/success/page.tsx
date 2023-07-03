@@ -49,7 +49,7 @@ export default function Page() {
     useEffect(() => {
         if (!session_id) return;
         getSession(session_id);
-    }, [session_id, getSession])
+    }, [session_id])
 
     return (
         <div>

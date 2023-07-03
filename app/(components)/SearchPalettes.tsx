@@ -57,7 +57,7 @@ export default function SearchPalettes({ open, toggle, department, path }: Compo
                     <div className="fixed inset-0 backdrop-blur-sm bg-white/20" />
                 </Transition.Child>
 
-                <div className="fixed inset-16 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+                <div className="fixed left-0 inset-16 z-10 overflow-y-auto p-4 sm:p-6 md:p-20 w-full">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"

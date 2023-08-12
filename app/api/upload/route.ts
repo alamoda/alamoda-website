@@ -2,7 +2,9 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 export async function POST(req: Request) {
     const data = await req.formData();
+
     const files = data.getAll('image');
+
     const links = [];
     //console.log("files in backend are", files)
     for (const file of files) {

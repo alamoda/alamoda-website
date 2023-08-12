@@ -45,8 +45,8 @@ export default function Header() {
 
   async function fetchDepartments() {
 
-    console.log(`${process.env.NEXT_PUBLIC_URL}api/departments?available=true`);
     const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}api/departments?available=true`);
+    
     setNavigation({
       departments: res.data.sort((a: Department, b: Department) => a.order - b.order),
       pages: [

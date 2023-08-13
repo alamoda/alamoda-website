@@ -120,12 +120,41 @@ export type Order = {
     created_at: string
 }
 
-export type Navigation = {
-    departments: Department[],
-    pages: Page[]
-  }
-  
-export type Page = {
+export type NavigationDepartment = {
+    name: string
+    filters: string[]
+    order: number
+    available: boolean
+    categories: NavigationCategory[]
+}
+
+export type NavigationCategory = {
+    name: string
+    filters: string[],
+    order: number,
+    available: boolean,
+    subcategories: NavigationSubcategory[]
+}
+
+export type NavigationSubcategory = {
+    name: string,
+    filters: string[],
+    order: number,
+    available: boolean,
+}
+
+export type NavigationBrands = {
+    name: string
+    filters: string[]
+}
+
+export type NavigationPages = {
     name: string,
     href: string,
-  }
+}
+
+export type Navigation = {
+    departments: NavigationDepartment[]
+    brands: NavigationBrands[]
+    pages: NavigationPages[]
+}

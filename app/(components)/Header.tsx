@@ -3,29 +3,22 @@
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Category, Department, Navigation, Subcategory } from '../(types)'
 import { CartContext } from '@/context/CartContext'
 import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-// import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
+import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
+import { NavigationCategory, NavigationDepartment, NavigationSubcategory } from '../(types)'
+
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-interface HeaderProps {
-  navigation: Navigation
-}
 
-export default function Header({navigation} : HeaderProps) {
+export default function Header() {
 
-  // const navigation: Navigation = {
-  //   departments: NAVIGATION_DEPARTMENTS,
-  //   pages: [
-  //     { name: 'About Alamoda', href: '/about' },
-  //   ]
-  // }
+  const navigation = NAVIGATION_DEPARTMENTS;
 
   const params = useParams()
 
@@ -105,9 +98,9 @@ export default function Header({navigation} : HeaderProps) {
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-x-auto">
-                      {navigation.departments.map((department: Department) => (
+                      {navigation.departments.map((department: NavigationDepartment) => (
                         <Tab
-                          key={department.slug}
+                          key={department.name}
                           className={({ selected }) =>
                             classNames(
                               selected ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-700',
@@ -121,18 +114,18 @@ export default function Header({navigation} : HeaderProps) {
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {navigation.departments.map((department: Department, departmentIdx: number) => (
-                      <Tab.Panel key={department.slug} className="space-y-12 px-4 pb-6 pt-10">
+                    {navigation.departments.map((department: NavigationDepartment, departmentIdx: number) => (
+                      <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <Link href={`/shop/${department.slug}`}>
+                            <Link href={`/shop/${department.filters}`}>
                               View all {department.name}
                             </Link>
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
-                            {department.categories.map((category: Category) =>
-                              <div key={category.slug}>
-                                <Link href={`/shop/${department.slug}?category=${category.slug}`}
+                            {department.categories.map((category: NavigationCategory) =>
+                              <div key={category.name}>
+                                <Link href={`/shop/${department.filters}?category=${category.filters}`}
                                   id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
                                   {category.name}
                                 </Link>
@@ -141,9 +134,9 @@ export default function Header({navigation} : HeaderProps) {
                                   aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
                                   className="mt-6 space-y-4"
                                 >
-                                  {category.subcategories.map((subcategory: Subcategory) => (
-                                    <li key={subcategory.slug} className="flex">
-                                      <Link href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="text-gray-500">
+                                  {category.subcategories.map((subcategory: NavigationSubcategory) => (
+                                    <li key={subcategory.name} className="flex">
+                                      <Link href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`} className="text-gray-500">
                                         {subcategory.name}
                                       </Link>
                                     </li>
@@ -209,8 +202,10 @@ export default function Header({navigation} : HeaderProps) {
                     {/* Mega menus */}
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
-                        {navigation.departments.map((department: Department, departmentIdx: number) => (
-                          <Popover key={department.slug} className="flex">
+
+                        {/* Department */}
+                        {navigation.departments.map((department: NavigationDepartment, departmentIdx: number) => (
+                          <Popover key={department.name} className="flex">
                             {({ open }) => (
                               <>
                                 <div
@@ -222,13 +217,13 @@ export default function Header({navigation} : HeaderProps) {
                                       isShowing[departmentIdx]
                                         ? 'hover:text-gray-900'
                                         : 'text-gray-700 hover:text-gray-800',
-                                      params.department && params.department === department.slug
+                                      params.department && department.filters.includes(params.department as string)
                                         ? "border-gray-900"
                                         : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-xs font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
-                                    <Link className="h-full w-full flex items-center justify-center" onClick={() => onHoverExitMenu(departmentIdx)} href={`/shop/${department.slug}`}>
+                                    <Link className="h-full w-full flex items-center justify-center" onClick={() => onHoverExitMenu(departmentIdx)} href={`/shop/${department.filters}`}>
                                       {department.name}
                                     </Link>
                                   </Popover.Button>
@@ -255,11 +250,11 @@ export default function Header({navigation} : HeaderProps) {
                                       <div className="mx-auto max-w-7xl px-8">
                                         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
-                                            {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((category: Category, categoryIdx: number) => (
-                                              <div key={category.slug}>
+                                            {department.categories.map((category: NavigationCategory, categoryIdx: number) => (
+                                              <div key={category.name}>
                                                 <Link
                                                   onClick={() => onHoverExitMenu(departmentIdx)}
-                                                  href={`/shop/${department.slug}?category=${category.slug}`}
+                                                  href={`/shop/${department.filters}?category=${category.filters}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
                                                 >
@@ -270,11 +265,11 @@ export default function Header({navigation} : HeaderProps) {
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
                                                   className="mt-6 space-y-2 sm:mt-4 sm:space-y-1"
                                                 >
-                                                  {category.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((subcategory: Subcategory) => (
-                                                    <li key={subcategory.slug} className="flex">
+                                                  {category.subcategories.map((subcategory: NavigationSubcategory) => (
+                                                    <li key={subcategory.name} className="flex">
                                                       <Link
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
-                                                        href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="hover:text-gray-800 hover:underline">
+                                                        href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`} className="hover:text-gray-800 hover:underline">
                                                         {subcategory.name}
                                                       </Link>
                                                     </li>
@@ -293,7 +288,8 @@ export default function Header({navigation} : HeaderProps) {
                           </Popover>
                         ))}
 
-                        {/* {navigation.pages.map((page) => (
+
+                        {navigation.pages.map((page) => (
                           <Link
                             key={page.name}
                             href={page.href}
@@ -301,7 +297,7 @@ export default function Header({navigation} : HeaderProps) {
                           >
                             {page.name}
                           </Link>
-                        ))} */}
+                        ))}
                       </div>
                     </Popover.Group>
                   </div>

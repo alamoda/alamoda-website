@@ -119,3 +119,13 @@ export type Order = {
     paid: boolean
     created_at: string
 }
+
+export type Navigation = {
+    departments: Department[],
+    pages: Page[]
+  }
+  
+export type Page = {
+    name: string,
+    href: string,
+  }

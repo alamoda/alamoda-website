@@ -25,7 +25,6 @@ async function getData(department: string | null, category: string | null, subca
     url.search = params.toString();
 
     const resProducts = await fetch(url.toString(), {
-        cache: 'no-store',
         method: 'GET'
     });
 
@@ -36,7 +35,6 @@ async function getData(department: string | null, category: string | null, subca
     const { products, count } = await resProducts.json();
 
     const resBrands = await fetch(`${process.env.NEXT_PUBLIC_URL}api/brands`, {
-        cache: 'no-store',
         method: 'GET'
     });
 
@@ -47,7 +45,6 @@ async function getData(department: string | null, category: string | null, subca
     const availableBrands = await resBrands.json();
 
     const resDepartment = await fetch(`${process.env.NEXT_PUBLIC_URL}api/departments/${department}`, {
-        cache: 'no-store',
         method: 'GET'
     });
 

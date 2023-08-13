@@ -1,62 +1,40 @@
 'use client'
 
-import { Fragment, useState, useEffect, useRef, useContext } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Category, Department, Subcategory } from '../(types)'
-import axios from 'axios'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Category, Department, Navigation, Subcategory } from '../(types)'
 import { CartContext } from '@/context/CartContext'
 import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import Image from 'next/image'
-
-interface Navigation {
-  departments: Department[],
-  pages: Page[]
-}
-
-interface Page {
-  name: string,
-  href: string,
-}
+import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
+interface HeaderProps {
+  navigation: Navigation
+}
+
 export default function Header() {
+
+  const navigation: Navigation = {
+    departments: NAVIGATION_DEPARTMENTS,
+    pages: [
+      { name: 'About Alamoda', href: '/about' },
+    ]
+  }
 
   const params = useParams()
 
   const [open, setOpen] = useState(false)
   const [isShowing, setIsShowing] = useState<boolean[]>([])
   const [currentShowing, setCurrentShowing] = useState<number | null>(null)
-
-  const [navigation, setNavigation] = useState<Navigation>({ departments: [], pages: [] });
-
   const [showSearch, setShowSearch] = useState<boolean>(false);
 
   const { cartProducts } = useContext(CartContext);
-
-  useEffect(() => {
-    fetchDepartments();
-  }, []);
-
-  async function fetchDepartments() {
-
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}api/departments?available=true`);
-    
-    setNavigation({
-      departments: res.data.sort((a: Department, b: Department) => a.order - b.order),
-      pages: [
-        { name: 'About Alamoda', href: '/about' },
-      ]
-    });
-
-    // Setup the hover effect
-    setIsShowing(Array(res.data.length).fill(false));
-  }
 
   const onHoverEnterMenu = (index: number) => {
     let newVals = Array(isShowing.length).fill(false);
@@ -71,6 +49,10 @@ export default function Header() {
     setCurrentShowing(null);
   };
 
+  useEffect(() => {
+    setIsShowing(Array(navigation.departments.length).fill(false));
+  }, [])
+
   return (
     <div className="bg-white z-40">
 
@@ -78,7 +60,7 @@ export default function Header() {
       <SearchPalettes
         open={showSearch}
         toggle={setShowSearch}
-        department={params.department || undefined}
+        department={params.department as string || undefined}
         path="shop"
       />
 
@@ -125,7 +107,7 @@ export default function Header() {
                     <Tab.List className="-mb-px flex space-x-8 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-x-auto">
                       {navigation.departments.map((department: Department) => (
                         <Tab
-                          key={department.mongo_id}
+                          key={department.slug}
                           className={({ selected }) =>
                             classNames(
                               selected ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-700',
@@ -140,7 +122,7 @@ export default function Header() {
                   </div>
                   <Tab.Panels as={Fragment}>
                     {navigation.departments.map((department: Department, departmentIdx: number) => (
-                      <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
+                      <Tab.Panel key={department.slug} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
                             <Link href={`/shop/${department.slug}`}>
@@ -149,7 +131,7 @@ export default function Header() {
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: Category) =>
-                              <div key={category.mongo_id}>
+                              <div key={category.slug}>
                                 <Link href={`/shop/${department.slug}?category=${category.slug}`}
                                   id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
                                   {category.name}
@@ -160,7 +142,7 @@ export default function Header() {
                                   className="mt-6 space-y-4"
                                 >
                                   {category.subcategories.map((subcategory: Subcategory) => (
-                                    <li key={subcategory.mongo_id} className="flex">
+                                    <li key={subcategory.slug} className="flex">
                                       <Link href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="text-gray-500">
                                         {subcategory.name}
                                       </Link>
@@ -228,7 +210,7 @@ export default function Header() {
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
                         {navigation.departments.map((department: Department, departmentIdx: number) => (
-                          <Popover key={department.mongo_id} className="flex">
+                          <Popover key={department.slug} className="flex">
                             {({ open }) => (
                               <>
                                 <div
@@ -274,7 +256,7 @@ export default function Header() {
                                         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
                                             {department.categories.sort((a: Category, b: Category) => a.order - b.order).map((category: Category, categoryIdx: number) => (
-                                              <div key={category.mongo_id}>
+                                              <div key={category.slug}>
                                                 <Link
                                                   onClick={() => onHoverExitMenu(departmentIdx)}
                                                   href={`/shop/${department.slug}?category=${category.slug}`}
@@ -289,7 +271,7 @@ export default function Header() {
                                                   className="mt-6 space-y-2 sm:mt-4 sm:space-y-1"
                                                 >
                                                   {category.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((subcategory: Subcategory) => (
-                                                    <li key={subcategory.mongo_id} className="flex">
+                                                    <li key={subcategory.slug} className="flex">
                                                       <Link
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
                                                         href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`} className="hover:text-gray-800 hover:underline">

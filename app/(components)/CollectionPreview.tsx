@@ -16,7 +16,6 @@ async function getNewArrivals() {
     url.search = params.toString();
 
     const res = await fetch(url.toString(), {
-        cache: 'no-store',
         method: 'GET'
     });
 

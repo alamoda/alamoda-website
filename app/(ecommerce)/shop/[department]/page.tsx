@@ -57,6 +57,16 @@ async function getData(department: string | null, category: string | null, subca
     return { products, count, availableBrands, currentDepartment }
 };
 
+// export async function generateStaticParams() {
+//     const departmentSlugs = ['women', 'men', 'unisex', 'lifestyle']
+
+//     return departmentSlugs.map((department: string) => {
+//         return {
+//             department,
+//         }
+//     })
+// }   
+
 export default async function Shop(
     {
         searchParams,

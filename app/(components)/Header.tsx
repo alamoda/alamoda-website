@@ -8,7 +8,7 @@ import { CartContext } from '@/context/CartContext'
 import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
+// import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -18,14 +18,14 @@ interface HeaderProps {
   navigation: Navigation
 }
 
-export default function Header() {
+export default function Header({navigation} : HeaderProps) {
 
-  const navigation: Navigation = {
-    departments: NAVIGATION_DEPARTMENTS,
-    pages: [
-      { name: 'About Alamoda', href: '/about' },
-    ]
-  }
+  // const navigation: Navigation = {
+  //   departments: NAVIGATION_DEPARTMENTS,
+  //   pages: [
+  //     { name: 'About Alamoda', href: '/about' },
+  //   ]
+  // }
 
   const params = useParams()
 

@@ -15,7 +15,7 @@ type Navigation = {
             available: boolean,
         }[]
     }[]
-}
+}[]
 
 
 
@@ -37,32 +37,32 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
                 available: true,
                 subcategories: [
                     {
-                        name: "Coats",
-                        filters: ["coats", "blazers-vests"],
-                        order: 0,
-                        available: true,
-                    },
-                    {
                         name: "Jackets",
-                        filters: ["jackets", "down-jackets", "furs", "leather-jackets"],
-                        order: 1,
+                        filters: ["coats", "blazers-vests", "jackets", "down-jackets", "furs", "leather-jackets", "trench-coats"],
+                        order: 0,
                         available: true,
                     },
                     {
                         name: "Jeans",
                         filters: ["jeans"],
-                        order: 2,
+                        order: 1,
                         available: true,
                     },
                     {
                         name: "Knitwear",
                         filters: ["knitwear"],
-                        order: 3,
+                        order: 2,
                         available: true,
                     },
                     {
                         name: "Pants",
                         filters: ["pants", "leggings", "bermuda-shorts"],
+                        order: 3,
+                        available: true,
+                    },
+                    {
+                        name: "Shirts",
+                        filters: ["shirts"],
                         order: 4,
                         available: true,
                     },
@@ -92,20 +92,14 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
                     },
                     {
                         name: "Top",
-                        filters: ["top", "polo-shirts", "shirts", "t-shirts"],
+                        filters: ["top", "polo-shirts", "t-shirts"],
                         order: 9,
-                        available: true,
-                    },
-                    {
-                        name: "Trench Coats",
-                        filters: ["trench-coats"],
-                        order: 10,
                         available: true,
                     },
                     {
                         name: "Underwear",
                         filters: ["underwear"],
-                        order: 11,
+                        order: 10,
                         available: true,
                     }
                 ],
@@ -113,50 +107,37 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
             // Footwear
             {
                 name: "Footwear",
-                slug: "footwear",
-                mapped_ids: [707],
+                filters: ["footwear"],
                 order: 1,
                 available: true,
                 subcategories: [
                     {
                         name: "Boots",
-                        slug: "boots",
-                        mapped_ids: [708],
+                        filters: ["boots"],
                         order: 0,
                         available: true,
                     },
                     {
-                        name: "Espadrilles",
-                        slug: "espadrilles",
-                        mapped_ids: [709],
-                        order: 1,
-                        available: true,
-                    },
-                    {
                         name: "Lace Up",
-                        slug: "lace-up",
-                        mapped_ids: [710],
+                        filters: ["lace-up"],
                         order: 2,
                         available: true,
                     },
                     {
                         name: "Loafers",
-                        slug: "loafers",
-                        mapped_ids: [711],
+                        filters: ["loafers"],
                         order: 3,
                         available: true,
                     },
                     {
-                        name: "Sandals",
-                        slug: "sandals",
-                        mapped_ids: [712],
+                        name: "Slides & Sandals",
+                        filters: ["sandals", "espadrilles"],
                         order: 4,
                         available: true,
                     },
                     {
                         name: "Sneakers",
-                        slug: "sneakers",
-                        mapped_ids: [713],
+                        filters: ["sneakers"],
                         order: 5,
                         available: true,
                     }
@@ -176,39 +157,27 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
                         available: true,
                     },
                     {
-                        name: "Briefcases",
-                        filters: ["briefcases"],
+                        name: "Clutches",
+                        filters: ["clutches"],
                         order: 1,
                         available: true,
                     },
                     {
-                        name: "Bucket Bags",
-                        filters: ["bucket-bags"],
-                        order: 2,
-                        available: true,
-                    },
-                    {
-                        name: "Clutches",
-                        filters: ["clutches"],
-                        order: 3,
-                        available: true,
-                    },
-                    {
                         name: "Handbags",
-                        filters: ["handbags"],
-                        order: 4,
+                        filters: ["handbags", "briefcases", "bucket-bags"],
+                        order: 2,
                         available: true,
                     },
                     {
                         name: "Shoulder Bags",
                         filters: ["shoulder-bags"],
-                        order: 5,
+                        order: 3,
                         available: true,
                     },
                     {
                         name: "Travel Bags",
                         filters: ["travel-bags"],
-                        order: 6,
+                        order: 4,
                         available: true,
                     }
                 ],
@@ -216,114 +185,68 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
             // Accessories
             {
                 name: "Accessories",
-                slug: "accessories",
-                mapped_ids: [638],
+                filters: ["accessories"],
                 order: 3,
                 available: true,
                 subcategories: [
                     {
                         name: "Beauty Cases",
-                        slug: "beauty-cases",
-                        mapped_ids: [639],
+                        filters: ["beauty-cases"],
                         order: 0,
                         available: true,
                     },
                     {
                         name: "Belts & Braces",
-                        slug: "belts-braces",
-                        mapped_ids: [640],
+                        filters: ["belts-braces"],
                         order: 1,
                         available: true,
                     },
                     {
-                        name: "Bowties & Ties",
-                        slug: "bowties-ties",
-                        mapped_ids: [641],
+                        name: "Cover & Cases",
+                        filters: ["cover-cases"],
                         order: 2,
                         available: true,
                     },
                     {
-                        name: "Clutches",
-                        slug: "clutches",
-                        mapped_ids: [654],
+                        name: "Eyewear",
+                        filters: ["sunglasses"],
                         order: 3,
                         available: true,
                     },
                     {
-                        name: "Cover & Cases",
-                        slug: "cover-cases",
-                        mapped_ids: [643],
+                        name: "Gloves",
+                        filters: ["gloves"],
                         order: 4,
                         available: true,
                     },
                     {
-                        name: "Cufflinks",
-                        slug: "cufflinks",
-                        mapped_ids: [644],
+                        name: "Hats",
+                        filters: ["hat-hairbands"],
                         order: 5,
                         available: true,
                     },
                     {
-                        name: "Extras",
-                        slug: "extras",
-                        mapped_ids: [656, 661],
+                        name: "Key Rings",
+                        filters: ["key-rings"],
                         order: 6,
                         available: true,
                     },
                     {
-                        name: "Gloves",
-                        slug: "gloves",
-                        mapped_ids: [645],
+                        name: "Scarves",
+                        filters: ["scarves"],
                         order: 7,
                         available: true,
                     },
                     {
-                        name: "Hats & Hairbands",
-                        slug: "hat-hairbands",
-                        mapped_ids: [646],
+                        name: "Ties",
+                        filters: ["bowties-ties"],
                         order: 8,
                         available: true,
                     },
                     {
-                        name: "Key Rings",
-                        slug: "key-rings",
-                        mapped_ids: [647],
-                        order: 9,
-                        available: true,
-                    },
-                    {
-                        name: "Scarves",
-                        slug: "scarves",
-                        mapped_ids: [648],
-                        order: 10,
-                        available: true,
-                    },
-                    {
-                        name: "Shoulder Bags",
-                        slug: "shoulder-bags",
-                        mapped_ids: [655],
-                        order: 11,
-                        available: true,
-                    },
-                    {
-                        name: "Socks",
-                        slug: "socks",
-                        mapped_ids: [649],
-                        order: 12,
-                        available: true,
-                    },
-                    {
-                        name: "Sunglasses",
-                        slug: "sunglasses",
-                        mapped_ids: [650],
-                        order: 13,
-                        available: true,
-                    },
-                    {
                         name: "Wallets",
-                        slug: "wallets",
-                        mapped_ids: [652, 653],
-                        order: 14,
+                        filters: ["wallets"],
+                        order: 9,
                         available: true,
                     },
                 ],
@@ -331,30 +254,25 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
             // Jewellery
             {
                 name: "Jewellery",
-                slug: "jewellery",
-                filter: ["jewellery"],
+                filters: ["jewellery"],
                 order: 4,
                 available: true,
                 subcategories: [
                     {
                         name: "Bracelets",
-                        slug: "bracelets",
-                        filter: ["bracelets"],
+                        filters: ["bracelets"],
                         order: 0,
                         available: true,
                     },
                     {
                         name: "Necklaces",
-                        slug: "necklaces",
-                        filter: ["bracelets"],
-                        mapped_ids: [718],
+                        filters: ["bracelets"],
                         order: 1,
                         available: true,
                     },
                     {
                         name: "Rings",
-                        slug: "rings",
-                        mapped_ids: [719],
+                        filters: ["rings"],
                         order: 2,
                         available: true,
                     },
@@ -362,6 +280,7 @@ export const NAVIGATION_DEPARTMENTS: Navigation = [
             },
         ],
     },
+
 
     // // Women
     // {

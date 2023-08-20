@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Option, Feature, Size, Subcategory, Department, Category, Brand } from "../(types)";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
-import axios from "axios";
 import PhotoInput from "@/app/(components)/PhotoInput";
 import PriceInput from "@/app/(components)/PriceInput";
 import PrimaryButton from "@/app/(components)/PrimaryButton";
@@ -58,53 +57,86 @@ const ProductForm = ({
     }, []);
 
     async function fetchBrands() {
-        const res = await axios.get('/api/brands');
-        setBrands(res.data);
+        const response = await fetch('/api/brands', {
+            method: 'GET'
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+        setBrands(data);
     }
 
     async function fetchDepartments() {
-        const res = await axios.get('/api/departments');
-        setDepartments(res.data);
+        const response = await fetch('/api/departments', {
+            method: 'GET'
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+        setDepartments(data);
     }
 
-    function createOrUpdateProduct() {
+    async function createOrUpdateProduct() {
         if (mongo_id) {
-            axios.put('/api/product', {
-                mongo_id,
-                id,
-                sku,
-                brand_id: brand?.mongo_id,
-                name,
-                description,
-                price,
-                wholesale_price,
-                available: Boolean(available),
-                department_id: department?.mongo_id,
-                category_id: category?.mongo_id,
-                subcategory: subcategory?.mongo_id,
-                features,
-                sizes,
-                images,
-                status
+            const response = await fetch('/api/product', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    mongo_id,
+                    id,
+                    sku,
+                    brand_id: brand?.mongo_id,
+                    name,
+                    description,
+                    price,
+                    wholesale_price,
+                    available: Boolean(available),
+                    department_id: department?.mongo_id,
+                    category_id: category?.mongo_id,
+                    subcategory: subcategory?.mongo_id,
+                    features,
+                    sizes,
+                    images,
+                    status
+                })
             });
+
+            if (!response.ok) {
+                console.error("Could not update product!")
+                return;
+            }
         } else {
-            axios.post('/api/product', {
-                id,
-                sku,
-                brand_id: brand?.mongo_id,
-                name,
-                description,
-                price,
-                wholesale_price,
-                available: Boolean(available),
-                department_id: department?.mongo_id,
-                category_id: category?.mongo_id,
-                subcategory_id: subcategory?.mongo_id,
-                features,
-                sizes,
-                images,
-                status
+            const response = await fetch('/api/product', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    id,
+                    sku,
+                    brand_id: brand?.mongo_id,
+                    name,
+                    description,
+                    price,
+                    wholesale_price,
+                    available: Boolean(available),
+                    department_id: department?.mongo_id,
+                    category_id: category?.mongo_id,
+                    subcategory_id: subcategory?.mongo_id,
+                    features,
+                    sizes,
+                    images,
+                    status
+                })
             });
+
+            if (!response.ok) {
+                console.error("Could not create product!")
+                return;
+            }
+
             router.push('/dashboard/');
         }
     }
@@ -125,10 +157,21 @@ const ProductForm = ({
                 }
             }
 
-            const res = await axios.post('/api/upload', formData);
-            console.log("images are ", res.data);
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
 
-            setImages(oldImages => [...oldImages, ...res.data]);
+            }) 
+
+            if (!response.ok){
+                console.error("Error while uploading the images!");
+                return;
+            }
+
+            const data = await response.json();
+            console.log("images are ", data);
+
+            setImages(oldImages => [...oldImages, ...data]);
         }
     }
 
@@ -329,7 +372,7 @@ const ProductForm = ({
                 {/* SAVE BUTTON */}
                 <PrimaryButton
                     text="Save"
-                    onClick={createOrUpdateProduct}
+                    onClick={() => createOrUpdateProduct()}
                     className="bg-gray-900 text-white hover:bg-gray-800"
                 />
             </span>

@@ -1,7 +1,6 @@
 const navigation = {
   main: [
     { name: 'About', href: '/about' },
-    // { name: 'Blog', href: '/blog' },
     { name: 'Reviews', href: 'https://www.trustpilot.com/review/alamodainc.com?utm_medium=trustbox&utm_source=MicroReviewCount' },
     { name: 'Returns', href: '/faq' },
     { name: 'FAQ', href: '/faq' },

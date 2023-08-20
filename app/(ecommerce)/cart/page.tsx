@@ -2,10 +2,8 @@
 
 import PrimaryInput from '@/app/(components)/PrimaryInput';
 import { CartContext } from '@/context/CartContext';
-import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import axios from 'axios';
+import { XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
-import Link from 'next/link';
 import { useContext, useState } from 'react';
 
 export default function Page() {
@@ -22,13 +20,23 @@ export default function Page() {
       return;
     }
 
-    const res = await axios.post('/api/checkout', {
-      cartProducts,
-      email
-    });
+    const response = await fetch('/api/checkout', {
+      method: 'POST',
+      body: JSON.stringify({
+        cartProducts,
+        email
+      })
+    })
 
-    if (res.data) {
-      window.location = res.data;
+    if (!response.ok) {
+      console.error("Error in checkout!");
+      return
+    }
+
+    const data = await response.json();
+
+    if (data) {
+      window.location = data;
     }
   }
 

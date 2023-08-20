@@ -1,8 +1,6 @@
 "use client"
 
-import { signIn, signOut } from "next-auth/react"
 import { useRef } from "react";
-import axios from "axios";
 
 export default function Example() {
     const emailRef = useRef<HTMLInputElement | null>(null);
@@ -14,14 +12,25 @@ export default function Example() {
         const password = passwordRef.current?.value;
         console.log(email, password);
         try {
-            const { data } = await axios.post("/api/register", {
-              email,
-              password,
-            });
+
+            const response = await fetch("api/register", {
+                method: 'POST',
+                body: JSON.stringify({
+                    email,
+                    password,
+                })
+            })
+
+            if (!response.ok) {
+                console.log("Error registering");
+                return;
+            }
+
+            const data = await response.json();
             console.log(data);
-          } catch (error) {
+        } catch (error) {
             console.log(error);
-          }
+        }
     };
 
     return (

@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 
 export default function SearchInput() {

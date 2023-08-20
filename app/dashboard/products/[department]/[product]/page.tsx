@@ -3,7 +3,6 @@
 import Breadcrumb from "@/app/(components)/Breadcrumb";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import ProductForm from "@/app/(components)/ProductForm";
 import PrimaryButton from "@/app/(components)/PrimaryButton";
 
@@ -35,18 +34,41 @@ export default function Page({
     ];
 
     useEffect(() => {
-        if (!id) {
-            return;
+
+        const getProduct = async () => {
+
+            if (!id) {
+                return;
+            }
+
+            const response = await fetch(`/api/product?id=${id}`, {
+                method: 'GET',
+            });
+
+            if (!response.ok) {
+                console.error("Could not get product");
+                return;
+            }
+
+            const data = await response.json();
+            setProduct(data);
         }
-        axios.get('/api/product?id=' + id).then(res => {
-            setProduct(res.data);
-        });
+
+        getProduct();
+
     }, [id]);
 
-    function deleteProduct() {
-        axios.delete('/api/product?id=' + id).then(res => {
-            router.push('/dashboard');
-        });
+    const deleteProduct = async () => {
+
+        const response = await fetch(`/api/product?id=${id}`, {
+            method: 'DELETE'
+        })
+
+        if (!response.ok) {
+            console.error("Error deleting the product")
+        }
+
+        router.push('/dashboard');
     }
 
     return (

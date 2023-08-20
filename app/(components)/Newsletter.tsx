@@ -1,6 +1,5 @@
 'use client'
 
-import axios from "axios";
 import { ChangeEvent, useState } from "react";
 
 const newsletterDepartments = [
@@ -30,24 +29,31 @@ export default function Newsletter() {
         setErrorText("");
 
         try {
-            const res = await axios.post('/api/newsletter', {
-                inputDepartment,
-                inputEmail
-            });
 
-            if (res.status === 200) {
-                console.log('Form submitted successfully');
-            } else {
+            const res = await fetch('/api/newsletter', {
+                method: 'POST',
+                body: JSON.stringify({
+                    inputDepartment,
+                    inputEmail
+                })
+            })
+
+            if (!res.ok){
                 setErrorText("Error, please try again later.");
                 console.error('Form submission failed');
+                setLoading(false);
+                return;
             }
+
+            setSuccessText("Thank you for joining!");
+            setLoading(false);
+
         } catch (error) {
             setErrorText("An error occurred while submitting the form, please try again later.");
         }
 
         setSuccessText("Thank you for joining!");
         setLoading(false);
-
     };
 
     return (

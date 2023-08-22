@@ -1738,12 +1738,6 @@ export const NAVIGATION_DEPARTMENTS: Navigation = {
             ],
         },
     ],
-    brands: [
-        {
-            name: "Gucci",
-            filters: ["gucci"]
-        }
-    ],
     pages: [
         {
             name: 'About Alamoda',

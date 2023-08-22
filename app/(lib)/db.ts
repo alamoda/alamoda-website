@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { Prisma, PrismaClient } from "@prisma/client"
 
 declare global {
     // eslint-disable-next-line no-var
@@ -16,3 +16,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export const db = prisma
+
+
+const productWithRelations = Prisma.validator<Prisma.ProductArgs>()({
+    include: {
+        brand: true,
+        department: true,
+        category: true,
+        subcategory: true,
+    },
+})
+
+export type ProductWithRelations= Prisma.ProductGetPayload<typeof productWithRelations>;

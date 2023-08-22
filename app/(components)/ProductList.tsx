@@ -1,58 +1,57 @@
-
-import { Product } from "../(types)"
+import { Brand } from "@prisma/client";
+import { ProductWithRelations } from "../(lib)/db";
+import { ProductFilters, SortOption } from "../(types)";
+import { PRODUCT_SORT_OPTIONS } from "../(utils)/constants";
+import { prepareProductQueryFilters } from "../(utils)/helpers";
+import { countProducts, getBrands, getProducts } from "../actions";
+import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
-import Link from "next/link";
 
-interface ComponentProps {
-    filterParams: URLSearchParams
-    listUrl: string
-    listTitle: string
+interface ProductListProps {
+    productFilters: ProductFilters
+    skip: number
+    take: number
+    order?: SortOption
 }
 
-async function fetchProducts(urlParams: URLSearchParams) {
+export default async function ProductList({ productFilters, skip, take, order }: ProductListProps) {
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_URL}api/products`);
+    const productQueryFilters = prepareProductQueryFilters(productFilters);
 
-    if (!urlParams.has("limit")) urlParams.append("limit", "4");
-    if (!urlParams.has("statuses")) urlParams.append("statuses", "2");
-    if (!urlParams.has("available")) urlParams.append("available", "true");
-    if (!urlParams.has("order")) urlParams.append("order", "new-in");
+    const count: number = await countProducts(productQueryFilters);
 
+    const products: ProductWithRelations[] = await getProducts(
+        productQueryFilters,
+        take,
+        skip,
+        order ? order : PRODUCT_SORT_OPTIONS[0]
+    );
 
-    url.search = urlParams.toString();
+    const brands: Brand[] = await getBrands();
 
-    const response = await fetch(url.toString());
-
-    return (await response.json()).products;
-  };
-
-export default async function ProductList({ filterParams, listUrl, listTitle }: ComponentProps) {
-
-    const products = await fetchProducts(filterParams);
 
     return (
-        <div>
-            <div className="md:flex md:items-center md:justify-between">
-                <h2 className="text-4xl tracking-tight text-gray-900 capitalize">{listTitle}</h2>
-                {listUrl &&
-                    <Link href={listUrl} className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 md:block">
-                        Shop the collection
-                        <span aria-hidden="true"> &rarr;</span>
-                    </Link>
-                }
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            {products.length === 0 &&
+                <div className="mx-auto text-center text-gray-500">No products available yet!</div>
+            }
+            <h2 className="sr-only">Products</h2>
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
+                {/* {products.map((product: any) => (
+                    <ProductCard route={`/shop/${department}/${product.mongo_id}`} key={product.mongo_id} product={product} />
+                ))} */}
             </div>
-
-            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                {products.map((product: Product) => (
-                    <ProductCard route={`/shop/${product.department.slug}/${product.mongo_id}`} key={product.mongo_id} product={product} />
-                ))}
-            </div>
-
-            <div className="mt-8 text-sm md:hidden">
-                <a href="#" className="font-medium text-gray-900 hover:text-gray-700">
-                    Shop the collection
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
+            {/* PAGINATION */}
+            <div className='mt-8'>
+                {/* <Pagination
+                    productCount={count}
+                    baseUrl={baseUrl}
+                    category={category}
+                    subcategories={subcategories}
+                    skip={skip}
+                    order={order}
+                    brands={brands}
+                /> */}
             </div>
         </div>
     )

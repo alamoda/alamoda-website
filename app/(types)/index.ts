@@ -93,18 +93,6 @@ export type CartProduct = {
     quantity: number
 }
 
-export type ProductFilters = {
-    department?: Department,
-    category?: Category,
-    subcategories?: Subcategory[]
-    order?: SortOption
-    brands?: Brand[]
-    statuses?: string[]
-    excludes?: string[]
-    limit?: number
-    available?: boolean
-}
-
 export type Order = {
     mongo_id: string
     cart_products: Object[]
@@ -155,6 +143,60 @@ export type NavigationPages = {
 
 export type Navigation = {
     departments: NavigationDepartment[]
-    brands: NavigationBrands[]
+    // brands: NavigationBrands[]
     pages: NavigationPages[]
+}
+
+
+// TODO
+// export type ProductFilters = {
+//     department?: Department,
+//     category?: Category,
+//     subcategories?: Subcategory[]
+//     order?: SortOption
+//     brands?: Brand[]
+//     statuses?: string[]
+//     excludes?: string[]
+//     limit?: number
+//     available?: boolean
+// }
+
+enum ProductScrapeStatus {
+    // Fatal problem in processing the product
+    FATAL = -1,
+    // No image found
+    NO_IMAGE = 0,
+    // Image found but only small size
+    SMALL_IMAGE = 1,
+    // Full size image found
+    FULL_IMAGE = 2,
+}
+
+export type ProductAPIFilter = {
+    department: string
+    category: string
+    subcategories: string[]
+    brands: string[]
+    query: string
+    order: string
+    skip: number
+    take: number
+    statuses: ProductScrapeStatus[]
+    available: boolean
+    exclude: string[]
+}
+
+export type ProductFilters = {
+    
+    // Mandatory
+    statuses: ProductScrapeStatus[]
+    available: boolean
+
+    // Optional
+    department?: string
+    category?: string
+    subcategories?: string[]
+    brands?: string[]
+    query?: string
+    exclude?: string[]
 }

@@ -2,7 +2,9 @@ const { hostname } = require('os');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: { appDir: true },
+  experimental: {
+    serverActions: true,
+  },
   webpack: (config) => {
     // this will override the experiments
     config.experiments = { ...config.experiments, topLevelAwait: true };

@@ -1,6 +1,7 @@
 // import ProductList from '@/app/(components)/ProductList'
 import Testimonials from '@/app/(components)/Testimonials'
 import Link from 'next/link'
+import ProductListPreview from '@/app/(components)/ProductListPreview'
 
 export default function Page() {
 
@@ -110,36 +111,36 @@ export default function Page() {
                     <div className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-32">
 
                         <div className="">
-                            {/* @ts-expect-error Server Component
-                            <ProductList
+                            {/* @ts-expect-error Server Component */}
+                            <ProductListPreview
                                 listTitle="New in for Women"
                                 filterParams={new URLSearchParams({
                                     department: "women",
                                 })}
                                 listUrl={`shop/women`}
-                            /> */}
+                            />
                         </div>
 
                         <div className="py-24 sm:py-32">
-                            {/* @ts-expect-error Server Component
-                            <ProductList
+                            {/* @ts-expect-error Server Component */}
+                            <ProductListPreview
                                 listTitle="New in for Men"
                                 filterParams={new URLSearchParams({
                                     department: "men",
                                 })}
                                 listUrl={`shop/men`}
-                            /> */}
+                            />
                         </div>
 
                         <div className="">
-                            {/* @ts-expect-error Server Component
-                            <ProductList
+                            {/* @ts-expect-error Server Component */}
+                            <ProductListPreview
                                 listTitle="New in for Lifestyle"
                                 filterParams={new URLSearchParams({
                                     department: "lifestyle",
                                 })}
                                 listUrl={`shop/lifestyle`}
-                            /> */}
+                            />
                         </div>
                     </div>
                 </section>

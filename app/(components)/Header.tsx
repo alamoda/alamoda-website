@@ -118,15 +118,19 @@ export default function Header() {
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <Link href={`/shop/${department.filters}`}>
+                            <Link href={`/shop/${department.filters}`} shallow={true}>
                               View all {department.name}
                             </Link>
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: NavigationCategory) =>
                               <div key={category.name}>
-                                <Link href={`/shop/${department.filters}?category=${category.filters}`}
-                                  id={`mobile-featured-heading-${departmentIdx}`} className="font-medium text-gray-900">
+                                <Link
+                                  href={`/shop/${department.filters}?category=${category.filters}`}
+                                  id={`mobile-featured-heading-${departmentIdx}`}
+                                  className="font-medium text-gray-900"
+                                  shallow={true}
+                                >
                                   {category.name}
                                 </Link>
                                 <ul
@@ -136,7 +140,11 @@ export default function Header() {
                                 >
                                   {category.subcategories.map((subcategory: NavigationSubcategory) => (
                                     <li key={subcategory.name} className="flex">
-                                      <Link href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`} className="text-gray-500">
+                                      <Link
+                                        href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`}
+                                        className="text-gray-500"
+                                        shallow={true}
+                                      >
                                         {subcategory.name}
                                       </Link>
                                     </li>
@@ -154,7 +162,11 @@ export default function Header() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <Link href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                      <Link
+                        href={page.href}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                        shallow={true}
+                      >
                         {page.name}
                       </Link>
                     </div>
@@ -223,7 +235,12 @@ export default function Header() {
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-xs font-medium transition-colors duration-200 ease-out'
                                     )}
                                   >
-                                    <Link className="h-full w-full flex items-center justify-center" onClick={() => onHoverExitMenu(departmentIdx)} href={`/shop/${department.filters}`}>
+                                    <Link
+                                      className="h-full w-full flex items-center justify-center"
+                                      onClick={() => onHoverExitMenu(departmentIdx)}
+                                      href={`/shop/${department.filters}`}
+                                      shallow={true}
+                                    >
                                       {department.name}
                                     </Link>
                                   </Popover.Button>
@@ -257,6 +274,7 @@ export default function Header() {
                                                   href={`/shop/${department.filters}?category=${category.filters}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
+                                                  shallow={true}
                                                 >
                                                   {category.name}
                                                 </Link>
@@ -269,7 +287,10 @@ export default function Header() {
                                                     <li key={subcategory.name} className="flex">
                                                       <Link
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
-                                                        href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`} className="hover:text-gray-800 hover:underline">
+                                                        href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`}
+                                                        className="hover:text-gray-800 hover:underline"
+                                                        shallow={true}
+                                                      >
                                                         {subcategory.name}
                                                       </Link>
                                                     </li>

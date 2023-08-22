@@ -1,3 +1,6 @@
+import { ProductFilters, SortOption } from "../(types)";
+import { PRODUCT_SORT_OPTIONS } from "./constants";
+
 export function getIntParam(url: URL, name: string) {
     const intParam = url.searchParams.get(name);
 
@@ -28,3 +31,96 @@ export function getBoolParam(url: URL, name: string) {
 
     return null;
 };
+
+export function prepareProductQueryFilters(productFilters: ProductFilters) {
+    
+    const queryFilters: object[] = [
+        {
+            status: {
+                in: productFilters.statuses
+            }
+        },
+        {
+            available: productFilters.available
+        }
+    ];
+
+    if (productFilters.department) {
+        queryFilters.push(
+            {
+                department: {
+                    slug: productFilters.department,
+                },
+            }
+        );
+    }
+
+    if (productFilters.category) {
+        queryFilters.push(
+            {
+                category: {
+                    slug: productFilters.category,
+                },
+            }
+        );
+    }
+
+    if (productFilters.subcategories) {
+        queryFilters.push(
+            {
+                subcategory: {
+                    slug: {
+                        in: productFilters.subcategories
+                    }
+                }
+            }
+        );
+    }
+
+    if (productFilters.brands) {
+        queryFilters.push(
+            {
+                brand: {
+                    slug: {
+                        in: productFilters.brands
+                    }
+                }
+            }
+        );
+    }
+
+    if (productFilters.exclude) {
+        queryFilters.push(
+            {
+                mongo_id: {
+                    notIn: productFilters.exclude
+                }
+            }
+        );
+    }
+
+    if (productFilters.query) {
+        queryFilters.push(
+            {
+                OR: [
+                    {
+                        name: {
+                            contains: productFilters.query,
+                            mode: "insensitive",
+                        }
+                    },
+                    {
+                        brand: {
+                            name: {
+                                contains: productFilters.query,
+                                mode: "insensitive",
+                            }
+                        }
+                    },
+                ]
+            }
+        )
+    }
+
+    return queryFilters;
+}

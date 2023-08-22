@@ -1,7 +1,7 @@
-import { CurrencyDollarIcon, GlobeAmericasIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { CurrencyDollarIcon, GlobeAmericasIcon } from '@heroicons/react/24/outline'
 import { Route } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
-import ProductList from '@/app/(components)/ProductList'
+import ProductListPreview from '@/app/(components)/ProductListPreview'
 import ProductImageGallery from '@/app/(components)/ProductImageGallery'
 import ProductFeatures from '@/app/(components)/ProductFeatures'
 import CheckoutButton from '@/app/(components)/CheckoutButton'
@@ -123,7 +123,7 @@ export default async function Page({ params }: { params: { product_id: string } 
             {/* You might also like */}
             <div className="pt-16 md:pt-32">
               {/* @ts-expect-error Server Component */}
-              <ProductList
+              <ProductListPreview
                 listTitle="You might also like"
                 filterParams={new URLSearchParams({
                   department: product?.department.slug,
@@ -138,7 +138,7 @@ export default async function Page({ params }: { params: { product_id: string } 
             {/* More from brand */}
             <div className="pt-16 md:pt-32">
               {/* @ts-expect-error Server Component */}
-              <ProductList
+              <ProductListPreview
                 listTitle={`More from ${product?.brand.name.toLowerCase()}`}
                 filterParams={new URLSearchParams({
                   brands: product?.brand.slug,

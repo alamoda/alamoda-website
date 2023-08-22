@@ -1,61 +1,9 @@
 import Breadcrumb from '@/app/(components)/Breadcrumb';
-import Pagination from '@/app/(components)/Pagination';
-import ProductCard from '@/app/(components)/ProductCard';
+
 import Filters from '@/app/(components)/Filters';
 import { Brand, Category, Department, Product, ProductFilters, SortOption, Subcategory } from '@/app/(types)';
 import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
-
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[]) {
-
-    const url = new URL(`${process.env.NEXT_PUBLIC_URL}api/products`);
-    const params = new URLSearchParams();
-
-    if (department) params.append("department", department);
-    if (category) params.append("category", category);
-    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','));
-    if (brands && brands.length > 0) params.append("brands", brands.join(','));
-
-    params.append("limit", "60");
-    params.append("status-min", "2");
-    params.append("available", "true");
-    params.append("skip", String(skip));
-    params.append("q", query);
-    params.append("order", order);
-
-    url.search = params.toString();
-
-    const resProducts = await fetch(url.toString(), {
-        method: 'GET'
-    });
-
-    if (!resProducts.ok) {
-        throw new Error('Failed to fetch products');
-    }
-
-    const { products, count } = await resProducts.json();
-
-    const resBrands = await fetch(`${process.env.NEXT_PUBLIC_URL}api/brands`, {
-        method: 'GET'
-    });
-
-    if (!resBrands.ok) {
-        throw new Error('Failed to fetch brands');
-    }
-
-    const availableBrands = await resBrands.json();
-
-    const resDepartment = await fetch(`${process.env.NEXT_PUBLIC_URL}api/departments/${department}`, {
-        method: 'GET'
-    });
-
-    if (!resDepartment.ok) {
-        throw new Error('Failed to fetch department');
-    }
-
-    const currentDepartment = await resDepartment.json();
-
-    return { products, count, availableBrands, currentDepartment }
-};
+import ProductList from '@/app/(components)/ProductList';
 
 export default async function Shop(
     {
@@ -66,6 +14,7 @@ export default async function Shop(
         params: { department: string }
     }) {
 
+    const take = 60;
     const skip = searchParams.skip ? Number(searchParams.skip) : 0;
     const query = searchParams.q ? String(searchParams.q) : "";
     const department = params.department;
@@ -74,23 +23,34 @@ export default async function Shop(
     const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
-    const { products, count, currentDepartment, availableBrands }: {
-        products: Product[],
-        count: number,
-        currentDepartment: Department,
-        availableBrands: Brand[]
-    } = await getData(department, category, subcategories, skip, query, order, brands);
+    // const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
 
-    const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
 
     const activeFilters: ProductFilters = {
-        category: currentCategory,
-        subcategories: (subcategories && currentCategory) ? currentCategory.subcategories.filter((sub: Subcategory) => subcategories.includes(sub.slug)) : undefined,
-        order: order ? PRODUCT_SORT_OPTIONS.find((opt: SortOption) => opt.slug === order) : PRODUCT_SORT_OPTIONS[0],
-        brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
-    };
+        statuses: [2],
+        available: true,
+        department: department,
+        category: category,
+        subcategories: subcategories,
+        brands: brands,
+        query: query,
+    }
 
-    const baseUrl = `${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`
+    let orderFilter: SortOption = PRODUCT_SORT_OPTIONS[0];
+    if (order) {
+        const res = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === order);
+        if (res) orderFilter = res
+    }
+
+
+    // const activeFilters: ProductFilters = {
+    //     category: currentCategory,
+    //     subcategories: (subcategories && currentCategory) ? currentCategory.subcategories.filter((sub: Subcategory) => subcategories.includes(sub.slug)) : undefined,
+    //     order: order ? PRODUCT_SORT_OPTIONS.find((opt: SortOption) => opt.slug === order) : PRODUCT_SORT_OPTIONS[0],
+    //     brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
+    // };
+
+    // const baseUrl = `${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`
 
     const breadcrumbs = [
         {
@@ -117,46 +77,26 @@ export default async function Shop(
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-4xl tracking-tight text-gray-900 capitalize">
-                    {currentDepartment.name + (currentCategory ? ` - ${currentCategory.name}` : "")}
+                    {/* {currentDepartment.name + (currentCategory ? ` - ${currentCategory.name}` : "")} */}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
-                    {currentDepartment.description}
+                    {/* {currentDepartment.description} */}
                 </p>
             </div>
 
             {/* FILTERS */}
-            <Filters
+            {/* <Filters
                 admin={false}
                 route='shop'
                 currentDepartment={currentDepartment}
                 currentBrands={availableBrands}
                 activeFilters={activeFilters}
-            />
+            /> */}
 
             {/* PRODUCTS */}
             <div className="bg-white" >
-                <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                    {products.length === 0 &&
-                        <div className="mx-auto text-center text-gray-500">No products available yet!</div>
-                    }
-                    <h2 className="sr-only">Products</h2>
-                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
-                        {products.map((product: any) => (
-                            <ProductCard route={`/shop/${department}/${product.mongo_id}`} key={product.mongo_id} product={product} />
-                        ))}
-                    </div>
-                    {/* PAGINATION */}
-                    <div className='mt-8'>
-                        <Pagination
-                            productCount={count}
-                            baseUrl={baseUrl}
-                            category={category}
-                            subcategories={subcategories}
-                            skip={skip}
-                            order={order}
-                            brands={brands} />
-                    </div>
-                </div>
+                
+                {/* <ProductList productFilters={activeFilters} skip={skip} take={take} order={orderFilter} /> */}
             </div>
         </>
     )

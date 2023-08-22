@@ -9,9 +9,10 @@ interface ProductListProps {
     skip: number
     take: number
     order?: SortOption
+    baseURL: string
 }
 
-export default async function ProductList({ queryFilters, skip, take, order }: ProductListProps) {
+export default async function ProductList({ queryFilters, skip, take, order, baseURL }: ProductListProps) {
 
     const products: ProductWithRelations[] = await getProducts(
         queryFilters,
@@ -30,7 +31,7 @@ export default async function ProductList({ queryFilters, skip, take, order }: P
                 {products.map((product: ProductWithRelations) => (
                     <ProductCard
                         key={product.mongo_id}
-                        route={`/shop/${department}/${product.mongo_id}`}
+                        route={`${baseURL}/${product.mongo_id}`}
                         product={product} />
                 ))}
             </div>

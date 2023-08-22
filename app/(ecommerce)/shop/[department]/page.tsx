@@ -3,12 +3,13 @@ import Breadcrumb from '@/app/(components)/Breadcrumb';
 import { Brand } from "@prisma/client";
 import Filters from '@/app/(components)/Filters';
 import { ProductFilters, SortOption } from '@/app/(types)';
-import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
+import { DEPARTMENTS, PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 import ProductList from '@/app/(components)/ProductList';
 import { getBrands } from '@/app/actions';
 import { getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
 import { Suspense } from 'react';
 import Pagination from '@/app/(components)/Pagination';
+import ProductListSkeleton from '@/app/(components)/ProductListSkeleton';
 
 export default async function Shop(
     {
@@ -48,7 +49,8 @@ export default async function Shop(
 
     const brandsResult: Brand[] = await getBrands();
 
-    const currentURL = getURL(`${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`, searchParams);
+    const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`;
+    const currentURL = getURL(baseURL, searchParams);
 
     const breadcrumbs = [
         {
@@ -65,6 +67,7 @@ export default async function Shop(
         breadcrumbs.push({ name: category, href: `shop/${department}?category=${category}` })
     }
 
+    const currentDepartment = DEPARTMENTS.find((dept) => dept.slug === department);
 
     // const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
     // const activeFilters: ProductFilters = {
@@ -88,10 +91,10 @@ export default async function Shop(
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-4xl tracking-tight text-gray-900 capitalize">
-                    {currentDepartment.name + (currentCategory ? ` - ${currentCategory.name}` : "")}
+                    {currentDepartment?.name}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
-                    {currentDepartment.description}
+                    {currentDepartment?.description}
                 </p>
             </div>
 
@@ -107,13 +110,14 @@ export default async function Shop(
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 
                 {/* PRODUCTS */}
-                <Suspense fallback={<p>Loading feed...</p>}>
+                <Suspense fallback={<ProductListSkeleton/>}>
                     {/* @ts-expect-error Server Component */}
                     <ProductList
                         queryFilters={productQueryFilters}
                         skip={skip}
                         take={take}
                         order={orderFilter}
+                        baseURL={baseURL}
                     />
                 </Suspense>
 

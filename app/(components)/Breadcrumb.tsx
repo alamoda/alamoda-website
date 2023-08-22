@@ -22,12 +22,12 @@ export default function Breadcrumb({ routes }: ComponentProps) {
                                     <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                                 </svg>
                             }
-                            <Link
+                            <a
                                 href={route.href}
                                 className="ml-4 text-xs font-medium text-gray-500 hover:text-gray-700 capitalize"
                             >
                                 {route.name.toLowerCase().replace('-', ' ')}
-                            </Link>
+                            </a>
                         </div>
                     </li>
                 ))}

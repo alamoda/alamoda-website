@@ -114,21 +114,20 @@ export default function Header() {
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <Link href={`/shop/${department.filter}`} shallow={true}>
+                            <a href={`/shop/${department.filter}`}>
                               View all {department.name}
-                            </Link>
+                            </a>
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: NavigationCategory) =>
                               <div key={category.name}>
-                                <Link
+                                <a
                                   href={`/shop/${department.filter}?category=${category.filters}`}
                                   id={`mobile-featured-heading-${departmentIdx}`}
                                   className="font-medium text-gray-900"
-                                  shallow={true}
                                 >
                                   {category.name}
-                                </Link>
+                                </a>
                                 <ul
                                   role="list"
                                   aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
@@ -136,13 +135,12 @@ export default function Header() {
                                 >
                                   {category.subcategories.map((subcategory: NavigationSubcategory) => (
                                     <li key={subcategory.name} className="flex">
-                                      <Link
+                                      <a
                                         href={`/shop/${department.filter}?category=${category.filters}&subcategories=${subcategory.filters}`}
                                         className="text-gray-500"
-                                        shallow={true}
                                       >
                                         {subcategory.name}
-                                      </Link>
+                                      </a>
                                     </li>
                                   ))}
                                 </ul>
@@ -168,19 +166,6 @@ export default function Header() {
                     </div>
                   ))}
                 </div>
-
-                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                      Create an account
-                    </a>
-                  </div>
-                  <div className="flow-root">
-                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                      Sign in
-                    </a>
-                  </div>
-                </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -235,7 +220,6 @@ export default function Header() {
                                       className="h-full w-full flex items-center justify-center"
                                       onClick={() => onHoverExitMenu(departmentIdx)}
                                       href={`/shop/${department.filter}`}
-                                      shallow={true}
                                     >
                                       {department.name}
                                     </Link>
@@ -265,15 +249,14 @@ export default function Header() {
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
                                             {department.categories.map((category: NavigationCategory, categoryIdx: number) => (
                                               <div key={category.name}>
-                                                <Link
+                                                <a
                                                   onClick={() => onHoverExitMenu(departmentIdx)}
                                                   href={`/shop/${department.filter}?category=${category.filters}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
-                                                  shallow={true}
                                                 >
                                                   {category.name}
-                                                </Link>
+                                                </a>
                                                 <ul
                                                   role="list"
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
@@ -281,14 +264,13 @@ export default function Header() {
                                                 >
                                                   {category.subcategories.map((subcategory: NavigationSubcategory) => (
                                                     <li key={subcategory.name} className="flex">
-                                                      <Link
+                                                      <a
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
                                                         href={`/shop/${department.filter}?category=${category.filters}&subcategories=${subcategory.filters}`}
                                                         className="hover:text-gray-800 hover:underline"
-                                                        shallow={true}
                                                       >
                                                         {subcategory.name}
-                                                      </Link>
+                                                      </a>
                                                     </li>
                                                   ))}
                                                 </ul>

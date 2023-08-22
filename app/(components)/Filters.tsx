@@ -4,8 +4,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import Link from 'next/link'
-import { SortOption, ProductFilters, Department, Category, Subcategory } from '../(types)'
+import { SortOption, ProductFilters, Category, Subcategory } from '../(types)'
 import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
 import { cn } from '../(utils)/helpers'
 import { Brand } from '@prisma/client'
@@ -35,7 +34,6 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
     const [open, setOpen] = useState(false)
     const [brandSearchTerm, setBrandSearchTerm] = useState<string>("");
 
-
     const prepareDisplayFilters = () => {
 
         const toDisplayFilters = [];
@@ -44,6 +42,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
             const url = new URL(currentURL);
             url.searchParams.delete("category");
             url.searchParams.delete("subcategories");
+            url.searchParams.delete("skip");
 
             toDisplayFilters.push({ name: activeFilters.category.name, url: url.toString() });
         }
@@ -59,6 +58,8 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                 if (filteredSubcategories.length === 0) url.searchParams.delete("subcategories")
                 else url.searchParams.set("subcategories", filteredSubcategories.map(s => s.slug).join(','))
+
+                url.searchParams.delete("skip");
 
                 toDisplayFilters.push({ name: subcategory.name, url: url.toString() });
             }
@@ -76,6 +77,8 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                 if (filteredBrands.length === 0) url.searchParams.delete("brands")
                 else url.searchParams.set("brands", filteredBrands.map(b => b.slug).join(','))
 
+                url.searchParams.delete("skip");
+
                 toDisplayFilters.push({ name: brand.name, url: url.toString() });
             }
         }
@@ -92,6 +95,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
         const url = new URL(currentURL);
         url.searchParams.set("category", category.slug);
         url.searchParams.delete("subcategories");
+        url.searchParams.delete("skip");
 
         return url.toString();
     };
@@ -112,6 +116,8 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
         }
 
         url.searchParams.set("subcategories", filteredSubcategories.map((s) => s.slug).join(','))
+        url.searchParams.delete("skip");
+
         return url.toString();
     };
 
@@ -131,50 +137,17 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
         }
 
         url.searchParams.set("brands", filteredBrands.map(b => b.slug).join(','))
+        url.searchParams.delete("skip");
 
         return url.toString();
     };
 
-    const getSortUrl = (srt: SortOption) => {
-        // return buildUrl({
-        //     category: activeFilters.category,
-        //     subcategories: activeFilters.subcategories,
-        //     order: srt,
-        //     brands: activeFilters.brands,
-        // } as ProductFilters);
+    const getSortUrl = (sortOption: SortOption) => {
+        const url = new URL(currentURL);
+        url.searchParams.set("orderBy", sortOption.slug);
+        url.searchParams.delete("skip");
 
-        return "/";
-    };
-
-    const getRemoveFilterUrl = (filterSlug: string) => {
-
-        // // If it's a category
-        // // we also remove the category
-        // if (activeFilters.category?.slug === filterSlug) {
-        //     return buildUrl({} as ProductFilters);
-        // }
-
-        // // If it's a subcategory
-        // if (activeFilters.subcategories?.some((s: Subcategory) => s.slug === filterSlug)) {
-        //     return buildUrl({
-        //         category: activeFilters.category,
-        //         subcategories: activeFilters.subcategories.filter((val: Subcategory) => val.slug !== filterSlug),
-        //         order: activeFilters.order,
-        //         brands: activeFilters.brands,
-        //     } as ProductFilters);
-        // }
-
-        // // If it's a brand
-        // if (activeFilters.brands?.some((b: Brand) => b.slug === filterSlug)) {
-        //     return buildUrl({
-        //         category: activeFilters.category,
-        //         subcategories: activeFilters.subcategories,
-        //         order: activeFilters.order,
-        //         brands: activeFilters.brands.filter((val: Brand) => val.slug !== filterSlug),
-        //     } as ProductFilters);
-        // }
-
-        return "#";
+        return url.toString();
     };
 
     return (
@@ -193,7 +166,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
                                 <Menu.Button className="group inline-flex items-center justify-center text-xs font-medium text-gray-900 hover:text-gray-700">
-                                    Sort
+                                    {orderBy ? orderBy.name : "Sort"}
                                     <ChevronDownIcon
                                         className="-mr-1 ml-1 h-4 w-4 flex-shrink-0 text-gray-900 group-hover:text-gray-600"
                                         aria-hidden="true"
@@ -360,7 +333,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                     {activeFilters.department?.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
                                                         <Menu.Item key={cat.slug}>
                                                             {({ active }) => (
-                                                                <Link href={getCategoryUrl(cat)}
+                                                                <a href={getCategoryUrl(cat)}
                                                                     className={cn(
                                                                         activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
@@ -368,7 +341,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                                     )}
                                                                 >
                                                                     {cat.name}
-                                                                </Link>
+                                                                </a>
                                                             )}
                                                         </Menu.Item>
                                                     ))}
@@ -407,23 +380,25 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                     <form className="space-y-1">
                                                         {activeFilters.category?.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
                                                             <div key={sub.slug} className="flex items-center whitespace-nowrap">
-                                                                <Link
-                                                                    href={getSubcategoryUrl(sub)}>
+                                                                <a
+                                                                    href={getSubcategoryUrl(sub)}
+                                                                    className='p-1 cursor-pointer hover:bg-gray-100 w-full'
+                                                                >
                                                                     <input
                                                                         name={`${sub.mongo_id}[]`}
                                                                         defaultValue={sub.slug}
                                                                         type="checkbox"
                                                                         readOnly
+                                                                        style={{ pointerEvents: 'none' }}
                                                                         checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
                                                                         className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                     />
-                                                                    <label
-                                                                        htmlFor={`filter-${sub.slug}`}
+                                                                    <span
                                                                         className="ml-3 pr-6 text-xs text-gray-900 capitalize"
                                                                     >
                                                                         {sub.name}
-                                                                    </label>
-                                                                </Link>
+                                                                    </span>
+                                                                </a>
                                                             </div>
                                                         ))}
                                                     </form>

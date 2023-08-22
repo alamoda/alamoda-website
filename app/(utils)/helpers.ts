@@ -54,7 +54,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         queryFilters.push(
             {
                 department: {
-                    slug: productFilters.department,
+                    slug: productFilters.department.slug,
                 },
             }
         );
@@ -64,7 +64,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         queryFilters.push(
             {
                 category: {
-                    slug: productFilters.category,
+                    slug: productFilters.category.slug,
                 },
             }
         );
@@ -75,7 +75,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
             {
                 subcategory: {
                     slug: {
-                        in: productFilters.subcategories
+                        in: productFilters.subcategories.map(subcategory => subcategory.slug)
                     }
                 }
             }
@@ -87,7 +87,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
             {
                 brand: {
                     slug: {
-                        in: productFilters.brands
+                        in: productFilters.brands.map(brand => brand.slug)
                     }
                 }
             }
@@ -98,7 +98,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         queryFilters.push(
             {
                 mongo_id: {
-                    notIn: productFilters.exclude
+                    notIn: productFilters.exclude.map(product => product.mongo_id)
                 }
             }
         );

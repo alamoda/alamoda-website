@@ -20,40 +20,33 @@ export default async function Shop(
         params: { department: string },
     }) {
 
-    const take = 60;
-    const skip = searchParams.skip ? Number(searchParams.skip) : 0;
-    const query = searchParams.q ? String(searchParams.q) : "";
-    const department = params.department;
-    const category = searchParams.category ? String(searchParams.category) : "";
-    const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
-    const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
-    const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
-
-    const activeFilters: ProductFilters = {
-        statuses: [2],
-        available: true,
-        department: department,
-        category: category,
-        subcategories: subcategories,
-        brands: brands,
-        query: query,
-    }
+    // Get all parameters
+    const takeParam = 60;
+    const skipParam = searchParams.skip ? Number(searchParams.skip) : 0;
+    const queryParam = searchParams.q ? String(searchParams.q) : "";
+    const departmentParam = params.department;
+    const categoryParam = searchParams.category ? String(searchParams.category) : "";
+    const subcategoriesParam = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
+    const orderParam = searchParams.orderBy ? String(searchParams.orderBy) : "";
+    const brandsParam = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
     // Order By
-    const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === order);
+    const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === orderParam);
     const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
-    
-    // URL
-    const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`;
-    const currentURL = getURL(baseURL, searchParams);
 
-    
-    // Department + Category
-    const foundDepartment = DEPARTMENTS.find((dept) => dept.slug === department);
-    const currentDepartment =  foundDepartment !== undefined ? foundDepartment : {} as Department;
-    const currentCategory = currentDepartment.categories.find((cat) => cat.slug === category);
+    // Department, Category, Subcategories
+    const foundDepartment = DEPARTMENTS.find((dept) => dept.slug === departmentParam);
+    const currentDepartment = foundDepartment !== undefined ? foundDepartment : {} as Department;
+    const currentCategory = currentDepartment.categories.find((cat) => cat.slug === categoryParam);
+    const paramSubcategoriesSet = new Set(subcategoriesParam);
+    const currentSubcategories = currentCategory?.subcategories.filter((subcategory) => paramSubcategoriesSet.has(subcategory.slug))
 
+
+    // Brands
+    const availableBrands: Brand[] = await getBrands();
+    const paramBrandSet = new Set(brandsParam);
+    const currentBrands = availableBrands.filter(brand => paramBrandSet.has(brand.slug));
 
     // Breadcrumbs
     const breadcrumbs = [
@@ -62,27 +55,28 @@ export default async function Shop(
             href: '/shop'
         },
         {
-            name: department,
-            href: `/shop/${department}`
+            name: currentDepartment.name,
+            href: `/shop/${currentDepartment.slug}`
         },
-        ...(category ? [{ name: category, href: `shop/${department}?category=${category}` }] : [])
+        ...(currentCategory ? [{ name: currentCategory.name, href: `shop/${currentDepartment}?category=${currentCategory.slug}` }] : [])
     ];
 
+    // URL
+    const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
+    const currentURL = getURL(baseURL, searchParams);
 
     // Init components
+    const activeFilters: ProductFilters = {
+        statuses: [2],
+        available: true,
+        department: currentDepartment,
+        category: currentCategory,
+        subcategories: currentSubcategories,
+        brands: currentBrands,
+        query: queryParam
+    }
+
     const productQueryFilters = prepareProductQueryFilters(activeFilters);
-    const currentBrands: Brand[] = await getBrands();
-
-
-    // const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
-    // const activeFilters: ProductFilters = {
-    //     category: currentCategory,
-    //     subcategories: (subcategories && currentCategory) ? currentCategory.subcategories.filter((sub: Subcategory) => subcategories.includes(sub.slug)) : undefined,
-    //     order: order ? PRODUCT_SORT_OPTIONS.find((opt: SortOption) => opt.slug === order) : PRODUCT_SORT_OPTIONS[0],
-    //     brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
-    // };
-
-    // const baseUrl = `${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`
 
     return (
         <>
@@ -106,21 +100,20 @@ export default async function Shop(
             {/* FILTERS */}
             <Filters
                 currentURL={currentURL.toString()}
-                currentDepartment={currentDepartment}
                 activeFilters={activeFilters}
-                currentBrands={currentBrands}
+                availableBrands={availableBrands}
                 orderBy={orderBy}
             />
 
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 
                 {/* PRODUCTS */}
-                <Suspense fallback={<ProductListSkeleton/>}>
+                <Suspense fallback={<ProductListSkeleton />}>
                     {/* @ts-expect-error Server Component */}
                     <ProductList
                         queryFilters={productQueryFilters}
-                        skip={skip}
-                        take={take}
+                        skip={skipParam}
+                        take={takeParam}
                         orderBy={orderBy}
                         baseURL={baseURL}
                     />
@@ -133,8 +126,8 @@ export default async function Shop(
                         <Pagination
                             queryFilters={productQueryFilters}
                             currentUrl={currentURL}
-                            skip={skip}
-                            take={60}
+                            skip={skipParam}
+                            take={takeParam}
                         />
                     </Suspense>
                 </div>

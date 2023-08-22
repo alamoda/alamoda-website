@@ -1,32 +1,4 @@
-export type Product = {
-    mongo_id: string
-    id: number
-    sku: string
-    brand: Brand
-    name: string
-    description?: string
-    features?: Feature[]
-    department: Department
-    category: Category
-    subcategory?: Subcategory
-    price: number
-    wholesale_price: number
-    sizes: Size[]
-    images: string[]
-    status: number
-    available: boolean
-    updated_at?: number
-    created_at?: number
-}
-
-export type Brand = {
-    mongo_id: string
-    name: string
-    description?: string
-    slug: string
-    mapped_ids: [number]
-    available: boolean
-}
+import { Brand, Product } from "@prisma/client"
 
 export type Option = {
     mongo_id: string
@@ -194,10 +166,10 @@ export type ProductFilters = {
     available: boolean
 
     // Optional
-    department?: string
-    category?: string
-    subcategories?: string[]
-    brands?: string[]
+    department?: Department
+    category?: Category
+    subcategories?: Subcategory[]
+    brands?: Brand[]
     query?: string
-    exclude?: string[]
+    exclude?: Product[]
 }

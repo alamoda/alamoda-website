@@ -110,7 +110,8 @@ export type Order = {
 
 export type NavigationDepartment = {
     name: string
-    filters: string[]
+    description: string
+    filter: string
     order: number
     available: boolean
     categories: NavigationCategory[]

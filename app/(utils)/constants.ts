@@ -1168,7 +1168,8 @@ export const NAVIGATION_DEPARTMENTS: Navigation = {
         // Women
         {
             name: "Women",
-            filters: ["women"],
+            filter: "women",
+            description: "Immerse yourself in the elegance of our premium women's fashion collection. Handpicked from esteemed designers, our selection showcases the finest in luxury wear, from chic dresses to sophisticated separates. Transform your wardrobe with our exclusive array of women's styles.",
             order: 0,
             available: true,
             categories: [
@@ -1450,7 +1451,8 @@ export const NAVIGATION_DEPARTMENTS: Navigation = {
         // Men
         {
             name: "Men",
-            filters: ["men"],
+            filter: "men",
+            description: "Discover a curated selection of luxury men's fashion. Our collection features the latest from top designers, with pieces ranging from tailored suits to high-end casual wear. Elevate your style with our exclusive assortment.",
             order: 1,
             available: true,
             categories: [
@@ -1710,7 +1712,8 @@ export const NAVIGATION_DEPARTMENTS: Navigation = {
         // Lifestyle
         {
             name: "Lifestyle",
-            filters: ["lifestyle"],
+            filter: "lifestyle",
+            description: "Explore our lifestyle selection featuring luxury accessories, stylish home items, and exquisite textiles. Sourced from top designers, each piece promises to enhance your everyday experiences and bring a touch of elegance to your personal style and living space. Experience the essence of luxury living with our curated collection.",
             order: 3,
             available: true,
             categories: [

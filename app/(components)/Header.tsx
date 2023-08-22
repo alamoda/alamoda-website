@@ -9,11 +9,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
 import { NavigationCategory, NavigationDepartment, NavigationSubcategory } from '../(types)'
-
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
-}
+import { cn } from '../(utils)/helpers'
 
 
 export default function Header() {
@@ -102,7 +98,7 @@ export default function Header() {
                         <Tab
                           key={department.name}
                           className={({ selected }) =>
-                            classNames(
+                            cn(
                               selected ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-700',
                               'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-xs font-medium'
                             )
@@ -118,7 +114,7 @@ export default function Header() {
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <Link href={`/shop/${department.filters}`} shallow={true}>
+                            <Link href={`/shop/${department.filter}`} shallow={true}>
                               View all {department.name}
                             </Link>
                           </div>
@@ -126,7 +122,7 @@ export default function Header() {
                             {department.categories.map((category: NavigationCategory) =>
                               <div key={category.name}>
                                 <Link
-                                  href={`/shop/${department.filters}?category=${category.filters}`}
+                                  href={`/shop/${department.filter}?category=${category.filters}`}
                                   id={`mobile-featured-heading-${departmentIdx}`}
                                   className="font-medium text-gray-900"
                                   shallow={true}
@@ -141,7 +137,7 @@ export default function Header() {
                                   {category.subcategories.map((subcategory: NavigationSubcategory) => (
                                     <li key={subcategory.name} className="flex">
                                       <Link
-                                        href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`}
+                                        href={`/shop/${department.filter}?category=${category.filters}&subcategories=${subcategory.filters}`}
                                         className="text-gray-500"
                                         shallow={true}
                                       >
@@ -225,11 +221,11 @@ export default function Header() {
                                   onMouseLeave={() => onHoverExitMenu(departmentIdx)}
                                   className="relative flex">
                                   <Popover.Button
-                                    className={classNames(
+                                    className={cn(
                                       isShowing[departmentIdx]
                                         ? 'hover:text-gray-900'
                                         : 'text-gray-700 hover:text-gray-800',
-                                      params.department && department.filters.includes(params.department as string)
+                                      params.department && department.filter === params.department
                                         ? "border-gray-900"
                                         : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-xs font-medium transition-colors duration-200 ease-out'
@@ -238,7 +234,7 @@ export default function Header() {
                                     <Link
                                       className="h-full w-full flex items-center justify-center"
                                       onClick={() => onHoverExitMenu(departmentIdx)}
-                                      href={`/shop/${department.filters}`}
+                                      href={`/shop/${department.filter}`}
                                       shallow={true}
                                     >
                                       {department.name}
@@ -271,7 +267,7 @@ export default function Header() {
                                               <div key={category.name}>
                                                 <Link
                                                   onClick={() => onHoverExitMenu(departmentIdx)}
-                                                  href={`/shop/${department.filters}?category=${category.filters}`}
+                                                  href={`/shop/${department.filter}?category=${category.filters}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
                                                   shallow={true}
@@ -287,7 +283,7 @@ export default function Header() {
                                                     <li key={subcategory.name} className="flex">
                                                       <Link
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
-                                                        href={`/shop/${department.filters}?category=${category.filters}&subcategories=${subcategory.filters}`}
+                                                        href={`/shop/${department.filter}?category=${category.filters}&subcategories=${subcategory.filters}`}
                                                         className="hover:text-gray-800 hover:underline"
                                                         shallow={true}
                                                       >

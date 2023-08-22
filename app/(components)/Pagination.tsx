@@ -1,46 +1,26 @@
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link';
+import { countProducts } from '../actions';
+import { cn } from '../(utils)/helpers';
 
 interface ComponentProps {
-  productCount: number
+  queryFilters: object[]
+  currentUrl: URL
+  take: number
   skip: number
-  baseUrl: string
-  category: string
-  subcategories: string[]
-  order: string
-  brands: string[]
-  statuses?: string[] | undefined
 }
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
-}
+export default async function Pagination({ queryFilters, currentUrl, take, skip }: ComponentProps) {
 
-const productLimit = 60;
+  const count: number = await countProducts(queryFilters);
 
-export default function Pagination({ productCount, skip, baseUrl, category, subcategories, order, brands, statuses }: ComponentProps) {
-
-  const selectedPage = Math.ceil((skip + 60) / 60);
-  const pageCount = Math.ceil(productCount / productLimit);
+  const selectedPage = Math.ceil((skip + take) / take);
+  const pageCount = Math.ceil(count / take);
 
   const buildUrl = (updatedSkip: number) => {
-    const url = new URL(baseUrl);
-    const params = new URLSearchParams();
 
-    if (category) params.append("category", category);
-
-    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','));
-
-    if (order) params.append("orderBy", order);
-    
-    if (brands && brands.length > 0) params.append("brands", brands.join(','));
-
-    if (statuses && statuses.length > 0) params.append("statuses", statuses.join(','));
-
-    params.append('skip', updatedSkip.toString());
-
-    url.search = params.toString();
-    return url.toString()
+    currentUrl.searchParams.set("skip", updatedSkip.toString());
+    return currentUrl.toString();
   };
 
   if (pageCount > 1) {
@@ -49,7 +29,8 @@ export default function Pagination({ productCount, skip, baseUrl, category, subc
         {selectedPage > 1 ?
           <div className="-mt-px flex w-0 flex-1">
             <Link
-              href={buildUrl(skip - productLimit)}
+              href={buildUrl(skip - take)}
+              shallow={true}
               className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
             >
               <ArrowLongLeftIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -65,8 +46,9 @@ export default function Pagination({ productCount, skip, baseUrl, category, subc
             if (index + 1 == 1 || index + 1 === pageCount || (selectedPage > pageCount - 5 && index + 1 > pageCount - 5) || (index + 1 < selectedPage + 5 && selectedPage < 5) || (index + 1 >= selectedPage && index + 1 < selectedPage + 5 && selectedPage >= 5)) {
               return <Link
                 key={index + 1}
-                href={buildUrl((index) * productLimit)}
-                className={classNames(
+                href={buildUrl((index) * take)}
+                shallow={true}
+                className={cn(
                   index + 1 === selectedPage
                     ? 'inline-flex items-center border-t-2 border-gray-500 px-4 pt-4 text-sm font-medium text-gray-600'
                     : 'inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700',
@@ -83,7 +65,8 @@ export default function Pagination({ productCount, skip, baseUrl, category, subc
         {selectedPage !== pageCount ?
           <div className="-mt-px flex w-0 flex-1 justify-end">
             <Link
-              href={buildUrl(skip + productLimit)}
+              href={buildUrl(skip + take)}
+              shallow={true}
               className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
             >
               Next

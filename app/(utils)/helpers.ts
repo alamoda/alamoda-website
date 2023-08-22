@@ -1,5 +1,10 @@
-import { ProductFilters, SortOption } from "../(types)";
-import { PRODUCT_SORT_OPTIONS } from "./constants";
+import { ProductFilters } from "../(types)";
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs))
+}
 
 export function getIntParam(url: URL, name: string) {
     const intParam = url.searchParams.get(name);
@@ -33,7 +38,7 @@ export function getBoolParam(url: URL, name: string) {
 };
 
 export function prepareProductQueryFilters(productFilters: ProductFilters) {
-    
+
     const queryFilters: object[] = [
         {
             status: {
@@ -65,7 +70,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         );
     }
 
-    if (productFilters.subcategories) {
+    if (productFilters.subcategories && productFilters.subcategories.length > 0) {
         queryFilters.push(
             {
                 subcategory: {
@@ -77,7 +82,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         );
     }
 
-    if (productFilters.brands) {
+    if (productFilters.brands && productFilters.brands.length > 0) {
         queryFilters.push(
             {
                 brand: {
@@ -89,7 +94,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         );
     }
 
-    if (productFilters.exclude) {
+    if (productFilters.exclude && productFilters.exclude.length > 0) {
         queryFilters.push(
             {
                 mongo_id: {
@@ -123,4 +128,25 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
     }
 
     return queryFilters;
+}
+
+export function getURL(baseUrl: string, searchParams: { [key: string]: string | string[] | undefined }): URL {
+    const url = new URL(baseUrl);
+
+    for (const key in searchParams) {
+
+        const value = searchParams[key];
+
+        if (value !== undefined) {
+            if (Array.isArray(value)) {
+                for (const item of value) {
+                    url.searchParams.append(key, item);
+                }
+            } else {
+                url.searchParams.set(key, value);
+            }
+        }
+    }
+
+    return url;
 }

@@ -2,29 +2,43 @@
 
 import React, { useState } from 'react';
 import Link from "next/link"
-import { Product } from '@/app/(types)/index';
 import Image from 'next/image';
+import { ProductWithRelations } from '../(lib)/db';
 
 interface ComponentProps {
-  product: Product;
+  product: ProductWithRelations;
   route: string
 }
 
 const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
-  const [image, setImage] = useState(product.images[0]);
+
+  const images = product.images as string[];
+  const [image, setImage] = useState<string>(images.length > 0 ? images[0] : "");
+
+  const onMouseEnterImage = () => {
+    images[1] ? setImage(images[1]) : null
+  }
+
+  const onMouseLeaveImage = () => {
+    setImage(images[0])
+  }
 
   return (
-    <Link key={product.mongo_id} href={route} className="group flex flex-col justify-end">
+    <Link
+      href={route}
+      shallow={true}
+      className="group flex flex-col justify-end"
+    >
       <div className="flex flex-col justify-center items-center">
-        <div className="aspect-h-13 aspect-w-10 w-full overflow-hidden">
+        <div className="relative aspect-h-13 aspect-w-10 w-full overflow-hidden">
           <Image
-            src={product.images.length > 0 ? image : '/'}
+            src={image}
             alt={product.name}
-            width={1000}
-            height={1333}
+            fill
+            sizes={"20rem"}
             className="w-full h-full object-cover object-center"
-            onMouseEnter={() => product.images[1] ? setImage(product.images[1]) : null}
-            onMouseLeave={() => setImage(product.images[0])}
+            onMouseEnter={() => onMouseEnterImage()}
+            onMouseLeave={() => onMouseLeaveImage()}
           />
         </div>
 

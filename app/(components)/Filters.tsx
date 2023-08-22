@@ -51,13 +51,15 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
         if (activeFilters.subcategories) {
             for (let i = 0; i < activeFilters.subcategories.length; i++) {
                 const subcategory = activeFilters.subcategories[i];
-                
+
                 const url = new URL(currentURL);
 
                 // Remove from URL if filter already included
                 const filteredSubcategories = activeFilters.subcategories.filter((val) => val.slug !== subcategory.slug);
 
-                url.searchParams.set("subcategories", filteredSubcategories.join(','))
+                if (filteredSubcategories.length === 0) url.searchParams.delete("subcategories")
+                else url.searchParams.set("subcategories", filteredSubcategories.map(s => s.slug).join(','))
+
                 toDisplayFilters.push({ name: subcategory.name, url: url.toString() });
             }
         }
@@ -70,7 +72,10 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                 // Remove from URL if filter already included
                 const filteredBrands = activeFilters.brands.filter((val) => val.slug !== brand.slug);
-                url.searchParams.set("brands", filteredBrands.join(','))
+
+                if (filteredBrands.length === 0) url.searchParams.delete("brands")
+                else url.searchParams.set("brands", filteredBrands.map(b => b.slug).join(','))
+
                 toDisplayFilters.push({ name: brand.name, url: url.toString() });
             }
         }
@@ -446,9 +451,9 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                             <div className="mt-2 sm:ml-4 sm:mt-0">
                                 <div className="-m-1 flex flex-wrap items-center">
 
-                                    {displayFilters.map((activeFilter) => (
+                                    {displayFilters.map((activeFilter, index) => (
                                         <span
-                                            key={activeFilter.url}
+                                            key={index}
                                             className="m-1 inline-flex items-center border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-xs font-medium text-gray-900"
                                         >
                                             <span className="capitalize">{activeFilter.name}</span>

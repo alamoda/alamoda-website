@@ -10,7 +10,6 @@ export async function getBrands() {
 
 export async function countProducts(queryFilters: object[]) {
 
-    console.log("called!");
     const count = await db.product.count({
         where: {
             AND: queryFilters

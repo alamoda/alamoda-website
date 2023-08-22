@@ -2,7 +2,7 @@ import Breadcrumb from '@/app/(components)/Breadcrumb';
 
 import { Brand } from "@prisma/client";
 import Filters from '@/app/(components)/Filters';
-import { ProductFilters, SortOption } from '@/app/(types)';
+import { Department, ProductFilters, SortOption } from '@/app/(types)';
 import { DEPARTMENTS, PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 import ProductList from '@/app/(components)/ProductList';
 import { getBrands } from '@/app/actions';
@@ -39,19 +39,23 @@ export default async function Shop(
         query: query,
     }
 
-    let orderFilter: SortOption = PRODUCT_SORT_OPTIONS[0];
-    if (order) {
-        const res = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === order);
-        if (res) orderFilter = res
-    }
+    // Order By
+    const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === order);
+    const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
-    const productQueryFilters = prepareProductQueryFilters(activeFilters);
-
-    const brandsResult: Brand[] = await getBrands();
-
+    
+    // URL
     const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${department ? '/' + department : ''}`;
     const currentURL = getURL(baseURL, searchParams);
 
+    
+    // Department + Category
+    const foundDepartment = DEPARTMENTS.find((dept) => dept.slug === department);
+    const currentDepartment =  foundDepartment !== undefined ? foundDepartment : {} as Department;
+    const currentCategory = currentDepartment.categories.find((cat) => cat.slug === category);
+
+
+    // Breadcrumbs
     const breadcrumbs = [
         {
             name: 'Shop',
@@ -60,14 +64,15 @@ export default async function Shop(
         {
             name: department,
             href: `/shop/${department}`
-        }
+        },
+        ...(category ? [{ name: category, href: `shop/${department}?category=${category}` }] : [])
     ];
 
-    if (category) {
-        breadcrumbs.push({ name: category, href: `shop/${department}?category=${category}` })
-    }
 
-    const currentDepartment = DEPARTMENTS.find((dept) => dept.slug === department);
+    // Init components
+    const productQueryFilters = prepareProductQueryFilters(activeFilters);
+    const currentBrands: Brand[] = await getBrands();
+
 
     // const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
     // const activeFilters: ProductFilters = {
@@ -91,7 +96,7 @@ export default async function Shop(
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-4xl tracking-tight text-gray-900 capitalize">
-                    {currentDepartment?.name}
+                    {currentDepartment?.name} {currentCategory ? `- ${currentCategory.name}` : ""}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
                     {currentDepartment?.description}
@@ -99,13 +104,13 @@ export default async function Shop(
             </div>
 
             {/* FILTERS */}
-            {/* <Filters
-                admin={false}
-                route='shop'
+            <Filters
+                currentURL={currentURL.toString()}
                 currentDepartment={currentDepartment}
-                currentBrands={availableBrands}
                 activeFilters={activeFilters}
-            /> */}
+                currentBrands={currentBrands}
+                orderBy={orderBy}
+            />
 
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 
@@ -116,7 +121,7 @@ export default async function Shop(
                         queryFilters={productQueryFilters}
                         skip={skip}
                         take={take}
-                        order={orderFilter}
+                        orderBy={orderBy}
                         baseURL={baseURL}
                     />
                 </Suspense>

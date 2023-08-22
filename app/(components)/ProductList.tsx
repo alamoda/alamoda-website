@@ -8,17 +8,17 @@ interface ProductListProps {
     queryFilters: object[]
     skip: number
     take: number
-    order?: SortOption
+    orderBy?: SortOption
     baseURL: string
 }
 
-export default async function ProductList({ queryFilters, skip, take, order, baseURL }: ProductListProps) {
+export default async function ProductList({ queryFilters, skip, take, orderBy, baseURL }: ProductListProps) {
 
     const products: ProductWithRelations[] = await getProducts(
         queryFilters,
         take,
         skip,
-        order ? order : PRODUCT_SORT_OPTIONS[0]
+        orderBy ? orderBy : PRODUCT_SORT_OPTIONS[0]
     );
 
     return (

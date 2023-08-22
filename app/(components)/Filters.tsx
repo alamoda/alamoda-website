@@ -270,22 +270,21 @@ export default function Filters({ currentURL, currentDepartment, activeFilters, 
                                                             .map((brand: Brand) => (
                                                                 <div key={brand.mongo_id} className="flex items-center truncate">
                                                                     <a
-                                                                        href={getBrandUrl(brand)} className="p-1 cursor-pointer">
+                                                                        href={getBrandUrl(brand)} className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
-                                                                            onClick={(e) => e.preventDefault()}
                                                                             name={`${brand.mongo_id}[]`}
                                                                             defaultValue={brand.slug}
                                                                             type="checkbox"
                                                                             readOnly
+                                                                            style={{ pointerEvents: 'none' }}
                                                                             checked={activeFilters.brands?.some((bSlug) => bSlug === brand.slug)}
                                                                             className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                         />
-                                                                        <label
-                                                                            htmlFor={`filter-${brand.slug}`}
+                                                                        <span
                                                                             className="ml-3 pr-6 text-xs font-normal text-gray-900 capitalize truncate"
                                                                         >
                                                                             {brand.name}
-                                                                        </label>
+                                                                        </span>
                                                                     </a>
                                                                 </div>
                                                             ))}

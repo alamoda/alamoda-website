@@ -6,7 +6,7 @@ import { Department, ProductFilters, SortOption } from '@/app/(types)';
 import { DEPARTMENTS, PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 import ProductList from '@/app/(components)/ProductList';
 import { getBrands } from '@/app/actions';
-import { getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
+import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
 import { Suspense } from 'react';
 import Pagination from '@/app/(components)/Pagination';
 import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
@@ -36,9 +36,9 @@ export default async function Shop(
     const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
     // Department, Category, Subcategories
-    const foundDepartment = DEPARTMENTS.find((dept) => dept.slug === departmentParam);
-    const currentDepartment = foundDepartment !== undefined ? foundDepartment : {} as Department;
-    const currentCategory = currentDepartment.categories.find((cat) => cat.slug === categoryParam);
+
+    const currentDepartment = getDepartmentBySlug(departmentParam);
+    const currentCategory = getCategoryBySlug(categoryParam, currentDepartment);
     const paramSubcategoriesSet = new Set(subcategoriesParam);
     const currentSubcategories = currentCategory?.subcategories.filter((subcategory) => paramSubcategoriesSet.has(subcategory.slug))
 
@@ -46,7 +46,7 @@ export default async function Shop(
     const availableBrands: Brand[] = await getBrands();
     const paramBrandSet = new Set(brandsParam);
     const currentBrands = availableBrands.filter(brand => paramBrandSet.has(brand.slug));
-
+    
     // Breadcrumbs
     const breadcrumbs = [
         {
@@ -54,8 +54,8 @@ export default async function Shop(
             href: '/shop'
         },
         {
-            name: currentDepartment.name,
-            href: `/shop/${currentDepartment.slug}`
+            name: currentDepartment?.name || "",
+            href: `/shop/${currentDepartment?.slug}`
         },
         ...(currentCategory ? [{ name: currentCategory.name, href: `shop/${currentDepartment}?category=${currentCategory.slug}` }] : [])
     ];

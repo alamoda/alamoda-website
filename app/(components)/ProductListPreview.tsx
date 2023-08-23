@@ -3,7 +3,7 @@ import { SortOption } from "../(types)";
 import ProductListSkeleton from "./skeletons/ProductListSkeleton";
 import ProductList from "./ProductList";
 
-interface ProductListProps {
+interface ProductListPreviewProps {
     queryFilters: object[]
     take: number
     orderBy?: SortOption
@@ -12,7 +12,7 @@ interface ProductListProps {
     collectionURL: string
 }
 
-export default function ProductListPreview({ queryFilters, take, orderBy, baseURL, collectionTitle, collectionURL }: ProductListProps) {
+export default function ProductListPreview({ queryFilters, take, orderBy, baseURL, collectionTitle, collectionURL }: ProductListPreviewProps) {
 
     return (
         <>

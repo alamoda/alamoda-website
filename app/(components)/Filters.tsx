@@ -16,18 +16,6 @@ interface FiltersProps {
     orderBy: SortOption
 }
 
-// // Mandatory
-// statuses: ProductScrapeStatus[]
-// available: boolean
-
-// // Optional
-// department?: string
-// category?: string
-// subcategories?: string[]
-// brands?: string[]
-// query?: string
-// exclude?: string[]
-
 export default function Filters({ currentURL, activeFilters, availableBrands, orderBy }: FiltersProps) {
 
     // State
@@ -152,6 +140,142 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
     return (
         <div className="bg-white max-w-7xl mx-auto">
 
+            {/* Mobile filter dialog */}
+            <Transition.Root show={open} as={Fragment}>
+                <Dialog as="div" className="relative z-40 sm:hidden" onClose={setOpen}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="transition-opacity ease-linear duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition-opacity ease-linear duration-300"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-40 flex">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="transition ease-in-out duration-300 transform"
+                            enterFrom="translate-x-full"
+                            enterTo="translate-x-0"
+                            leave="transition ease-in-out duration-300 transform"
+                            leaveFrom="translate-x-0"
+                            leaveTo="translate-x-full"
+                        >
+                            <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                                <div className="flex items-center justify-between px-4">
+                                    <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                                    {activeFilters.subcategories ? (
+                                        <span className="ml-1.5 bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
+                                            {activeFilters.subcategories.length}
+                                        </span>
+                                    ) : null}
+                                    <button
+                                        type="button"
+                                        className="-mr-2 flex h-10 w-10 items-center justify-center bg-white p-2 text-gray-400"
+                                        onClick={() => setOpen(false)}
+                                    >
+                                        <span className="sr-only">Close menu</span>
+                                        <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                                    </button>
+                                </div>
+
+                                {/* Filters */}
+                                <div className="mt-4">
+
+                                    {/* Category */}
+                                    <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                                        {({ open }) => (
+                                            <>
+                                                <h3 className="-mx-2 -my-3 flow-root">
+                                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
+                                                        <span className="font-medium text-gray-900">Category</span>
+                                                        <span className="ml-6 flex items-center">
+                                                            <ChevronDownIcon
+                                                                className={cn(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                                                                aria-hidden="true"
+                                                            />
+                                                        </span>
+                                                    </Disclosure.Button>
+                                                </h3>
+
+                                                <Disclosure.Panel className="pt-6">
+                                                    <div className="space-y-2">
+                                                        {activeFilters.department?.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
+                                                            <div key={cat.mongo_id} className="flex items-center">
+                                                                <a href={getCategoryUrl(cat)}
+                                                                    className={cn(
+                                                                        activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                        'block px-4 py-2 text-sm cursor-pointer capitalize'
+                                                                    )}
+                                                                >
+                                                                    {cat.name}
+                                                                </a>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </Disclosure.Panel>
+                                            </>
+                                        )}
+                                    </Disclosure>
+
+                                    {/* Subcategories */}
+                                    {activeFilters.category &&
+                                        <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                                            {({ open }) => (
+                                                <>
+                                                    <h3 className="-mx-2 -my-3 flow-root">
+                                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
+                                                            <span className="font-medium text-gray-900 capitalize">{activeFilters.category?.name}</span>
+                                                            <span className="ml-6 flex items-center">
+                                                                <ChevronDownIcon
+                                                                    className={cn(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                                                                    aria-hidden="true"
+                                                                />
+                                                            </span>
+                                                        </Disclosure.Button>
+                                                    </h3>
+
+                                                    <Disclosure.Panel className="pt-6">
+                                                        <div className="space-y-2">
+                                                            {activeFilters.category?.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
+                                                                <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
+                                                                    <a
+                                                                        href={getSubcategoryUrl(sub)}>
+                                                                        <input
+                                                                            name={`${sub.mongo_id}[]`}
+                                                                            defaultValue={sub.slug}
+                                                                            type="checkbox"
+                                                                            readOnly
+                                                                            checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
+                                                                            className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
+                                                                        />
+                                                                        <label
+                                                                            htmlFor={`filter-${sub.slug}`}
+                                                                            className="ml-3 pr-6 text-sm font-regular text-gray-900 capitalize"
+                                                                        >
+                                                                            {sub.name}
+                                                                        </label>
+                                                                    </a>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </Disclosure.Panel>
+                                                </>
+                                            )}
+                                        </Disclosure>
+                                    }
+                                </div>
+                            </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+
+
             {/* Filters */}
             <section aria-labelledby="filter-heading">
                 <h2 id="filter-heading" className="sr-only">
@@ -251,7 +375,6 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                                             <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <form className="space-y-4 w-48">
-
                                                     <div className="relative flex flex-1 items-center justify-center">
                                                         <div className="w-full sm:max-w-xs">
                                                             <label htmlFor="search" className="sr-only">

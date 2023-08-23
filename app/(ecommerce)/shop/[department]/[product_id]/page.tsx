@@ -147,9 +147,8 @@ export default async function Page({ params }: { params: { product_id: string } 
               />
             </div>
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
-
   )
 }

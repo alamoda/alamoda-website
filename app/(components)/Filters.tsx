@@ -186,6 +186,54 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                 {/* Filters */}
                                 <div className="mt-4">
 
+                                    {/* Brands */}
+                                    <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                                        {({ open }) => (
+                                            <>
+                                                <h3 className="-mx-2 -my-3 flow-root">
+                                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
+                                                        <span className="font-medium text-gray-900">Brands</span>
+                                                        <span className="ml-6 flex items-center">
+                                                            <ChevronDownIcon
+                                                                className={cn(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                                                                aria-hidden="true"
+                                                            />
+                                                        </span>
+                                                    </Disclosure.Button>
+                                                </h3>
+
+                                                <Disclosure.Panel className="pt-6">
+                                                    <div className="space-y-2">
+
+                                                        {availableBrands
+                                                            ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
+                                                            .map((brand: Brand) => (
+                                                                <div key={brand.mongo_id} className="flex items-center truncate">
+                                                                    <a
+                                                                        href={getBrandUrl(brand)} className="p-1 cursor-pointer hover:bg-gray-100 w-full">
+                                                                        <input
+                                                                            name={`${brand.mongo_id}[]`}
+                                                                            defaultValue={brand.slug}
+                                                                            type="checkbox"
+                                                                            readOnly
+                                                                            style={{ pointerEvents: 'none' }}
+                                                                            checked={activeFilters.brands?.some((b) => b.slug === brand.slug)}
+                                                                            className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
+                                                                        />
+                                                                        <span
+                                                                            className="ml-3 pr-6 text-xs font-normal text-gray-900 capitalize truncate"
+                                                                        >
+                                                                            {brand.name}
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                            ))}
+                                                    </div>
+                                                </Disclosure.Panel>
+                                            </>
+                                        )}
+                                    </Disclosure>
+
                                     {/* Category */}
                                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
                                         {({ open }) => (
@@ -205,7 +253,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                 <Disclosure.Panel className="pt-6">
                                                     <div className="space-y-2">
                                                         {activeFilters.department?.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
-                                                            <div key={cat.mongo_id} className="flex items-center">
+                                                            <div key={cat.slug} className="flex items-center">
                                                                 <a href={getCategoryUrl(cat)}
                                                                     className={cn(
                                                                         activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
@@ -242,23 +290,24 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                     <Disclosure.Panel className="pt-6">
                                                         <div className="space-y-2">
                                                             {activeFilters.category?.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
-                                                                <div key={sub.mongo_id} className="flex items-center whitespace-nowrap">
+                                                                <div key={sub.slug} className="flex items-center whitespace-nowrap">
                                                                     <a
-                                                                        href={getSubcategoryUrl(sub)}>
+                                                                        href={getSubcategoryUrl(sub)}
+                                                                        className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
                                                                             name={`${sub.mongo_id}[]`}
                                                                             defaultValue={sub.slug}
                                                                             type="checkbox"
                                                                             readOnly
+                                                                            style={{ pointerEvents: 'none' }}
                                                                             checked={activeFilters.subcategories?.some((s: Subcategory) => s.slug === sub.slug)}
                                                                             className="h-4 w-4 border-gray-300 text-gray-900 focus:ring-gray-900"
                                                                         />
-                                                                        <label
-                                                                            htmlFor={`filter-${sub.slug}`}
-                                                                            className="ml-3 pr-6 text-sm font-regular text-gray-900 capitalize"
+                                                                        <span
+                                                                            className="ml-3 pr-6 text-xs font-normal text-gray-900 capitalize truncate"
                                                                         >
                                                                             {sub.name}
-                                                                        </label>
+                                                                        </span>
                                                                     </a>
                                                                 </div>
                                                             ))}

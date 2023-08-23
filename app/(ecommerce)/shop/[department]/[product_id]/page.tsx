@@ -7,9 +7,6 @@ import { getProduct } from '@/app/actions'
 import { notFound } from 'next/navigation'
 import { ProductWithRelations } from '@/app/(lib)/db'
 import { getCategoryBySlug, getDepartmentBySlug, getSubcategoryBySlug, prepareProductQueryFilters } from '@/app/(utils)/helpers'
-import { Suspense } from 'react'
-import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton'
-import ProductList from '@/app/(components)/ProductList'
 import ProductListPreview from '@/app/(components)/ProductListPreview'
 
 const policies = [
@@ -27,8 +24,7 @@ export default async function Page({ params }: { params: { product_id: string } 
   const currentCategory = getCategoryBySlug(product.category?.slug, currentDepartment);
   const currentSubcategory = getSubcategoryBySlug(product.subcategory?.slug, currentCategory);
 
-
-  const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
+  const baseURL = `${process.env.NEXT_PUBLIC_URL}/shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
 
   const breadcrumb = [
     {

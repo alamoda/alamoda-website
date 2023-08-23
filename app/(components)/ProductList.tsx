@@ -31,7 +31,7 @@ export default async function ProductList({ queryFilters, skip, take, orderBy, b
                 {products.map((product: ProductWithRelations) => (
                     <ProductCard
                         key={product.mongo_id}
-                        route={`${baseURL}/${product.mongo_id}`}
+                        route={`${baseURL}/${product.department?.slug}/${product.mongo_id}`}
                         product={product}
                     />
                 ))}

@@ -2,6 +2,7 @@
 import Testimonials from '@/app/(components)/Testimonials'
 import Link from 'next/link'
 import ProductListPreview from '@/app/(components)/ProductListPreview'
+import { getDepartmentBySlug, prepareProductQueryFilters } from '@/app/(utils)/helpers'
 
 export default function Page() {
 
@@ -108,39 +109,38 @@ export default function Page() {
 
                 {/* Preview */}
                 <section aria-labelledby="trending-heading">
-                    <div className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-32">
+                    <div className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-32 space-y-24 sm:space-y-32">
 
-                        <div className="">
-                            {/* @ts-expect-error Server Component */}
-                            <ProductListPreview
-                                listTitle="New in for Women"
-                                filterParams={new URLSearchParams({
-                                    department: "women",
-                                })}
-                                listUrl={`shop/women`}
-                            />
-                        </div>
+                        <ProductListPreview
+                            queryFilters={prepareProductQueryFilters({
+                                statuses: [2],
+                                available: true,
+                                department: getDepartmentBySlug("women"),
+                            })}
+                            take={4}
+                            baseURL={baseURL}
+                            collectionTitle='New in for Women'
+                            collectionURL={`/shop/women`}
+                        />
 
                         <div className="py-24 sm:py-32">
-                            {/* @ts-expect-error Server Component */}
-                            <ProductListPreview
+                            {/* <ProductListPreview
                                 listTitle="New in for Men"
                                 filterParams={new URLSearchParams({
                                     department: "men",
                                 })}
                                 listUrl={`shop/men`}
-                            />
+                            /> */}
                         </div>
 
                         <div className="">
-                            {/* @ts-expect-error Server Component */}
-                            <ProductListPreview
+                            {/* <ProductListPreview
                                 listTitle="New in for Lifestyle"
                                 filterParams={new URLSearchParams({
                                     department: "lifestyle",
                                 })}
                                 listUrl={`shop/lifestyle`}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </section>

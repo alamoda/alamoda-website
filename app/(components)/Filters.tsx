@@ -204,7 +204,6 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                                                 <Disclosure.Panel className="pt-6">
                                                     <div className="space-y-2">
-
                                                         {availableBrands
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (

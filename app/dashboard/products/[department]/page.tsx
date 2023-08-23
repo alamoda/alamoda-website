@@ -7,7 +7,7 @@ import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 
 async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[], statuses: string[] | undefined) {
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_URL}api/products`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/products`);
     const params = new URLSearchParams();
 
     if (department) params.append("department", department);
@@ -34,7 +34,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const { products, count } = await resProducts.json();
 
-    const resBrands = await fetch(`${process.env.NEXT_PUBLIC_URL}api/brands`, {
+    const resBrands = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/brands`, {
         method: 'GET'
     });
 
@@ -44,7 +44,7 @@ async function getData(department: string | null, category: string | null, subca
 
     const availableBrands = await resBrands.json();
 
-    const resDepartment = await fetch(`${process.env.NEXT_PUBLIC_URL}api/departments/${department}`, {
+    const resDepartment = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/departments/${department}`, {
         method: 'GET'
     });
 
@@ -90,7 +90,7 @@ export default async function Page({
         brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
     };
 
-    const baseUrl = `${process.env.NEXT_PUBLIC_URL}dashboard/${department ? '/products/' + department : ''}`
+    const baseUrl = `${process.env.NEXT_PUBLIC_URL}/dashboard/${department ? '/products/' + department : ''}`
 
     const breadcrumbs = [
         {

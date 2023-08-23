@@ -11,6 +11,7 @@ import { Suspense } from 'react';
 import Pagination from '@/app/(components)/Pagination';
 import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
 import PaginationSkeleton from '@/app/(components)/skeletons/PaginationSkeleton';
+import { notFound } from 'next/navigation';
 
 export default async function Shop(
     {
@@ -31,16 +32,18 @@ export default async function Shop(
     const orderParam = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brandsParam = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
-    // Order By
-    const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === orderParam);
-    const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
     // Department, Category, Subcategories
-
     const currentDepartment = getDepartmentBySlug(departmentParam);
     const currentCategory = getCategoryBySlug(categoryParam, currentDepartment);
     const paramSubcategoriesSet = new Set(subcategoriesParam);
     const currentSubcategories = currentCategory?.subcategories.filter((subcategory) => paramSubcategoriesSet.has(subcategory.slug))
+
+    if (!currentDepartment) return notFound()
+
+    // Order By
+    const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === orderParam);
+    const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
     // Brands
     const availableBrands: Brand[] = await getBrands();
@@ -54,14 +57,14 @@ export default async function Shop(
             href: '/shop'
         },
         {
-            name: currentDepartment?.name || "",
-            href: `/shop/${currentDepartment?.slug}`
+            name: currentDepartment.name,
+            href: `/shop/${currentDepartment.slug}`
         },
-        ...(currentCategory ? [{ name: currentCategory.name, href: `shop/${currentDepartment}?category=${currentCategory.slug}` }] : [])
+        ...(currentCategory ? [{ name: currentCategory.name, href: `/shop/${currentDepartment.slug}?category=${currentCategory.slug}` }] : [])
     ];
 
     // URL
-    const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
+    const baseURL = `${process.env.NEXT_PUBLIC_URL}/shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
     const currentURL = getURL(baseURL, searchParams);
 
     // Init components
@@ -89,10 +92,10 @@ export default async function Shop(
             {/* TITLE */}
             <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
                 <h1 className="text-4xl tracking-tight text-gray-900 capitalize">
-                    {currentDepartment?.name} {currentCategory ? `- ${currentCategory.name}` : ""}
+                    {currentDepartment.name} {currentCategory ? `- ${currentCategory.name}` : ""}
                 </h1>
                 <p className="mt-4 max-w-xl text-sm text-gray-700">
-                    {currentDepartment?.description}
+                    {currentDepartment.description}
                 </p>
             </div>
 
@@ -114,7 +117,7 @@ export default async function Shop(
                         skip={skipParam}
                         take={takeParam}
                         orderBy={orderBy}
-                        baseURL={baseURL}
+                        baseURL={`${process.env.NEXT_PUBLIC_URL}/shop`}
                     />
                 </Suspense>
 

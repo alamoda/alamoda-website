@@ -1,4 +1,5 @@
 import { Brand, Product } from "@prisma/client"
+import { ProductWithRelations } from "../(lib)/db"
 
 export type Option = {
     mongo_id: string
@@ -171,5 +172,5 @@ export type ProductFilters = {
     subcategories?: Subcategory[]
     brands?: Brand[]
     query?: string
-    exclude?: Product[]
+    exclude?: ProductWithRelations[]
 }

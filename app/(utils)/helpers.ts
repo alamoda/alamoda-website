@@ -1,6 +1,7 @@
-import { ProductFilters } from "../(types)";
+import { Category, Department, ProductFilters } from "../(types)";
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { DEPARTMENTS } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -149,4 +150,22 @@ export function getURL(baseUrl: string, searchParams: { [key: string]: string | 
     }
 
     return url;
+}
+
+export function getDepartmentBySlug(departmentSlug: string | undefined) {
+    if (!departmentSlug) return undefined
+
+    return DEPARTMENTS.find((dept) => dept.slug === departmentSlug);
+}
+
+export function getCategoryBySlug(categorySlug: string | undefined, department: Department | undefined) {
+    if (!categorySlug || !department) return undefined
+    
+    return department.categories.find((cat) => cat.slug === categorySlug);
+}
+
+export function getSubcategoryBySlug(subcategorySlug: string | undefined, category: Category | undefined) {
+    if (!subcategorySlug || !category) return undefined
+    
+    return category.subcategories.find((sub) => sub.slug === subcategorySlug);
 }

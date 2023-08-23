@@ -24,9 +24,8 @@ const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
   }
 
   return (
-    <Link
+    <a
       href={route}
-      shallow={true}
       className="group flex flex-col justify-end"
     >
       <div className="flex flex-col justify-center items-center">
@@ -46,7 +45,7 @@ const ProductCard: React.FC<ComponentProps> = ({ product, route }) => {
         <div className="mt-1 text-sm text-center">{product.name}</div>
         <div className="mt-1 text-xs font-medium text-gray-900">{'$ ' + product.price}</div>
       </div>
-    </Link>
+    </a>
   )
 }
 

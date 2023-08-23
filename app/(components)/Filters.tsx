@@ -89,7 +89,6 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
     const displayFilters = prepareDisplayFilters();
 
-
     const getCategoryUrl = (category: Category) => {
 
         const url = new URL(currentURL);

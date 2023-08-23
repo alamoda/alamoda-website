@@ -9,7 +9,8 @@ import { getBrands } from '@/app/actions';
 import { getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
 import { Suspense } from 'react';
 import Pagination from '@/app/(components)/Pagination';
-import ProductListSkeleton from '@/app/(components)/ProductListSkeleton';
+import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
+import PaginationSkeleton from '@/app/(components)/skeletons/PaginationSkeleton';
 
 export default async function Shop(
     {
@@ -34,14 +35,12 @@ export default async function Shop(
     const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === orderParam);
     const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
-
     // Department, Category, Subcategories
     const foundDepartment = DEPARTMENTS.find((dept) => dept.slug === departmentParam);
     const currentDepartment = foundDepartment !== undefined ? foundDepartment : {} as Department;
     const currentCategory = currentDepartment.categories.find((cat) => cat.slug === categoryParam);
     const paramSubcategoriesSet = new Set(subcategoriesParam);
     const currentSubcategories = currentCategory?.subcategories.filter((subcategory) => paramSubcategoriesSet.has(subcategory.slug))
-
 
     // Brands
     const availableBrands: Brand[] = await getBrands();
@@ -108,7 +107,7 @@ export default async function Shop(
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 
                 {/* PRODUCTS */}
-                <Suspense fallback={<ProductListSkeleton />}>
+                <Suspense fallback={<ProductListSkeleton items={60} />}>
                     {/* @ts-expect-error Server Component */}
                     <ProductList
                         queryFilters={productQueryFilters}
@@ -121,7 +120,7 @@ export default async function Shop(
 
                 {/* PAGINATION */}
                 <div className='mt-8'>
-                    <Suspense fallback={<p>Loading pagination...</p>}>
+                    <Suspense fallback={<PaginationSkeleton />}>
                         {/* @ts-expect-error Server Component */}
                         <Pagination
                             queryFilters={productQueryFilters}

@@ -26,13 +26,14 @@ export default async function ProductList({ queryFilters, skip, take, orderBy, b
             {products.length === 0 &&
                 <div className="mx-auto text-center text-gray-500">No products available yet!</div>
             }
-            <h2 className="sr-only">Products</h2>
+            
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
                 {products.map((product: ProductWithRelations) => (
                     <ProductCard
                         key={product.mongo_id}
                         route={`${baseURL}/${product.mongo_id}`}
-                        product={product} />
+                        product={product}
+                    />
                 ))}
             </div>
         </>

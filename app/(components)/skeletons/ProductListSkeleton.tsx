@@ -1,10 +1,14 @@
-export default function ProductListSkeleton() {
+interface ProductListSkeletonProps {
+    items: number
+}
+
+export default function ProductListSkeleton({ items }: ProductListSkeletonProps) {
 
     return (
         <>
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
 
-                {[...Array(60)].map((_, index) => (
+                {[...Array(items)].map((_, index) => (
                     <div
                         key={index}
                         className="flex flex-col justify-end animate-pulse"

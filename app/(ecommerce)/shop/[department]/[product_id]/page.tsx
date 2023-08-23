@@ -1,54 +1,47 @@
 import { CurrencyDollarIcon, GlobeAmericasIcon } from '@heroicons/react/24/outline'
-import { Route } from '@/app/(types)'
 import Breadcrumb from '@/app/(components)/Breadcrumb'
-import ProductListPreview from '@/app/(components)/ProductListPreview'
 import ProductImageGallery from '@/app/(components)/ProductImageGallery'
 import ProductFeatures from '@/app/(components)/ProductFeatures'
 import CheckoutButton from '@/app/(components)/CheckoutButton'
-
+import { getProduct } from '@/app/actions'
+import { notFound } from 'next/navigation'
+import { ProductWithRelations } from '@/app/(lib)/db'
+import { getCategoryBySlug, getDepartmentBySlug, getSubcategoryBySlug, prepareProductQueryFilters } from '@/app/(utils)/helpers'
+import { Suspense } from 'react'
+import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton'
+import ProductList from '@/app/(components)/ProductList'
+import ProductListPreview from '@/app/(components)/ProductListPreview'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
 
-async function fetchProduct(productId: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/product?id=${productId}`);
-  const product = await response.json();
-
-  return product;
-}
-
 export default async function Page({ params }: { params: { product_id: string } }) {
 
-  const product = await fetchProduct(params.product_id);
+  const product: ProductWithRelations | null = await getProduct(params.product_id, true);
 
-  const breadcrumb: Route[] = [];
-  if (product) {
-    breadcrumb.push(
-      {
-        name: 'Shop',
-        href: 'shop'
-      },
-      {
-        name: product.department.name,
-        href: `shop/${product.department.slug}`
-      })
+  if (!product) return notFound();
 
-    if (product.category) {
-      breadcrumb.push({
-        name: product.category.name,
-        href: `shop/${product.department.slug}?category=${product.category.slug}`
-      })
-    }
+  const currentDepartment = getDepartmentBySlug(product.department?.slug);
+  const currentCategory = getCategoryBySlug(product.category?.slug, currentDepartment);
+  const currentSubcategory = getSubcategoryBySlug(product.subcategory?.slug, currentCategory);
 
-    if (product.category && product.subcategory) {
-      breadcrumb.push({
-        name: product.subcategory.name,
-        href: `shop/${product.department.slug}?category=${product.category.slug}&subcategories=${product.subcategory.slug}`
-      })
-    }
-  }
+
+  const baseURL = `${process.env.NEXT_PUBLIC_URL}shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
+
+  const breadcrumb = [
+    {
+      name: 'Shop',
+      href: 'shop'
+    },
+    {
+      name: currentDepartment?.name || "",
+      href: `shop/${currentDepartment?.slug}`
+    },
+    ...(currentCategory ? [{ name: currentCategory.name, href: `shop/${currentDepartment?.slug}?category=${currentCategory.slug}` }] : []),
+    ...((currentCategory && currentSubcategory) ? [{ name: currentSubcategory.name, href: `shop/${currentDepartment?.slug}?category=${currentCategory.slug}&subcategories=${currentSubcategory.slug}` }] : []),
+  ]
 
   return (
     <>
@@ -122,22 +115,24 @@ export default async function Page({ params }: { params: { product_id: string } 
 
             {/* You might also like */}
             <div className="pt-16 md:pt-32">
-              {/* @ts-expect-error Server Component */}
               <ProductListPreview
-                listTitle="You might also like"
-                filterParams={new URLSearchParams({
-                  department: product?.department.slug,
-                  category: product?.category.slug,
-                  subcategory: product?.subcategory ? "&subcategories=" + product?.subcategory.slug : "",
-                  exclude: product?.mongo_id
+                queryFilters={prepareProductQueryFilters({
+                  statuses: [2],
+                  available: true,
+                  department: currentDepartment,
+                  category: currentCategory,
+                  subcategories: currentSubcategory ? [currentSubcategory] : [],
+                  exclude: product ? [product] : [],
                 })}
-                listUrl={`shop/${product?.department.slug}?category=${product?.category.slug}${product?.subcategory ? "&subcategories=" + product?.subcategory.slug : ""}`}
+                take={4}
+                baseURL={baseURL}
+                collectionURL={`shop/${product.department?.slug}?category=${product.category?.slug}${product.subcategory ? "&subcategories=" + product.subcategory?.slug : ""}`}
               />
             </div>
 
             {/* More from brand */}
             <div className="pt-16 md:pt-32">
-              {/* @ts-expect-error Server Component */}
+              {/* @ts-expect-error Server Component 
               <ProductListPreview
                 listTitle={`More from ${product?.brand.name.toLowerCase()}`}
                 filterParams={new URLSearchParams({
@@ -146,6 +141,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                 })}
                 listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
               />
+              */}
             </div>
           </div>
         </div >

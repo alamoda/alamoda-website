@@ -41,4 +41,28 @@ export async function getProducts(queryFilters: object[], take: number, skip: nu
     });
 
     return products;
-};
+}
+
+export async function getProduct(id: string, enforceAvailable: boolean) {
+
+    try {
+        const product = await db.product.findFirst({
+            where: {
+                mongo_id: id,
+                available: enforceAvailable ? true : undefined
+            },
+            include: {
+                brand: true,
+                department: true,
+                category: true,
+                subcategory: true
+            }
+        });
+
+        return product;
+
+    }
+    catch (err) {
+        return null;
+    }
+}

@@ -8,16 +8,17 @@ interface ProductListProps {
     take: number
     orderBy?: SortOption
     baseURL: string
+    collectionTitle: string
     collectionURL: string
 }
 
-export default function ProductListPreview({ queryFilters, take, orderBy, baseURL, collectionURL }: ProductListProps) {
+export default function ProductListPreview({ queryFilters, take, orderBy, baseURL, collectionTitle, collectionURL }: ProductListProps) {
 
     return (
         <>
             {/* Title */}
             <div className="mb-6 md:flex md:items-center md:justify-between">
-                <h2 className="text-4xl tracking-tight text-gray-900 capitalize">You might also like</h2>
+                <h2 className="text-4xl tracking-tight text-gray-900 capitalize">{collectionTitle}</h2>
 
                 {/* See more - Desktop */}
                 <a
@@ -36,6 +37,7 @@ export default function ProductListPreview({ queryFilters, take, orderBy, baseUR
                     skip={0}
                     take={4}
                     baseURL={baseURL}
+                    orderBy={orderBy}
                 />
             </Suspense>
 

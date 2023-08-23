@@ -122,26 +122,29 @@ export default async function Page({ params }: { params: { product_id: string } 
                   department: currentDepartment,
                   category: currentCategory,
                   subcategories: currentSubcategory ? [currentSubcategory] : [],
-                  exclude: product ? [product] : [],
+                  exclude: [product],
                 })}
                 take={4}
                 baseURL={baseURL}
+                collectionTitle='You might also like'
                 collectionURL={`shop/${product.department?.slug}?category=${product.category?.slug}${product.subcategory ? "&subcategories=" + product.subcategory?.slug : ""}`}
               />
             </div>
 
             {/* More from brand */}
             <div className="pt-16 md:pt-32">
-              {/* @ts-expect-error Server Component 
               <ProductListPreview
-                listTitle={`More from ${product?.brand.name.toLowerCase()}`}
-                filterParams={new URLSearchParams({
-                  brands: product?.brand.slug,
-                  exclude: product?.mongo_id
+                queryFilters={prepareProductQueryFilters({
+                  statuses: [2],
+                  available: true,
+                  brands: [product.brand],
+                  exclude: [product],
                 })}
-                listUrl={`shop/${product?.department.slug}?brands=${product?.brand.slug}`}
+                take={4}
+                baseURL={baseURL}
+                collectionTitle={`More from ${product?.brand.name.toLowerCase()}`}
+                collectionURL={`shop/${currentDepartment?.slug}?brands=${product?.brand.slug}`}
               />
-              */}
             </div>
           </div>
         </div >

@@ -33,14 +33,14 @@ export default async function Page({ params }: { params: { product_id: string } 
   const breadcrumb = [
     {
       name: 'Shop',
-      href: 'shop'
+      href: '/shop'
     },
     {
       name: currentDepartment?.name || "",
-      href: `shop/${currentDepartment?.slug}`
+      href: `/shop/${currentDepartment?.slug}`
     },
-    ...(currentCategory ? [{ name: currentCategory.name, href: `shop/${currentDepartment?.slug}?category=${currentCategory.slug}` }] : []),
-    ...((currentCategory && currentSubcategory) ? [{ name: currentSubcategory.name, href: `shop/${currentDepartment?.slug}?category=${currentCategory.slug}&subcategories=${currentSubcategory.slug}` }] : []),
+    ...(currentCategory ? [{ name: currentCategory.name, href: `/shop/${currentDepartment?.slug}?category=${currentCategory.slug}` }] : []),
+    ...((currentCategory && currentSubcategory) ? [{ name: currentSubcategory.name, href: `/shop/${currentDepartment?.slug}?category=${currentCategory.slug}&subcategories=${currentSubcategory.slug}` }] : []),
   ]
 
   return (
@@ -127,7 +127,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                 take={4}
                 baseURL={baseURL}
                 collectionTitle='You might also like'
-                collectionURL={`shop/${product.department?.slug}?category=${product.category?.slug}${product.subcategory ? "&subcategories=" + product.subcategory?.slug : ""}`}
+                collectionURL={`/shop/${product.department?.slug}?category=${product.category?.slug}${product.subcategory ? "&subcategories=" + product.subcategory?.slug : ""}`}
               />
             </div>
 
@@ -143,7 +143,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                 take={4}
                 baseURL={baseURL}
                 collectionTitle={`More from ${product?.brand.name.toLowerCase()}`}
-                collectionURL={`shop/${currentDepartment?.slug}?brands=${product?.brand.slug}`}
+                collectionURL={`/shop/${currentDepartment?.slug}?brands=${product?.brand.slug}`}
               />
             </div>
           </div>

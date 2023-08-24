@@ -30,8 +30,8 @@ export default async function ProductList({ queryFilters, skip, take, orderBy, p
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
                 {products.map((product: ProductWithRelations) => (
                     <ProductCard
-                        key={product.mongo_id}
-                        route={`${productBaseURL}/${product.department?.slug}/${product.mongo_id}`}
+                        key={product.id}
+                        route={`${productBaseURL}/${product.department}/${product.id}`}
                         product={product}
                     />
                 ))}

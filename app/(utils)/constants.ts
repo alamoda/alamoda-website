@@ -68,6 +68,11 @@ export const DEPARTMENTS: Department[] = [
                         available: true,
                     },
                     {
+                        name: "Shirts",
+                        slug: "shirts",
+                        available: true,
+                    },
+                    {
                         name: "Skirts",
                         slug: "skirts",
                         available: true,

@@ -7,7 +7,6 @@ export async function POST(req: Request) {
     const availableBrands = await db.brand.findMany({
         select: {
             slug: true,
-            mapped_ids: true
         }
     });
 
@@ -30,7 +29,6 @@ export async function POST(req: Request) {
                 name: brand.name,
                 description: "",
                 slug: brand.slug,
-                mapped_ids: brand.mapped_ids.split(',').map(Number),
                 available: true
             }
         });

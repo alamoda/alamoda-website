@@ -54,7 +54,6 @@ model Brand {
   name        String    @unique
   description String?
   slug        String    @unique
-  mapped_ids  Int[]
   available   Boolean
   products    Product[]
 

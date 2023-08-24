@@ -1,20 +1,21 @@
 import { db } from "@/app/(lib)/db"
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
 
     const {
-        id,
+        vendor_id,
         sku,
         price,
         wholesale_price,
         available,
-        brand_id,
+        brand_slug,
         name,
         description,
         features,
-        department_id,
-        category_id,
-        subcategory_id,
+        department,
+        category,
+        subcategory,
         images,
         sizes,
         status,
@@ -22,22 +23,22 @@ export async function POST(req: Request) {
         created_at
     } = await req.json();
 
-    await db.product.create({
+    const product = await db.product.create({
         data: {
-            id: id,
+            vendor_id: vendor_id,
             sku: sku,
             price: price,
             wholesale_price: wholesale_price,
             available: available,
             name: name,
             brand: {
-                connect: { mongo_id: brand_id }
+                connect: { slug: brand_slug }
             },
             description: description,
             features: features,
-            department: department_id ? { connect: { mongo_id: department_id } } : undefined,
-            category: category_id ? { connect: { mongo_id: category_id } } : undefined,
-            subcategory: subcategory_id ? { connect: { mongo_id: subcategory_id } } : undefined,
+            department: department,
+            category: category,
+            subcategory: subcategory,
             images: images,
             sizes: sizes,
             status: status,
@@ -46,14 +47,14 @@ export async function POST(req: Request) {
         }
     });
 
-    return new Response();
+    return NextResponse.json(product);
 }
 
 export async function GET(req: Request) {
 
     const url = new URL(req.url);
     const idParam = url.searchParams.get("id");
-    const productIdParam = url.searchParams.get("product_id");
+    const vendorIdParam = url.searchParams.get("vendor_id");
 
     if (idParam) {
         const regex = /^[a-fA-F0-9]{24}$/;
@@ -66,21 +67,20 @@ export async function GET(req: Request) {
 
         const product = await db.product.findFirst({
             where: {
-                mongo_id: idParam
+                id: idParam
             },
             include: {
                 brand: true,
-                department: true,
-                category: true,
-                subcategory: true
             }
         });
 
         return new Response(JSON.stringify(product));
     }
-    else if (productIdParam) {
-        const productId = parseInt(productIdParam, 10);
-        if (isNaN(productId)) return new Response(JSON.stringify({ message: "Error Format" }), {
+
+
+    else if (vendorIdParam) {
+        const vendorId = parseInt(vendorIdParam, 10);
+        if (isNaN(vendorId)) return new Response(JSON.stringify({ message: "Error Format" }), {
             status: 400,
             headers: {
                 'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export async function GET(req: Request) {
 
         const product = await db.product.findFirst({
             where: {
-                id: productId
+                vendor_id: vendorId
             },
             include: {
                 brand: true
@@ -110,15 +110,15 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
 
     const {
-        mongo_id, id, sku, price, wholesale_price, available, name, description, features,
-        brand_id, department_id, category_id, subcategory_id, images, sizes, status, updated_at
+        id, vendor_id, sku, price, wholesale_price, available, name, description, features,
+        brand_id, department, category, subcategory, images, sizes, status, updated_at
     } = await req.json()
 
 
     await db.product.update({
-        where: { mongo_id: mongo_id },
+        where: { id: id },
         data: {
-            id: id,
+            vendor_id: vendor_id,
             sku: sku,
             brandId: brand_id,
             price: price,
@@ -127,9 +127,9 @@ export async function PUT(req: Request) {
             name: name,
             description: description,
             features: features,
-            departmentId: department_id,
-            categoryId: category_id,
-            subcategoryId: subcategory_id,
+            department: department,
+            category: category,
+            subcategory: subcategory,
             images: images,
             sizes: sizes,
             status: status,
@@ -148,7 +148,7 @@ export async function DELETE(req: Request) {
     if (id == null) return new Response(JSON.stringify({ message: "Error" }));
 
     await db.product.delete({
-        where: { mongo_id: id },
+        where: { id: id },
     });
 
     return new Response();

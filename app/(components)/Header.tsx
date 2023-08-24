@@ -7,7 +7,7 @@ import { CartContext } from '@/context/CartContext'
 import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
+import { NAVIGATION } from '../(utils)/constants'
 import { cn } from '../(utils)/helpers'
 import Image from 'next/image'
 
@@ -16,8 +16,6 @@ import { Category, Department, Subcategory } from '../(types)'
 
 
 export default function Header() {
-
-  const navigation = NAVIGATION_DEPARTMENTS;
 
   const params = useParams()
 
@@ -42,7 +40,7 @@ export default function Header() {
   };
 
   useEffect(() => {
-    setIsShowing(Array(navigation.departments.length).fill(false));
+    setIsShowing(Array(NAVIGATION.departments.length).fill(false));
   }, [])
 
   return (
@@ -97,7 +95,7 @@ export default function Header() {
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-x-auto">
-                      {navigation.departments.map((department) => (
+                      {NAVIGATION.departments.map((department) => (
                         <Tab
                           key={department.name}
                           className={({ selected }) =>
@@ -113,7 +111,7 @@ export default function Header() {
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {navigation.departments.map((department: Department, departmentIdx: number) => (
+                    {NAVIGATION.departments.map((department: Department, departmentIdx: number) => (
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
@@ -157,7 +155,7 @@ export default function Header() {
                 </Tab.Group>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  {navigation.pages.map((page) => (
+                  {NAVIGATION.pages.map((page) => (
                     <div key={page.name} className="flow-root">
                       <Link
                         href={page.href}
@@ -202,7 +200,7 @@ export default function Header() {
                       <div className="flex h-full justify-center space-x-8">
 
                         {/* Department */}
-                        {navigation.departments.map((department: Department, departmentIdx: number) => (
+                        {NAVIGATION.departments.map((department: Department, departmentIdx: number) => (
                           <Popover key={department.name} className="flex">
                             {({ open }) => (
                               <>
@@ -293,7 +291,7 @@ export default function Header() {
                         ))}
 
 
-                        {navigation.pages.map((page) => (
+                        {NAVIGATION.pages.map((page) => (
                           <Link
                             key={page.name}
                             href={page.href}

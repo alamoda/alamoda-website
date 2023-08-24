@@ -724,11 +724,9 @@ export const DEPARTMENTS: Department[] = [
     // },
 ];
 
-export const NAVIGATION_DEPARTMENTS: Navigation = {
+export const NAVIGATION: Navigation = {
 
-    departments: [
-
-    ],
+    departments: DEPARTMENTS,
     pages: [
         {
             name: 'About Alamoda',

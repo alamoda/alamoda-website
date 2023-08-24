@@ -2,8 +2,8 @@ import Breadcrumb from '@/app/(components)/Breadcrumb';
 
 import { Brand } from "@prisma/client";
 import Filters from '@/app/(components)/Filters';
-import { Department, ProductFilters, SortOption } from '@/app/(types)';
-import { DEPARTMENTS, PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
+import { ProductFilters, SortOption } from '@/app/(types)';
+import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 import ProductList from '@/app/(components)/ProductList';
 import { getBrands } from '@/app/actions';
 import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
@@ -12,6 +12,18 @@ import Pagination from '@/app/(components)/Pagination';
 import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
 import PaginationSkeleton from '@/app/(components)/skeletons/PaginationSkeleton';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+// Metadata
+export function generateMetadata({ params }: { params: { department: string } }): Metadata {
+
+    const department = getDepartmentBySlug(params.department);
+
+    return {
+        title: `Shop ${department?.name} | Alamoda`,
+        description: department?.description
+    }
+}
 
 export default async function Shop(
     {

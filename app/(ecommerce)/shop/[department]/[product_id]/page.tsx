@@ -8,11 +8,25 @@ import { notFound } from 'next/navigation'
 import { ProductWithRelations } from '@/app/(lib)/db'
 import { getCategoryBySlug, getDepartmentBySlug, getSubcategoryBySlug, prepareProductQueryFilters } from '@/app/(utils)/helpers'
 import ProductListPreview from '@/app/(components)/ProductListPreview'
+import { Metadata } from 'next'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
+
+// Metadata
+export async function generateMetadata({ params }: { params: { product_id: string } }): Promise<Metadata> {
+
+  const product: ProductWithRelations | null = await getProduct(params.product_id, true);
+  
+  if (!product) {}
+
+  return {
+      title: `${product?.name} - ${product?.brand.name} | Alamoda`,
+      description: product?.description
+  }
+}
 
 export default async function Page({ params }: { params: { product_id: string } }) {
 

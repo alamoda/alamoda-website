@@ -118,30 +118,34 @@ export default function Page() {
                                 department: getDepartmentBySlug("women"),
                             })}
                             take={4}
-                            baseURL={baseURL}
+                            productBaseURL={'/shop'}
                             collectionTitle='New in for Women'
                             collectionURL={`/shop/women`}
                         />
 
-                        <div className="py-24 sm:py-32">
-                            {/* <ProductListPreview
-                                listTitle="New in for Men"
-                                filterParams={new URLSearchParams({
-                                    department: "men",
-                                })}
-                                listUrl={`shop/men`}
-                            /> */}
-                        </div>
+                        <ProductListPreview
+                            queryFilters={prepareProductQueryFilters({
+                                statuses: [2],
+                                available: true,
+                                department: getDepartmentBySlug("men"),
+                            })}
+                            take={4}
+                            productBaseURL={'/shop'}
+                            collectionTitle='New in for Men'
+                            collectionURL={`/shop/men`}
+                        />
 
-                        <div className="">
-                            {/* <ProductListPreview
-                                listTitle="New in for Lifestyle"
-                                filterParams={new URLSearchParams({
-                                    department: "lifestyle",
-                                })}
-                                listUrl={`shop/lifestyle`}
-                            /> */}
-                        </div>
+                        <ProductListPreview
+                            queryFilters={prepareProductQueryFilters({
+                                statuses: [2],
+                                available: true,
+                                department: getDepartmentBySlug("lifestyle"),
+                            })}
+                            take={4}
+                            productBaseURL={'/shop'}
+                            collectionTitle='New in for Lifestyle'
+                            collectionURL={`/shop/lifestyle`}
+                        />
                     </div>
                 </section>
 

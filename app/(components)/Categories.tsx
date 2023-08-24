@@ -1,27 +1,26 @@
 import Link from "next/link";
 import Image from 'next/image';
 
+import womenImage from '@/public/women.webp';
+import menImage from '@/public/men.webp';
+import lifestyleImage from '@/public/lifestyle.webp';
+
 export default function Categories() {
   return (
     <div className="">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="sm:flex sm:items-baseline sm:justify-between">
           <h2 className="text-4xl tracking-tight text-gray-900">Shop Now</h2>
-          {/* <a href="#" className="hidden text-sm font-semibold text-gray-900 hover:text-gray-700 sm:block">
-            Browse all categories
-            <span aria-hidden="true"> &rarr;</span>
-          </a> */}
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
+
           {/* Women */}
-          <div className="group aspect-h-1 aspect-w-2 overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
+          <div className="relative group aspect-h-1 aspect-w-2 overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
             <Image
-              src="/women.jpg"
-              alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
-              className="object-cover object-center group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 cursor-pointer"
-              width={1000}
-              height={1000}
+              src={womenImage}
+              alt="Two women wearing designer clothes and posing for the women collection preview"
+              className="h-full w-full object-cover object-center group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 cursor-pointer"
             />
             <div aria-hidden="true" className="bg-gradient-to-b from-transparent to-black opacity-50" />
             <div className="flex items-end p-6">
@@ -38,14 +37,13 @@ export default function Categories() {
               </div>
             </div>
           </div>
+
           {/* Men */}
-          <div className="group aspect-h-1 aspect-w-2 overflow-hidden sm:aspect-none sm:relative sm:h-full">
+          <div className="relative group aspect-h-1 aspect-w-2 overflow-hidden">
             <Image
-              src="/men.jpg"
-              alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
-              className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full group-hover:scale-110 transition-all duration-500 cursor-pointer"
-              width={1000}
-              height={1000}
+              src={menImage}
+              alt="A man laying poolside wearing designer clothes and posing for the men collection preview"
+              className="h-full w-full object-cover object-center group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 cursor-pointer"
             />
             <div
               aria-hidden="true"
@@ -65,14 +63,13 @@ export default function Categories() {
               </div>
             </div>
           </div>
+
           {/* Lifestyle */}
-          <div className="group aspect-h-1 aspect-w-2 overflow-hidden sm:aspect-none sm:relative sm:h-full">
+          <div className="relative group aspect-h-1 aspect-w-2 overflow-hidden">
             <Image
-              src="/lifestyle.avif"
-              alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
-              className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full group-hover:scale-110 transition-all duration-500 cursor-pointer"
-              width={1000}
-              height={1000}
+              src={lifestyleImage}
+              alt="Designer towels on a chair poolside for the lifestyl collection preview"
+              className="h-full w-full object-cover object-center group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 cursor-pointer"
             />
             <div
               aria-hidden="true"
@@ -92,6 +89,7 @@ export default function Categories() {
               </div>
             </div>
           </div>
+
         </div>
 
         {/* <div className="mt-6 sm:hidden">

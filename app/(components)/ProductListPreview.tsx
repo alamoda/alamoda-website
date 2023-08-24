@@ -7,12 +7,12 @@ interface ProductListPreviewProps {
     queryFilters: object[]
     take: number
     orderBy?: SortOption
-    baseURL: string
+    productBaseURL: string
     collectionTitle: string
     collectionURL: string
 }
 
-export default function ProductListPreview({ queryFilters, take, orderBy, baseURL, collectionTitle, collectionURL }: ProductListPreviewProps) {
+export default function ProductListPreview({ queryFilters, take, orderBy, productBaseURL, collectionTitle, collectionURL }: ProductListPreviewProps) {
 
     return (
         <>
@@ -36,7 +36,7 @@ export default function ProductListPreview({ queryFilters, take, orderBy, baseUR
                     queryFilters={queryFilters}
                     skip={0}
                     take={4}
-                    baseURL={baseURL}
+                    productBaseURL={productBaseURL}
                     orderBy={orderBy}
                 />
             </Suspense>

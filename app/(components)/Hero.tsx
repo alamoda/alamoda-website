@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import heroImage from '@/public/hero.webp'
 
 export default function Hero() {
+
     return (
         <div className="bg-white">
 
@@ -10,11 +12,9 @@ export default function Hero() {
                 {/* Decorative image and overlay */}
                 <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                     <Image
-                        src="/hero.jpg"
-                        alt="Hero image"
+                        src={heroImage}
+                        alt="Woman walking down the stairs with designer clothes"
                         className="h-full w-full object-cover object-center"
-                        width={2000}
-                        height={1000}
                     />
                 </div>
                 <div aria-hidden="true" className="absolute inset-0 bg-gray-900 opacity-50" />

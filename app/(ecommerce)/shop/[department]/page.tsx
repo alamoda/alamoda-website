@@ -49,7 +49,7 @@ export default async function Shop(
     const availableBrands: Brand[] = await getBrands();
     const paramBrandSet = new Set(brandsParam);
     const currentBrands = availableBrands.filter(brand => paramBrandSet.has(brand.slug));
-    
+
     // Breadcrumbs
     const breadcrumbs = [
         {
@@ -64,8 +64,7 @@ export default async function Shop(
     ];
 
     // URL
-    const baseURL = `${process.env.NEXT_PUBLIC_URL}/shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
-    const currentURL = getURL(baseURL, searchParams);
+    const currentURL = getURL(`${process.env.NEXT_PUBLIC_URL}/shop${currentDepartment ? '/' + currentDepartment.slug : ''}`, searchParams);
 
     // Init components
     const activeFilters: ProductFilters = {
@@ -117,7 +116,7 @@ export default async function Shop(
                         skip={skipParam}
                         take={takeParam}
                         orderBy={orderBy}
-                        baseURL={`${process.env.NEXT_PUBLIC_URL}/shop`}
+                        productBaseURL={`/shop`}
                     />
                 </Suspense>
 

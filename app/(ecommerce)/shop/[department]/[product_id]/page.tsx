@@ -24,8 +24,6 @@ export default async function Page({ params }: { params: { product_id: string } 
   const currentCategory = getCategoryBySlug(product.category?.slug, currentDepartment);
   const currentSubcategory = getSubcategoryBySlug(product.subcategory?.slug, currentCategory);
 
-  const baseURL = `${process.env.NEXT_PUBLIC_URL}/shop${currentDepartment ? '/' + currentDepartment.slug : ''}`;
-
   const breadcrumb = [
     {
       name: 'Shop',
@@ -121,7 +119,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                   exclude: [product],
                 })}
                 take={4}
-                baseURL={baseURL}
+                productBaseURL={'/shop'}
                 collectionTitle='You might also like'
                 collectionURL={`/shop/${product.department?.slug}?category=${product.category?.slug}${product.subcategory ? "&subcategories=" + product.subcategory?.slug : ""}`}
               />
@@ -137,7 +135,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                   exclude: [product],
                 })}
                 take={4}
-                baseURL={baseURL}
+                productBaseURL={'/shop'}
                 collectionTitle={`More from ${product?.brand.name.toLowerCase()}`}
                 collectionURL={`/shop/${currentDepartment?.slug}?brands=${product?.brand.slug}`}
               />

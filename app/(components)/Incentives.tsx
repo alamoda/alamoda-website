@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import incentivesImage from '@/public/incentives.webp'
+
 const incentives = [
   {
     name: 'Free shipping',
@@ -19,6 +21,7 @@ const incentives = [
       "If you don't like it, trade it to one of your friends for something of theirs. Don't send it here though.",
   },
 ]
+
 
 export default function Incentives() {
   return (
@@ -42,13 +45,11 @@ export default function Incentives() {
                 About Us
               </Link>
             </div>
-            <div className="aspect-h-2 aspect-w-3 overflow-hidden bg-gray-100">
+            <div className="relative aspect-h-2 aspect-w-3 overflow-hidden bg-gray-100">
               <Image
-                src="/brand-alamoda.jpg"
-                alt="Women clothes on a hanger"
-                className="object-cover object-center"
-                width={1000}
-                height={1000}
+                src={incentivesImage}
+                alt="Women designer clothes on a hanger"
+                className="w-full h-full object-cover object-center"
               />
             </div>
           </div>
@@ -56,12 +57,10 @@ export default function Incentives() {
             {incentives.map((incentive) => (
               <div key={incentive.name} className="sm:flex lg:block">
                 <div className="sm:flex-shrink-0">
-                  <Image
+                  <img
                     className="h-10 w-10"
                     src={incentive.imageSrc}
-                    alt=""
-                    width={1000}
-                    height={1000}
+                    alt={incentive.name}
                   />
                 </div>
                 <div className="mt-4 sm:ml-6 sm:mt-0 lg:ml-0 lg:mt-6">

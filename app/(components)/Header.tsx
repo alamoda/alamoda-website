@@ -10,6 +10,9 @@ import { useParams } from 'next/navigation'
 import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
 import { NavigationCategory, NavigationDepartment, NavigationSubcategory } from '../(types)'
 import { cn } from '../(utils)/helpers'
+import Image from 'next/image'
+
+import logoImage from '@/public/logo.webp'
 
 
 export default function Header() {
@@ -179,15 +182,17 @@ export default function Header() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="border-b border-gray-200">
                 <div className="flex h-16 items-center justify-between">
+
                   {/* Logo (lg+) */}
                   <div className="hidden lg:flex lg:items-center">
                     <Link href="/">
                       <span className="sr-only">Alamoda Inc</span>
-                      <img
-                        src="/logo.png"
-                        alt="alamoda logo"
-                        className='w-16'
-                      />
+                      <div className='relative w-16 h-auto'>
+                        <Image
+                          src={logoImage}
+                          alt="Alamoda Logo"
+                        />
+                      </div>
                     </Link >
                   </div >
 
@@ -322,11 +327,12 @@ export default function Header() {
                   {/* Logo (lg-) */}
                   <Link href="/" className="lg:hidden">
                     <span className="sr-only">Alamoda Inc</span>
-                    <img
-                      src="/logo.png"
-                      alt="alamoda logo"
-                      className='w-24'
-                    />
+                    <div className='relative w-24 h-auto'>
+                      <Image
+                        src={logoImage}
+                        alt="Alamoda Logo"
+                      />
+                    </div>
                   </Link >
 
                   <div className="flex flex-1 items-center justify-end">

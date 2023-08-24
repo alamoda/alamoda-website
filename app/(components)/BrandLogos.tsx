@@ -1,47 +1,40 @@
 import Image from 'next/image';
 
+import diorImage from '@/public/brands/dior.webp';
+import gucciImage from '@/public/brands/gucci.webp';
+import pradaImage from '@/public/brands/prada.webp';
+import loroPianaImage from '@/public/brands/loro-piana.webp';
+import dolceGabbanaImage from '@/public/brands/dolce-gabbana.webp';
+
 export default function BrandLogos() {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* <h2 className="text-center text-lg font-semibold leading-8 text-gray-900">
-            Shop for the
-          </h2> */}
         <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
           <Image
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-            src="/brands/dior.png"
-            alt="Dior"
-            width={158}
-            height={48}
+            className="relative col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src={diorImage}
+            alt="Dior Logo"
           />
           <Image
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-            src="/brands/gucci.png"
-            alt="Gucci"
-            width={158}
-            height={48}
+            className="relative col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src={gucciImage}
+            alt="Gucci Logo"
           />
           <Image
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-            src="/brands/prada.png"
-            alt="Prada"
-            width={158}
-            height={48}
+            className="relative col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src={pradaImage}
+            alt="Prada Logo"
           />
           <Image
-            className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-            src="/brands/loro-piana.png"
-            alt="Loro Piana"
-            width={158}
-            height={48}
+            className="relative col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src={loroPianaImage}
+            alt="Loro Piana Logo"
           />
           <Image
-            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-            src="/brands/dolce-gabbana.jpg"
-            alt="Dolce & Gabbana"
-            width={158}
-            height={48}
+            className="relative col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            src={dolceGabbanaImage}
+            alt="Dolce & Gabbana Logo"
           />
         </div>
       </div>

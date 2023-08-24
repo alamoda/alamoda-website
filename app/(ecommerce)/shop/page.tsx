@@ -1,8 +1,13 @@
-// import ProductList from '@/app/(components)/ProductList'
 import Testimonials from '@/app/(components)/Testimonials'
 import Link from 'next/link'
 import ProductListPreview from '@/app/(components)/ProductListPreview'
 import { getDepartmentBySlug, prepareProductQueryFilters } from '@/app/(utils)/helpers'
+
+import womenPreviewImage from '@/public/women-preview.webp';
+import menPreviewImage from '@/public/men-preview.webp';
+import lifestylePreviewImage from '@/public/lifestyle-preview.webp';
+import Image from 'next/image';
+
 
 export default function Page() {
 
@@ -22,9 +27,9 @@ export default function Page() {
                                 <div>
                                     <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                                         <div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                                            <img
-                                                src="https://www.baseblu.com/img/cms/home/donna06.jpg"
-                                                alt="Women collection"
+                                            <Image
+                                                src={womenPreviewImage}
+                                                alt="Woman wearing a white dress posing for the Women collection preview."
                                                 className="h-full w-full object-cover object-center"
                                             />
                                         </div>
@@ -51,9 +56,9 @@ export default function Page() {
                                 <div>
                                     <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                                         <div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                                            <img
-                                                src="https://www.baseblu.com/img/cms/home/uomo06.jpg"
-                                                alt="Men collection"
+                                            <Image
+                                                src={menPreviewImage}
+                                                alt="Man walking in the street with a long coat posing for the Men collection preview."
                                                 className="h-full w-full object-cover object-center"
                                             />
                                         </div>
@@ -80,9 +85,9 @@ export default function Page() {
                                 <div>
                                     <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                                         <div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                                            <img
-                                                src="https://luxurylivinggroup.com/wp-content/uploads/2021/11/Versace-Home-SuperSalone-2021_22-1.jpg"
-                                                alt="Lifestyle collection"
+                                            <Image
+                                                src={lifestylePreviewImage}
+                                                alt="A livingroom decorated with Versace items for the Lifestyle collection preview."
                                                 className="h-full w-full object-cover object-center"
                                             />
                                         </div>

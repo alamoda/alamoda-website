@@ -1,5 +1,14 @@
 import Image from "next/image";
 
+import aboutImage1 from '@/public/about1.webp';
+import aboutImage2 from '@/public/about2.webp';
+import aboutImage3 from '@/public/about3.webp';
+import aboutImage4 from '@/public/about4.webp';
+import aboutImage5 from '@/public/about5.webp';
+import aboutImage6 from '@/public/about6.webp';
+import aboutImage7 from '@/public/about7.webp';
+import menImage from '@/public/men.webp';
+
 export default function Page() {
     return (
         <>
@@ -35,71 +44,57 @@ export default function Page() {
                                     <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
                                         <div className="flex items-center space-x-6 lg:space-x-8">
                                             <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                                                <div className="h-64 w-44 overflow-hidden sm:opacity-0 lg:opacity-100">
+                                                <div className="relative h-64 w-44 overflow-hidden sm:opacity-0 lg:opacity-100">
                                                     <Image
-                                                        src="/hero1.jpg"
-                                                        alt=""
+                                                        src={aboutImage1}
+                                                        alt="Woman wearing a By Far bag and a Balmain Fur"
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                                 <div className="h-64 w-44 overflow-hidden">
                                                     <Image
-                                                        src="/hero2.jpg"
-                                                        alt=""
+                                                        src={aboutImage2}
+                                                        alt="Woman wearing a Burberry shirt"
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                                                 <div className="h-64 w-44 overflow-hidden">
                                                     <Image
-                                                        src="/hero3.jpg"
-                                                        alt=""
+                                                        src={aboutImage3}
+                                                        alt="Woman showcasing a Bottega Veneta green ba."
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                                 <div className="h-64 w-44 overflow-hidden">
                                                     <Image
-                                                        src="/hero4.jpg"
-                                                        alt=""
+                                                        src={aboutImage4}
+                                                        alt="Woman wearin a Burberry black bag"
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                                 <div className="h-64 w-44 overflow-hidden">
                                                     <Image
-                                                        src="/hero5.jpg"
-                                                        alt=""
+                                                        src={aboutImage5}
+                                                        alt="Woman wearing Valentino hills"
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                                                 <div className="h-64 w-44 overflow-hidden">
                                                     <Image
-                                                        src="/hero6.jpg"
-                                                        alt=""
+                                                        src={aboutImage6}
+                                                        alt="Woman wearing Christian Dior sunglasses"
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                                 <div className="h-64 w-44 overflow-hidden">
                                                     <Image
-                                                        src="/hero7.jpg"
-                                                        alt=""
+                                                        src={aboutImage7}
+                                                        alt="Woman posing and wearing a Palm Angeles pink jacket"
                                                         className="h-full w-full object-cover object-center"
-                                                        width={1000}
-                                                        height={1000}
                                                     />
                                                 </div>
                                             </div>
@@ -167,11 +162,9 @@ export default function Page() {
                     <div className="relative overflow-hidden">
                         <div className="absolute inset-0">
                             <Image
-                                src="/men.jpg"
-                                alt="duomo"
+                                src={menImage}
+                                alt="A man laying poolside wearing designer clothes"
                                 className="h-full w-full object-cover object-center"
-                                width={1000}
-                                height={1000}
                             />
                         </div>
                         <div className="relative bg-gray-900 bg-opacity-75 px-6 py-32 sm:px-12 sm:py-40 lg:px-16">

@@ -146,19 +146,19 @@ export function getURL(baseUrl: string, searchParams: { [key: string]: string | 
     return url;
 }
 
-export function getDepartmentBySlug(departmentSlug: string | undefined) {
+export function getDepartmentBySlug(departmentSlug: string | null) {
     if (!departmentSlug) return undefined
 
     return DEPARTMENTS.find((dept) => dept.slug === departmentSlug);
 }
 
-export function getCategoryBySlug(categorySlug: string | undefined, department: Department | undefined) {
+export function getCategoryBySlug(categorySlug: string | null, department: Department | undefined) {
     if (!categorySlug || !department) return undefined
 
     return department.categories.find((cat) => cat.slug === categorySlug);
 }
 
-export function getSubcategoryBySlug(subcategorySlug: string | undefined, category: Category | undefined) {
+export function getSubcategoryBySlug(subcategorySlug: string | null, category: Category | undefined) {
     if (!subcategorySlug || !category) return undefined
 
     return category.subcategories.find((sub) => sub.slug === subcategorySlug);

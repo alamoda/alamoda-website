@@ -34,9 +34,9 @@ export default async function Page({ params }: { params: { product_id: string } 
 
   if (!product) return notFound();
 
-  const currentDepartment = getDepartmentBySlug(product.department?.slug);
-  const currentCategory = getCategoryBySlug(product.category?.slug, currentDepartment);
-  const currentSubcategory = getSubcategoryBySlug(product.subcategory?.slug, currentCategory);
+  const currentDepartment = getDepartmentBySlug(product.department);
+  const currentCategory = getCategoryBySlug(product.category, currentDepartment);
+  const currentSubcategory = getSubcategoryBySlug(product.subcategory, currentCategory);
 
   const breadcrumb = [
     {
@@ -135,7 +135,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                 take={4}
                 productBaseURL={'/shop'}
                 collectionTitle='You might also like'
-                collectionURL={`/shop/${product.department?.slug}?category=${product.category?.slug}${product.subcategory ? "&subcategories=" + product.subcategory?.slug : ""}`}
+                collectionURL={`/shop/${product.department}?category=${product.category}${product.subcategory ? "&subcategories=" + product.subcategory : ""}`}
               />
             </div>
 

@@ -1,11 +1,6 @@
 import { Brand, Product } from "@prisma/client"
 import { ProductWithRelations } from "../(lib)/db"
 
-export type Option = {
-    mongo_id: string
-    name: string
-}
-
 export type Feature = {
     id_feature: string
     name: string
@@ -20,38 +15,24 @@ export type Size = {
 }
 
 export type Department = {
-    mongo_id?: string
     name: string
     description: string
     slug: string
-    mapped_ids: number[]
-    order: number
     available: boolean
     categories: Category[]
 }
 
 export type Category = {
-    mongo_id?: string
     name: string
     slug: string
-    mapped_ids: number[]
-    order: number
     available: boolean
     subcategories: Subcategory[]
 }
 
 export type Subcategory = {
-    mongo_id?: string
     slug: string
     name: string
-    order: number
     available: boolean
-    mapped_ids: number[]
-}
-
-export type Route = {
-    name: string,
-    href: string
 }
 
 export type SortOption = {
@@ -80,6 +61,13 @@ export type Order = {
     paid: boolean
     created_at: string
 }
+
+
+
+
+
+
+
 
 export type NavigationDepartment = {
     name: string
@@ -121,45 +109,6 @@ export type Navigation = {
     pages: NavigationPages[]
 }
 
-
-// TODO
-// export type ProductFilters = {
-//     department?: Department,
-//     category?: Category,
-//     subcategories?: Subcategory[]
-//     order?: SortOption
-//     brands?: Brand[]
-//     statuses?: string[]
-//     excludes?: string[]
-//     limit?: number
-//     available?: boolean
-// }
-
-enum ProductScrapeStatus {
-    // Fatal problem in processing the product
-    FATAL = -1,
-    // No image found
-    NO_IMAGE = 0,
-    // Image found but only small size
-    SMALL_IMAGE = 1,
-    // Full size image found
-    FULL_IMAGE = 2,
-}
-
-export type ProductAPIFilter = {
-    department: string
-    category: string
-    subcategories: string[]
-    brands: string[]
-    query: string
-    order: string
-    skip: number
-    take: number
-    statuses: ProductScrapeStatus[]
-    available: boolean
-    exclude: string[]
-}
-
 export type ProductFilters = {
     
     // Mandatory
@@ -173,4 +122,15 @@ export type ProductFilters = {
     brands?: Brand[]
     query?: string
     exclude?: ProductWithRelations[]
+}
+
+enum ProductScrapeStatus {
+    // Fatal problem in processing the product
+    FATAL = -1,
+    // No image found
+    NO_IMAGE = 0,
+    // Image found but only small size
+    SMALL_IMAGE = 1,
+    // Full size image found
+    FULL_IMAGE = 2,
 }

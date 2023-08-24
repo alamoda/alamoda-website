@@ -133,9 +133,6 @@ export async function GET(req: Request) {
         skip: skip || 0,
         include: {
             brand: true,
-            department: true,
-            category: true,
-            subcategory: true,
         },
         orderBy: orderFilter.filter
     });

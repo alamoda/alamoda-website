@@ -44,7 +44,7 @@ export default function PrimarySelect({ label, value, onValueChange, options }: 
                                 <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                     {options && options.map((option: any) => (
                                         <Listbox.Option
-                                            key={option.mongo_id}
+                                            key={option.id}
                                             className={({ active }) =>
                                                 classNames(
                                                     active ? 'bg-gray-600 text-white' : 'text-gray-900',

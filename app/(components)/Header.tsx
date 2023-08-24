@@ -8,11 +8,11 @@ import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { NAVIGATION_DEPARTMENTS } from '../(utils)/constants'
-import { NavigationCategory, NavigationDepartment, NavigationSubcategory } from '../(types)'
 import { cn } from '../(utils)/helpers'
 import Image from 'next/image'
 
 import logoImage from '@/public/logo.webp'
+import { Category, Department, Subcategory } from '../(types)'
 
 
 export default function Header() {
@@ -97,7 +97,7 @@ export default function Header() {
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-x-auto">
-                      {navigation.departments.map((department: NavigationDepartment) => (
+                      {navigation.departments.map((department) => (
                         <Tab
                           key={department.name}
                           className={({ selected }) =>
@@ -113,19 +113,19 @@ export default function Header() {
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {navigation.departments.map((department: NavigationDepartment, departmentIdx: number) => (
+                    {navigation.departments.map((department: Department, departmentIdx: number) => (
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <a href={`/shop/${department.filter}`}>
+                            <a href={`/shop/${department.slug}`}>
                               View all {department.name}
                             </a>
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
-                            {department.categories.map((category: NavigationCategory) =>
+                            {department.categories.map((category: Category) =>
                               <div key={category.name}>
                                 <a
-                                  href={`/shop/${department.filter}?category=${category.filters}`}
+                                  href={`/shop/${department.slug}?category=${category.slug}`}
                                   id={`mobile-featured-heading-${departmentIdx}`}
                                   className="font-medium text-gray-900"
                                 >
@@ -136,10 +136,10 @@ export default function Header() {
                                   aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
                                   className="mt-6 space-y-4"
                                 >
-                                  {category.subcategories.map((subcategory: NavigationSubcategory) => (
+                                  {category.subcategories.map((subcategory: Subcategory) => (
                                     <li key={subcategory.name} className="flex">
                                       <a
-                                        href={`/shop/${department.filter}?category=${category.filters}&subcategories=${subcategory.filters}`}
+                                        href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`}
                                         className="text-gray-500"
                                       >
                                         {subcategory.name}
@@ -202,7 +202,7 @@ export default function Header() {
                       <div className="flex h-full justify-center space-x-8">
 
                         {/* Department */}
-                        {navigation.departments.map((department: NavigationDepartment, departmentIdx: number) => (
+                        {navigation.departments.map((department: Department, departmentIdx: number) => (
                           <Popover key={department.name} className="flex">
                             {({ open }) => (
                               <>
@@ -215,7 +215,7 @@ export default function Header() {
                                       isShowing[departmentIdx]
                                         ? 'hover:text-gray-900'
                                         : 'text-gray-700 hover:text-gray-800',
-                                      params.department && department.filter === params.department
+                                      params.department && department.slug === params.department
                                         ? "border-gray-900"
                                         : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-xs font-medium transition-colors duration-200 ease-out'
@@ -224,7 +224,7 @@ export default function Header() {
                                     <Link
                                       className="h-full w-full flex items-center justify-center"
                                       onClick={() => onHoverExitMenu(departmentIdx)}
-                                      href={`/shop/${department.filter}`}
+                                      href={`/shop/${department.slug}`}
                                     >
                                       {department.name}
                                     </Link>
@@ -252,11 +252,11 @@ export default function Header() {
                                       <div className="mx-auto max-w-7xl px-8">
                                         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-10 pb-12 pt-10">
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
-                                            {department.categories.map((category: NavigationCategory, categoryIdx: number) => (
+                                            {department.categories.map((category: Category, categoryIdx: number) => (
                                               <div key={category.name}>
                                                 <a
                                                   onClick={() => onHoverExitMenu(departmentIdx)}
-                                                  href={`/shop/${department.filter}?category=${category.filters}`}
+                                                  href={`/shop/${department.slug}?category=${category.slug}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
                                                 >
@@ -267,11 +267,11 @@ export default function Header() {
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
                                                   className="mt-6 space-y-2 sm:mt-4 sm:space-y-1"
                                                 >
-                                                  {category.subcategories.map((subcategory: NavigationSubcategory) => (
+                                                  {category.subcategories.map((subcategory: Subcategory) => (
                                                     <li key={subcategory.name} className="flex">
                                                       <a
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
-                                                        href={`/shop/${department.filter}?category=${category.filters}&subcategories=${subcategory.filters}`}
+                                                        href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`}
                                                         className="hover:text-gray-800 hover:underline"
                                                       >
                                                         {subcategory.name}

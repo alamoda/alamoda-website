@@ -64,35 +64,6 @@ export type Order = {
 
 
 
-
-
-
-
-
-export type NavigationDepartment = {
-    name: string
-    description: string
-    filter: string
-    order: number
-    available: boolean
-    categories: NavigationCategory[]
-}
-
-export type NavigationCategory = {
-    name: string
-    filters: string[],
-    order: number,
-    available: boolean,
-    subcategories: NavigationSubcategory[]
-}
-
-export type NavigationSubcategory = {
-    name: string,
-    filters: string[],
-    order: number,
-    available: boolean,
-}
-
 export type NavigationBrands = {
     name: string
     filters: string[]
@@ -104,7 +75,7 @@ export type NavigationPages = {
 }
 
 export type Navigation = {
-    departments: NavigationDepartment[]
+    departments: Department[]
     // brands: NavigationBrands[]
     pages: NavigationPages[]
 }

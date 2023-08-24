@@ -50,79 +50,44 @@ model User {
 }
 
 model Brand {
-  mongo_id    String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String    @unique
   description String?
   slug        String    @unique
   mapped_ids  Int[]
   available   Boolean
   products    Product[]
+
+  @@map("brands")
 }
 
 model Product {
-  mongo_id        String       @id @default(auto()) @map("_id") @db.ObjectId
-  id              Int          @unique
-  sku             String       @unique
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  vendor_id       Int     @unique
+  sku             String  @unique
   price           Float
   wholesale_price Float
   available       Boolean
-  brand           Brand        @relation(fields: [brandId], references: [mongo_id])
-  brandId         String       @db.ObjectId
+  brand           Brand   @relation(fields: [brandId], references: [id])
+  brandId         String  @db.ObjectId
   name            String
   description     String?
   features        Json
-  department      Department?  @relation(fields: [departmentId], references: [mongo_id])
-  departmentId    String?      @db.ObjectId
-  category        Category?    @relation(fields: [categoryId], references: [mongo_id])
-  categoryId      String?      @db.ObjectId
-  subcategory     Subcategory? @relation(fields: [subcategoryId], references: [mongo_id])
-  subcategoryId   String?      @db.ObjectId
+  department      String?
+  category        String?
+  subcategory     String?
+  subcategoryId   String? @db.ObjectId
   images          Json
   sizes           Json
   status          Int
   updated_at      Float?
   created_at      Float?
-}
 
-model Department {
-  mongo_id    String     @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  slug        String
-  mapped_ids  Int[]
-  order       Int
-  available   Boolean
-  categories  Category[]
-  Product     Product[]
-}
-
-model Category {
-  mongo_id      String        @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  slug          String
-  mapped_ids    Int[]
-  order         Int
-  available     Boolean
-  department    Department    @relation(fields: [departmentId], references: [mongo_id])
-  departmentId  String        @db.ObjectId
-  subcategories Subcategory[]
-  Product       Product[]
-}
-
-model Subcategory {
-  mongo_id   String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  slug       String
-  order      Int
-  available  Boolean
-  mapped_ids Int[]
-  category   Category  @relation(fields: [categoryId], references: [mongo_id])
-  categoryId String    @db.ObjectId
-  Product    Product[]
+  @@map("products")
 }
 
 model Order {
-  mongo_id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   cart_products Json
   amount        Float?
   name          String?
@@ -135,12 +100,16 @@ model Order {
   paid          Boolean
   updated_at    DateTime?
   created_at    DateTime  @default(now())
+
+  @@map("orders")
 }
 
 model Newsletter {
-  mongo_id   String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   department String
   email      String?   @unique
   updated_at DateTime?
   created_at DateTime  @default(now())
+
+  @@map("newsletter-subscribers")
 }

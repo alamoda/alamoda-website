@@ -207,11 +207,11 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                         {availableBrands
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (
-                                                                <div key={brand.mongo_id} className="flex items-center truncate">
+                                                                <div key={brand.id} className="flex items-center truncate">
                                                                     <a
                                                                         href={getBrandUrl(brand)} className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
-                                                                            name={`${brand.mongo_id}[]`}
+                                                                            name={`${brand.id}[]`}
                                                                             defaultValue={brand.slug}
                                                                             type="checkbox"
                                                                             readOnly
@@ -251,7 +251,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                                                 <Disclosure.Panel className="pt-6">
                                                     <div className="space-y-2">
-                                                        {activeFilters.department?.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
+                                                        {activeFilters.department?.categories.map((cat: Category) => (
                                                             <div key={cat.slug} className="flex items-center">
                                                                 <a href={getCategoryUrl(cat)}
                                                                     className={cn(
@@ -288,13 +288,13 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                                                     <Disclosure.Panel className="pt-6">
                                                         <div className="space-y-2">
-                                                            {activeFilters.category?.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
+                                                            {activeFilters.category?.subcategories.map((sub: Subcategory) => (
                                                                 <div key={sub.slug} className="flex items-center whitespace-nowrap">
                                                                     <a
                                                                         href={getSubcategoryUrl(sub)}
                                                                         className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
-                                                                            name={`${sub.mongo_id}[]`}
+                                                                            name={`${sub.slug}[]`}
                                                                             defaultValue={sub.slug}
                                                                             type="checkbox"
                                                                             readOnly
@@ -450,11 +450,11 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                         {availableBrands
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (
-                                                                <div key={brand.mongo_id} className="flex items-center truncate">
+                                                                <div key={brand.id} className="flex items-center truncate">
                                                                     <a
                                                                         href={getBrandUrl(brand)} className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
-                                                                            name={`${brand.mongo_id}[]`}
+                                                                            name={`${brand.id}[]`}
                                                                             defaultValue={brand.slug}
                                                                             type="checkbox"
                                                                             readOnly
@@ -500,7 +500,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                         >
                                             <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {activeFilters.department?.categories.sort((a: Category, b: Category) => a.order - b.order).map((cat: Category) => (
+                                                    {activeFilters.department?.categories.map((cat: Category) => (
                                                         <Menu.Item key={cat.slug}>
                                                             {({ active }) => (
                                                                 <a href={getCategoryUrl(cat)}
@@ -548,14 +548,14 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
 
                                                 <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <form className="space-y-1">
-                                                        {activeFilters.category?.subcategories.sort((a: Subcategory, b: Subcategory) => a.order - b.order).map((sub: Subcategory) => (
+                                                        {activeFilters.category?.subcategories.map((sub: Subcategory) => (
                                                             <div key={sub.slug} className="flex items-center whitespace-nowrap">
                                                                 <a
                                                                     href={getSubcategoryUrl(sub)}
                                                                     className='p-1 cursor-pointer hover:bg-gray-100 w-full'
                                                                 >
                                                                     <input
-                                                                        name={`${sub.mongo_id}[]`}
+                                                                        name={`${sub.slug}[]`}
                                                                         defaultValue={sub.slug}
                                                                         type="checkbox"
                                                                         readOnly

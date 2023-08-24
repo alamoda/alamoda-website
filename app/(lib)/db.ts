@@ -21,10 +21,7 @@ export const db = prisma
 const productWithRelations = Prisma.validator<Prisma.ProductArgs>()({
     include: {
         brand: true,
-        department: true,
-        category: true,
-        subcategory: true,
     },
 })
 
-export type ProductWithRelations= Prisma.ProductGetPayload<typeof productWithRelations>;
+export type ProductWithRelations = Prisma.ProductGetPayload<typeof productWithRelations>;

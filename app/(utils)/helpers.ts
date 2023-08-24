@@ -54,9 +54,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
     if (productFilters.department) {
         queryFilters.push(
             {
-                department: {
-                    slug: productFilters.department.slug,
-                },
+                department: productFilters.department.slug
             }
         );
     }
@@ -64,9 +62,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
     if (productFilters.category) {
         queryFilters.push(
             {
-                category: {
-                    slug: productFilters.category.slug,
-                },
+                category: productFilters.category.slug,
             }
         );
     }
@@ -75,9 +71,7 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
         queryFilters.push(
             {
                 subcategory: {
-                    slug: {
-                        in: productFilters.subcategories.map(subcategory => subcategory.slug)
-                    }
+                    in: productFilters.subcategories.map(subcategory => subcategory.slug)
                 }
             }
         );
@@ -98,8 +92,8 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
     if (productFilters.exclude && productFilters.exclude.length > 0) {
         queryFilters.push(
             {
-                mongo_id: {
-                    notIn: productFilters.exclude.map(product => product.mongo_id)
+                id: {
+                    notIn: productFilters.exclude.map(product => product.id)
                 }
             }
         );
@@ -160,12 +154,12 @@ export function getDepartmentBySlug(departmentSlug: string | undefined) {
 
 export function getCategoryBySlug(categorySlug: string | undefined, department: Department | undefined) {
     if (!categorySlug || !department) return undefined
-    
+
     return department.categories.find((cat) => cat.slug === categorySlug);
 }
 
 export function getSubcategoryBySlug(subcategorySlug: string | undefined, category: Category | undefined) {
     if (!subcategorySlug || !category) return undefined
-    
+
     return category.subcategories.find((sub) => sub.slug === subcategorySlug);
 }

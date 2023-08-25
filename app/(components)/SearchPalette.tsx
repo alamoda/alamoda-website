@@ -3,28 +3,19 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
+import { cn } from '../(utils)/helpers';
+import { DEPARTMENTS } from '../(utils)/constants';
 
-
-const departments = [
-    { id: 'women', title: 'Women' },
-    { id: 'men', title: 'Men' },
-    { id: 'unisex', title: 'Unixes' },
-    { id: 'lifestyle', title: 'Lyfestyle' },
-];
-
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
-
-type ComponentProps = {
+interface SearchPaletteProps {
     open: boolean;
-    toggle: React.Dispatch<React.SetStateAction<boolean>>;
     department: string | undefined
     path: string
+    toggle: (val: boolean) => void;
 }
 
-export default function SearchPalettes({ open, toggle, department, path }: ComponentProps) {
-    const [searchQuery, setSearchQuery] = useState('');
+export default function SearchPalette({ open, department, path, toggle }: SearchPaletteProps) {
+
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const [searchDepartment, setSearchDepartment] = useState<string>(department || 'women');
     const router = useRouter();
 
@@ -77,15 +68,15 @@ export default function SearchPalettes({ open, toggle, department, path }: Compo
                                 />
                             </form>
                             <div className="flex justify-center items-center pt-4">
-                                {departments.map((dept) => (
-                                    <div key={dept.id} className='px-2'>
+                                {DEPARTMENTS.map((dept) => (
+                                    <div key={dept.slug} className='px-2'>
                                         <button
-                                            onClick={() => setSearchDepartment(dept.id)}
-                                            className={classNames(searchDepartment == dept.id ?
+                                            onClick={() => setSearchDepartment(dept.slug)}
+                                            className={cn(searchDepartment == dept.slug ?
                                                 'border-b-2 border-gray-900 pb-2' : 'pb-2',
                                                 'text-xs text-gray-900')}
                                         >
-                                            {dept.title}
+                                            {dept.name}
                                         </button>
                                     </div>
                                 ))}

@@ -2,20 +2,18 @@
 
 import { RadioGroup } from "@headlessui/react";
 import { useContext, useState } from "react";
-import { Product, Size } from "../(types)";
+import { Size } from "../(types)";
 import { useRouter } from "next/navigation";
 import { CartContext } from "@/context/CartContext";
 import { LETTER_SIZE_ORDER } from "../(utils)/constants";
+import { Product } from "@prisma/client";
+import { cn } from "../(utils)/helpers";
 
-interface SizeSelectorProps {
+interface AddProductToCartProps {
     product: Product
 }
 
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
-
-export default function CheckoutButton({ product }: SizeSelectorProps) {
+export default function AddProductToCart({ product }: AddProductToCartProps) {
     const [selectedSize, setSelectedSize] = useState<Size | null>(null);
     const [showError, setShowError] = useState(false);
     const { addProduct } = useContext(CartContext);
@@ -24,15 +22,12 @@ export default function CheckoutButton({ product }: SizeSelectorProps) {
 
     const handleAddToCart = () => {
         if (product && selectedSize) {
-            console.log(selectedSize);
             addProduct({ product, size: selectedSize, quantity: 1 });
             router.push('/cart');
         } else if (product && !selectedSize) {
             setShowError(true);
         }
     };
-
-
 
     const reorderSizes = (sizes: Size[]) => {
         const isNumeric = !isNaN(Number(sizes[0].name));
@@ -53,7 +48,7 @@ export default function CheckoutButton({ product }: SizeSelectorProps) {
         }
     };
 
-    const sizes = reorderSizes(product.sizes);
+    const sizes = reorderSizes(product.sizes as Size[]);
 
     return (
         <>
@@ -70,12 +65,12 @@ export default function CheckoutButton({ product }: SizeSelectorProps) {
                 className="mt-2">
                 <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                 <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                    {product?.sizes.map((size: Size) => (
+                    {sizes.map((size: Size) => (
                         <RadioGroup.Option
                             key={size.name}
                             value={size}
                             className={({ active, checked }) =>
-                                classNames(
+                                cn(
                                     checked
                                         ? 'border-transparent bg-gray-900 text-white hover:bg-gray-800'
                                         : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',

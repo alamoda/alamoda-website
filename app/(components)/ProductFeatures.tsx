@@ -2,17 +2,18 @@
 
 import { Disclosure } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import { Feature, Product } from "../(types)";
+import { Feature } from "../(types)";
+import { Product } from "@prisma/client";
+import { cn } from "../(utils)/helpers";
 
 interface ProductFeaturesProps {
     product: Product
 }
 
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
-
 export default function ProductFeatures({ product }: ProductFeaturesProps) {
+
+    const features = product.features as Feature[];
+
     return (
         <>
             <section aria-labelledby="details-heading" className="mt-12">
@@ -28,7 +29,7 @@ export default function ProductFeatures({ product }: ProductFeaturesProps) {
                                 <h3>
                                     <Disclosure.Button className="group relative flex w-full items-center justify-between py-6 text-left">
                                         <span
-                                            className={classNames(open ? 'text-gray-800' : 'text-gray-900', 'text-sm font-medium')}
+                                            className={cn(open ? 'text-gray-800' : 'text-gray-900', 'text-sm font-medium')}
                                         >
                                             Features
                                         </span>
@@ -49,7 +50,7 @@ export default function ProductFeatures({ product }: ProductFeaturesProps) {
                                 </h3>
                                 <Disclosure.Panel as="div" className="prose prose-sm">
                                     <ul role="list">
-                                        {product?.features?.map((feature: Feature) => (
+                                        {features.map((feature: Feature) => (
                                             <li key={feature.id_feature}>
                                                 <span className="capitalize">{feature.name.toLowerCase()}</span>: {feature.value.toUpperCase()}</li>
                                         ))}

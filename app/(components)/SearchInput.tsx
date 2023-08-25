@@ -17,8 +17,6 @@ export default function SearchInput() {
             return;
         }
 
-        console.log("pathname", pathName)
-
         const encodedSearchQuery = encodeURI(searchQuery);
         router.push(`${pathName}?q=${encodedSearchQuery}`);
     };

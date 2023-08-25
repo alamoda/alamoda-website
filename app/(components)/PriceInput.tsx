@@ -2,7 +2,6 @@ interface ComponentProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
 }
 
-
 export default function PriceInput({ label, ...props }: ComponentProps) {
   return (
     <div className="w-32 my-2">

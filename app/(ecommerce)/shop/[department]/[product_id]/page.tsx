@@ -2,13 +2,13 @@ import { CurrencyDollarIcon, GlobeAmericasIcon } from '@heroicons/react/24/outli
 import Breadcrumb from '@/app/(components)/Breadcrumb'
 import ProductImageGallery from '@/app/(components)/ProductImageGallery'
 import ProductFeatures from '@/app/(components)/ProductFeatures'
-import CheckoutButton from '@/app/(components)/CheckoutButton'
 import { getProduct } from '@/app/actions'
 import { notFound } from 'next/navigation'
 import { ProductWithRelations } from '@/app/(lib)/db'
 import { getCategoryBySlug, getDepartmentBySlug, getSubcategoryBySlug, prepareProductQueryFilters } from '@/app/(utils)/helpers'
 import ProductListPreview from '@/app/(components)/ProductListPreview'
 import { Metadata } from 'next'
+import AddProductToCart from '@/app/(components)/AddProductToCart'
 
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
@@ -84,7 +84,7 @@ export default async function Page({ params }: { params: { product_id: string } 
               <div className="mt-8 lg:col-span-5">
 
                 {/* Sizes and Add to Cart */}
-                <CheckoutButton product={product} />
+                <AddProductToCart product={product} />
 
                 {/* Product details */}
                 {product?.description &&

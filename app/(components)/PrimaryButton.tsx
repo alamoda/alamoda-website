@@ -1,11 +1,8 @@
 import React from "react";
+import { cn } from "../(utils)/helpers";
 
 interface PrimaryButton extends React.HTMLAttributes<HTMLButtonElement> {
   text: string
-}
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
 }
 
 export default function PrimaryButton({ className, text, ...props }: PrimaryButton) {
@@ -14,7 +11,7 @@ export default function PrimaryButton({ className, text, ...props }: PrimaryButt
       <button
         type="button"
         {...props}
-        className={classNames(className,
+        className={cn(className,
           "my-3 inline-flex items-center px-4 py-2 text-sm shadow-sm ")}
       >
         {text}

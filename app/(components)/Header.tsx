@@ -4,7 +4,6 @@ import { Fragment, useState, useEffect, useContext } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CartContext } from '@/context/CartContext'
-import SearchPalettes from './SearchPalettes'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { NAVIGATION } from '../(utils)/constants'
@@ -13,6 +12,7 @@ import Image from 'next/image'
 
 import logoImage from '@/public/logo.webp'
 import { Category, Department, Subcategory } from '../(types)'
+import SearchPalette from './SearchPalette'
 
 
 export default function Header() {
@@ -47,9 +47,9 @@ export default function Header() {
     <div className="bg-white z-40">
 
       {/* Search Palettes */}
-      <SearchPalettes
+      <SearchPalette
         open={showSearch}
-        toggle={setShowSearch}
+        toggle={(val) => setShowSearch(val)}
         department={params.department as string || undefined}
         path="shop"
       />
@@ -342,13 +342,6 @@ export default function Header() {
                             <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
                           </button>
                         </div>
-
-                        {/* <div className="flex">
-                          <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                            <span className="sr-only">Account</span>
-                            <UserIcon className="h-6 w-6" aria-hidden="true" />
-                          </a>
-                        </div> */}
                       </div>
 
                       <span className="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true" />

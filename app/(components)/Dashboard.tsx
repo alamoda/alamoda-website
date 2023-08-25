@@ -4,10 +4,10 @@ import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import SearchPalettes from './SearchPalettes'
+import SearchPalette from './SearchPalette'
 
 const navigation = [
     { name: 'Women', href: '/dashboard/products/women', current: true },
@@ -36,7 +36,7 @@ export default function Dashboard({
         <div className="mx-auto max-w-7xl">
 
             {/* Search Palettes */}
-            <SearchPalettes
+            <SearchPalette
                 open={showSearch}
                 toggle={setShowSearch}
                 department={params.department || undefined}

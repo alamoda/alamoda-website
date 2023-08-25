@@ -1,157 +1,107 @@
-import Breadcrumb from '@/app/(components)/Breadcrumb';
+import { Brand } from "@prisma/client";
 import Filters from '@/app/(components)/Filters';
-import Pagination from '@/app/(components)/Pagination';
-import ProductCard from '@/app/(components)/ProductCard';
-import { Brand, Category, Department, Product, ProductFilters, SortOption, Subcategory } from '@/app/(types)';
+import { ProductFilters, SortOption } from '@/app/(types)';
 import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
+import ProductList from '@/app/(components)/ProductList';
+import { getBrands } from '@/app/actions';
+import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
+import { Suspense } from 'react';
+import Pagination from '@/app/(components)/Pagination';
+import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
+import PaginationSkeleton from '@/app/(components)/skeletons/PaginationSkeleton';
+import { notFound } from 'next/navigation';
 
-async function getData(department: string | null, category: string | null, subcategories: string[] | null, skip: number = 0, query: string = "", order: string, brands: string[], statuses: string[] | undefined) {
+export default async function Shop(
+    {
+        searchParams,
+        params,
+    }: {
+        searchParams: { [key: string]: string | string[] | undefined },
+        params: { department: string },
+    }) {
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_URL}/api/products`);
-    const params = new URLSearchParams();
+    // Get all parameters
+    const takeParam = 60;
+    const skipParam = searchParams.skip ? Number(searchParams.skip) : 0;
+    const queryParam = searchParams.q ? String(searchParams.q) : "";
+    const departmentParam = params.department;
+    const categoryParam = searchParams.category ? String(searchParams.category) : "";
+    const subcategoriesParam = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
+    const orderParam = searchParams.orderBy ? String(searchParams.orderBy) : "";
+    const brandsParam = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
-    if (department) params.append("department", department);
-    if (category) params.append("category", category);
-    if (subcategories && subcategories.length > 0) params.append("subcategories", subcategories.join(','));
-    if (brands && brands.length > 0) params.append("brands", brands.join(','));
-    if (statuses && statuses.length > 0) params.append("statuses", statuses.join(','))
 
-    params.append("limit", "60");
-    params.append("available", "true");
-    params.append("skip", String(skip));
-    params.append("q", query);
-    params.append("order", order);
+    // Department, Category, Subcategories
+    const currentDepartment = getDepartmentBySlug(departmentParam);
+    const currentCategory = getCategoryBySlug(categoryParam, currentDepartment);
+    const paramSubcategoriesSet = new Set(subcategoriesParam);
+    const currentSubcategories = currentCategory?.subcategories.filter((subcategory) => paramSubcategoriesSet.has(subcategory.slug))
 
-    url.search = params.toString();
+    if (!currentDepartment) return notFound()
 
-    const resProducts = await fetch(url.toString(), {
-        method: 'GET'
-    });
+    // Order By
+    const foundOrder = PRODUCT_SORT_OPTIONS.find((o: SortOption) => o.slug === orderParam);
+    const orderBy = foundOrder ? foundOrder : PRODUCT_SORT_OPTIONS[0];
 
-    if (!resProducts.ok) {
-        throw new Error('Failed to fetch products');
-    }
+    // Brands
+    const availableBrands: Brand[] = await getBrands();
+    const paramBrandSet = new Set(brandsParam);
+    const currentBrands = availableBrands.filter(brand => paramBrandSet.has(brand.slug));
 
-    const { products, count } = await resProducts.json();
+    // URL
+    const currentURL = getURL(`${process.env.NEXT_PUBLIC_URL}/dashboard/products${currentDepartment ? '/' + currentDepartment.slug : ''}`, searchParams);
 
-    const resBrands = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/brands`, {
-        method: 'GET'
-    });
-
-    if (!resBrands.ok) {
-        throw new Error('Failed to fetch brands');
-    }
-
-    const availableBrands = await resBrands.json();
-
-    const resDepartment = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/departments/${department}`, {
-        method: 'GET'
-    });
-
-    if (!resDepartment.ok) {
-        throw new Error('Failed to fetch department');
-    }
-
-    const currentDepartment = await resDepartment.json();
-
-    return { products: products, count: count, availableBrands: availableBrands, currentDepartment: currentDepartment }
-};
-
-export default async function Page({
-    searchParams,
-    params
-}: {
-    searchParams: { [key: string]: string | string[] | undefined },
-    params: { department: string }
-}) {
-
-    const skip = searchParams.skip ? Number(searchParams.skip) : 0;
-    const query = searchParams.q ? String(searchParams.q) : "";
-    const department = params.department;
-    const category = searchParams.category ? String(searchParams.category) : "";
-    const subcategories = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
-    const order = searchParams.orderBy ? String(searchParams.orderBy) : "";
-    const brands = searchParams.brands ? String(searchParams.brands).split(',') : [];
-    const statuses = searchParams.statuses ? String(searchParams.statuses).split(',') : undefined;
-
-    const { products, count, currentDepartment, availableBrands }: {
-        products: Product[],
-        count: number,
-        currentDepartment: Department,
-        availableBrands: Brand[]
-    } = await getData(department, category, subcategories, skip, query, order, brands, statuses);
-
-    const currentCategory: Category | undefined = category ? currentDepartment.categories.find((cat: Category) => cat.slug === category) : undefined;
-
+    // Init components
     const activeFilters: ProductFilters = {
+        statuses: [-1, 0, 1, 2],
+        available: true,
+        department: currentDepartment,
         category: currentCategory,
-        subcategories: (subcategories && currentCategory) ? currentCategory.subcategories.filter((sub: Subcategory) => subcategories.includes(sub.slug)) : undefined,
-        order: order ? PRODUCT_SORT_OPTIONS.find((opt: SortOption) => opt.slug === order) : PRODUCT_SORT_OPTIONS[0],
-        brands: brands ? availableBrands.filter((brd: Brand) => brands.includes(brd.slug)) : undefined
-    };
-
-    const baseUrl = `${process.env.NEXT_PUBLIC_URL}/dashboard/${department ? '/products/' + department : ''}`
-
-    const breadcrumbs = [
-        {
-            name: 'Dashboard',
-            href: '/dashboard'
-        },
-        {
-            name: department,
-            href: `/dashboard/products/${department}`
-        },
-    ];
-
-    if (category) {
-        breadcrumbs.push({ name: category, href: `shop/${department}?category=${category}` })
+        subcategories: currentSubcategories,
+        brands: currentBrands,
+        query: queryParam
     }
+
+    const productQueryFilters = prepareProductQueryFilters(activeFilters);
 
     return (
-        <div className="px-4 py-4">
-
-            {/* BREADCRUMBS */}
-            <div className="py-8">
-                <Breadcrumb routes={breadcrumbs} />
-            </div>
+        <div className="py-16">
 
             {/* FILTERS */}
-            <div className='py-8'>
-                <Filters
-                    admin={true}
-                    route='dashboard/products'
-                    currentDepartment={currentDepartment}
-                    currentBrands={availableBrands}
-                    activeFilters={activeFilters}
-                    currentStatuses={statuses}
-                />
-            </div>
+            <Filters
+                currentURL={currentURL.toString()}
+                activeFilters={activeFilters}
+                availableBrands={availableBrands}
+                orderBy={orderBy}
+            />
 
-            {/* PRODUCTS */}
-            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                {products.map((product: Product) => (
-                    <ProductCard
-                        key={product.mongo_id}
-                        product={product}
-                        route={`/dashboard/products/${department}/${product.mongo_id}`}
+            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+
+                {/* PRODUCTS */}
+                <Suspense fallback={<ProductListSkeleton items={60} />}>
+                    {/* @ts-expect-error Server Component */}
+                    <ProductList
+                        queryFilters={productQueryFilters}
+                        skip={skipParam}
+                        take={takeParam}
+                        orderBy={orderBy}
+                        productBaseURL={`/dashboard/products`}
                     />
-                ))}
-            </div>
+                </Suspense>
 
-            {/* PAGINATION */}
-            <div className='mt-8'>
-                <Pagination
-                    productCount={count}
-                    skip={skip}
-                    baseUrl={baseUrl}
-                    category={category}
-                    subcategories={subcategories}
-                    order={order}
-                    brands={brands}
-                    statuses={statuses}
-                />
+                {/* PAGINATION */}
+                <div className='mt-8'>
+                    <Suspense fallback={<PaginationSkeleton />}>
+                        {/* @ts-expect-error Server Component */}
+                        <Pagination
+                            queryFilters={productQueryFilters}
+                            currentUrl={currentURL}
+                            skip={skipParam}
+                            take={takeParam}
+                        />
+                    </Suspense>
+                </div>
             </div>
-
         </div>
     )
 }

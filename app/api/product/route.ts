@@ -115,7 +115,7 @@ export async function PUT(req: Request) {
     } = await req.json()
 
 
-    await db.product.update({
+    const product = await db.product.update({
         where: { id: id },
         data: {
             vendor_id: vendor_id,
@@ -137,7 +137,7 @@ export async function PUT(req: Request) {
         },
     });
 
-    return new Response();
+    return NextResponse.json(product);
 }
 
 export async function DELETE(req: Request) {

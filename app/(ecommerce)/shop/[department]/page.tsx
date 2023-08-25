@@ -9,8 +9,8 @@ import { getBrands } from '@/app/actions';
 import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
 import { Suspense } from 'react';
 import Pagination from '@/app/(components)/Pagination';
-import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
-import PaginationSkeleton from '@/app/(components)/skeletons/PaginationSkeleton';
+import ProductListSkeleton from '@/app/(components)/skeleton/ProductListSkeleton';
+import PaginationSkeleton from '@/app/(components)/skeleton/PaginationSkeleton';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
@@ -122,7 +122,6 @@ export default async function Shop(
 
                 {/* PRODUCTS */}
                 <Suspense fallback={<ProductListSkeleton items={60} />}>
-                    {/* @ts-expect-error Server Component */}
                     <ProductList
                         queryFilters={productQueryFilters}
                         skip={skipParam}
@@ -135,7 +134,6 @@ export default async function Shop(
                 {/* PAGINATION */}
                 <div className='mt-8'>
                     <Suspense fallback={<PaginationSkeleton />}>
-                        {/* @ts-expect-error Server Component */}
                         <Pagination
                             queryFilters={productQueryFilters}
                             currentUrl={currentURL}

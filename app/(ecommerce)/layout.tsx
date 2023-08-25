@@ -1,16 +1,19 @@
 'use client'
 
+import EcommerceNavbar from "@/components/layout/ecommerce-navbar"
+import Footer from "@/components/layout/footer"
 import { CartContextProvider } from "@/context/CartContextProvider"
-import Footer from "../(components)/Footer"
-import Header from "../(components)/Header"
+import { Suspense } from "react"
 
 export default function Layout({ children, }: { children: React.ReactNode }) {
 
     return (
         <>
             <CartContextProvider>
-                <Header />
-                {children}
+                <EcommerceNavbar />
+                <Suspense>
+                    {children}
+                </Suspense>
                 <Footer />
             </CartContextProvider>
         </>

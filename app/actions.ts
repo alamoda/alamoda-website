@@ -1,7 +1,7 @@
 'use server'
 
-import { db } from "./(lib)/db";
-import { SortOption } from "./(types)";
+import { db } from "@/lib/db";
+import { SortOption } from "../lib";
 
 export async function getBrands() {
     const brands = await db.brand.findMany();

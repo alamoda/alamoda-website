@@ -1,20 +1,25 @@
 import React from "react";
 import { cn } from "../(utils)/helpers";
 
-interface PrimaryButton extends React.HTMLAttributes<HTMLButtonElement> {
-  text: string
+interface PrimaryButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  children?: React.ReactNode;
 }
 
-export default function PrimaryButton({ className, text, ...props }: PrimaryButton) {
+export default function PrimaryButton({ type, className, disabled, children, ...props }: PrimaryButtonProps) {
   return (
     <>
       <button
-        type="button"
+        type={type ? type : 'button'}
         {...props}
-        className={cn(className,
-          "my-3 inline-flex items-center px-4 py-2 text-sm shadow-sm ")}
+        disabled={disabled}
+        className={cn(
+          'flex items-center justify-center text-center rounded-md border border-transparent my-3 px-4 py-2 bg-gray-900 text-base font-medium text-white shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-offset-gray-50',
+          className ? className : ''
+        )}
       >
-        {text}
+        {children}
       </button >
     </>
   )

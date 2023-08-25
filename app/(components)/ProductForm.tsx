@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Option, Feature, Size, Subcategory, Department, Category, Brand } from "../(types)";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
 import PhotoInput from "@/app/(components)/PhotoInput";
@@ -11,199 +10,191 @@ import PrimaryInput from "@/app/(components)/PrimaryInput";
 import TextAreaInput from "@/app/(components)/TextAreaInput";
 import Image from 'next/image';
 import PrimarySelect from "./PrimarySelect";
+import { ProductWithRelations } from "../(lib)/db";
+import useForm from "../(utils)/useForm";
+import { Feature, Size } from "../(types)";
+import { Brand } from "@prisma/client";
 
-const ProductForm = ({
-    mongo_id = '',
-    id: existingId = 0,
-    sku: existingSku = '',
-    brand: existingBrand = null,
-    name: existingName = '',
-    description: existingDescription = '',
-    price: existingPrice = 0,
-    wholesale_price: existingWholesaleprice = 0,
-    available: existingAvailable = true,
-    department: existingDepartment = null,
-    category: existingCategory = null,
-    subcategory: existingSubcategory = null,
-    features: existingFeatures = [],
-    sizes: existingSizes = [],
-    images: existingImages = [],
-    status: existingStatus = 0,
-}) => {
-    const [id, setId] = useState<number>(existingId);
-    const [sku, setSku] = useState<string>(existingSku);
-    const [name, setName] = useState<string>(existingName);
-    const [brand, setBrand] = useState<Brand | null>(existingBrand);
-    const [description, setDescription] = useState<string>(existingDescription);
-    const [price, setPrice] = useState<number>(existingPrice);
-    const [wholesale_price, setWholesaleprice] = useState<number>(existingWholesaleprice);
-    const [available, setAvailable] = useState<boolean>(existingAvailable);
-    const [department, setDepartment] = useState<Department | null>(existingDepartment);
-    const [category, setCategory] = useState<Category | null>(existingCategory);
-    const [subcategory, setSubcategory] = useState<Subcategory | null>(existingSubcategory);
-    const [features, setFeatures] = useState<Feature[]>(existingFeatures);
-    const [sizes, setSizes] = useState<Size[]>(existingSizes);
-    const [images, setImages] = useState<string[]>(existingImages);
-    const [status, setStatus] = useState<number>(existingStatus);
+interface ProductFormProps {
+    product?: ProductWithRelations
+    availableBrands: Brand[] 
+}
 
-    const [brands, setBrands] = useState<Option[]>([]);
-    const [departments, setDepartments] = useState<Department[]>([]);
+export type ProductFormSchemaType = {
+    vendor_id: number,
+    sku: string,
+    price: number,
+    wholesale_price: number,
+    available: boolean,
+    brandId: string,
+    name: string,
+    description?: string,
+    features: Feature[],
+    department?: string,
+    category?: string,
+    subcategory?: string,
+    images: string[],
+    sizes: Size[],
+    status: number,
+}
+
+export default function ProductForm({ product, availableBrands }: ProductFormProps) {
+
+    const form = useForm<ProductFormSchemaType>({
+        vendor_id: product ? product.vendor_id : -1,
+        sku: product ? product.sku : "",
+        price: product ? product.price : 0,
+        wholesale_price: product ? product.wholesale_price : 0,
+        available: product ? product.available : true,
+        brandId: product ? product.brandId : "",
+        name: product ? product.name : "",
+        description: (product && product.description) ? product.description : "",
+        features: product ? product.features as Feature[] : [],
+        department: (product && product.department) ? product.department : "",
+        category: (product && product.category) ? product.category : "",
+        subcategory: (product && product.subcategory) ? product.subcategory : "",
+        images: product ? product.images as string[] : [],
+        sizes: product ? product.sizes as Size[] : [],
+        status: product ? product.status : -1,
+    });
 
     const router = useRouter();
 
-    useEffect(() => {
-        fetchBrands();
-        fetchDepartments();
-    }, []);
+    // async function createOrUpdateProduct() {
+    //     if (mongo_id) {
+    //         const response = await fetch('/api/product', {
+    //             method: 'PUT',
+    //             body: JSON.stringify({
+    //                 mongo_id,
+    //                 id,
+    //                 sku,
+    //                 brand_id: brand?.mongo_id,
+    //                 name,
+    //                 description,
+    //                 price,
+    //                 wholesale_price,
+    //                 available: Boolean(available),
+    //                 department_id: department?.mongo_id,
+    //                 category_id: category?.mongo_id,
+    //                 subcategory: subcategory?.mongo_id,
+    //                 features,
+    //                 sizes,
+    //                 images,
+    //                 status
+    //             })
+    //         });
 
-    async function fetchBrands() {
-        const response = await fetch('/api/brands', {
-            method: 'GET'
-        });
+    //         if (!response.ok) {
+    //             console.error("Could not update product!")
+    //             return;
+    //         }
+    //     } else {
+    //         const response = await fetch('/api/product', {
+    //             method: 'PUT',
+    //             body: JSON.stringify({
+    //                 id,
+    //                 sku,
+    //                 brand_id: brand?.mongo_id,
+    //                 name,
+    //                 description,
+    //                 price,
+    //                 wholesale_price,
+    //                 available: Boolean(available),
+    //                 department_id: department?.mongo_id,
+    //                 category_id: category?.mongo_id,
+    //                 subcategory_id: subcategory?.mongo_id,
+    //                 features,
+    //                 sizes,
+    //                 images,
+    //                 status
+    //             })
+    //         });
 
-        if (!response.ok) {
-            return;
-        }
+    //         if (!response.ok) {
+    //             console.error("Could not create product!")
+    //             return;
+    //         }
 
-        const data = await response.json();
-        setBrands(data);
-    }
-
-    async function fetchDepartments() {
-        const response = await fetch('/api/departments', {
-            method: 'GET'
-        });
-
-        if (!response.ok) {
-            return;
-        }
-
-        const data = await response.json();
-        setDepartments(data);
-    }
-
-    async function createOrUpdateProduct() {
-        if (mongo_id) {
-            const response = await fetch('/api/product', {
-                method: 'PUT',
-                body: JSON.stringify({
-                    mongo_id,
-                    id,
-                    sku,
-                    brand_id: brand?.mongo_id,
-                    name,
-                    description,
-                    price,
-                    wholesale_price,
-                    available: Boolean(available),
-                    department_id: department?.mongo_id,
-                    category_id: category?.mongo_id,
-                    subcategory: subcategory?.mongo_id,
-                    features,
-                    sizes,
-                    images,
-                    status
-                })
-            });
-
-            if (!response.ok) {
-                console.error("Could not update product!")
-                return;
-            }
-        } else {
-            const response = await fetch('/api/product', {
-                method: 'PUT',
-                body: JSON.stringify({
-                    id,
-                    sku,
-                    brand_id: brand?.mongo_id,
-                    name,
-                    description,
-                    price,
-                    wholesale_price,
-                    available: Boolean(available),
-                    department_id: department?.mongo_id,
-                    category_id: category?.mongo_id,
-                    subcategory_id: subcategory?.mongo_id,
-                    features,
-                    sizes,
-                    images,
-                    status
-                })
-            });
-
-            if (!response.ok) {
-                console.error("Could not create product!")
-                return;
-            }
-
-            router.push('/dashboard/');
-        }
-    }
+    //         router.push('/dashboard/');
+    //     }
+    // }
 
     // Reads the file and sends it to the backend
-    async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
-        const files = e.target?.files;
-        console.log("files are", files);
+    // async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
+    //     const files = e.target?.files;
+    //     console.log("files are", files);
 
-        const formData = new FormData();
-        if (files && files?.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                const fileData = await readFile(files[i]);
-                console.log("filesData is", fileData);
+    //     const formData = new FormData();
+    //     if (files && files?.length > 0) {
+    //         for (let i = 0; i < files.length; i++) {
+    //             const fileData = await readFile(files[i]);
+    //             console.log("filesData is", fileData);
 
-                if (fileData) {
-                    formData.append('image', new Blob([fileData]), files[i].name);
-                }
-            }
+    //             if (fileData) {
+    //                 formData.append('image', new Blob([fileData]), files[i].name);
+    //             }
+    //         }
 
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData
+    //         const response = await fetch('/api/upload', {
+    //             method: 'POST',
+    //             body: formData
 
-            }) 
+    //         })
 
-            if (!response.ok){
-                console.error("Error while uploading the images!");
-                return;
-            }
+    //         if (!response.ok) {
+    //             console.error("Error while uploading the images!");
+    //             return;
+    //         }
 
-            const data = await response.json();
-            console.log("images are ", data);
+    //         const data = await response.json();
+    //         console.log("images are ", data);
 
-            setImages(oldImages => [...oldImages, ...data]);
-        }
+    //         setImages(oldImages => [...oldImages, ...data]);
+    //     }
+    // }
+
+    // // Reads File and returns an ArrayBuffer
+    // const readFile = (file: File) => {
+    //     return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
+    //         const reader = new FileReader();
+
+    //         reader.onload = () => {
+    //             const fileData = reader.result;
+    //             resolve(fileData);
+    //         };
+
+    //         reader.onerror = (error) => {
+    //             reject(error);
+    //         };
+
+    //         reader.readAsArrayBuffer(file);
+    //     });
+    // };
+
+    // // Define ItemInterface to use with list and setList methods of ReactSortable
+    // interface ItemInterface {
+    //     id: string;
+    //     url: string;
+    // }
+
+    // // Map each image to an item of type ItemInterface
+    // const itemObjects = Array.from(images).map((image, index) => ({
+    //     id: index.toString(),
+    //     url: image,
+    // })) as ItemInterface[];
+
+    const deleteProduct = async () => {
+
+        // const response = await fetch(`/api/product?id=${id}`, {
+        //     method: 'DELETE'
+        // })
+
+        // if (!response.ok) {
+        //     console.error("Error deleting the product")
+        // }
+
+        // router.push('/dashboard');
     }
-
-    // Reads File and returns an ArrayBuffer
-    const readFile = (file: File) => {
-        return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.onload = () => {
-                const fileData = reader.result;
-                resolve(fileData);
-            };
-
-            reader.onerror = (error) => {
-                reject(error);
-            };
-
-            reader.readAsArrayBuffer(file);
-        });
-    };
-
-    // Define ItemInterface to use with list and setList methods of ReactSortable
-    interface ItemInterface {
-        id: string;
-        url: string;
-    }
-
-    // Map each image to an item of type ItemInterface
-    const itemObjects = Array.from(images).map((image, index) => ({
-        id: index.toString(),
-        url: image,
-    })) as ItemInterface[];
 
     return (
         <>
@@ -375,9 +366,17 @@ const ProductForm = ({
                     onClick={() => createOrUpdateProduct()}
                     className="bg-gray-900 text-white hover:bg-gray-800"
                 />
+
+
+                <span className="ml-4">
+                    <PrimaryButton
+                        onClick={deleteProduct}
+                        className="bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-5"
+                    >
+                        Delete
+                    </PrimaryButton>
+                </span>
             </span>
         </>
     )
 }
-
-export default ProductForm;

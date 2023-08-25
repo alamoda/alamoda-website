@@ -78,7 +78,6 @@ model Product {
   department      String?
   category        String?
   subcategory     String?
-  subcategoryId   String? @db.ObjectId
   images          Json
   sizes           Json
   status          Int

@@ -740,3 +740,18 @@ export const NAVIGATION: Navigation = {
     ]
 
 };
+
+export const NAVIGATION_DASHBOARD: Navigation = {
+
+    departments: DEPARTMENTS,
+    pages: [
+        {
+            name: 'Add Product',
+            href: '/dashboard/new'
+        },
+        {
+            name: 'Orders',
+            href: '/dashboard/orders'
+        },
+    ]
+};

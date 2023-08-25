@@ -6,13 +6,7 @@ import { useParams } from "next/navigation";
 import Image from 'next/image'
 
 import logoImage from '@/public/logo.webp'
-
-const navigation = [
-    { name: 'Women', href: '/dashboard/products/women', current: true },
-    { name: 'Men', href: '/dashboard/products/men', current: false },
-    { name: 'Add Product', href: '/dashboard/new', current: false },
-    { name: 'Orders', href: '/dashboard/orders', current: false },
-]
+import { NAVIGATION_DASHBOARD } from "@/app/(utils)/constants";
 
 export default function DashboardSidebar() {
 
@@ -33,21 +27,34 @@ export default function DashboardSidebar() {
                                     />
                                 </div>
                                 <ul role="list" className="space-y-4">
-                                    {navigation.map((item) => (
-                                        <li key={item.name}>
+                                    {NAVIGATION_DASHBOARD.departments.map((department) => (
+                                        <li key={department.slug}>
                                             <Link
-                                                href={item.href}
+                                                href={`/dashboard/products/${department.slug}`}
                                                 className={cn(
-                                                    params.department === item.href
+                                                    params.department === department.slug
                                                         ? 'font-extrabold'
                                                         : 'font-medium hover:font-semibold',
                                                     'group text-xs'
                                                 )}
                                             >
-                                                {item.name}
+                                                {department.name}
                                             </Link>
                                         </li>
                                     ))}
+                                    {NAVIGATION_DASHBOARD.pages.map((page) => (
+                                        <li key={page.href}>
+                                            <Link
+                                                href={page.href}
+                                                className='font-medium hover:font-semibold group text-xs'
+                                            >
+                                                {page.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+
+
+
                                 </ul>
                             </li>
                         </ul>

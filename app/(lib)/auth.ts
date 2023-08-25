@@ -18,15 +18,20 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
+
                 if (!credentials?.email || !credentials.password) {
-                    return null;
+                    throw new Error("Invalid Email or Password");
+                }
+
+                if ((typeof credentials.email !== "string") || (typeof credentials.password !== "string")){
+                    throw new Error("Invalid Email or Password");
                 }
 
                 const user = await (db as any).user.findUnique({
                     where: {
-                        email: credentials.email
-                    }
-                })
+                        email: credentials.email.toLowerCase()
+                    },
+                });
 
                 if (!user) {
                     throw new Error("Invalid Email or Password");
@@ -41,6 +46,13 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Invalid Email or Password");
                 }
 
+
+                if (!user.approved) {
+                    throw new Error("Account not authorized.");
+                }
+
+                // Any object returned will be saved in `user` property of the JWT
+                // ^ This is not actually true 
                 return user;
             }
         }),

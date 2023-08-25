@@ -70,7 +70,32 @@ export const authOptions: NextAuthOptions = {
     pages: {
         signIn: '/login',
     },
-    // callbacks: {
-    //     
-    // },
+    callbacks: {
+        async jwt({ token, user }) {
+
+            if (token.email) {
+                const dbUser = await (db as any).user.findUnique({
+                    where: {
+                        email: token.email.toLowerCase()
+                    },
+                });
+
+                token.name = dbUser.firstName + ' ' + dbUser.lastName;
+            }
+
+            return token;
+        },
+        // async session({ session, token }) {
+
+        //     // Send properties to the client
+        //     if (token && session.user) {
+        //         session.user.role = token.role;
+        //         session.user.businessId = token.businessId;
+        //         session.user.id = token.id;
+        //         session.user.instagramAccount = token.instagramAccount;
+        //     }
+
+        //     return session;
+        // }
+    },
 }

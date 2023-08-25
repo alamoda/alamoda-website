@@ -8,15 +8,14 @@ import { DEPARTMENTS } from '../(utils)/constants';
 
 interface SearchPaletteProps {
     open: boolean;
-    department: string | undefined
     path: string
     toggle: (val: boolean) => void;
 }
 
-export default function SearchPalette({ open, department, path, toggle }: SearchPaletteProps) {
+export default function SearchPalette({ open, path, toggle }: SearchPaletteProps) {
 
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [searchDepartment, setSearchDepartment] = useState<string>(department || 'women');
+    const [searchDepartment, setSearchDepartment] = useState<string>('women');
     const router = useRouter();
 
     function onSearch(e: React.FormEvent) {

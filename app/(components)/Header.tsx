@@ -50,7 +50,6 @@ export default function Header() {
       <SearchPalette
         open={showSearch}
         toggle={(val) => setShowSearch(val)}
-        department={params.department as string || undefined}
         path="shop"
       />
 

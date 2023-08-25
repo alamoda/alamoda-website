@@ -1,8 +1,6 @@
 import { Department, Navigation, SortOption } from "../(types)";
 
-
 export const LETTER_SIZE_ORDER = ["UNI", "XS", "S", "M", "L", "XL", "XXL", "XXXL"];
-
 
 export const PRODUCT_SORT_OPTIONS: SortOption[] = [
     {

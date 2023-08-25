@@ -4,12 +4,13 @@ import { ProductFilters, SortOption } from '@/app/(types)';
 import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
 import ProductList from '@/app/(components)/ProductList';
 import { getBrands } from '@/app/actions';
-import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
+import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters, stringToBoolean } from '@/app/(utils)/helpers';
 import { Suspense } from 'react';
 import Pagination from '@/app/(components)/Pagination';
 import ProductListSkeleton from '@/app/(components)/skeletons/ProductListSkeleton';
 import PaginationSkeleton from '@/app/(components)/skeletons/PaginationSkeleton';
 import { notFound } from 'next/navigation';
+import AdminFilters from "@/app/(components)/dashboard/AdminFilters";
 
 export default async function Shop(
     {
@@ -30,6 +31,9 @@ export default async function Shop(
     const orderParam = searchParams.orderBy ? String(searchParams.orderBy) : "";
     const brandsParam = searchParams.brands ? String(searchParams.brands).split(',') : [];
 
+    // Admin ONLY extra parameters
+    const statuses = searchParams.hasOwnProperty("statuses") ? String(searchParams.statuses).split(',').map(status => Number(status)) : [-1, 0, 1, 2]; // By default we get everything
+    const available = searchParams.hasOwnProperty("available") ? searchParams.available : undefined
 
     // Department, Category, Subcategories
     const currentDepartment = getDepartmentBySlug(departmentParam);
@@ -53,8 +57,8 @@ export default async function Shop(
 
     // Init components
     const activeFilters: ProductFilters = {
-        statuses: [-1, 0, 1, 2],
-        available: true,
+        statuses: statuses,
+        available: stringToBoolean(String(available)),
         department: currentDepartment,
         category: currentCategory,
         subcategories: currentSubcategories,
@@ -66,6 +70,11 @@ export default async function Shop(
 
     return (
         <div className="py-16">
+
+            <AdminFilters
+                currentURL={currentURL.toString()}
+                activeFilters={activeFilters}
+            />
 
             {/* FILTERS */}
             <Filters

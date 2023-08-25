@@ -84,9 +84,9 @@ export type ProductFilters = {
     
     // Mandatory
     statuses: ProductScrapeStatus[]
-    available: boolean
 
     // Optional
+    available?: boolean
     department?: Department
     category?: Category
     subcategories?: Subcategory[]
@@ -95,7 +95,7 @@ export type ProductFilters = {
     exclude?: ProductWithRelations[]
 }
 
-enum ProductScrapeStatus {
+export enum ProductScrapeStatus {
     // Fatal problem in processing the product
     FATAL = -1,
     // No image found

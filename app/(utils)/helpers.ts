@@ -45,11 +45,16 @@ export function prepareProductQueryFilters(productFilters: ProductFilters) {
             status: {
                 in: productFilters.statuses
             }
-        },
-        {
-            available: productFilters.available
         }
     ];
+
+    if (productFilters.available !== undefined) {
+        queryFilters.push(
+            {
+                available: productFilters.available
+            }
+        );
+    }
 
     if (productFilters.department) {
         queryFilters.push(
@@ -162,4 +167,14 @@ export function getSubcategoryBySlug(subcategorySlug: string | null, category: C
     if (!subcategorySlug || !category) return undefined
 
     return category.subcategories.find((sub) => sub.slug === subcategorySlug);
+}
+
+export function stringToBoolean(value: string | undefined): boolean | undefined {
+    if (value === 'true') {
+        return true;
+    } else if (value === 'false') {
+        return false;
+    } else {
+        return undefined;
+    }
 }

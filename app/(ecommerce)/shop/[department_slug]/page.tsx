@@ -1,23 +1,22 @@
-import Breadcrumb from '@/app/(components)/Breadcrumb';
-
-import { Brand } from "@prisma/client";
-import Filters from '@/app/(components)/Filters';
-import { ProductFilters, SortOption } from '@/app/(types)';
-import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
-import ProductList from '@/app/(components)/ProductList';
-import { getBrands } from '@/app/actions';
-import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/app/(utils)/helpers';
-import { Suspense } from 'react';
-import Pagination from '@/app/(components)/Pagination';
-import ProductListSkeleton from '@/app/(components)/skeleton/ProductListSkeleton';
-import PaginationSkeleton from '@/app/(components)/skeleton/PaginationSkeleton';
-import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
+import { Brand } from "@prisma/client";
+import { getBrands } from '@/app/actions';
+import { notFound } from 'next/navigation';
+import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters } from '@/lib/util';
+import { PRODUCT_SORT_OPTIONS } from '@/lib/constants';
+import { ProductFilters, SortOption } from '@/lib';
+import Breadcrumb from '@/components/layout/breadcrumb';
+import Filters from '@/components/product/product-filters';
+import ProductListSkeleton from '@/components/skeleton/product-list-skeleton';
+import ProductList from '@/components/grid/product-list';
+import PaginationSkeleton from '@/components/skeleton/pagination-skeleton';
+import Pagination from '@/components/layout/pagination';
 
 // Metadata
-export function generateMetadata({ params }: { params: { department: string } }): Metadata {
+export function generateMetadata({ params }: { params: { department_slug: string } }): Metadata {
 
-    const department = getDepartmentBySlug(params.department);
+    const department = getDepartmentBySlug(params.department_slug);
 
     return {
         title: `Shop ${department?.name} | Alamoda`,
@@ -31,14 +30,14 @@ export default async function Shop(
         params,
     }: {
         searchParams: { [key: string]: string | string[] | undefined },
-        params: { department: string },
+        params: { department_slug: string },
     }) {
 
     // Get all parameters
-    const takeParam = 60;
+    const takeParam = 32;
     const skipParam = searchParams.skip ? Number(searchParams.skip) : 0;
     const queryParam = searchParams.q ? String(searchParams.q) : "";
-    const departmentParam = params.department;
+    const departmentParam = params.department_slug;
     const categoryParam = searchParams.category ? String(searchParams.category) : "";
     const subcategoriesParam = searchParams.subcategories ? String(searchParams.subcategories).split(',') : [];
     const orderParam = searchParams.orderBy ? String(searchParams.orderBy) : "";
@@ -94,14 +93,14 @@ export default async function Shop(
     return (
         <>
             {/* BREADCRUMBS */}
-            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 hidden md:block">
+            <div className="hidden md:block">
                 <Breadcrumb
                     routes={breadcrumbs}
                 />
             </div>
 
             {/* TITLE */}
-            <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 md:pt-0 sm:px-6 lg:px-8">
+            <div className="py-16 md:pt-0">
                 <h1 className="text-4xl tracking-tight text-gray-900 capitalize">
                     {currentDepartment.name} {currentCategory ? `- ${currentCategory.name}` : ""}
                 </h1>
@@ -121,13 +120,12 @@ export default async function Shop(
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 
                 {/* PRODUCTS */}
-                <Suspense fallback={<ProductListSkeleton items={60} />}>
+                <Suspense fallback={<ProductListSkeleton items={takeParam} />}>
                     <ProductList
                         queryFilters={productQueryFilters}
                         skip={skipParam}
                         take={takeParam}
                         orderBy={orderBy}
-                        productBaseURL={`/shop`}
                     />
                 </Suspense>
 

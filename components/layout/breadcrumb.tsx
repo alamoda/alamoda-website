@@ -1,3 +1,5 @@
+import { cn } from "@/lib/util"
+
 interface ComponentProps {
     routes: { name: string, href: string }[],
 }
@@ -21,7 +23,10 @@ export default function Breadcrumb({ routes }: ComponentProps) {
                             }
                             <a
                                 href={route.href}
-                                className="ml-4 text-xs font-medium text-gray-500 hover:text-gray-700 capitalize"
+                                className={cn(
+                                    routeId != 0 ? 'ml-4' : '',
+                                    "text-xs font-medium text-gray-500 hover:text-gray-700 capitalize"
+                                    )}
                             >
                                 {route.name.toLowerCase().replace('-', ' ')}
                             </a>

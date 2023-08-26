@@ -1,4 +1,4 @@
-import { cn } from "@/lib/helpers";
+import { cn } from "@/lib/util";
 
 export default function PaginationSkeleton() {
 

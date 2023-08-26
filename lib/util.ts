@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import { DEPARTMENTS } from "./constants";
 
 import { z, ZodError, ZodRawShape } from "zod";
+import { Category, Department, ProductFilters } from '.';
 
 export class Validator<T> {
 

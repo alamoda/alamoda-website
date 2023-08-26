@@ -1,6 +1,6 @@
+import { countProducts } from '@/app/actions'
+import { cn } from '@/lib/util'
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid'
-import { countProducts } from '../actions';
-import { cn } from '../(utils)/helpers';
 
 interface ComponentProps {
   queryFilters: object[]

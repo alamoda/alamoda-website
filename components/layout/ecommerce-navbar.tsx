@@ -113,20 +113,20 @@ export default function EcommerceNavbar() {
                       <Tab.Panel key={department.name} className="space-y-12 px-4 pb-6 pt-10">
                         <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
                           <div className="font-semibold">
-                            <a href={`/shop/${department.slug}`}>
+                            <Link href={`/shop/${department.slug}`}>
                               View all {department.name}
-                            </a>
+                            </Link>
                           </div>
                           <div className="grid grid-cols-1 gap-x-6 gap-y-10">
                             {department.categories.map((category: Category) =>
                               <div key={category.name}>
-                                <a
+                                <Link
                                   href={`/shop/${department.slug}?category=${category.slug}`}
                                   id={`mobile-featured-heading-${departmentIdx}`}
                                   className="font-medium text-gray-900"
                                 >
                                   {category.name}
-                                </a>
+                                </Link>
                                 <ul
                                   role="list"
                                   aria-labelledby={`mobile-featured-heading-${departmentIdx}`}
@@ -134,12 +134,12 @@ export default function EcommerceNavbar() {
                                 >
                                   {category.subcategories.map((subcategory: Subcategory) => (
                                     <li key={subcategory.name} className="flex">
-                                      <a
+                                      <Link
                                         href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`}
                                         className="text-gray-500"
                                       >
                                         {subcategory.name}
-                                      </a>
+                                      </Link>
                                     </li>
                                   ))}
                                 </ul>
@@ -211,7 +211,7 @@ export default function EcommerceNavbar() {
                                       isShowing[departmentIdx]
                                         ? 'hover:text-gray-900'
                                         : 'text-gray-700 hover:text-gray-800',
-                                      params.department && department.slug === params.department
+                                      params.department_slug && department.slug === params.department_slug
                                         ? "border-gray-900"
                                         : "border-transparent",
                                       'relative z-10 -mb-px flex items-center border-b-2 pt-px text-xs font-medium transition-colors duration-200 ease-out'
@@ -250,14 +250,14 @@ export default function EcommerceNavbar() {
                                           <div className="grid grid-cols-5 gap-x-8 gap-y-10">
                                             {department.categories.map((category: Category, categoryIdx: number) => (
                                               <div key={category.name}>
-                                                <a
+                                                <Link
                                                   onClick={() => onHoverExitMenu(departmentIdx)}
                                                   href={`/shop/${department.slug}?category=${category.slug}`}
                                                   id={`desktop-featured-heading-${categoryIdx}`}
                                                   className="font-medium text-gray-900 hover:text-gray-700 hover:underline"
                                                 >
                                                   {category.name}
-                                                </a>
+                                                </Link>
                                                 <ul
                                                   role="list"
                                                   aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
@@ -265,13 +265,13 @@ export default function EcommerceNavbar() {
                                                 >
                                                   {category.subcategories.map((subcategory: Subcategory) => (
                                                     <li key={subcategory.name} className="flex">
-                                                      <a
+                                                      <Link
                                                         onClick={() => onHoverExitMenu(departmentIdx)}
                                                         href={`/shop/${department.slug}?category=${category.slug}&subcategories=${subcategory.slug}`}
                                                         className="hover:text-gray-800 hover:underline"
                                                       >
                                                         {subcategory.name}
-                                                      </a>
+                                                      </Link>
                                                     </li>
                                                   ))}
                                                 </ul>

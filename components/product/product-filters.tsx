@@ -1,13 +1,13 @@
 'use client'
 
+import { Brand } from '@prisma/client'
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { SortOption, ProductFilters, Category, Subcategory } from '../(types)'
-import { PRODUCT_SORT_OPTIONS } from '../(utils)/constants'
-import { cn } from '../(utils)/helpers'
-import { Brand } from '@prisma/client'
+import { Category, ProductFilters, SortOption, Subcategory } from '@/lib'
+import { cn } from '@/lib/util'
+import { PRODUCT_SORT_OPTIONS } from '@/lib/constants'
 
 interface FiltersProps {
     currentURL: string

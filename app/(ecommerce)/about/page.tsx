@@ -9,7 +9,7 @@ import aboutImage6 from '@/public/about6.webp';
 import aboutImage7 from '@/public/about7.webp';
 import menImage from '@/public/men.webp';
 
-export default function Page() {
+export default function AboutPage() {
     return (
         <>
             {/* Hero Section */}

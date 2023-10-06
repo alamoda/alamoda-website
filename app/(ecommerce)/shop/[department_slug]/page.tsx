@@ -62,7 +62,7 @@ export default async function Shop(
     const currentBrands = availableBrands.filter(brand => paramBrandSet.has(brand.slug));
 
     // Breadcrumbs
-    const breadcrumbs = [
+    const breadcrumb = [
         {
             name: 'Shop',
             href: '/shop'
@@ -95,7 +95,7 @@ export default async function Shop(
             {/* BREADCRUMBS */}
             <div className="hidden md:block">
                 <Breadcrumb
-                    routes={breadcrumbs}
+                    routes={breadcrumb}
                 />
             </div>
 

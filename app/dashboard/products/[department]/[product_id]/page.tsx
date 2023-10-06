@@ -21,7 +21,7 @@ export default async function Page({
 
     const department = params.department;
 
-    const breadcrumbs = [
+    const breadcrumb = [
         {
             name: 'Dashboard',
             href: '/dashboard'
@@ -40,7 +40,7 @@ export default async function Page({
         <div className="px-4 py-4">
 
             {/* BREADCRUMBS */}
-            <Breadcrumb routes={breadcrumbs} />
+            <Breadcrumb routes={breadcrumb} />
 
             <ProductForm product={product} , availableBrands={availableBrands}/>
         </div>

@@ -5,8 +5,25 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Alamoda',
-  description: 'Best deals for your favorite luxury brands like Dior, Dolce & Gabbana, Gucci, Prada, Valentino and more...',
+  title: `${process.env.NEXT_PUBLIC_NAME} | ${process.env.NEXT_PUBLIC_TAGLINE}`,
+  description: process.env.NEXT_PUBLIC_DESCRIPTION,
+  keywords: ["Fashion", "Deals", "Luxury", "Brands", "Gucci", "Valentino", "Dolce & Gabbana", "Dior", "Prada"],
+  openGraph: {
+    title: process.env.NEXT_PUBLIC_NAME,
+    description: process.env.NEXT_PUBLIC_DESCRIPTION,
+    url: process.env.NEXT_PUBLIC_URL,
+    siteName: process.env.NEXT_PUBLIC_NAME,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_URL}/logo.webp`,
+        width: 1000,
+        height: 1000,
+        alt: process.env.NEXT_PUBLIC_DESCRIPTION,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({

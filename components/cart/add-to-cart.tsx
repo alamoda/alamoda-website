@@ -2,12 +2,12 @@
 
 import { RadioGroup } from "@headlessui/react";
 import { useContext, useState } from "react";
-import { Size } from "../(types)";
 import { useRouter } from "next/navigation";
 import { CartContext } from "@/context/CartContext";
-import { LETTER_SIZE_ORDER } from "../(utils)/constants";
 import { Product } from "@prisma/client";
-import { cn } from "../(utils)/helpers";
+import { Size } from "@/lib";
+import { LETTER_SIZE_ORDER } from "@/lib/constants";
+import { cn } from "@/lib/util";
 
 interface AddToCartProps {
     product: Product

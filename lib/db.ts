@@ -22,6 +22,6 @@ const productWithRelations = Prisma.validator<Prisma.ProductArgs>()({
     include: {
         brand: true,
     },
-})
+});
 
 export type ProductWithRelations = Prisma.ProductGetPayload<typeof productWithRelations>;

@@ -1,30 +1,33 @@
 'use client'
 
-import { Dialog, Tab, Transition } from '@headlessui/react'
+import { ProductWithRelations } from '@/lib/db'
+import { Dialog, Transition } from '@headlessui/react'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { Prisma } from '@prisma/client'
 import Image from 'next/image'
-import ImageScroll from '@/app/(components)/ImageScroll'
+import Link from 'next/link'
 import { Fragment, useState } from 'react'
-import { Product } from '../(types)'
+import { GridTileImage } from './product-grid-tile-image'
+import { cn } from '@/lib/util'
 
-interface ProductImageGalleryProps {
-    product: Product
-}
+export default function ProductImageGallery({ product }: { product: ProductWithRelations }) {
+    // const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null);
 
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
+    const [currentImage, setCurrentImage] = useState<number>(0);
 
-export default function ProductImageGallery({ product }: ProductImageGalleryProps) {
-    const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null)
+    const images = product.images as string[];
 
-    const openImageModal = (image: string) => {
+    const goToImage = (index: number) => {
+        setCurrentImage(index);
+    }
 
-        setCurrentImage({ src: image, alt: product.description || product.mongo_id })
-    };
+
+    const buttonClassName =
+        'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black flex items-center justify-center';
 
     return (
         <>
-            <Transition appear show={currentImage != null} as={Fragment}>
+            {/* <Transition appear show={currentImage != null} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() => setCurrentImage(null)}>
                     <Transition.Child
                         as={Fragment}
@@ -62,67 +65,51 @@ export default function ProductImageGallery({ product }: ProductImageGalleryProp
                         </div>
                     </div>
                 </Dialog>
-            </Transition>
+            </Transition> */}
 
             <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
                 <h2 className="sr-only">Images</h2>
 
-                {/* Desktop images */}
-                <Tab.Group as="div" className="hidden md:flex flex-col-reverse">
-                    {/* Image selector */}
-                    <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-                        <Tab.List className="grid grid-cols-4 gap-6">
-                            {product?.images.map((image: string, imageIdx: number) => (
-                                <Tab
-                                    key={imageIdx}
-                                    className="relative flex aspect-h-13 aspect-w-10 cursor-pointer items-center justify-center bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none"
-                                >
-                                    {({ selected }) => (
-                                        <>
-                                            <span className="sr-only">{product.name}</span>
-                                            <span className="absolute inset-0 overflow-hidden">
-                                                <Image 
-                                                src={image} 
-                                                alt="" 
-                                                className="h-full w-full object-cover object-center" 
-                                                width={1000}
-                                                height={1000}
-                                                />
-                                            </span>
-                                            <span
-                                                className={classNames(
-                                                    selected ? 'shadow-lg' : '',
-                                                    'pointer-events-none absolute inset-0 rounded-md'
-                                                )}
-                                                aria-hidden="true"
-                                            />
-                                        </>
-                                    )}
-                                </Tab>
-                            ))}
-                        </Tab.List>
+                <div className="h-full w-full basis-full lg:basis-4/6">
+                    <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+                        {images[currentImage] && (
+                            <Image
+                                className="h-full w-full object-contain"
+                                fill
+                                sizes="(min-width: 1024px) 66vw, 100vw"
+                                alt={product.description || (`${product.name} - ${product.brand.name}`)}
+                                src={images[currentImage]}
+                                priority={true}
+                            />
+                        )}
                     </div>
 
-                    <Tab.Panels className="aspect-h-13 aspect-w-10 w-full">
-                        {product?.images.map((image: string, imageIdx: number) => (
-                            <Tab.Panel key={imageIdx}>
-                                <Image
-                                    onClick={() => openImageModal(image)}
-                                    key={image}
-                                    src={image}
-                                    alt={product.description || product.mongo_id}
-                                    width={1000}
-                                    height={1333}
-                                    className="h-full w-full object-cover object-center"
-                                />
-                            </Tab.Panel>
-                        ))}
-                    </Tab.Panels>
-                </Tab.Group>
-
-                {/* Mobile Images */}
-                <div className="block md:hidden">
-                    <ImageScroll images={product?.images ? product?.images : []} onImageClick={openImageModal} alt={product?.name ? product?.name : ""} />
+                    {images.length > 1 ? (
+                        <ul className="my-6
+                         flex items-center justify-center gap-2 overflow-hidden py-1 lg:mb-0">
+                            {images.map((image, index) => {
+                                const isActive = index === currentImage;
+                                return (
+                                    <li key={index} className="">
+                                        <button
+                                            type="button"
+                                            aria-label="Enlarge product image"
+                                            onClick={() => goToImage(index)}
+                                            className=""
+                                        >
+                                            <GridTileImage
+                                                alt={product.description || (`${product.name} - ${product.brand.name}`)}
+                                                src={image}
+                                                width={80}
+                                                height={80}
+                                                active={isActive}
+                                            />
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    ) : null}
                 </div>
             </div>
         </>

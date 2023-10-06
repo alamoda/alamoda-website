@@ -1,10 +1,10 @@
 'use client'
 
+import { Feature } from "@/lib";
+import { cn } from "@/lib/util";
 import { Disclosure } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import { Feature } from "../(types)";
 import { Product } from "@prisma/client";
-import { cn } from "../(utils)/helpers";
 
 interface ProductFeaturesProps {
     product: Product

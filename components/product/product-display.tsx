@@ -9,7 +9,7 @@ import ProductImageGallery from './product-image-gallery'
 export default function ProductDisplay({ product }: { product: ProductWithRelations }) {
 
     return (
-        <div className="py-16 lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
+        <div className="md:py-16 lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
 
             <ProductHeading product={product}/>
 

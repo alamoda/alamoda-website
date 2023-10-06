@@ -18,6 +18,10 @@ export default function ImageScroll({ images, onImageClick, alt }: ComponentProp
 
     const flicking = useRef<any>();
 
+    const moveTo = (index: number) => {
+        flicking.current.moveTo(index).catch(() => void 0);
+    }
+
     return (
         <>
             {/* Scoll */}
@@ -40,18 +44,18 @@ export default function ImageScroll({ images, onImageClick, alt }: ComponentProp
                 )}
             </Flicking>
 
-            {/* Pagination */}
-            <div className="flex items-center justify-center">
-                {images.map((img: string, imgIdx: number) =>
-                    <div
-                        key={img}
-                        onClick={() => flicking.current.moveTo(imgIdx)}
-                        className={cn(
-                            imgIdx === imgPaginationIndex ? 'bg-gray-900' : 'bg-gray-200 hover:bg-gray-300',
-                            'rounded-full h-3 w-3 mr-2 cursor-pointer'
-                        )} />
-                )}
-            </div>
+
+            <nav className="flex items-center border-t border-gray-200">
+                    {images.map((img: string, imgIdx: number) =>
+                        <div
+                            key={img}
+                            onClick={() => moveTo(imgIdx)}
+                            className={cn(
+                                imgIdx === imgPaginationIndex ? 'border-gray-900' : 'border-transparent hover:border-gray-300',
+                                'inline-flex items-center border-t-2 px-4 pt-4 w-full'
+                            )} />
+                    )}
+            </nav>
         </>
     )
 }

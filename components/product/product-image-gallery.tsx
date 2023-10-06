@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { Fragment, useState } from 'react'
 import { GridTileImage } from './product-grid-tile-image'
 import { cn } from '@/lib/util'
+import ImageScroll from '../image-scroll'
 
 export default function ProductImageGallery({ product }: { product: ProductWithRelations }) {
     // const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null);
@@ -67,22 +68,23 @@ export default function ProductImageGallery({ product }: { product: ProductWithR
                 <h2 className="sr-only">Images</h2>
 
                 <div className="h-full w-full basis-full lg:basis-4/6">
-                    <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+                    <ImageScroll images={images} onImageClick={() => console.log("test")} alt='hello' />
+                    {/* <div className="relative aspect-square h-full w-full overflow-hidden">
                         {images[currentImage] && (
                             <Image
                                 className="h-full w-full object-contain"
-                                fill
-                                sizes="(min-width: 1024px) 66vw, 100vw"
+                                width={1000}
+                                height={1333}
                                 alt={product.description || (`${product.name} - ${product.brand.name}`)}
                                 src={images[currentImage]}
                                 priority={true}
                             />
                         )}
-                    </div>
+                    </div> */}
 
                     {images.length > 1 ? (
                         <ul className="my-6
-                         flex items-center justify-center gap-2 overflow-hidden py-1 lg:mb-0">
+                         md:flex items-center justify-center gap-2 overflow-hidden py-1 lg:mb-0 hidden ">
                             {images.map((image, index) => {
                                 const isActive = index === currentImage;
                                 return (

@@ -21,10 +21,6 @@ export default function ProductImageGallery({ product }: { product: ProductWithR
         setCurrentImage(index);
     }
 
-
-    const buttonClassName =
-        'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black flex items-center justify-center';
-
     return (
         <>
             {/* <Transition appear show={currentImage != null} as={Fragment}>

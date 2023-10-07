@@ -4,8 +4,8 @@ import Stripe from "stripe";
 import Image from 'next/image';
 import { useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { Order } from '@/app/(types)/index';
 import { CartContext } from "@/context/CartContext";
+import { Order } from "@prisma/client";
 
 export default function Page() {
 
@@ -64,7 +64,7 @@ export default function Page() {
                     role="list"
                     className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-800"
                 >
-                    {order?.cart_products &&
+                    {/* {order?.cart_products &&
                         order.cart_products.map((product: any, index: number) => (
                             <li key={index} className="flex space-x-6 py-6">
                                 <Image
@@ -83,7 +83,7 @@ export default function Page() {
                                 </div>
                                 <p className="flex-none font-medium text-gray-900">${product.price}</p>
                             </li>
-                        ))}
+                        ))} */}
                 </ul>
 
                 <dl className="space-y-3 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">

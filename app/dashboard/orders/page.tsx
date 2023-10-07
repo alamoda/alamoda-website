@@ -1,5 +1,5 @@
-import Breadcrumb from "@/app/(components)/Breadcrumb";
-import { Order } from "@/app/(types)";
+import Breadcrumb from "@/components/layout/breadcrumb";
+import { Order } from "@prisma/client";
 
 async function getOrders() {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/orders`, {
@@ -81,15 +81,15 @@ export default async function Page() {
                                                 </span>}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-5 text-xs text-gray-900">
-                                            {order.cart_products.map((cartProduct: any, index: number) => (
+                                            {/* {order.cart_products.map((cartItem: any, index: number) => (
                                                 <div key={index} className="mb-1">
                                                     <div>
-                                                        <span className="font-semibold">{cartProduct.name}</span>
-                                                        {" - qty: " + cartProduct.quantity + ", " + "sz: " + cartProduct.size}
+                                                        <span className="font-semibold">{cartItem.name}</span>
+                                                        {" - qty: " + cartItem.quantity + ", " + "sz: " + cartItem.size}
                                                     </div>
-                                                    <div className="font-medium"> {cartProduct.brand} </div>
+                                                    <div className="font-medium"> {cartItem.brand} </div>
                                                 </div>
-                                            ))}
+                                            ))} */}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-5 text-xs text-gray-900">
                                             {order.name &&

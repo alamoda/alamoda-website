@@ -17,13 +17,13 @@ interface AddToCartProps {
 export default function AddToCart({ product }: AddToCartProps) {
     const [selectedSize, setSelectedSize] = useState<Size | null>(null);
     const [showError, setShowError] = useState(false);
-    const { addProduct } = useContext(CartContext);
+    const { addItem } = useContext(CartContext);
 
     const router = useRouter();
 
     const handleAddToCart = () => {
         if (product && selectedSize) {
-            addProduct({ product, size: selectedSize, quantity: 1 });
+            addItem({ product, size: selectedSize, quantity: 1 });
             router.push('/cart');
         } else if (product && !selectedSize) {
             setShowError(true);

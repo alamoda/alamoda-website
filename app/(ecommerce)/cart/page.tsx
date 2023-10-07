@@ -12,9 +12,9 @@ export default function Page() {
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
 
-  const { cartProducts, removeProduct, updateQuantity } = useContext(CartContext);
+  const { cartItems, removeItem, updateItemQuantity } = useContext(CartContext);
 
-  const cartPrice = cartProducts.reduce((sum, cartProduct) => sum + (cartProduct.product.price * cartProduct.quantity), 0);
+  const cartPrice = cartItems.reduce((sum, cartItem) => sum + (cartItem.product.price * cartItem.quantity), 0);
 
   async function goToPayment() {
     if (!email) {
@@ -25,7 +25,7 @@ export default function Page() {
     const response = await fetch('/api/checkout', {
       method: 'POST',
       body: JSON.stringify({
-        cartProducts,
+        cartItems,
         email
       })
     })
@@ -46,7 +46,7 @@ export default function Page() {
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-4xl tracking-tight text-gray-900 capitalize">Shopping Cart</h1>
-        {cartProducts.length == 0 &&
+        {cartItems.length == 0 &&
           <div className='pt-8 text-sm'>
             <div>
               Your shopping cart is currently empty
@@ -59,7 +59,7 @@ export default function Page() {
             </div>
           </div>
         }
-        {cartProducts.length > 0 &&
+        {cartItems.length > 0 &&
           <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
             <section aria-labelledby="cart-heading" className="lg:col-span-7">
               <h2 id="cart-heading" className="sr-only">
@@ -67,8 +67,8 @@ export default function Page() {
               </h2>
 
               <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
-                {cartProducts.map((cartProduct, index) => (
-                  <ProductCartEntry key={cartProduct.product.id + cartProduct.size.name} cartProduct={cartProduct} cartIndex={index} />
+                {cartItems.map((cartItem, index) => (
+                  <ProductCartEntry key={cartItem.product.id + cartItem.size.name} cartItem={cartItem} cartIndex={index} />
                 ))}
               </ul>
             </section>

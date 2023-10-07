@@ -1,6 +1,6 @@
-import { db } from "@/app/(lib)/db";
-import { CartProduct } from "@/app/(types)";
-import { time } from "console";
+
+import { CartItem } from '@/lib';
+import { db } from '@/lib/db';
 import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
@@ -13,32 +13,32 @@ export async function POST(req: Request) {
     if (!stripe) throw new Error('cant load stripe');
 
     const {
-        cartProducts,
+        cartItems,
         email
     } = await req.json();
 
     const line_items = [];
     const products = [];
-    for (const cartProduct of cartProducts) {
+    for (const cartItem of cartItems) {
         line_items.push({
-            quantity: cartProduct.quantity,
+            quantity: cartItem.quantity,
             price_data: {
                 currency: 'USD',
-                product_data: { name: cartProduct.product.name },
-                unit_amount: cartProduct.product.price * 100,
+                product_data: { name: cartItem.product.name },
+                unit_amount: cartItem.product.price * 100,
             },
         });
         products.push({
-            name: cartProduct.product.name,
-            brand: cartProduct.product.brand.name,
-            price: cartProduct.product.price,
-            image: cartProduct.product.images[0],
-            quantity: cartProduct.quantity,
-            size: cartProduct.size.name
+            name: cartItem.product.name,
+            brand: cartItem.product.brand.name,
+            price: cartItem.product.price,
+            image: cartItem.product.images[0],
+            quantity: cartItem.quantity,
+            size: cartItem.size.name
         })
     }
 
-    const amount = cartProducts.reduce((sum: number, cartProduct: CartProduct) => sum + cartProduct.product.price * cartProduct.quantity * 100, 3000);
+    const amount = cartItems.reduce((sum: number, cartItem: CartItem) => sum + cartItem.product.price * cartItem.quantity * 100, 3000);
 
     const order = await db.order.create({
         data: {
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
         mode: 'payment',
         success_url: `${process.env.NEXT_PUBLIC_URL}/order/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.NEXT_PUBLIC_URL}/cart?canceled`,
-        metadata: { orderId: order.mongo_id }
+        metadata: { orderId: order.id }
     });
 
     return new Response(JSON.stringify(session.url));

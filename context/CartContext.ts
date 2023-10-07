@@ -1,22 +1,22 @@
 'use client'
 
-import { CartProduct } from "@/lib";
+import { CartItem } from "@/lib";
 import { createContext } from "react"
 
 interface ICartContext {
-    cartProducts: CartProduct[];
-    setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>;
-    addProduct: (product: CartProduct) => void
-    removeProduct: (productId: string) => void
-    updateQuantity: (index: number, quantity: number) => void
+    cartItems: CartItem[];
+    setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+    addItem: (toAddItem: CartItem) => void
+    removeItem: (productId: string) => void
+    updateItemQuantity: (index: number, quantity: number) => void
     clearCart: () => void
 }
 
 export const CartContext = createContext<ICartContext>({
-    cartProducts: [],
-    setCartProducts: () => {},
-    addProduct: () => {},
-    removeProduct: () => {},
-    updateQuantity: () => {},
+    cartItems: [],
+    setCartItems: () => {},
+    addItem: () => {},
+    removeItem: () => {},
+    updateItemQuantity: () => {},
     clearCart: () => {}
 });

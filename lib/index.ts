@@ -1,4 +1,4 @@
-import { Brand, Product } from "@prisma/client"
+import { Brand } from "@prisma/client"
 import { ProductWithRelations } from "./db"
 
 export type Feature = {
@@ -41,7 +41,7 @@ export type SortOption = {
     filter: object
 }
 
-export type CartProduct = {
+export type CartItem = {
     product: ProductWithRelations,
     size: Size
     quantity: number

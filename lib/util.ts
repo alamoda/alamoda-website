@@ -2,8 +2,8 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { DEPARTMENTS } from "./constants";
 
-import { z, ZodError, ZodRawShape } from "zod";
 import { Category, Department, ProductFilters } from '.';
+import { ZodError, ZodRawShape, z } from 'zod';
 
 export class Validator<T> {
 

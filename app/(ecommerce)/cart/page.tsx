@@ -1,6 +1,8 @@
 'use client'
 
-import PrimaryInput from '@/app/(components)/PrimaryInput';
+import InputError from '@/components/form/input-error';
+import InputText from '@/components/form/input-text';
+import ProductCartEntry from '@/components/product/product-cart-entry';
 import { CartContext } from '@/context/CartContext';
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
@@ -66,76 +68,7 @@ export default function Page() {
 
               <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                 {cartProducts.map((cartProduct, index) => (
-                  <li key={cartProduct.product.mongo_id + cartProduct.size.name} className="flex items-center py-6 sm:py-10">
-                    <div className="">
-                      <Image
-                        src={cartProduct.product.images[0]}
-                        alt={cartProduct.product.mongo_id}
-                        width={200}
-                        height={200}
-                      />
-                    </div>
-
-                    <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-                      <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
-                        <div>
-                          <div className="flex justify-between">
-                            <h3 className="text-sm">
-                              <p className="font-medium text-gray-700 hover:text-gray-800">
-                                {cartProduct.product.name}
-                              </p>
-                            </h3>
-                          </div>
-                          <div className="flex justify-between mt-1">
-                            <h3 className="text-xs">
-                              <p className="font-semibold text-gray-700 hover:text-gray-800">
-                                {cartProduct.product.brand.name}
-                              </p>
-                            </h3>
-                          </div>
-                          <div className="mt-1 flex text-sm">
-                            <p className="text-gray-900">{cartProduct.product.department.name}</p>
-                            {cartProduct.size ? (
-                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-900">{cartProduct.size.name}</p>
-                            ) : null}
-                          </div>
-                          <p className="mt-1 text-sm font-medium text-gray-900">${cartProduct.product.price}</p>
-                        </div>
-
-                        <div className="mt-4 sm:mt-0 sm:pr-9">
-                          <label htmlFor={`quantity-${index}`} className="sr-only">
-                            Quantity, {cartProduct.product.name}
-                          </label>
-                          <select
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateQuantity(index, Number(e.target.value))}
-                            value={cartProduct.quantity}
-                            className="max-w-full border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm sm:text-sm"
-                          >
-                            {Array.from({ length: Number(cartProduct.size.quantity) }, (_, index) => (
-                              <option key={index} value={index + 1}>{index + 1}</option>
-                            ))}
-                          </select>
-
-                          <div className="absolute right-0 top-0">
-                            <button onClick={() => removeProduct(cartProduct.product.mongo_id)} type="button" className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
-                              <span className="sr-only">Remove</span>
-                              <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-                      {product.inStock ? (
-                        <CheckIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
-                      ) : (
-                        <ClockIcon className="h-5 w-5 flex-shrink-0 text-gray-300" aria-hidden="true" />
-                      )}
-
-                      <span>{product.inStock ? 'In stock' : `Ships in ${product.leadTime}`}</span>
-                    </p> */}
-                    </div>
-                  </li>
+                  <ProductCartEntry key={cartProduct.product.id + cartProduct.size.name} cartProduct={cartProduct} cartIndex={index} />
                 ))}
               </ul>
             </section>
@@ -184,22 +117,16 @@ export default function Page() {
                 <h2 id="summary-heading" className="font-medium text-gray-900 mb-4">
                   Order information
                 </h2>
-                <PrimaryInput
-                  value={email}
+
+                <InputText
                   name="email"
                   placeholder='Email'
-                  onChange={
-                    (e: React.ChangeEvent<HTMLInputElement>) => {
-                      setEmail(e.target.value);
-                      setEmailError(false);
-                    }
-                  }
+                  value={"test"}
+                  onChange={e => console.log(e)}
                 />
-                {emailError &&
-                  <p className='text-red-500 text-sm mt-2'>
-                    You need to enter your email
-                  </p>
-                }
+
+                <InputError errorMessage={"You need to enter your email"} />
+
                 <button
                   onClick={goToPayment}
                   className="w-full mt-4 border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"

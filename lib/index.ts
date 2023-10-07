@@ -42,7 +42,7 @@ export type SortOption = {
 }
 
 export type CartProduct = {
-    product: Product,
+    product: ProductWithRelations,
     size: Size
     quantity: number
 }

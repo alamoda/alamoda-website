@@ -2,7 +2,6 @@ import { cn } from '@/lib/util';
 import Image from 'next/image';
 
 export function GridTileImage({
-    isInteractive = true,
     active,
     ...props
 }: {

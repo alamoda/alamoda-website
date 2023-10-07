@@ -1,6 +1,6 @@
 'use client'
 
-import { CartProduct } from "@/app/(types)";
+import { CartProduct } from "@/lib";
 import { createContext } from "react"
 
 interface ICartContext {

@@ -1,5 +1,5 @@
+import { cn } from "@/lib/util";
 import React from "react";
-import { cn } from "../(utils)/helpers";
 
 interface PrimaryButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   type?: 'button' | 'submit' | 'reset';

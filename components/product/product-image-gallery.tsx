@@ -25,7 +25,7 @@ export default function ProductImageGallery({ product }: { product: ProductWithR
                 <div className="h-full w-full basis-full lg:basis-4/6">
 
                     {/* Desktop */}
-                    <div className="hidden md:block relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+                    <div className="hidden md:block relative aspect-h-13 aspect-w-10 h-full max-h-[550px] w-full overflow-hidden">
                         {images[currentImage] && (
                             <Image
                                 className="h-full w-full object-contain"

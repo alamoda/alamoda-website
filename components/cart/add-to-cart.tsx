@@ -8,9 +8,10 @@ import { Product } from "@prisma/client";
 import { Size } from "@/lib";
 import { LETTER_SIZE_ORDER } from "@/lib/constants";
 import { cn } from "@/lib/util";
+import { ProductWithRelations } from "@/lib/db";
 
 interface AddToCartProps {
-    product: Product
+    product: ProductWithRelations
 }
 
 export default function AddToCart({ product }: AddToCartProps) {

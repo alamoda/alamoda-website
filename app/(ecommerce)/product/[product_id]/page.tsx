@@ -83,50 +83,10 @@ export default async function Page({ params }: { params: { product_id: string } 
         <ProductDisplay product={product} />
       </Suspense>
 
-      {/* You might also like */}
-      <div className="pt-16 md:pt-32">
-
+      <Suspense>
         <RelatedProductsPreview product={product} />
-
         <OtherFromBrandPreview product={product} />
-
-      {/* <Suspense>
-          <RelatedProducts id={product.id} />
-        </Suspense> */}
-
-        {/* <ProductListPreview
-                queryFilters={prepareProductQueryFilters({
-                  statuses: [2],
-                  available: true,
-                  department: currentDepartment,
-                  category: currentCategory,
-                  subcategories: currentSubcategory ? [currentSubcategory] : [],
-                  exclude: [product],
-                })}
-                take={4}
-                productBaseURL={'/shop'}
-                collectionTitle='You might also like'
-                collectionURL={`/shop/${product.department}?category=${product.category}${product.subcategory ? "&subcategories=" + product.subcategory : ""}`}
-              /> */}
-      </div>
-
-      {/* More from brand */}
-      <div className="pt-16 md:pt-32">
-        {/* <ProductListPreview
-                queryFilters={prepareProductQueryFilters({
-                  statuses: [2],
-                  available: true,
-                  brands: [product.brand],
-                  exclude: [product],
-                })}
-                take={4}
-                productBaseURL={'/shop'}
-
-              /> */}
-      </div>
-
-
-
+      </Suspense>
     </>
   )
 }

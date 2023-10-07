@@ -1,4 +1,4 @@
-import { cn } from "@/lib/helpers";
+import { cn } from "@/lib/util";
 
 interface InputLabelProps extends React.HTMLAttributes<HTMLLabelElement> {
     name: string;

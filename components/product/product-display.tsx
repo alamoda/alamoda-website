@@ -18,7 +18,6 @@ export default function ProductDisplay({ product }: { product: ProductWithRelati
             {/* Product info */}
             <div className="mt-8 lg:col-span-5">
 
-                {/* Sizes and Add to Cart */}
                 <AddToCart product={product} />
 
                 <ProductDescription description={product.description}/>

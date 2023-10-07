@@ -1,22 +1,17 @@
 'use client'
 
 import { ProductWithRelations } from '@/lib/db'
-import { Dialog, Transition } from '@headlessui/react'
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
-import { Prisma } from '@prisma/client'
 import Image from 'next/image'
-import Link from 'next/link'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import { GridTileImage } from './product-grid-tile-image'
-import { cn } from '@/lib/util'
 import ImageScroll from '../image-scroll'
 
 export default function ProductImageGallery({ product }: { product: ProductWithRelations }) {
-    // const [currentImage, setCurrentImage] = useState<{ src: string, alt: string } | null>(null);
 
     const [currentImage, setCurrentImage] = useState<number>(0);
 
     const images = product.images as string[];
+    const alt = product.description || (`${product.name} - ${product.brand.name}`);
 
     const goToImage = (index: number) => {
         setCurrentImage(index);
@@ -68,27 +63,38 @@ export default function ProductImageGallery({ product }: { product: ProductWithR
                 <h2 className="sr-only">Images</h2>
 
                 <div className="h-full w-full basis-full lg:basis-4/6">
-                    <ImageScroll images={images} onImageClick={() => console.log("test")} alt='hello' />
-                    {/* <div className="relative aspect-square h-full w-full overflow-hidden">
+
+                    {/* Desktop */}
+                    <div className="hidden md:block relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
                         {images[currentImage] && (
                             <Image
                                 className="h-full w-full object-contain"
                                 width={1000}
                                 height={1333}
-                                alt={product.description || (`${product.name} - ${product.brand.name}`)}
+                                alt={alt}
                                 src={images[currentImage]}
                                 priority={true}
                             />
                         )}
-                    </div> */}
+                    </div>
 
+                    {/* Mobile */}
+                    <div className='md:hidden'>
+                        <ImageScroll
+                            images={images}
+                            alt={alt}
+                            onImageClick={() => console.log("test")}
+                        />
+                    </div>
+
+                    {/* Desktop Only */}
                     {images.length > 1 ? (
                         <ul className="my-6
-                         md:flex items-center justify-center gap-2 overflow-hidden py-1 lg:mb-0 hidden ">
+                         md:flex items-center justify-center gap-2 overflow-hidden py-1 lg:mb-0 hidden">
                             {images.map((image, index) => {
                                 const isActive = index === currentImage;
                                 return (
-                                    <li key={index} className="">
+                                    <li key={index} className="w-20">
                                         <button
                                             type="button"
                                             aria-label="Enlarge product image"
@@ -108,6 +114,7 @@ export default function ProductImageGallery({ product }: { product: ProductWithR
                             })}
                         </ul>
                     ) : null}
+
                 </div>
             </div>
         </>

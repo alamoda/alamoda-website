@@ -14,10 +14,10 @@ interface ComponentProps {
 }
 
 export default function ImageScroll({ images, onImageClick, alt }: ComponentProps) {
-    const [imgPaginationIndex, setImgPaginationIndex] = useState<number>(0)
 
     const flicking = useRef<any>();
-
+    const [imgPaginationIndex, setImgPaginationIndex] = useState<number>(0)
+    
     const moveTo = (index: number) => {
         flicking.current.moveTo(index).catch(() => void 0);
     }

@@ -5,11 +5,6 @@ import { CartContext } from "./CartContext"
 import { CartItem } from "@/lib"
 
 
-function getInitialState() {
-    const cartItems = localStorage.getItem('cartItems')
-    return cartItems ? JSON.parse(cartItems) : []
-}
-
 export function CartContextProvider({
     children,
 }: {
@@ -18,7 +13,12 @@ export function CartContextProvider({
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
     useEffect(() => {
-        setCartItems(getInitialState())
+        const retreivedItems = localStorage.getItem('cartItems')
+        const parsedItems: CartItem[] = retreivedItems ? JSON.parse(retreivedItems) : [];
+        if (parsedItems.length > 0) {
+            console.log(parsedItems);
+            setCartItems([...cartItems, ...parsedItems]);
+        }
     }, [])
 
     useEffect(() => {

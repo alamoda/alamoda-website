@@ -42,7 +42,7 @@ export default async function Page({
             {/* BREADCRUMBS */}
             <Breadcrumb routes={breadcrumb} />
 
-            <ProductForm product={product} , availableBrands={availableBrands}/>
+            <ProductForm product={product} availableBrands={availableBrands}/>
         </div>
     )
 }

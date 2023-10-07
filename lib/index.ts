@@ -1,4 +1,5 @@
 import { Brand, Product } from "@prisma/client"
+import { ProductWithRelations } from "./db"
 
 export type Feature = {
     id_feature: string

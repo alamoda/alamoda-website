@@ -7,6 +7,8 @@ import { getCategoryBySlug, getDepartmentBySlug, getSubcategoryBySlug } from '@/
 import Breadcrumb from '@/components/layout/breadcrumb'
 import ProductDisplay from '@/components/product/product-display'
 import { Suspense } from 'react'
+import RelatedProductsPreview from '@/components/preview/related-products-preview'
+import OtherFromBrandPreview from '@/components/preview/other-from-brand-preview'
 
 
 export async function generateMetadata({ params }: { params: { product_id: string } }): Promise<Metadata> {
@@ -83,6 +85,15 @@ export default async function Page({ params }: { params: { product_id: string } 
 
       {/* You might also like */}
       <div className="pt-16 md:pt-32">
+
+        <RelatedProductsPreview product={product} />
+
+        <OtherFromBrandPreview product={product} />
+
+      {/* <Suspense>
+          <RelatedProducts id={product.id} />
+        </Suspense> */}
+
         {/* <ProductListPreview
                 queryFilters={prepareProductQueryFilters({
                   statuses: [2],
@@ -110,8 +121,7 @@ export default async function Page({ params }: { params: { product_id: string } 
                 })}
                 take={4}
                 productBaseURL={'/shop'}
-                collectionTitle={`More from ${product?.brand.name.toLowerCase()}`}
-                collectionURL={`/shop/${currentDepartment?.slug}?brands=${product?.brand.slug}`}
+
               /> */}
       </div>
 

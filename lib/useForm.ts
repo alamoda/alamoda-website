@@ -32,6 +32,10 @@ type setDataByObject<TForm> = (data: TForm) => void
 type setDataByMethod<TForm> = (data: (previousData: TForm) => TForm) => void
 type setDataByKeyValuePair<TForm> = <K extends keyof TForm>(key: K, value: TForm[K]) => void
 
+type serverActionResponse<TForm> = { isValid: boolean, errors: Partial<Record<keyof TForm, string>> }
+
+type formServerAction<TForm> = (data: TForm) => Promise<serverActionResponse<TForm>>
+
 export interface UseFormProps<TForm extends Record<string, unknown>> {
     data: TForm
     errors: Partial<Record<keyof TForm, string>>
@@ -55,6 +59,7 @@ export interface UseFormProps<TForm extends Record<string, unknown>> {
     post: (url: string, options?: VisitOptions) => void
     put: (url: string, options?: VisitOptions) => void
     delete: (url: string, options?: VisitOptions) => void
+    action: (formServerAction: formServerAction<TForm>, options?: VisitOptions) => void
 }
 export default function useForm<TForm extends Record<string, unknown>>(initialValues?: TForm): UseFormProps<TForm>
 
@@ -164,6 +169,80 @@ export default function useForm<TForm extends Record<string, unknown>>(maybeInit
         [data, setErrors],
     )
 
+    const submitAction = useCallback(
+
+        (formServerAction: formServerAction<TForm>, options: VisitOptions = {}) => {
+
+            const _options = {
+                ...options,
+                onSuccess: (res: Response) => {
+                    if (isMounted.current) {
+                        setProcessing(false)
+                        setErrors({})
+                        setHasErrors(false)
+                        setWasSuccessful(true)
+                        setRecentlySuccessful(true)
+
+                        recentlySuccessfulTimeoutId.current = setTimeout(() => {
+                            if (isMounted.current) {
+                                setRecentlySuccessful(false)
+                            }
+                        }, 2000)
+                    }
+
+                    if (options.onSuccess) {
+                        return options.onSuccess(res)
+                    }
+                },
+
+                onError: (errors: Partial<Record<keyof TForm, string>>) => {
+                    if (isMounted.current) {
+                        setProcessing(false)
+                        setErrors(errors)
+                        setHasErrors(true)
+                    }
+
+                    if (options.onError) {
+                        return options.onError(errors as Errors)
+                    }
+                },
+
+                onFinish: () => {
+                    if (isMounted.current) {
+                        setProcessing(false)
+
+                    }
+
+                    transform.current = undefined;
+
+                    if (options.onFinish) {
+                        return options.onFinish()
+                    }
+                },
+            };
+
+            setProcessing(true);
+
+            formServerAction(transform.current ? transform.current(data) : data)
+                .then(async (response: serverActionResponse<TForm>) => {
+
+                    if (!response.isValid) {
+                        _options.onError(response?.errors);
+                        return;
+                    }
+
+                    _options.onSuccess(TODO);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    _options.onFinish();
+                });
+        },
+        [data, setErrors],
+    )
+
     return {
         data,
         setData(keyOrData: keyof TForm | Function | TForm, maybeValue?: TForm[keyof TForm]) {
@@ -241,6 +320,7 @@ export default function useForm<TForm extends Record<string, unknown>>(maybeInit
         post(url: string, options) { submit('POST', url, options) },
         put(url: string, options) { submit('PUT', url, options) },
         patch(url: string, options) { submit('PATCH', url, options) },
-        delete(url: string, options) { submit('DELETE', url, options) }
+        delete(url: string, options) { submit('DELETE', url, options) },
+        action(formServerAction: formServerAction<TForm>, options) { submitAction(formServerAction, options) }
     }
 }

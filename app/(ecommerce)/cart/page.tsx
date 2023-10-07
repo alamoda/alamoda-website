@@ -4,23 +4,22 @@ import InputError from '@/components/form/input-error';
 import InputText from '@/components/form/input-text';
 import ProductCartEntry from '@/components/product/product-cart-entry';
 import { CartContext } from '@/context/CartContext';
+import useForm from '@/lib/useForm';
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 
 export default function Page() {
-  const [email, setEmail] = useState<string>('');
-  const [emailError, setEmailError] = useState<boolean>(false);
 
-  const { cartItems, removeItem, updateItemQuantity } = useContext(CartContext);
+  const form = useForm({
+    email: ''
+  });
+
+  const { cartItems } = useContext(CartContext);
 
   const cartPrice = cartItems.reduce((sum, cartItem) => sum + (cartItem.product.price * cartItem.quantity), 0);
 
   async function goToPayment() {
-    if (!email) {
-      setEmailError(true);
-      return;
-    }
 
     const response = await fetch('/api/checkout', {
       method: 'POST',
@@ -113,7 +112,7 @@ export default function Page() {
                 </div>
               </dl>
 
-              <div className="mt-6">
+              <form onSubmit={() => console.log("")} className="mt-6">
                 <h2 id="summary-heading" className="font-medium text-gray-900 mb-4">
                   Order information
                 </h2>
@@ -121,24 +120,23 @@ export default function Page() {
                 <InputText
                   name="email"
                   placeholder='Email'
-                  value={"test"}
-                  onChange={e => console.log(e)}
+                  value={form.data.email}
+                  onChange={e => form.setData("email", e.target.value)}
                 />
-
-                <InputError errorMessage={"You need to enter your email"} />
+                <InputError errorMessage={form.errors.email} />
 
                 <button
-                  onClick={goToPayment}
+                  type="submit"
                   className="w-full mt-4 border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
                 >
                   Checkout
                 </button>
-                <div className="mt-4">
-                  <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
-                    Continue Shopping
-                    <span aria-hidden="true"> &rarr;</span>
-                  </a>
-                </div>
+              </form>
+              <div className="mt-4">
+                <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+                  Continue Shopping
+                  <span aria-hidden="true"> &rarr;</span>
+                </a>
               </div>
             </section>
           </div>

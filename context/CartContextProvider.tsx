@@ -16,7 +16,6 @@ export function CartContextProvider({
         const retreivedItems = localStorage.getItem('cartItems')
         const parsedItems: CartItem[] = retreivedItems ? JSON.parse(retreivedItems) : [];
         if (parsedItems.length > 0) {
-            console.log(parsedItems);
             setCartItems([...cartItems, ...parsedItems]);
         }
     }, [])

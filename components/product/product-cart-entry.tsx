@@ -1,39 +1,30 @@
 'use client'
-
-import { CartContext } from '@/context/CartContext';
 import { CartItem } from '@/lib';
-import { getDepartmentBySlug } from '@/lib/util';
+import { useContext } from 'react';
+import { CartContext } from '@/context/CartContext';
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
-import { useContext } from 'react';
+
 
 export default function ProductCartEntry({ cartItem, cartIndex }: { cartItem: CartItem, cartIndex: number }) {
 
     const { removeItem, updateItemQuantity } = useContext(CartContext);
-    const currentDepartment = getDepartmentBySlug(cartItem.product.department);
 
     return (
-        <li className="flex items-center py-6 sm:py-10 bg-red-500">
+        <li className="flex py-6 sm:py-10 space-x-10">
+
             <div className="flex w-20 items-center justify-center overflow-hidden">
                 <Image
                     className={'relative h-full w-full object-contain'}
                     alt={cartItem.product.description || (`${cartItem.product.name} - ${cartItem.product.brand.name}`)}
                     src={(cartItem.product.images as string[])[0]}
-                    width={80}
-                    height={107}
+                    width={1000}
+                    height={1333}
                 />
             </div>
 
-            {/* <Image
-                            className={'relative h-full w-full object-contain'}
-                            alt={cartItem.product.description || (`${cartItem.product.name} - ${cartItem.product.brand.name}`)}
-                            src={(cartItem.product.images as string[])[0]}
-                            width={1000}
-                            height={1333}
-                        /> */}
-
-            <div className="flex justify-between items-center sm:ml-6">
-                <div className="relative sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+            <div className="flex flex-1">
+                <div className="w-full relative sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
                     <div>
                         <div className="flex justify-between">
                             <h3 className="text-sm">
@@ -50,9 +41,8 @@ export default function ProductCartEntry({ cartItem, cartIndex }: { cartItem: Ca
                             </h3>
                         </div>
                         <div className="mt-1 flex text-sm">
-                            <p className="text-gray-900">{currentDepartment?.name}</p>
                             {cartItem.size ? (
-                                <p className="ml-4 border-l border-gray-200 pl-4 text-gray-900">{cartItem.size.name}</p>
+                                <p className="text-gray-900">{cartItem.size.name}</p>
                             ) : null}
                         </div>
                         <p className="mt-1 text-sm font-medium text-gray-900">${cartItem.product.price}</p>

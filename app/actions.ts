@@ -67,8 +67,6 @@ export async function getProduct(id: string, enforceAvailable: boolean) {
 
 export async function createCheckoutLink(data: CheckoutSessionSchema): Promise<{ isValid: boolean, data: string, errors: Partial<Record<keyof CheckoutSessionSchema, string>> }> {
 
-    console.log(data.cartItems.length);
-
     const validator = new Validator<CheckoutSessionSchema>(
         data,
         {
@@ -150,5 +148,5 @@ export async function createCheckoutLink(data: CheckoutSessionSchema): Promise<{
         metadata: { orderId: order.id }
     });
 
-    return { isValid: true, data: JSON.stringify(session.url), errors: {} };
+    return { isValid: true, data: session.url as string, errors: {} };
 }

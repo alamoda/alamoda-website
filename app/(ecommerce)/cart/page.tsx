@@ -35,9 +35,7 @@ export default function Page() {
     }));
 
     form.submit(createCheckoutLink, {
-      onSuccess: ((url) => {
-        window.location = url
-      }),
+      onSuccess: (url) => { window.location.replace(url ? url : "#") },
       onError: () => console.error("Error!")
     });
 

@@ -4,7 +4,6 @@ import { RadioGroup } from "@headlessui/react";
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CartContext } from "@/context/CartContext";
-import { Product } from "@prisma/client";
 import { Size } from "@/lib";
 import { LETTER_SIZE_ORDER } from "@/lib/constants";
 import { cn } from "@/lib/util";

@@ -1,29 +1,13 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react'
 
-
-export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
-
 export type Errors = Record<string, string>
 
-export type FormDataConvertible =
-    | Array<FormDataConvertible>
-    | { [key: string]: FormDataConvertible }
-    | Blob
-    | FormDataEntryValue
-    | Date
-    | boolean
-    | number
-    | null
-    | undefined
-
-export type RequestPayload = Record<string, FormDataConvertible> | FormData
-
-export type VisitOptions = Partial<
+export type VisitOptions<TReturnData> = Partial<
     {
         headers: Record<string, string>
         forceFormData: boolean
         onFinish: () => void
-        onSuccess: (response: Response | null) => void
+        onSuccess: (response: TReturnData | null) => void
         onError: (errors: Errors) => void
     }
 >
@@ -32,7 +16,10 @@ type setDataByObject<TForm> = (data: TForm) => void
 type setDataByMethod<TForm> = (data: (previousData: TForm) => TForm) => void
 type setDataByKeyValuePair<TForm> = <K extends keyof TForm>(key: K, value: TForm[K]) => void
 
-export interface UseFormProps<TForm extends Record<string, unknown>> {
+type serverActionResponse<TForm, TReturnData> = { isValid: boolean, data: TReturnData | null, errors: Partial<Record<keyof TForm, string>> }
+type formServerAction<TForm, TReturnData> = (data: TForm) => Promise<serverActionResponse<TForm, TReturnData>>
+
+export interface UseActionFormProps<TForm extends Record<string, unknown>, TReturnData> {
     data: TForm
     errors: Partial<Record<keyof TForm, string>>
     hasErrors: boolean
@@ -49,21 +36,16 @@ export interface UseFormProps<TForm extends Record<string, unknown>> {
     clearErrors: (...fields: (keyof TForm)[]) => void
     setError(field: keyof TForm, value: string): void
     setError(errors: Record<keyof TForm, string>): void
-    submit: (method: Method, url: string, options?: VisitOptions) => void
-    get: (url: string, options?: VisitOptions) => void
-    patch: (url: string, options?: VisitOptions) => void
-    post: (url: string, options?: VisitOptions) => void
-    put: (url: string, options?: VisitOptions) => void
-    delete: (url: string, options?: VisitOptions) => void
+    submit: (formServerAction: formServerAction<TForm, TReturnData>, options?: VisitOptions<TReturnData>) => void
 }
-export default function useForm<TForm extends Record<string, unknown>>(initialValues?: TForm): UseFormProps<TForm>
+export default function useActionForm<TForm extends Record<string, unknown>, TReturnData>(initialValues?: TForm): UseActionFormProps<TForm, TReturnData>
 
-export default function useForm<TForm extends Record<string, unknown>>(
+export default function useActionForm<TForm extends Record<string, unknown>, TReturnData>(
     initialValues?: TForm,
-): UseFormProps<TForm>
+): UseActionFormProps<TForm, TReturnData>
 
 
-export default function useForm<TForm extends Record<string, unknown>>(maybeInitialValues?: TForm): UseFormProps<TForm> {
+export default function useActionForm<TForm extends Record<string, unknown>, TReturnData>(maybeInitialValues?: TForm): UseActionFormProps<TForm, TReturnData> {
 
     const isMounted = useRef<boolean>(false);
     const recentlySuccessfulTimeoutId = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -86,15 +68,12 @@ export default function useForm<TForm extends Record<string, unknown>>(maybeInit
     }, [])
 
     const submit = useCallback(
-        (method: Method, url: string, options: VisitOptions = {}) => {
+
+        (formServerAction: formServerAction<TForm, TReturnData>, options: VisitOptions<TReturnData> = {}) => {
 
             const _options = {
-
-                method: method,
-                body: JSON.stringify(transform.current ? transform.current(data) : data),
                 ...options,
-
-                onSuccess: (res: Response) => {
+                onSuccess: (res: TReturnData | null) => {
                     if (isMounted.current) {
                         setProcessing(false)
                         setErrors({})
@@ -142,17 +121,15 @@ export default function useForm<TForm extends Record<string, unknown>>(maybeInit
 
             setProcessing(true);
 
-            // Perfomr the request
-            fetch(url, _options)
-                .then(async (response: Response) => {
+            formServerAction(transform.current ? transform.current(data) : data)
+                .then(async (response: serverActionResponse<TForm, TReturnData>) => {
 
-                    if (!response.ok) {
-                        const resData = await response.json();
-                        _options.onError(resData?.errors);
+                    if (!response.isValid) {
+                        _options.onError(response?.errors);
                         return;
                     }
 
-                    _options.onSuccess(response);
+                    _options.onSuccess(response.data);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -163,6 +140,7 @@ export default function useForm<TForm extends Record<string, unknown>>(maybeInit
         },
         [data, setErrors],
     )
+
     return {
         data,
         setData(keyOrData: keyof TForm | Function | TForm, maybeValue?: TForm[keyof TForm]) {
@@ -236,10 +214,5 @@ export default function useForm<TForm extends Record<string, unknown>>(maybeInit
             })
         },
         submit,
-        get(url: string, options) { submit('GET', url, options) },
-        post(url: string, options) { submit('POST', url, options) },
-        put(url: string, options) { submit('PUT', url, options) },
-        patch(url: string, options) { submit('PATCH', url, options) },
-        delete(url: string, options) { submit('DELETE', url, options) },
     }
 }

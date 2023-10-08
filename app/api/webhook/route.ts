@@ -1,4 +1,4 @@
-import { db } from "@/app/(lib)/db";
+import { db } from '@/lib/db';
 import { Stripe } from 'stripe';
 
 export async function POST(req: Request) {
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
             const country = session.shipping_details?.address?.country || '';
             if (orderId && paid) {
                 await db.order.update({
-                    where: { mongo_id: orderId },
+                    where: { id: orderId },
                     data: {
                         amount,
                         name,

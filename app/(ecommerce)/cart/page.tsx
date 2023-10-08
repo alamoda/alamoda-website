@@ -1,44 +1,57 @@
 'use client'
 
+import { createCheckoutLink } from '@/app/actions';
 import InputError from '@/components/form/input-error';
 import InputText from '@/components/form/input-text';
 import ProductCartEntry from '@/components/product/product-cart-entry';
 import { CartContext } from '@/context/CartContext';
-import useForm from '@/lib/useForm';
-import { XMarkIcon } from '@heroicons/react/20/solid'
-import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { CartItem } from '@/lib';
+import useActionForm from '@/lib/useActionForm';
+import { useContext } from 'react';
+
+export type CheckoutSessionPayload = {
+  cartItems: CartItem[],
+  email: string
+}
 
 export default function Page() {
 
-  const form = useForm({
+  const { cartItems } = useContext(CartContext);
+
+  const form = useActionForm<CheckoutSessionPayload, string>({
+    cartItems: cartItems,
     email: ''
   });
 
-  const { cartItems } = useContext(CartContext);
-
   const cartPrice = cartItems.reduce((sum, cartItem) => sum + (cartItem.product.price * cartItem.quantity), 0);
 
-  async function goToPayment() {
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
 
-    const response = await fetch('/api/checkout', {
-      method: 'POST',
-      body: JSON.stringify({
-        cartItems,
-        email
-      })
+    e.preventDefault();
+
+    form.submit(createCheckoutLink, {
+      onSuccess: ((url) => window.location.href = url ? url : "#"),
+      onError: () => console.error("Error!")
     })
 
-    if (!response.ok) {
-      console.error("Error in checkout!");
-      return
-    }
+    // const response = await fetch('/api/checkout', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     cartItems,
+    //     email
+    //   })
+    // })
 
-    const data = await response.json();
+    // if (!response.ok) {
+    //   console.error("Error in checkout!");
+    //   return
+    // }
 
-    if (data) {
-      window.location = data;
-    }
+    // const data = await response.json();
+
+    // if (data) {
+    //   window.location = data;
+    // }
   }
 
   return (
@@ -112,7 +125,7 @@ export default function Page() {
                 </div>
               </dl>
 
-              <form onSubmit={() => console.log("")} className="mt-6">
+              <form onSubmit={submit} className="mt-6">
                 <h2 id="summary-heading" className="font-medium text-gray-900 mb-4">
                   Order information
                 </h2>

@@ -11,7 +11,7 @@ export default function PhotoInput({...props }: ComponentProps) {
           <div className="mt-4 flex text-sm leading-6 text-gray-600">
             <label
               htmlFor="file-upload"
-              className="relative cursor-pointer rounded-md bg-white font-semibold text-gray-900 focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-900 focus-within:ring-offset-2 hover:text-gray-700"
+              className="relative cursor-pointer bg-white font-semibold text-gray-900 focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-900 focus-within:ring-offset-2 hover:text-gray-700"
             >
               <span>Upload a file</span>
               <input id="file-upload" name="file-upload" type="file" className="sr-only" {...props} />

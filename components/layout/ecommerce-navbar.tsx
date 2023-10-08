@@ -81,7 +81,7 @@ export default function EcommerceNavbar() {
                 <div className="flex px-4 pb-2 pt-5">
                   <button
                     type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                    className="-m-2 inline-flex items-center justify-center p-2 text-gray-400"
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close menu</span>
@@ -306,7 +306,7 @@ export default function EcommerceNavbar() {
                   <div className="flex flex-1 items-center lg:hidden">
                     <button
                       type="button"
-                      className="-ml-2 rounded-md bg-white p-2 text-gray-400"
+                      className="-ml-2 bg-white p-2 text-gray-400"
                       onClick={() => setOpen(true)}
                     >
                       <span className="sr-only">Open menu</span>

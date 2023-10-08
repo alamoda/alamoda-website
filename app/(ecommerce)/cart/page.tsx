@@ -3,11 +3,12 @@
 import { createCheckoutLink } from '@/app/actions';
 import InputError from '@/components/form/input-error';
 import InputText from '@/components/form/input-text';
+import PrimaryButton from '@/components/form/primary-button';
 import ProductCartEntry from '@/components/product/product-cart-entry';
 import { CartContext } from '@/context/CartContext';
 import { CartItem } from '@/lib';
 import useActionForm from '@/lib/useActionForm';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 export type CheckoutSessionSchema = {
   cartItems: CartItem[],
@@ -16,6 +17,7 @@ export type CheckoutSessionSchema = {
 
 export default function Page() {
 
+  const [submitError, setSubmitError] = useState<string>();
   const { cartItems } = useContext(CartContext);
 
   const form = useActionForm<CheckoutSessionSchema, string>({
@@ -28,6 +30,7 @@ export default function Page() {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
+    setSubmitError("");
 
     form.transform((data: CheckoutSessionSchema) => ({
       email: data.email,
@@ -36,27 +39,8 @@ export default function Page() {
 
     form.submit(createCheckoutLink, {
       onSuccess: (url) => { window.location.replace(url ? url : "#") },
-      onError: () => console.error("Error!")
+      onError: () => setSubmitError("Error. Please try again..."),
     });
-
-    // const response = await fetch('/api/checkout', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     cartItems,
-    //     email
-    //   })
-    // })
-
-    // if (!response.ok) {
-    //   console.error("Error in checkout!");
-    //   return
-    // }
-
-    // const data = await response.json();
-
-    // if (data) {
-    //   window.location = data;
-    // }
   }
 
   return (
@@ -69,7 +53,7 @@ export default function Page() {
               Your shopping cart is currently empty
             </div>
             <div className="mt-2">
-              <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+              <a href="/shop" className="text-sm font-medium text-gray-900 hover:text-gray-800">
                 Continue Shopping
                 <span aria-hidden="true"> &rarr;</span>
               </a>
@@ -143,15 +127,14 @@ export default function Page() {
                 />
                 <InputError errorMessage={form.errors.email} />
 
-                <button
-                  type="submit"
-                  className="w-full mt-4 border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none"
-                >
-                  Checkout
-                </button>
+                <PrimaryButton type="submit" className='w-full'>
+                Checkout
+                </PrimaryButton>
+
+                <InputError errorMessage={submitError} />
               </form>
               <div className="mt-4">
-                <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
+                <a href="/shop" className="text-sm font-medium text-gray-900 hover:text-gray-800">
                   Continue Shopping
                   <span aria-hidden="true"> &rarr;</span>
                 </a>

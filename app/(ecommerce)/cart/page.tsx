@@ -9,7 +9,7 @@ import { CartItem } from '@/lib';
 import useActionForm from '@/lib/useActionForm';
 import { useContext } from 'react';
 
-export type CheckoutSessionPayload = {
+export type CheckoutSessionSchema = {
   cartItems: CartItem[],
   email: string
 }
@@ -18,8 +18,8 @@ export default function Page() {
 
   const { cartItems } = useContext(CartContext);
 
-  const form = useActionForm<CheckoutSessionPayload, string>({
-    cartItems: cartItems,
+  const form = useActionForm<CheckoutSessionSchema, string>({
+    cartItems: [],
     email: ''
   });
 
@@ -29,10 +29,17 @@ export default function Page() {
 
     e.preventDefault();
 
+    form.transform((data: CheckoutSessionSchema) => ({
+      email: data.email,
+      cartItems: cartItems
+    }));
+
     form.submit(createCheckoutLink, {
-      onSuccess: ((url) => window.location.href = url ? url : "#"),
+      onSuccess: ((url) => {
+        window.location = url
+      }),
       onError: () => console.error("Error!")
-    })
+    });
 
     // const response = await fetch('/api/checkout', {
     //   method: 'POST',

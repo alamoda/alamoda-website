@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { CartItem, SortOption } from "../lib";
-import { CheckoutSessionPayload } from "./(ecommerce)/cart/page";
+import { CheckoutSessionSchema } from "./(ecommerce)/cart/page";
 import { Validator } from "@/lib/util";
 import Stripe from "stripe";
 import { z } from "zod";
@@ -65,12 +65,14 @@ export async function getProduct(id: string, enforceAvailable: boolean) {
     }
 }
 
-export async function createCheckoutLink(data: CheckoutSessionPayload): Promise<{ isValid: boolean, data: string, errors: Partial<Record<keyof CheckoutSessionPayload, string>> }> {
+export async function createCheckoutLink(data: CheckoutSessionSchema): Promise<{ isValid: boolean, data: string, errors: Partial<Record<keyof CheckoutSessionSchema, string>> }> {
 
-    const validator = new Validator<CheckoutSessionPayload>(
+    console.log(data.cartItems.length);
+
+    const validator = new Validator<CheckoutSessionSchema>(
         data,
         {
-            email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Please enter a valid email.' }).max(50),
+            email: z.string().min(1, { message: 'Email is required' }).email({ message: 'Please enter a valid email.' }).max(50),
         }
     );
 

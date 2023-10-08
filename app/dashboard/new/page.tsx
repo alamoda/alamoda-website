@@ -1,7 +1,11 @@
-import Breadcrumb from "@/app/(components)/Breadcrumb";
-import ProductForm from "@/app/(components)/ProductForm";
+import { getBrands } from "@/app/actions";
+import Breadcrumb from "@/components/layout/breadcrumb";
+import ProductForm from "@/components/product/product-form";
+import { Brand } from "@prisma/client";
 
-export default function Page() {
+export default async function Page() {
+
+    const availableBrands: Brand[] = await getBrands();
     
     const breadcrumb = [
         {
@@ -21,7 +25,7 @@ export default function Page() {
             <Breadcrumb routes={breadcrumb} />
 
             {/* PRODUCT FORM */}
-            <ProductForm />
+            <ProductForm availableBrands={availableBrands} />
 
         </div>
     )

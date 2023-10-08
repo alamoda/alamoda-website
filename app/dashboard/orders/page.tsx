@@ -81,7 +81,7 @@ export default async function Page() {
                                                 </span>}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-5 text-xs text-gray-900">
-                                            {/* {order.cart_products.map((cartItem: any, index: number) => (
+                                            {/* {order.cart_products?.map((cartItem: any, index: number) => (
                                                 <div key={index} className="mb-1">
                                                     <div>
                                                         <span className="font-semibold">{cartItem.name}</span>

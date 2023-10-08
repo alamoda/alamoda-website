@@ -5,13 +5,13 @@ import { signOut, useSession } from 'next-auth/react'
 import { Fragment, useState } from 'react';
 import SearchPalette from './search';
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { cn } from '@/app/(utils)/helpers';
+import { cn } from '@/lib/util';
 import Link from "next/link";
 import Image from 'next/image'
 
 import logoImage from '@/public/logo.webp'
 import { useParams } from 'next/navigation';
-import { NAVIGATION_DASHBOARD } from '@/app/(utils)/constants';
+import { NAVIGATION_DASHBOARD } from '@/lib/constants';
 
 export default function DashboardNavbar() {
 

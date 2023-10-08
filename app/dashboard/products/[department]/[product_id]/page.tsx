@@ -1,9 +1,9 @@
 'use client'
 
-import Breadcrumb from "@/app/(components)/Breadcrumb";
+import Breadcrumb from "@/components/layout/breadcrumb";
 import { notFound } from "next/navigation";
-import ProductForm from "@/app/(components)/ProductForm";
-import { ProductWithRelations } from "@/app/(lib)/db";
+import ProductForm from "@/components/product/product-form";
+import { ProductWithRelations } from "@/lib/db";
 import { getBrands, getProduct } from "@/app/actions";
 import { Brand } from "@prisma/client";
 

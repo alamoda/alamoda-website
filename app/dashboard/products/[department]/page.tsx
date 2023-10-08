@@ -1,16 +1,16 @@
 import { Brand } from "@prisma/client";
-import Filters from '@/app/(components)/Filters';
-import { ProductFilters, SortOption } from '@/app/(types)';
-import { PRODUCT_SORT_OPTIONS } from '@/app/(utils)/constants';
-import ProductList from '@/app/(components)/ProductList';
+import Filters from '@/components/product/product-filters';
+import { ProductFilters, SortOption } from '@/lib/index';
+import { PRODUCT_SORT_OPTIONS } from '@/lib/constants';
+import ProductListAdmin from '@/components/grid/product-list-admin';
 import { getBrands } from '@/app/actions';
-import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters, stringToBoolean } from '@/app/(utils)/helpers';
+import { getCategoryBySlug, getDepartmentBySlug, getURL, prepareProductQueryFilters, stringToBoolean } from '@/lib/util';
 import { Suspense } from 'react';
-import Pagination from '@/app/(components)/Pagination';
-import ProductListSkeleton from '@/app/(components)/skeleton/ProductListSkeleton';
-import PaginationSkeleton from '@/app/(components)/skeleton/PaginationSkeleton';
+import Pagination from '@/components/layout/pagination';
+import ProductListSkeleton from '@/components/skeleton/product-list-skeleton';
+import PaginationSkeleton from '@/components/skeleton/pagination-skeleton';
 import { notFound } from 'next/navigation';
-import AdminFilters from "@/app/(components)/dashboard/AdminFilters";
+import AdminFilters from "@/components/product/product-filters-admin";
 
 export default async function Shop(
     {
@@ -88,12 +88,11 @@ export default async function Shop(
 
                 {/* PRODUCTS */}
                 <Suspense fallback={<ProductListSkeleton items={60} />}>
-                    <ProductList
+                    <ProductListAdmin
                         queryFilters={productQueryFilters}
                         skip={skipParam}
                         take={takeParam}
                         orderBy={orderBy}
-                        productBaseURL={`/dashboard/products`}
                     />
                 </Suspense>
 

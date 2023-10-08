@@ -1,12 +1,12 @@
 "use client"
 
-import { cn } from "@/app/(utils)/helpers";
+import { cn } from "@/lib/util";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Image from 'next/image'
 
 import logoImage from '@/public/logo.webp'
-import { NAVIGATION_DASHBOARD } from "@/app/(utils)/constants";
+import { NAVIGATION_DASHBOARD } from "@/lib/constants";
 
 export default function DashboardSidebar() {
 

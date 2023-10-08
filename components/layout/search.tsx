@@ -3,8 +3,8 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
-import { cn } from '../(utils)/helpers';
-import { DEPARTMENTS } from '../(utils)/constants';
+import { cn } from '@/lib/util';
+import { DEPARTMENTS } from '@/lib/constants';
 
 interface SearchPaletteProps {
     open: boolean;

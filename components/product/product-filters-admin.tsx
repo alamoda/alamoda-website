@@ -3,8 +3,8 @@
 import { Fragment } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { ProductFilters, ProductScrapeStatus } from '@/app/(types)'
-import { cn } from '@/app/(utils)/helpers'
+import { ProductFilters, ProductScrapeStatus } from '@/lib/index'
+import { cn } from '@/lib/util'
 
 interface AdminFiltersProps {
     currentURL: string

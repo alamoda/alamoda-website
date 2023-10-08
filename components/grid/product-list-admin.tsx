@@ -36,7 +36,7 @@ export default async function ProductList({
                 {products.map((product: ProductWithRelations) => (
                     <a
                         key={product.id}
-                        href={`/product/${product.id}`}
+                        href={`/dashboard/product/${product.id}`}
                         className="groupF flex flex-col justify-end"
                     >
                         <ProductCard key={product.id} product={product} />

@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { signIn } from "next-auth/react"
 import { useSession } from 'next-auth/react'
 import Link from "next/link";
-import useForm from "../(utils)/useForm";
+import useForm from "@/lib/useForm";
 import { redirect } from "next/navigation";
-import { cn } from "../(utils)/helpers";
-import InputLabel from "../(components)/form/InputLabel";
-import InputText from "../(components)/form/InputText";
-import InputError from "../(components)/form/InputError";
-import PrimaryButton from "../(components)/PrimaryButton";
+import { cn } from "@/lib/util";
+import InputLabel from "@/components/form/input-label";
+import InputText from "@/components/form/input-text";
+import InputError from "@/components/form/input-error";
+import PrimaryButton from "@/components/form/primary-button";
 
 export type LoginFormSchemaType = {
     email: string

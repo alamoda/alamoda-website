@@ -3,16 +3,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ReactSortable } from "react-sortablejs";
-import PhotoInput from "@/app/(components)/PhotoInput";
-import PriceInput from "@/app/(components)/PriceInput";
-import PrimaryButton from "@/app/(components)/PrimaryButton";
-import PrimaryInput from "@/app/(components)/PrimaryInput";
-import TextAreaInput from "@/app/(components)/TextAreaInput";
+import PhotoInput from "@/components/form/photo-input";
+import PriceInput from "@/components/form/price-input";
+import PrimaryButton from "@/components/form/primary-button";
+import PrimaryInput from "@/components/form/primary-button";
+import TextAreaInput from "@/components/form/text-area";
 import Image from 'next/image';
-import PrimarySelect from "./PrimarySelect";
-import { ProductWithRelations } from "../(lib)/db";
-import useForm from "../(utils)/useForm";
-import { Feature, Size } from "../(types)";
+import PrimarySelect from "@/components/form/select";
+import { ProductWithRelations } from "@/lib/db";
+import useForm from "@/lib/useForm";
+import { Feature, Size } from "@/lib/index";
 import { Brand } from "@prisma/client";
 
 interface ProductFormProps {

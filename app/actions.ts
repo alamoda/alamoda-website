@@ -2,10 +2,10 @@
 
 import { db } from "@/lib/db";
 import { CartItem, SortOption } from "../lib";
-import { CheckoutSessionSchema } from "./(ecommerce)/cart/page";
 import { Validator } from "@/lib/util";
 import Stripe from "stripe";
 import { z } from "zod";
+import { CheckoutSessionSchema } from "@/components/cart/cart-order-summary";
 
 export async function getBrands() {
     const brands = await db.brand.findMany();

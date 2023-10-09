@@ -12,6 +12,7 @@ import logoImage from '@/public/logo.webp'
 import { NAVIGATION } from '@/lib/constants'
 import { Category, Department, Subcategory } from '@/lib'
 import { cn } from '@/lib/util'
+import { LoadingSpinner } from '../loading-spinner'
 
 export default function EcommerceNavbar() {
 
@@ -22,7 +23,7 @@ export default function EcommerceNavbar() {
   const [currentShowing, setCurrentShowing] = useState<number | null>(null)
   const [showSearch, setShowSearch] = useState<boolean>(false);
 
-  const { cartItems } = useContext(CartContext);
+  const { loadingCart, cartItems } = useContext(CartContext);
 
   const onHoverEnterMenu = (index: number) => {
     let newVals = Array(isShowing.length).fill(false);
@@ -350,8 +351,16 @@ export default function EcommerceNavbar() {
                             className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                             aria-hidden="true"
                           />
-                          <span className="ml-2 text-xs font-medium text-gray-700 group-hover:text-gray-800">{"(" + cartItems.length + ")"}</span>
-                          <span className="sr-only">items in cart, view bag</span>
+                          {loadingCart ?
+                            <>
+                              <LoadingSpinner className='ml-2 text-gray-700 h-4 w-4'/>
+                            </>
+                            :
+                            <>
+                              <span className="ml-2 text-xs font-medium text-gray-700 group-hover:text-gray-800">{"(" + cartItems.length + ")"}</span>
+                              <span className="sr-only">items in cart, view bag</span>
+                            </>
+                          }
                         </Link>
                       </div>
                     </div>

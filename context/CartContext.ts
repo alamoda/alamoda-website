@@ -4,6 +4,7 @@ import { CartItem } from "@/lib";
 import { createContext } from "react"
 
 interface ICartContext {
+    loadingCart: boolean;
     cartItems: CartItem[];
     setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
     addItem: (toAddItem: CartItem) => void
@@ -13,6 +14,7 @@ interface ICartContext {
 }
 
 export const CartContext = createContext<ICartContext>({
+    loadingCart: true,
     cartItems: [],
     setCartItems: () => {},
     addItem: () => {},

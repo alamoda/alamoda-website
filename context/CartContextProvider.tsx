@@ -12,12 +12,20 @@ export function CartContextProvider({
 }) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-    useEffect(() => {
+    const [loadingCart, setLoadingCart] = useState<boolean>(true);
+
+    const getInitialCartItems = async () => {
+        setLoadingCart(true);
         const retreivedItems = localStorage.getItem('cartItems')
-        const parsedItems: CartItem[] = retreivedItems ? JSON.parse(retreivedItems) : [];
+        const parsedItems: CartItem[] = retreivedItems ? await JSON.parse(retreivedItems) : [];
         if (parsedItems.length > 0) {
             setCartItems([...cartItems, ...parsedItems]);
         }
+        setLoadingCart(false);
+    }
+
+    useEffect(() => {
+        getInitialCartItems();
     }, [])
 
     useEffect(() => {
@@ -58,7 +66,7 @@ export function CartContextProvider({
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, setCartItems, addItem, removeItem, updateItemQuantity, clearCart }}>
+        <CartContext.Provider value={{ loadingCart, cartItems, setCartItems, addItem, removeItem, updateItemQuantity, clearCart }}>
             {children}
         </CartContext.Provider>
     )

@@ -34,7 +34,6 @@ async function getStripeSession(sessionId: string) {
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
 
-
     const session_id = searchParams["session_id"] as string
 
     // const { clearCart } = useContext(CartContext);

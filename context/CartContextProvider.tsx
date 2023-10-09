@@ -46,8 +46,12 @@ export function CartContextProvider({
         setCartItems((prev: CartItem[]) => [...prev, toAddItem]);
     }
 
-    const removeItem = (productId: string) => {
-        setCartItems(cartItems.filter(x => x.product.id !== productId));
+    const removeItem = (index: number) => {
+        if (index >= 0 && index < cartItems.length) {
+            const updatedCartItems = [...cartItems];  // Create a copy of cartItems
+            updatedCartItems.splice(index, 1);       // Apply splice on the copy
+            setCartItems(updatedCartItems);          // Update the state with the modified copy
+        }
     }
 
     const updateItemQuantity = (index: number, quantity: number) => {
@@ -57,7 +61,7 @@ export function CartContextProvider({
                 return cartItem;
             }
             return cartItem;
-        })
+        });
         setCartItems(updatedItems);
     }
 

@@ -8,7 +8,7 @@ interface ICartContext {
     cartItems: CartItem[];
     setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
     addItem: (toAddItem: CartItem) => void
-    removeItem: (productId: string) => void
+    removeItem: (index: number) => void
     updateItemQuantity: (index: number, quantity: number) => void
     clearCart: () => void
 }

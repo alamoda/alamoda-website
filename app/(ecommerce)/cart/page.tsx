@@ -1,11 +1,11 @@
 'use client'
 
 import { createCheckoutLink } from '@/app/actions';
+import CartItemEntry from '@/components/cart/cart-item-entry';
 import InputError from '@/components/form/input-error';
 import InputText from '@/components/form/input-text';
 import PrimaryButton from '@/components/form/primary-button';
 import { LoadingSpinner } from '@/components/loading-spinner';
-import ProductCartEntry from '@/components/product/product-cart-entry';
 import { CartContext } from '@/context/CartContext';
 import { CartItem } from '@/lib';
 import useActionForm from '@/lib/useActionForm';
@@ -76,7 +76,7 @@ export default function Page() {
 
                   <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                     {cartItems.map((cartItem, index) => (
-                      <ProductCartEntry key={cartItem.product.id + cartItem.size.name} cartItem={cartItem} cartIndex={index} />
+                      <CartItemEntry key={cartItem.product.id + cartItem.size.name} cartItem={cartItem} cartIndex={index} />
                     ))}
                   </ul>
                 </section>

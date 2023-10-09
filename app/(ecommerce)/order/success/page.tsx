@@ -1,55 +1,55 @@
-'use client'
-
 import Stripe from "stripe";
 import Image from 'next/image';
-import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { notFound, useSearchParams } from "next/navigation";
 import { CartContext } from "@/context/CartContext";
-import { Order } from "@prisma/client";
+import { Order, Product } from "@prisma/client";
+import { getOrder } from "@/app/actions";
+import { ProductWithRelations } from "@/lib/db";
+import { CartItem } from "@/lib";
 
-export default function Page() {
-
-    const [session, setSession] = useState<Stripe.Checkout.Session | null>();
-    const [order, setOrder] = useState<Order | null>()
-    const params = useSearchParams();
-    const session_id = params.get('session_id');
-
-    const { clearCart } = useContext(CartContext);
+async function getStripeSession(sessionId: string) {
 
     const stripeSecret = process.env.NEXT_PUBLIC_STRIPE_SECRET;
 
-    async function getSession(sessionId: string) {
-        const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-            typescript: true,
-            apiVersion: "2022-11-15"
-        });
+    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+        typescript: true,
+        apiVersion: "2022-11-15"
+    });
 
-        const session = await stripe.checkout.sessions.retrieve(sessionId, { apiKey: stripeSecret }) as Stripe.Checkout.Session;
-        setSession(session);
+    return await stripe.checkout.sessions.retrieve(sessionId, { apiKey: stripeSecret }) as Stripe.Checkout.Session;
+    // setSession(session);
 
-        const orderId = session?.metadata?.orderId;
+    // const orderId = session?.metadata?.orderId;
 
-        if (!orderId) throw new Error('could not find order id');
+    // if (!orderId) throw new Error('could not find order id');
 
-        fetchOrder(orderId);
-    }
+    // const order = await getOrder(orderId);
 
-    async function fetchOrder(orderId: string) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/order?id=${orderId}`, {
-            method: 'GET'
-        });
+    // setCartItems(order.cart_products);
+    // setOrder(order);
 
-        const order = await response.json();
-        setOrder(order);
+    // // Clear the cart
+    // clearCart();
+}
 
-        // Clear the cart
-        clearCart();
-    }
+export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
 
-    useEffect(() => {
-        if (!session_id) return;
-        getSession(session_id);
-    }, [session_id])
+
+    const session_id = searchParams["session_id"] as string
+
+    // const { clearCart } = useContext(CartContext);
+
+    if (!session_id) return notFound();
+
+    const session = await getStripeSession(session_id);
+
+    const orderId = session?.metadata?.orderId;
+
+    if (!orderId) throw new Error('could not find order id');
+
+    const order = await getOrder(orderId);
+
+    const cartItems: CartItem[] = order.cart_products;
 
     return (
         <div>
@@ -64,26 +64,25 @@ export default function Page() {
                     role="list"
                     className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-800"
                 >
-                    {/* {order?.cart_products &&
-                        order.cart_products.map((product: any, index: number) => (
-                            <li key={index} className="flex space-x-6 py-6">
-                                <Image
-                                    src={product.image || 'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg'}
-                                    alt={product.name}
-                                    width={50}
-                                    height={50}
-                                    className="flex-none rounded-md bg-gray-100 object-cover object-center"
-                                />
-                                <div className="flex-auto space-y-1">
-                                    <h3 className="text-gray-900">
-                                        <a >{product.name}</a>
-                                    </h3>
-                                    <p>{product.brand}</p>
-                                    <p>{product.size}</p>
-                                </div>
-                                <p className="flex-none font-medium text-gray-900">${product.price}</p>
-                            </li>
-                        ))} */}
+                    {cartItems.map((cartItem: CartItem, index: number) => (
+                        <li key={index} className="flex space-x-6 py-6">
+                            <Image
+                                src={cartItem.product.images ? (cartItem.product.images as string [])[0] : ""}
+                                alt={cartItem.product.name}
+                                width={50}
+                                height={50}
+                                className="flex-none rounded-md bg-gray-100 object-cover object-center"
+                            />
+                            <div className="flex-auto space-y-1">
+                                <h3 className="text-gray-900">
+                                    <a>{cartItem.product.name}</a>
+                                </h3>
+                                <p>{cartItem.product.brand.name}</p>
+                                <p>{cartItem.size.name}</p>
+                            </div>
+                            <p className="flex-none font-medium text-gray-900">${cartItem.product.price}</p>
+                        </li>
+                    ))}
                 </ul>
 
                 <dl className="space-y-3 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">

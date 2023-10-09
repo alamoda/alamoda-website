@@ -97,7 +97,7 @@ export async function createCheckoutLink(data: CheckoutSessionSchema): Promise<{
             },
         });
         products.push({
-            id: cartItem.product.id,
+            productId: cartItem.product.id,
             quantity: cartItem.quantity,
             size: cartItem.size
         })
@@ -150,3 +150,41 @@ export async function createCheckoutLink(data: CheckoutSessionSchema): Promise<{
 
     return { isValid: true, data: session.url as string, errors: {} };
 }
+
+export async function getOrder(orderId: string) {
+    const order = await db.order.findUnique({
+        where: {
+            id: orderId
+        }
+    });
+
+    if (!order || !order.cart_products) {
+        throw new Error(`Order with ID ${orderId} not found`);
+    }
+
+    const cartProducts = order.cart_products as any;
+
+    // Fetch the actual products associated with the cart products
+    const products = await Promise.all(
+        cartProducts.map(async (cartProduct: any) => {
+            const product = await db.product.findUnique({
+                where: { 
+                    id: cartProduct.productId 
+                },
+                include: {
+                    brand: true
+                }
+            });
+            return {
+                ...cartProduct,
+                product, // Add the actual product to the cart product object
+            };
+        })
+    );
+
+    return {
+        ...order,
+        cart_products: products, // Replace the cart products with objects containing actual products
+    };
+}
+

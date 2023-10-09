@@ -2,6 +2,7 @@
 
 import CartOrderSummary from '@/components/cart/cart-order-summary';
 import ItemsInCart from '@/components/cart/items-in-cart';
+import { ContinueShopping } from '@/components/continue-shopping';
 import CartSkeleton from '@/components/skeleton/cart-skeleton';
 import { CartContext } from '@/context/CartContext';
 import Link from 'next/link';
@@ -25,17 +26,13 @@ export default function Page() {
                   Your shopping cart is currently empty
                 </div>
                 <div className="mt-2">
-                  <Link href="/shop" className="text-sm font-medium text-gray-900 hover:text-gray-700">
-                    Continue Shopping
-                    <span aria-hidden="true"> &rarr;</span>
-                  </Link>
+                  <ContinueShopping />
                 </div>
               </div>
             }
             {cartItems.length > 0 &&
               <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                 <ItemsInCart cartItems={cartItems} />
-
                 <CartOrderSummary cartItems={cartItems} />
               </div>
             }

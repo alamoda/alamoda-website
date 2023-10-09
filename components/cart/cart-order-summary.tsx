@@ -9,6 +9,7 @@ import InputText from '../form/input-text';
 import InputError from '../form/input-error';
 import PrimaryButton from '../form/primary-button';
 import { LoadingSpinner } from '../loading-spinner';
+import { ContinueShopping } from '../continue-shopping';
 
 export type CheckoutSessionSchema = {
     cartItems: CartItem[],
@@ -105,10 +106,7 @@ export default function CartOrderSummary({ cartItems }: { cartItems: CartItem[] 
                 <InputError errorMessage={submitError} />
             </form>
             <div className="mt-4">
-                <Link href="/shop" className="text-sm font-medium text-gray-900 hover:text-gray-700">
-                    Continue Shopping
-                    <span aria-hidden="true"> &rarr;</span>
-                </Link>
+                <ContinueShopping />
             </div>
         </section>
     )

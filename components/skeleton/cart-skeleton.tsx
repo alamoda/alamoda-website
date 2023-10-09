@@ -35,8 +35,7 @@ export default function CartSkeleton() {
             </div>
 
             {/* Order Summary */}
-            <div
-                className="mt-16 bg-gray-100 animate-pulse h-80 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8" />
+            <div className="mt-16 bg-gray-100 animate-pulse h-80 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8" />
         </div>
     )
 }

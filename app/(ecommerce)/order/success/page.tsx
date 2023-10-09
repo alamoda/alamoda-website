@@ -6,6 +6,9 @@ import { Order, Product } from "@prisma/client";
 import { getOrder } from "@/app/actions";
 import { ProductWithRelations } from "@/lib/db";
 import { CartItem } from "@/lib";
+import Link from "next/link";
+import { ContinueShopping } from "@/components/continue-shopping";
+import InvisibleClearCart from "@/components/cart/invisible-clear-cart";
 
 async function getStripeSession(sessionId: string) {
 
@@ -36,7 +39,7 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
 
     const session_id = searchParams["session_id"] as string
 
-    // const { clearCart } = useContext(CartContext);
+
 
     if (!session_id) return notFound();
 
@@ -57,29 +60,61 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
                 <p className="mt-4 text-2xl font-semibold tracking-tight text-gray-900">Thanks for shopping with us!</p>
                 <div className="mt-4 text-sm text-gray-800">
                     <p> We appreciate your order, we’re currently processing it. </p>
-                    <p> So hang tight and we’ll send you confirmation at {session?.customer_email} very soon! </p>
+                    <p> So hang tight and we’ll send you confirmation at <strong>{session?.customer_email}</strong> very soon! </p>
                 </div>
                 <ul
                     role="list"
                     className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-800"
                 >
                     {cartItems.map((cartItem: CartItem, index: number) => (
-                        <li key={index} className="flex space-x-6 py-6">
-                            <Image
-                                src={cartItem.product.images ? (cartItem.product.images as string [])[0] : ""}
-                                alt={cartItem.product.name}
-                                width={50}
-                                height={50}
-                                className="flex-none rounded-md bg-gray-100 object-cover object-center"
-                            />
-                            <div className="flex-auto space-y-1">
-                                <h3 className="text-gray-900">
-                                    <a>{cartItem.product.name}</a>
-                                </h3>
-                                <p>{cartItem.product.brand.name}</p>
-                                <p>{cartItem.size.name}</p>
+
+
+                        <li className="flex py-6 sm:py-10 space-x-10">
+
+                            <div className="flex w-20 items-center justify-center overflow-hidden">
+                                <Image
+                                    className={'relative h-full w-full object-contain'}
+                                    alt={cartItem.product.description || (`${cartItem.product.name} - ${cartItem.product.brand.name}`)}
+                                    src={(cartItem.product.images as string[])[0]}
+                                    width={1000}
+                                    height={1333}
+                                />
                             </div>
-                            <p className="flex-none font-medium text-gray-900">${cartItem.product.price}</p>
+
+                            <div className="flex flex-1">
+                                <div className="w-full relative sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+                                    <div>
+                                        <Link className="group" href={`/product/${cartItem.product.id}`}>
+                                            <div className="flex justify-between">
+                                                <h3 className="text-sm">
+                                                    <p className="font-medium text-gray-700 group-hover:text-gray-900 group-hover:underline">
+                                                        {cartItem.product.name}
+                                                    </p>
+                                                </h3>
+                                            </div>
+                                            <div className="flex justify-between mt-1">
+                                                <h3 className="text-xs">
+                                                    <p className="font-semibold text-gray-700 group-hover:text-gray-900 group-hover:underline">
+                                                        {cartItem.product.brand.name}
+                                                    </p>
+                                                </h3>
+                                            </div>
+                                        </Link>
+                                        <div className="mt-1 flex text-sm">
+                                            {cartItem.size ? (
+                                                <p className="text-gray-900">{cartItem.size.name}</p>
+                                            ) : null}
+                                        </div>
+                                        <p className="mt-1 text-sm font-medium text-gray-900">${cartItem.product.price}</p>
+                                    </div>
+
+                                    <div className="mt-4 sm:mt-0 sm:pr-9">
+                                        <div className="absolute right-0 top-0">
+                                            <p className="flex-none font-medium text-gray-900">${cartItem.product.price}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>
@@ -115,12 +150,14 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
                 </div>
 
                 <div className="mt-8 border-t border-gray-200 py-6 text-right">
-                    <a href="/" className="text-sm font-medium text-gray-900 hover:text-gray-800">
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                    </a>
+                    <ContinueShopping />
                 </div>
             </div>
+
+            {/* When loading this page, we clear the current cart.
+            Clearing the cart is a client action, but we want this component to be server.
+            So we inject this helper component that does not return any html  */}
+            <InvisibleClearCart />
         </div>
     )
 }

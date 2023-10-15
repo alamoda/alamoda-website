@@ -27,7 +27,6 @@ export default function DepartmentsGrid() {
       alt: "A livingroom decorated with Versace items for the Lifestyle collection preview.",
       url: "/shop/lifestyle",
     },
-
   ];
 
   return (
@@ -39,6 +38,7 @@ export default function DepartmentsGrid() {
 
         {departments_preview.map((dept) => (
           <div
+            key={dept.name}
             className="group relative h-96 bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
           >
             <div aria-hidden="true" className="absolute inset-0 overflow-hidden">

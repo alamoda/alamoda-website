@@ -3,6 +3,7 @@ import { SortOption } from "@/lib";
 import { PRODUCT_SORT_OPTIONS } from "@/lib/constants";
 import { ProductWithRelations } from "@/lib/db";
 import ProductCard from "../product/product-card";
+import Link from "next/link";
 
 interface ProductListProps {
     queryFilters: object[];
@@ -34,13 +35,13 @@ export default async function ProductList({
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-20">
                 {products.map((product: ProductWithRelations) => (
-                    <a
+                    <Link
                         key={product.id}
                         href={`/dashboard/product/${product.id}`}
                         className="groupF flex flex-col justify-end"
                     >
                         <ProductCard key={product.id} product={product} />
-                    </a>
+                    </Link>
                 ))}
             </div>
         </>

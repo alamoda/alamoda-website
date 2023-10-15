@@ -2,6 +2,7 @@ import { SortOption } from "@/lib";
 import { Suspense } from "react";
 import ProductList from "./product-list";
 import ProductListSkeleton from "../skeleton/product-list-skeleton";
+import Link from "next/link";
 
 interface ProductListPreviewProps {
     collectionTitle: string
@@ -20,13 +21,13 @@ export default async function ProductListPreview({ collectionTitle, collectionUR
                 <h2 className="text-4xl tracking-tight text-gray-900 capitalize">{collectionTitle}</h2>
 
                 {/* See more - Desktop */}
-                <a
+                <Link
                     href={collectionURL}
                     className="hidden text-sm font-medium text-gray-900 hover:text-gray-700 md:block"
                 >
                     Shop the collection
                     <span aria-hidden="true"> &rarr;</span>
-                </a>
+                </Link>
             </div>
 
             <Suspense fallback={<ProductListSkeleton items={take} />}>

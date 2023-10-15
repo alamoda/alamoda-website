@@ -5,6 +5,7 @@ import { Menu, Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { ProductFilters, ProductScrapeStatus } from '@/lib/index'
 import { cn } from '@/lib/util'
+import Link from 'next/link'
 
 interface AdminFiltersProps {
     currentURL: string
@@ -93,7 +94,7 @@ export default function AdminFilters({ currentURL, activeFilters }: AdminFilters
                                     <div className="py-1">
                                         <Menu.Item>
                                             {({ active }) => (
-                                                <a
+                                                <Link
                                                     href={getAvailabilityURL(true)}
                                                     className={cn(
                                                         activeFilters.available === true ? 'font-medium text-gray-900' : 'text-gray-500',
@@ -102,12 +103,12 @@ export default function AdminFilters({ currentURL, activeFilters }: AdminFilters
                                                     )}
                                                 >
                                                     Available
-                                                </a>
+                                                </Link>
                                             )}
                                         </Menu.Item>
                                         <Menu.Item>
                                             {({ active }) => (
-                                                <a
+                                                <Link
                                                     href={getAvailabilityURL(false)}
                                                     className={cn(
                                                         activeFilters.available === false ? 'font-medium text-gray-900' : 'text-gray-500',
@@ -116,12 +117,12 @@ export default function AdminFilters({ currentURL, activeFilters }: AdminFilters
                                                     )}
                                                 >
                                                     Unavailable
-                                                </a>
+                                                </Link>
                                             )}
                                         </Menu.Item>
                                         <Menu.Item>
                                             {({ active }) => (
-                                                <a
+                                                <Link
                                                     href={getAvailabilityURL(undefined)}
                                                     className={cn(
                                                         activeFilters.available === undefined ? 'font-medium text-gray-900' : 'text-gray-500',
@@ -130,7 +131,7 @@ export default function AdminFilters({ currentURL, activeFilters }: AdminFilters
                                                     )}
                                                 >
                                                     Any
-                                                </a>
+                                                </Link>
                                             )}
                                         </Menu.Item>
                                     </div>
@@ -164,7 +165,7 @@ export default function AdminFilters({ currentURL, activeFilters }: AdminFilters
                                             .filter(key => isNaN(Number(key))) // Filter out non-numeric keys
                                             .map((status: any) => (
                                                 <div key={ProductScrapeStatus[status]} className="flex items-center whitespace-nowrap">
-                                                    <a
+                                                    <Link
                                                         href={getStatusURL(Number(ProductScrapeStatus[status]))}
                                                         className='p-1 cursor-pointer hover:bg-gray-100 w-full'
                                                     >
@@ -182,7 +183,7 @@ export default function AdminFilters({ currentURL, activeFilters }: AdminFilters
                                                         >
                                                             {status}
                                                         </span>
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             ))}
                                     </form>

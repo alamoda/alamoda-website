@@ -1,4 +1,5 @@
 import { cn } from "@/lib/util"
+import Link from "next/link"
 
 interface ComponentProps {
     routes: { name: string, href: string }[],
@@ -21,7 +22,7 @@ export default function Breadcrumb({ routes }: ComponentProps) {
                                     <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                                 </svg>
                             }
-                            <a
+                            <Link
                                 href={route.href}
                                 className={cn(
                                     routeId != 0 ? 'ml-4' : '',
@@ -29,7 +30,7 @@ export default function Breadcrumb({ routes }: ComponentProps) {
                                     )}
                             >
                                 {route.name.toLowerCase().replace('-', ' ')}
-                            </a>
+                            </Link>
                         </div>
                     </li>
                 ))}

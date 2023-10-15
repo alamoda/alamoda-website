@@ -8,6 +8,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Category, ProductFilters, SortOption, Subcategory } from '@/lib'
 import { cn } from '@/lib/util'
 import { PRODUCT_SORT_OPTIONS } from '@/lib/constants'
+import Link from 'next/link'
 
 interface FiltersProps {
     currentURL: string
@@ -208,7 +209,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (
                                                                 <div key={brand.id} className="flex items-center truncate">
-                                                                    <a
+                                                                    <Link
                                                                         href={getBrandUrl(brand)} className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
                                                                             name={`${brand.id}[]`}
@@ -224,7 +225,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                                         >
                                                                             {brand.name}
                                                                         </span>
-                                                                    </a>
+                                                                    </Link>
                                                                 </div>
                                                             ))}
                                                     </div>
@@ -253,14 +254,14 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                     <div className="space-y-2">
                                                         {activeFilters.department?.categories.map((cat: Category) => (
                                                             <div key={cat.slug} className="flex items-center">
-                                                                <a href={getCategoryUrl(cat)}
+                                                                <Link href={getCategoryUrl(cat)}
                                                                     className={cn(
                                                                         activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         'block px-4 py-2 text-sm cursor-pointer capitalize'
                                                                     )}
                                                                 >
                                                                     {cat.name}
-                                                                </a>
+                                                                </Link>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -290,7 +291,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                         <div className="space-y-2">
                                                             {activeFilters.category?.subcategories.map((sub: Subcategory) => (
                                                                 <div key={sub.slug} className="flex items-center whitespace-nowrap">
-                                                                    <a
+                                                                    <Link
                                                                         href={getSubcategoryUrl(sub)}
                                                                         className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
@@ -307,7 +308,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                                         >
                                                                             {sub.name}
                                                                         </span>
-                                                                    </a>
+                                                                    </Link>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -359,7 +360,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                         {PRODUCT_SORT_OPTIONS.map((sortOption: SortOption) => (
                                             <Menu.Item key={sortOption.slug}>
                                                 {({ active }) => (
-                                                    <a
+                                                    <Link
                                                         href={getSortUrl(sortOption)}
                                                         className={cn(
                                                             sortOption.slug === orderBy.slug ? 'font-medium text-gray-900' : 'text-gray-500',
@@ -368,7 +369,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                         )}
                                                     >
                                                         {sortOption.name}
-                                                    </a>
+                                                    </Link>
                                                 )}
                                             </Menu.Item>
                                         ))}
@@ -451,7 +452,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                             ?.filter((brand: Brand) => brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase()))
                                                             .map((brand: Brand) => (
                                                                 <div key={brand.id} className="flex items-center truncate">
-                                                                    <a
+                                                                    <Link
                                                                         href={getBrandUrl(brand)} className="p-1 cursor-pointer hover:bg-gray-100 w-full">
                                                                         <input
                                                                             name={`${brand.id}[]`}
@@ -467,7 +468,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                                         >
                                                                             {brand.name}
                                                                         </span>
-                                                                    </a>
+                                                                    </Link>
                                                                 </div>
                                                             ))}
                                                     </div>
@@ -503,7 +504,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                     {activeFilters.department?.categories.map((cat: Category) => (
                                                         <Menu.Item key={cat.slug}>
                                                             {({ active }) => (
-                                                                <a href={getCategoryUrl(cat)}
+                                                                <Link href={getCategoryUrl(cat)}
                                                                     className={cn(
                                                                         activeFilters.category && activeFilters.category.slug == cat.slug ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                         active ? 'bg-gray-100' : '',
@@ -511,7 +512,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                                     )}
                                                                 >
                                                                     {cat.name}
-                                                                </a>
+                                                                </Link>
                                                             )}
                                                         </Menu.Item>
                                                     ))}
@@ -550,7 +551,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                     <form className="space-y-1">
                                                         {activeFilters.category?.subcategories.map((sub: Subcategory) => (
                                                             <div key={sub.slug} className="flex items-center whitespace-nowrap">
-                                                                <a
+                                                                <Link
                                                                     href={getSubcategoryUrl(sub)}
                                                                     className='p-1 cursor-pointer hover:bg-gray-100 w-full'
                                                                 >
@@ -568,7 +569,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                                     >
                                                                         {sub.name}
                                                                     </span>
-                                                                </a>
+                                                                </Link>
                                                             </div>
                                                         ))}
                                                     </form>
@@ -602,7 +603,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                             className="m-1 inline-flex items-center border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-xs font-medium text-gray-900"
                                         >
                                             <span className="capitalize">{activeFilter.name}</span>
-                                            <a
+                                            <Link
                                                 type="button"
                                                 href={activeFilter.url}
                                                 className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
@@ -611,7 +612,7 @@ export default function Filters({ currentURL, activeFilters, availableBrands, or
                                                 <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                     <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
                                                 </svg>
-                                            </a>
+                                            </Link>
                                         </span>
                                     ))}
                                 </div>

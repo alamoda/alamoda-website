@@ -24,7 +24,7 @@ export default async function InstagramFeed() {
 
     return (
         <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-            <h2 className="text-4xl tracking-tight text-gray-900">Follow <a className="hover:text-gray-700" href="https://www.instagram.com/alamodainc/">@alamodainc</a></h2>
+            <h2 className="text-4xl tracking-tight text-gray-900">Follow <a className="hover:text-gray-700 hover:underline" target="_blank" href="https://www.instagram.com/alamodainc/">@alamodainc</a></h2>
             <Suspense fallback={<InstagramFeedSkeleton limit={4} />}>
                 <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
                     {feed.data.map((post: any) => (
